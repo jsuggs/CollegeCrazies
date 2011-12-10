@@ -15,10 +15,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User
 {
-
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length="5")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="league_seq", initialValue=1, allocationSize=100)
      */
     protected $id;
 
@@ -35,6 +36,9 @@ class User
 
     protected $password;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="League", inversedBy="users")
+     */
     protected $leagues;
     protected $picks;
 }

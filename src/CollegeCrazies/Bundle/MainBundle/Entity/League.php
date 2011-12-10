@@ -31,4 +31,45 @@ class League {
      * @ORM\Column(type="string", length="255")
      */
     protected $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="leagues")
+     * @ORM\JoinTable("user_leagues")
+     */
+    protected $users;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function addUsers(User $user)
+    {
+        $this->users[] = $user;
+    }
+
+    public function setUsers($users)
+    {
+        $this->users = $users;
+    }
 }
