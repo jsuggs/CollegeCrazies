@@ -1,0 +1,4 @@
+services:
+    team.controller:
+        scope: prototype
+        class: CollegeCrazies\Bundle\MainBundle\Controller\TeamController

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>College Crazies</title>
+    <meta name="description" content="College Crazies">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+        });
+    </script>
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#">College Crazies</a>
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">My Leagues</a></li>
+                    <li><a href="#contact">Something else</a></li>
+                </ul>
+                <p class="pull-right">Logged in as <a href="#">username</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="sidebar">
+            <div class="well">
+            <h5>Sidebar</h5>
+            <ul>
+                <li><a href="{{ path('team_list') }}">Team List</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+        {% block content %}
+            This is the default content
+        {% endblock %}
+    </div>
+</body>
+</html>
