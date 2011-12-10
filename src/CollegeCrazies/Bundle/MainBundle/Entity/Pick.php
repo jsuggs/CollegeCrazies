@@ -45,6 +45,11 @@ class Pick {
      */
     protected $confidence;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function setTeam(Team $team)
     {
         if ($team != $game->getHomeTeam() || $team != $game->getAwayTeam()) {
@@ -81,5 +86,10 @@ class Pick {
     public function getConfidence()
     {
         return $this->confidence;
+    }
+
+    public function __toString()
+    {
+        return 'AAA';
     }
 }
