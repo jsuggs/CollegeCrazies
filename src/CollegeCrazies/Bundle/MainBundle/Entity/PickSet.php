@@ -16,7 +16,13 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  */
 class PickSet {
-
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="pickset_seq", initialValue=1, allocationSize=100)
+     */
+    protected $id;
     /**
      * @ORM\OneToOne(targetEntity="User")
      */
