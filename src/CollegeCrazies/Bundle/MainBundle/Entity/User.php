@@ -34,6 +34,12 @@ class User
      */
     protected $email;
 
+    /**
+     * password
+     *
+     * @ORM\Column(type="string", length="255")
+     * @var string
+     */
     protected $password;
 
     /**
@@ -41,4 +47,19 @@ class User
      */
     protected $leagues;
     protected $picks;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
 }
