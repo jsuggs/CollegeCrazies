@@ -56,14 +56,6 @@ class Game {
     protected $gameDate;
 
     /**
-     * Where the game is played
-     *
-     * @ORM\Column(type="string", length="255")
-     * @var string
-     */
-    protected $location;
-
-    /**
      * network
      *
      * @ORM\Column(type="string", length="255")
@@ -109,10 +101,5 @@ class Game {
     public function getNetwork()
     {
         return $this->network;
-    }
-
-    public function getLocation()
-    {
-        return $this->location;
     }
 }
