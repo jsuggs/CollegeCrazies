@@ -11,8 +11,9 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('id', 'hidden')
-            ->add('username', 'text')
-            ->add('email', 'text')
+            //->add('username', 'text')
+            //->add('password', 'password')
+            //->add('email', 'text')
         ;
     }
 

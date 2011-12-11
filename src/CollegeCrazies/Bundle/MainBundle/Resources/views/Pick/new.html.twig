@@ -1,0 +1,45 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Make your picks</h3>
+    <p>Select the winner and drag the teams to their desired confidence</p>
+
+    <form action="{{ path('picklist_create') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+
+        <div>
+            {{ form_errors(form.name) }}
+            {{ form_label(form.name, "Pick Name") }}
+            {{ form_widget(form.name) }}
+        </div>
+
+        <table id="pick-list">
+            <thead>
+                <th>Bowl</th>
+                <th>Home Team</th>
+                <th>Away Team</th>
+                <th>Date</th>
+                <th>Confidence</th>
+            </thead>
+            <tbody>
+            {% for pick in form.picks %}
+                <tr class="pick">
+                    <td>{{ pick.vars.value.game.name }}</td>
+                    <td>{{ pick.vars.value.game.homeTeam.name }}</td>
+                    <td>{{ pick.vars.value.game.awayTeam.name }}</td>
+                    <td>{{ pick.vars.value.game.gameDate|date('m/d/Y') }}</td>
+                    <td class="confidence">
+                        <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
+                        {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden'} }) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {{ form_widget(form.user) }}
+        {{ form_rest(form) }}
+
+        <input type="submit" />
+    </form>
+{% endblock %}

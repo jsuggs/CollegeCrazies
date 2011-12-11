@@ -14,7 +14,6 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 class SecuredController extends Controller
 {
     /**
-     * @Route("/login", name="_demo_login")
      * @Template()
      */
     public function loginAction()
@@ -32,7 +31,6 @@ class SecuredController extends Controller
     }
 
     /**
-     * @Route("/login_check", name="_security_check")
      */
     public function securityCheckAction()
     {

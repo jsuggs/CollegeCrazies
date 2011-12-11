@@ -58,6 +58,11 @@ class Pick {
         $this->team = $team;
     }
 
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
     public function setUser(User $user)
     {
         $this->user = $user;

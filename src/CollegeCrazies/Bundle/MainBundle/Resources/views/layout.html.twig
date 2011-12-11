@@ -12,10 +12,25 @@
       body {
         padding-top: 60px;
       }
+    .hidden { display: none; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#pick-list tbody").sortable({
+                cursor: 'move',
+                update: function () {
+                    var children = $(this).children();
+                    var idx = children.length;
+                    children.each(function() {
+                        var confElement = $(this).find('.confidence');
+                        confElement.find('.confDisplay').html(idx);
+                        confElement.find('select').val(idx);
+                        idx--;
+                    });
+                }
+            });
         });
     </script>
 </head>

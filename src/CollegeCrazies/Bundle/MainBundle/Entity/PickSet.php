@@ -23,13 +23,19 @@ class PickSet {
      * @ORM\SequenceGenerator(sequenceName="pickset_seq", initialValue=1, allocationSize=100)
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length="255")
+     */
+    protected $name;
+
     /**
      * @ORM\OneToOne(targetEntity="User")
      */
     protected $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="League")
+     * ORM\OneToOne(targetEntity="League")
      */
     protected $league;
 
@@ -37,6 +43,15 @@ class PickSet {
      * @ORM\ManyToMany(targetEntity="Pick")
      */
     protected $picks;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
 
     public function setLeague(League $league)
     {
