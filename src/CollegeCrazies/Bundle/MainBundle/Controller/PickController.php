@@ -24,24 +24,27 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pick/list", name="pick_list")
-     * @Template("CollegeCraziesMainBundle:Pick:list.html.twig")
+     * @Route("/pick-list/new", name="picklist_new")
+     * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
-    public function listAction()
+    public function newPickAction()
     {
-        $user = new User();
         $pickSet = new PickSet();
+
+        $user = $this->get('security.context')->getToken()->getUser();
         $pickSet->setUser($user);
 
         $em = $this->get('doctrine.orm.entity_manager');
         $games = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->findAll();
+        $idx = count($games);
         foreach ($games as $game) {
             $pick = new Pick();
             $pick->setUser($user);
             $pick->setGame($game);
-            $pick->setConfidence(4);
+            $pick->setConfidence($idx);
 
             $pickSet->addPick($pick);
+            $idx--;
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -49,6 +52,27 @@ class PickController extends Controller
         return array(
             'form' => $form->createView()
         );
+    }
+
+    /**
+     * @Route("/pick-list/create", name="picklist_create")
+     * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
+     */
+    public function createPickAction()
+    {
+        $pickSet = new PickSet();
+        $form = $this->getPickSetForm($pickSet);
+        $form->bindRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            $pickSet = $form->getData();
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($pickSet);
+            $em->flush();
+            return $this->redirect($this->generateUrl('team_list'));
+        } else {
+            return array('form' => $form->createView());
+        }
     }
 
     /**
@@ -65,28 +89,6 @@ class PickController extends Controller
         );
     }
 
-    /**
-     * @Route("/pick/create", name="pick_create")
-     * @Template("CollegeCraziesMainBundle:Team:new.html.twig")
-     */
-    public function createAction()
-    {
-        $team = new Team();
-        $form = $this->getTeamForm($team);
-        $form->bindRequest($this->getRequest());
-
-        if ($form->isValid()) {
-            $team = $form->getData();
-            $em = $this->get('doctrine.orm.entity_manager');
-            $em->persist($team);
-            $em->flush();
-        } else {
-            return array('form' => $form);
-        }
-
-        return $this->redirect($this->generateUrl('team_list'));
-    }
-
     private function getPickForm(Pick $pick)
     {
         return $this->createForm(new PickFormType(), $pick);
@@ -97,7 +99,7 @@ class PickController extends Controller
         return $this->createForm(new PickSetFormType(), $pickSet);
     }
 
-    private function findTeam($id)
+    private function findPickList($id)
     {
         $team = $this->getRepository('Team')->find($id);
         if (!$team) {

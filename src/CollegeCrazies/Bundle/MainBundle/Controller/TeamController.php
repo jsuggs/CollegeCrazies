@@ -11,15 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class TeamController extends Controller
 {
     /**
-     * @Route("/")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
-    /**
      * @Route("/team/list", name="team_list")
      * @Template("CollegeCraziesMainBundle:Team:list.html.twig")
      */
@@ -61,7 +52,7 @@ class TeamController extends Controller
             $em->persist($team);
             $em->flush();
         } else {
-            return array('form' => $form);
+            return array('form' => $form->createView());
         }
 
         return $this->redirect($this->generateUrl('team_list'));

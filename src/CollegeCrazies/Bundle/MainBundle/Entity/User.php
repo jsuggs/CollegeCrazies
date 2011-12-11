@@ -3,7 +3,9 @@
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Entity\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * A User
@@ -13,53 +15,53 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      name="users"
  * )
  */
-class User
+class User extends BaseUser
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="league_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="user_seq", initialValue=1, allocationSize=100)
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="string", length="255")
-     */
-    protected $username;
-
-    /**
-     * @ORM\Column(type="string", length="255")
-     * @Assert\Email
-     */
-    protected $email;
-
-    /**
-     * password
-     *
-     * @ORM\Column(type="string", length="255")
-     * @var string
-     */
-    protected $password;
 
     /**
      * @ORM\ManyToMany(targetEntity="League", inversedBy="users")
      */
     protected $leagues;
-    protected $picks;
+
+    /**
+     * @ORM\OneToOne(targetEntity="PickSet")
+     */
+    protected $pickSet;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUsername()
+    public function getPickSet()
     {
-        return $this->username;
+        return $this->pickSet;
+    }
+/*
+    public function getRoles()
+    {
+        return array();
     }
 
-    public function getEmail()
+    public function eraseCredentials()
     {
-        return $this->email;
+        //
     }
+
+    public function equals(UserInterface $user) {
+        return ($user->getId() == $this->id);
+    }
+*/
 }

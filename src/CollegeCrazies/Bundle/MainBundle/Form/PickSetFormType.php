@@ -13,7 +13,8 @@ class PickSetFormType extends AbstractType
     {
         $builder
             ->add('user', new UserFormType())
-            ->add('league', 'text')
+            ->add('league', 'hidden')
+            ->add('name', 'text')
             ->add('picks', 'collection', array(
                 'type' => new PickFormType()
             ))
