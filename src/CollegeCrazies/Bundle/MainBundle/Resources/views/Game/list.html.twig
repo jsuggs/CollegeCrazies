@@ -1,0 +1,9 @@
+<ul class="game-list unstyled">
+{% for game in games %}
+    <li class="game">
+        <h5>{{ game.name}}</h5>
+        <small>{{ game.gameDate|date('m/d/Y') }}</small>
+        <p>{{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i> <time>{{ game.gameDate|date('g:i a') }}</time></p>
+    </li>
+{% endfor %}
+</ul>
