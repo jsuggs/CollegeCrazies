@@ -9,10 +9,16 @@
     <![endif]-->
     <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-      }
-    .hidden { display: none; }
+        body {
+            padding-top: 60px;
+        }
+        .unpicked {
+            border: 1px solid red;
+        }
+        .picked {
+            border: 1px solid green;
+        }
+        .hidden { display: none; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
@@ -30,6 +36,17 @@
                         idx--;
                     });
                 }
+            });
+
+            $('.pickForm').submit(function() {
+                $(this).find('.makePick').each(function() {
+                    $(this).removeAttr('name');
+                });
+            });
+
+            $('.makePick').change(function() {
+                var row = $(this).closest('tr').removeClass('unpicked').addClass('picked');
+                row.find('.team').val($(this).val());
             });
         });
     </script>

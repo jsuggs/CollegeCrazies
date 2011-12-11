@@ -16,15 +16,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PickController extends Controller
 {
     /**
-     * @Route("/picks")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return array();
-    }
-
-    /**
      * @Route("/pick-list/new", name="picklist_new")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
@@ -60,6 +51,20 @@ class PickController extends Controller
     }
 
     /**
+     * @Route("/pick-list/edit/{id}", name="pickset_edit")
+     * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
+     */
+    public function editPickAction($id) 
+    {
+        $pickSet = $this->findPickSet($id);
+
+        $form = $this->getPickSetForm($pickSet);
+        return array(
+            'form' => $form->createView()
+        );
+    }
+
+    /**
      * @Route("/pick-list/create", name="picklist_create")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
@@ -71,11 +76,15 @@ class PickController extends Controller
 
         if ($form->isValid()) {
             $pickSet = $form->getData();
+            die('here');
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($pickSet);
             $em->flush();
-            return $this->redirect($this->generateUrl('team_list'));
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'id' => $pickSet->getId()
+            )));
         } else {
+            //die(var_dump($form));
             return array('form' => $form->createView());
         }
     }
@@ -104,16 +113,12 @@ class PickController extends Controller
         return $this->createForm(new PickSetFormType(), $pickSet);
     }
 
-    private function findPickList($id)
+    private function findPickSet($id)
     {
-        $team = $this->getRepository('Team')->find($id);
+        $team = $this->getRepository('CollegeCraziesMainBundle\Bundle\MainBundle\Entity\PickSet')->find($id);
         if (!$team) {
             throw new \NotFoundHttpException(sprintf('There was no team with id = %s', $id));
         }
         return $team;
-    }
-
-    public function userPick($user_id, $pick)
-    {
     }
 }

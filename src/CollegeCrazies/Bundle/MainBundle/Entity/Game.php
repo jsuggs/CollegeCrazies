@@ -63,6 +63,11 @@ class Game {
      */
     protected $network;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function setHomeTeam(Team $team)
     {
         $this->homeTeam = $team;

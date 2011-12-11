@@ -1,0 +1,45 @@
+<div class="errors">
+    {{ form_errors(form) }}
+</div>
+
+<div>
+    {{ form_errors(form.name) }}
+    {{ form_label(form.name, "Pick Name") }}
+    {{ form_widget(form.name) }}
+</div>
+
+<table id="pick-list">
+    <thead>
+        <th>Bowl</th>
+        <th>Home Team</th>
+        <th>Confidence</th>
+        <th>Away Team</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+    {% for pick in form.picks %}
+        <tr class="pick unpicked">
+            <td>{{ pick.vars.value.game.name }}</td>
+            <td>
+                {{ pick.vars.value.game.homeTeam.name }}
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}" />
+            </td>
+            <td class="confidence">
+                <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
+                {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden'} }) }}
+                {{ form_widget(pick.team.id, { 'attr': {'class': 'team hidden' } }) }}
+            </td>
+            <td>
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.awayTeam.id }}" />
+                {{ pick.vars.value.game.awayTeam.name }}
+            </td>
+            <td>{{ pick.vars.value.game.gameDate|date('m/d/Y g:i a') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{{ form_widget(form._token) }}
+{#
+{{ form_widget(form.user) }}
+{{ form_rest(form) }}
+#}

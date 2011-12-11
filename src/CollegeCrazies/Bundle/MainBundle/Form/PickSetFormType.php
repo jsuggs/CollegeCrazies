@@ -30,6 +30,6 @@ class PickSetFormType extends AbstractType
 
     public function getName()
     {
-        return 'team';
+        return 'pickset';
     }
 }
