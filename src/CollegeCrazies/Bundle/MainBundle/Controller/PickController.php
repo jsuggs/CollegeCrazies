@@ -11,6 +11,7 @@ use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PickController extends Controller
 {
@@ -32,6 +33,10 @@ class PickController extends Controller
         $pickSet = new PickSet();
 
         $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == 'anon.') {
+            throw new AccessDeniedException();
+        }
         $pickSet->setUser($user);
 
         $em = $this->get('doctrine.orm.entity_manager');
