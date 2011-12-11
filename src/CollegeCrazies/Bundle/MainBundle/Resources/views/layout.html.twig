@@ -45,7 +45,11 @@
                     <li><a href="{{ path('league_picks') }}">Group Picks</a></li>
                     <li><a href="{{ path('leaderboard') }}">Leader Board</a></li>
                 </ul>
-                <p class="pull-right">Logged in as <a href="#">username</a></p>
+                {% if is_granted('ROLE_USER') %}
+                    <p class="pull-right">Logged in as <a href="/profile">{{ app.user }}</a> <a href="/logout">logout</a></p>
+                {% else %}
+                    <p class="pull-right"> <a href="/login">Login</a></p>
+                {% endif %}
             </div>
         </div>
     </div>
