@@ -74,6 +74,17 @@ class LeagueController extends Controller
      */
     public function leaderboardAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
+            $this->get('session')->setFlash('warning','You must be logged in to view the leaderboard');
+            throw new AccessDeniedException();
+        }
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        if (!$user->isInTheLeague()) {
+            $this->get('session')->setFlash('warning','You must be in the leage to view the leaderboard');
+            return $this->redirect($this->generateUrl('league_join', array('id' => 1)));
+        }
+
         $em = $this->get('doctrine.orm.entity_manager');
         $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u JOIN u.leagues l WHERE l.id = 1');
         $users = $query->getResult();

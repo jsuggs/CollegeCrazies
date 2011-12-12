@@ -61,6 +61,18 @@ class User extends BaseUser
         return $this->username;
     }
 
+    public function isInTheLeague()
+    {
+        $status = false;
+        foreach($this->leagues as $league) {
+            if ($league->getId() == 1) {
+                $status = true;
+            }
+        }
+
+        return $status;
+    }
+
     public function getLeagues()
     {
         return $this->leagues;
