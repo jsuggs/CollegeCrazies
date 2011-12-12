@@ -5,14 +5,15 @@
     <div class="hero-unit">
         <h1>Welcome to College Crazies!</h1>
         <p>Bringing college sports fans together</p>
-        <p>Coming soon.  A new way to make your picks!</p>
-        <p>Two minds, two days, one solution.</p>
-        <p><a href="http://blog.collegecrazies.com/">Track our progress!</a> </p>
+        <p><a href="http://blog.collegecrazies.com/" target="_blank" >See how all of this happened!</a> </p>
 
         {% if is_granted('ROLE_USER') %}
             {% if user.leagues|length > 0 %}
-                I am in the league.
+                <p>Welcome to <u>The League!</u></p>
+		  <h2>Picks LOCK, Sat, December 17th at 2:00pm EST.</h2>
+		  <p>Please be sure to make your picks by clicking below:</p>
             {% else %}
+		  <p>Please be sure to join <u>The League</u> by clicking below:</p>
                 <a href="{{ path('league_join', {'id': 1}) }}" class="btn info">Join The League</a>
             {% endif %}
         {% else %}
