@@ -4,6 +4,7 @@
     <table>
         <thead>
             <tr>
+                <th>Rank</th>
                 <th>Pick Name (user)</th>
                 <th>Points Won</th>
                 <th>Record</th>
@@ -13,6 +14,7 @@
         <tbody>
             {% for user in users %}
                 <tr>
+                    <td>{{ loop.index }}</td>
                     <td>{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</td>
                     <td>0</td>
                     <td>0-0</td>
