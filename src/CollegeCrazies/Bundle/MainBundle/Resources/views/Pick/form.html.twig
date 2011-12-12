@@ -47,6 +47,13 @@
     {% endfor %}
     </tbody>
 </table>
+
+<div class="tiebreaker">
+    <p>Tiebreaker</p>
+    <label>LSU Score</label> {{ form_widget(form.tiebreakerHomeTeamScore) }}
+    <label>Alabama Score</label> {{ form_widget(form.tiebreakerAwayTeamScore) }}
+</div>
+
 {{ form_widget(form._token) }}
 {#
 {{ form_rest(form) }}
