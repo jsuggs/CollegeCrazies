@@ -19,6 +19,7 @@
             border: 1px solid green;
         }
         .hidden { display: none; }
+        #pick-status { margin-top: 10px; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
@@ -38,6 +39,25 @@
                 }
             });
 
+            var checkPickStatus = function() {
+                var setPicks = 0;
+                var numPicks = 0;
+
+                $(".pick").each(function() {
+                    numPicks++;
+                    if ($(this).find('.team').val().length) {
+                        setPicks++;
+                    }
+                });
+
+                if (setPicks == numPicks) {
+                    $("#pick-status span").html('Complete').addClass('success').removeClass('important');
+                } else {
+                    $("#pick-status span").html('Incomplete').addClass('important');
+                }
+            }
+            checkPickStatus();
+
             $('.pickForm').submit(function() {
                 $(this).find('.makePick').each(function() {
                     $(this).removeAttr('name');
@@ -47,6 +67,7 @@
             $('.makePick').change(function() {
                 var row = $(this).closest('tr').removeClass('unpicked').addClass('picked');
                 row.find('.team').val($(this).val());
+                checkPickStatus();
             });
         });
     </script>
@@ -75,7 +96,7 @@
         <a href="{{ path('team_list') }}">Team List</a>
         <div class="sidebar">
             <div class="well">
-                <h5>Games</h5>
+                <h5>Upcoming Games</h5>
                 {% render "CollegeCraziesMainBundle:Game:list" %}
         </div>
     </div>

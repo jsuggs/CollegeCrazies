@@ -2,10 +2,18 @@
     {{ form_errors(form) }}
 </div>
 
-<div>
+<div class="form-stacked">
     {{ form_errors(form.name) }}
-    {{ form_label(form.name, "Pick Name") }}
-    {{ form_widget(form.name) }}
+    <div class="clearfix">
+        {{ form_label(form.name, "Pick Name") }}
+    </div>
+    <div class="xxx">
+        {{ form_widget(form.name, {'attr': {'class': 'xlarge'}}) }}
+    </div>
+</div>
+
+<div id="pick-status">
+    Status: <span class="label">checking...</span>
 </div>
 
 <table id="pick-list">
@@ -18,7 +26,7 @@
     </thead>
     <tbody>
     {% for pick in form.picks %}
-        <tr class="pick unpicked">
+        <tr class="pick{% if pick.vars.value.team.id is defined %} unpicked{% else %} picked{% endif %}">
             <td>{{ pick.vars.value.game.name }}</td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.homeTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
