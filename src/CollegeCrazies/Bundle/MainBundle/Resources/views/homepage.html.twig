@@ -10,7 +10,7 @@
         <p><a href="http://blog.collegecrazies.com/">Track our progress!</a> </p>
 
         {% if not is_granted('ROLE_USER') %}
-            <a href="/register" class="btn info">Sign up now!</a> or <a href="{{ path('login') }}" class="btn info">Login</a>
+            <a href="/register" class="btn info">Sign up now!</a> or <a href="/login"" class="btn info">Login</a>
         {% endif %}
     </div>
 {% endblock %}
