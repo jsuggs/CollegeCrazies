@@ -154,6 +154,8 @@ class PickController extends Controller
         $request = $this->getRequest();
         $pickset = $request->request->get('pickset');
         $pickSet->setName($pickset['name']);
+        $pickSet->setTiebreakerHomeTeamScore($pickset['tiebreakerHomeTeamScore']);
+        $pickSet->setTiebreakerAwayTeamScore($pickset['tiebreakerAwayTeamScore']);
 
         // Delete and readd
         $picks = $pickSet->getPicks();

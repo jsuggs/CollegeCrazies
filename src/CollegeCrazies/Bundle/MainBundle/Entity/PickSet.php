@@ -39,6 +39,16 @@ class PickSet {
      */
     protected $picks;
 
+    /**
+     * @ORM\Column(type="integer", nullable="true")
+     */
+    protected $tiebreakerHomeTeamScore;
+
+    /**
+     * @ORM\Column(type="integer", nullable="true")
+     */
+    protected $tiebreakerAwayTeamScore;
+
     public function getId()
     {
         return $this->id;
@@ -77,5 +87,25 @@ class PickSet {
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    public function getTiebreakerHomeTeamScore()
+    {
+        return $this->tiebreakerHomeTeamScore;
+    }
+
+    public function setTiebreakerHomeTeamScore($score)
+    {
+        $this->tiebreakerHomeTeamScore = $score;
+    }
+
+    public function getTiebreakerAwayTeamScore()
+    {
+        return $this->tiebreakerAwayTeamScore;
+    }
+
+    public function setTiebreakerAwayTeamScore($score)
+    {
+        $this->tiebreakerAwayTeamScore = $score;
     }
 }
