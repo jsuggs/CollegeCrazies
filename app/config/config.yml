@@ -65,18 +65,3 @@ fos_user:
     user_class: CollegeCrazies\Bundle\MainBundle\Entity\User
     service: 
        user_manager: college_crazies.user.manager
-    from_email:
-        address: collegecrazies@murmp.com
-        sender_name: College Crazies
-    registration:
-        confirmation:
-            enabled:    false
-    resetting:
-        token_ttl: 86400
-        email:
-            template:   FOSUserBundle:Resetting:email.txt.twig
-        form:
-            type:               fos_user_resetting
-            handler:            fos_user.resetting.form.handler.default
-            name:               fos_user_resetting_form
-            validation_groups:  [ResetPassword]
