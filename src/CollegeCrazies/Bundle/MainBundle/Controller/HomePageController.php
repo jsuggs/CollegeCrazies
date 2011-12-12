@@ -15,9 +15,14 @@ class HomePageController extends Controller
      */
     public function homepageAction()
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+        if ($user == 'anon.') {
+        }
+
         $form = $this->createForm(new UserFormType());
         return array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user
         );
     }
 }

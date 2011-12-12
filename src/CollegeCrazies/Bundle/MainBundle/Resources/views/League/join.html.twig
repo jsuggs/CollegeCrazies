@@ -1,0 +1,10 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Enter the league password</h3>
+
+    <form action="{{ path('league_join', {'id': league.id}) }}" method="post" class="pickForm" {{ form_enctype(form) }}>
+        {% include 'CollegeCraziesMainBundle:League:form.html.twig' %}
+        <input type="submit" value="Join League" />
+    </form>
+{% endblock %}

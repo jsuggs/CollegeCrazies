@@ -9,8 +9,14 @@
         <p>Two minds, two days, one solution.</p>
         <p><a href="http://blog.collegecrazies.com/">Track our progress!</a> </p>
 
-        {% if not is_granted('ROLE_USER') %}
-            <a href="/register" class="btn info">Sign up now!</a> or <a href="/login"" class="btn info">Login</a>
+        {% if is_granted('ROLE_USER') %}
+            {% if user.leagues|length > 0 %}
+                I am in the league.
+            {% else %}
+                <a href="{{ path('league_join', {'id': 1}) }}" class="btn info">Join The League</a>
+            {% endif %}
+        {% else %}
+            <a href="/register" class="btn info">Sign up now!</a> or <a href="/login" class="btn info">Login</a>
         {% endif %}
     </div>
 {% endblock %}

@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  */
 class League {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -63,7 +62,7 @@ class League {
         return $this->password;
     }
 
-    public function addUsers(User $user)
+    public function addUser(User $user)
     {
         $this->users[] = $user;
     }
