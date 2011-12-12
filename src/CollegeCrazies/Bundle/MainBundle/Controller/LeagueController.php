@@ -75,7 +75,8 @@ class LeagueController extends Controller
     public function leaderboardAction()
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
+        $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u JOIN u.leagues l WHERE l.id = 1');
+        $users = $query->getResult();
 
         return array(
             'users' => $users
