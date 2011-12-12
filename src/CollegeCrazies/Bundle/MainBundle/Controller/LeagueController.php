@@ -54,8 +54,10 @@ class LeagueController extends Controller
                 $em->persist($league);
                 $em->persist($user);
                 $em->flush();
+                return $this->redirect('/');
+            } else {
+                $this->get('session')->setFlash('warning','You password was not correct');
             }
-            return $this->redirect('/');
         }
 
         return array(
