@@ -51,6 +51,11 @@ class User extends BaseUser
         return $this->pickSet;
     }
 
+    public function setPickSet($pickSet)
+    {
+        $this->pickSet = $pickSet;
+    }
+
     public function __toString()
     {
         return $this->username;

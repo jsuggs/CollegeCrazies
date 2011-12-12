@@ -16,6 +16,29 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class PickController extends Controller
 {
     /**
+     * @Route("/my-picks", name="my_picks")
+     */
+    public function myPicksAction()
+    {
+        //
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == 'anon.') {
+            throw new AccessDeniedException();
+        }
+
+        $pickSet = $user->getPickSet();
+        if ($pickSet) {
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'id' => $pickSet->getId()
+            )));
+        }
+
+        return $this->redirect($this->generateUrl('picklist_new'));
+        
+    }
+
+    /**
      * @Route("/pick-list/new", name="picklist_new")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
@@ -100,6 +123,8 @@ class PickController extends Controller
 
             $pickSet->addPick($pick);
         }
+        $user->setPickSet($pickSet);
+        $em->persist($user);
         $em->persist($pickSet);
         $em->flush();
         return $this->redirect($this->generateUrl('pickset_edit', array(
