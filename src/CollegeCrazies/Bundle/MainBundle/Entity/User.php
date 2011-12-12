@@ -52,22 +52,6 @@ class User extends BaseUser
 
     public function __toString()
     {
-        return 'xxx';
-        return $this->email;
+        return $this->username;
     }
-/*
-    public function getRoles()
-    {
-        return array();
-    }
-
-    public function eraseCredentials()
-    {
-        //
-    }
-
-    public function equals(UserInterface $user) {
-        return ($user->getId() == $this->id);
-    }
-*/
 }
