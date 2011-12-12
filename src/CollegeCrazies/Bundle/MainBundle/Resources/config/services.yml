@@ -6,3 +6,8 @@ services:
     game.controller:
         scope: prototype
         class: CollegeCrazies\Bundle\MainBundle\Controller\GameController
+
+    college_crazies.user.manager:
+        class: CollegeCrazies\Bundle\MainBundle\Entity\MyUserManager
+        public: false
+        parent: fos_user.user_manager.default

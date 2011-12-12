@@ -64,3 +64,5 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: CollegeCrazies\Bundle\MainBundle\Entity\User
+    service: 
+       user_manager: college_crazies.user.manager
