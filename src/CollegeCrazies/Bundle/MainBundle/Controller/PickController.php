@@ -90,7 +90,9 @@ class PickController extends Controller
             $pick->setGame($game);
 
             $team = $teamRepo->find($pickObj['team']['id']);
-            $pick->setTeam($team);
+            if ($team) {
+                $pick->setTeam($team);
+            }
 
             $pick->setConfidence($pickObj['confidence']);
             $pick->setPickSet($pickSet);
@@ -136,7 +138,9 @@ class PickController extends Controller
             $pick->setGame($game);
 
             $team = $teamRepo->find($pickObj['team']['id']);
-            $pick->setTeam($team);
+            if ($team) {
+                $pick->setTeam($team);
+            }
 
             $pick->setConfidence($pickObj['confidence']);
             $pick->setPickSet($pickSet);
