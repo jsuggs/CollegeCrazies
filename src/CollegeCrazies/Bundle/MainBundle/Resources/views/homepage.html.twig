@@ -10,10 +10,11 @@
         {% if is_granted('ROLE_USER') %}
             {% if user.leagues|length > 0 %}
                 <p>Welcome to <u>The League!</u></p>
-		  <h2>Picks LOCK, Sat, December 17th at 2:00pm EST.</h2>
-		  <p>Please be sure to make your picks by clicking below:</p>
+		        <h2>Picks LOCK, Sat, December 17th at 2:00pm EST.</h2>
+		        <p>Please be sure to make your picks by clicking below:</p>
+                <a href="{{ path('my_picks') }}" class="btn info">Make Your Picks</a>
             {% else %}
-		  <p>Please be sure to join <u>The League</u> by clicking below:</p>
+		        <p>Please be sure to join <u>The League</u> by clicking below:</p>
                 <a href="{{ path('league_join', {'id': 1}) }}" class="btn info">Join The League</a>
             {% endif %}
         {% else %}
