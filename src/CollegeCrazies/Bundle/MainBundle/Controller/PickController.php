@@ -153,6 +153,7 @@ class PickController extends Controller
         $pickSet->setUser($user);
         $request = $this->getRequest();
         $pickset = $request->request->get('pickset');
+        $pickSet->setName($pickset['name']);
 
         // Delete and readd
         $picks = $pickSet->getPicks();
