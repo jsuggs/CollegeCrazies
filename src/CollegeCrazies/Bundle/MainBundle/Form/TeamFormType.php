@@ -5,13 +5,15 @@ namespace CollegeCrazies\Bundle\MainBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class LeagueJoinFormType extends AbstractType
+class TeamFormType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('id', 'hidden')
-            ->add('password', 'password')
+            ->add('id', 'hidden', array(
+                'max_length' => 5,
+            ))
+            //->add('name', 'text')
         ;
     }
 
