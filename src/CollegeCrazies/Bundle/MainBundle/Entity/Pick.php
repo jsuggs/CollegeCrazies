@@ -45,6 +45,12 @@ class Pick {
      */
     protected $confidence;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="PickSet", inversedBy="picks")
+     * @ORM\JoinColumn(referencedColumnName="id")
+     */
+    protected $pickSet;
+
     public function getId()
     {
         return $this->id;
@@ -52,9 +58,9 @@ class Pick {
 
     public function setTeam(Team $team)
     {
-        if ($team != $game->getHomeTeam() || $team != $game->getAwayTeam()) {
-            die('bad');
-        }
+        //if ($team != $game->getHomeTeam() || $team != $game->getAwayTeam()) {
+            //die('bad');
+        //}
         $this->team = $team;
     }
 
@@ -93,8 +99,13 @@ class Pick {
         return $this->confidence;
     }
 
-    public function __toString()
+    public function getPickSet()
     {
-        return 'AAA';
+        return $this->pickSet;
+    }
+
+    public function setPickSet($pickSet)
+    {
+        $this->pickSet = $pickSet;
     }
 }

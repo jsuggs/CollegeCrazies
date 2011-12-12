@@ -14,19 +14,8 @@ class PickFormType extends AbstractType
             ->add('id', 'hidden')
             ->add('game', new GameFormType())
             ->add('team', new TeamFormType())
-            ->add('confidence', 'choice', array(
-                'choices' => $this->getConfidenceChoices(5)
-            ))
+            ->add('confidence', 'hidden')
         ;
-    }
-
-    public function getConfidenceChoices($size)
-    {
-        $choices = array();
-        for ($x = 1; $x <= $size; $x++) {
-            $choices[$x] = $x;
-        }
-        return $choices;
     }
 
     public function getDefaultOptions(array $options)

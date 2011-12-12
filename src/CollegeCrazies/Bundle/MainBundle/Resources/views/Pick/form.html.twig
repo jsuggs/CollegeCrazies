@@ -21,16 +21,17 @@
         <tr class="pick unpicked">
             <td>{{ pick.vars.value.game.name }}</td>
             <td>
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.homeTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
                 {{ pick.vars.value.game.homeTeam.name }}
-                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}" />
             </td>
             <td class="confidence">
                 <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
                 {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden'} }) }}
-                {{ form_widget(pick.team.id, { 'attr': {'class': 'team hidden' } }) }}
+                {{ form_widget(pick.team.id, { 'attr': {'class': 'team' } }) }}
+                {{ form_widget(pick.game.id, { 'attr': {'class': 'hidden' } }) }}
             </td>
             <td>
-                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.awayTeam.id }}" />
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.awayTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.awayTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
                 {{ pick.vars.value.game.awayTeam.name }}
             </td>
             <td>{{ pick.vars.value.game.gameDate|date('m/d/Y g:i a') }}</td>
@@ -40,6 +41,5 @@
 </table>
 {{ form_widget(form._token) }}
 {#
-{{ form_widget(form.user) }}
 {{ form_rest(form) }}
 #}

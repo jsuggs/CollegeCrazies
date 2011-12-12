@@ -30,19 +30,19 @@ class PickSet {
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     protected $user;
 
     /**
-     * ORM\OneToOne(targetEntity="League")
-     */
-    protected $league;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Pick")
+     * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet")
      */
     protected $picks;
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function setName($name)
     {
@@ -51,16 +51,6 @@ class PickSet {
 
     public function getName() {
         return $this->name;
-    }
-
-    public function setLeague(League $league)
-    {
-        $this->league = $league;
-    }
-
-    public function getLeague()
-    {
-        return $this->league;
     }
 
     public function setPicks($picks)

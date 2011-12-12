@@ -10,10 +10,10 @@ class TeamFormType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('id', 'text', array(
+            ->add('id', 'hidden', array(
                 'max_length' => 5,
             ))
-            ->add('name', 'text')
+            //->add('name', 'text')
         ;
     }
 

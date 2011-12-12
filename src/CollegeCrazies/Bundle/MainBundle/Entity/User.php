@@ -49,6 +49,12 @@ class User extends BaseUser
     {
         return $this->pickSet;
     }
+
+    public function __toString()
+    {
+        return 'xxx';
+        return $this->email;
+    }
 /*
     public function getRoles()
     {
