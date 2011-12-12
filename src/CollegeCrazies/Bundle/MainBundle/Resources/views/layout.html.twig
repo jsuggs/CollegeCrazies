@@ -23,6 +23,8 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
+    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function(){
             $("#pick-list tbody").sortable({
@@ -64,6 +66,12 @@
                 });
             });
 
+            $('.alert-message .close').click(function() {
+                $(this).parent().slideUp(200, function() {
+                    $(this).remove();
+                });
+            });
+
             $('.makePick').change(function() {
                 var row = $(this).closest('tr').removeClass('unpicked').addClass('picked');
                 row.find('.team').val($(this).val());
@@ -102,6 +110,13 @@
     </div>
 
     <div class="content">
+        {% for key, flash in app.session.getFlashes() %}
+            <div class="data-alert alert-message {{ key }}">
+                <a class="close" href="#">×</a>
+                <p>{{ flash }}</p>
+            </div>
+        {% endfor %}
+
         {% block content %}
             This is the default content
         {% endblock %}

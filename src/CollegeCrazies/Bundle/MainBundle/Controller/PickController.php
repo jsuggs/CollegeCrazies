@@ -80,6 +80,12 @@ class PickController extends Controller
     public function editPickAction($id) 
     {
         $pickSet = $this->findPickSet($id);
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($pickSet->getUser() !== $user) {
+            $this->get('session')->setFlash('error','You cannot edit another users picks');
+            return $this->redirect('/');
+        }
 
         $form = $this->getPickSetForm($pickSet);
         return array(
