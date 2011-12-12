@@ -5,7 +5,7 @@
 <div class="form-stacked">
     {{ form_errors(form.name) }}
     <div class="clearfix">
-        {{ form_label(form.name, "Pick Name") }}
+        {{ form_label(form.name, "Pick Set Name") }}
     </div>
     <div class="xxx">
         {{ form_widget(form.name, {'attr': {'class': 'xlarge'}}) }}
@@ -15,9 +15,9 @@
 <div id="pick-status">
     Status: <span class="label">checking...</span>
 </div>
-
-<table id="pick-list">
-    <thead>
+<br />
+<table id="pick-list" class="zebra-striped condensed-table">
+    <thead bgcolor=#CCCCCC>
         <th>Bowl</th>
         <th>Home Team</th>
         <th>Confidence</th>
