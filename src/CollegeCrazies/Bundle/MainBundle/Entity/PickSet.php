@@ -49,7 +49,8 @@ class PickSet {
         $this->name = $name;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 

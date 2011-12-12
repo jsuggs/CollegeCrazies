@@ -72,13 +72,13 @@ class LeagueController extends Controller
      * @Route("/league/leaderboard", name="leaderboard")
      * @Template("CollegeCraziesMainBundle:League:leaderboard.html.twig")
      */
-    public function newAction()
+    public function leaderboardAction()
     {
-        $team = new Team();
-        $form = $this->getTeamForm($team);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
 
         return array(
-            'form' => $form->createView()
+            'users' => $users
         );
     }
 

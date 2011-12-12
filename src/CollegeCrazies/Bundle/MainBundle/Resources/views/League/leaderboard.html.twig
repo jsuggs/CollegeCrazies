@@ -1,0 +1,23 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Pick Name (user)</th>
+                <th>Points Won</th>
+                <th>Record</th>
+                <th>Points Possible</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</td>
+                    <td>0</td>
+                    <td>0-0</td>
+                    <td>630</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+{% endblock %}
