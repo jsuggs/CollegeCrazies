@@ -26,7 +26,7 @@
     </thead>
     <tbody>
     {% for pick in form.picks %}
-        <tr class="pick{% if pick.vars.value.team.id is defined %} unpicked{% else %} picked{% endif %}">
+        <tr class="pick{% if pick.vars.value.team.id is defined %} picked{% else %} unpicked{% endif %}">
             <td>{{ pick.vars.value.game.name }}</td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.homeTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
