@@ -39,7 +39,7 @@
                     children.each(function() {
                         var confElement = $(this).find('.confidence');
                         confElement.find('.confDisplay').html(idx);
-                        confElement.find('select').val(idx);
+                        confElement.find('.confidenceValue').val(idx);
                         idx--;
                     });
                 }
