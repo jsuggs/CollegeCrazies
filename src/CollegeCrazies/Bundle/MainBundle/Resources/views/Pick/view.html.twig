@@ -19,7 +19,7 @@
                 {% endif %}
                 {% set pickCorrect = (pick.game.winner == pick.team) %}
             {% endif %}
-            <tr class="pick{% if pick.team.id is defined %} picked{% else %} unpicked{% endif %}">
+            <tr>
                 <td>{{ pick.game.name }}</td>
                 <td>
                     {%if pick.game.complete and pick.game.winner == pick.game.homeTeam  %}
