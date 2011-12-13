@@ -13,9 +13,9 @@
             {% endif %}
 
             <p>
-		        <span class="label {{ homeClass }}"><strong>{{ game.homeTeam.id }} ({{ game.homeTeamScore }})</strong></span>
+		        <span class="label {{ homeClass }}">{{ game.homeTeam.id }} ({{ game.homeTeamScore }})</span>
                 vs
-                <span class="label {{ awayClass }}"><em>{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</em></span>
+                <span class="label {{ awayClass }}">{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</span>
             </p>
         {% else %}
             <p>{{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i> <time>{{ game.gameDate|date('g:i a') }}</time></p>
