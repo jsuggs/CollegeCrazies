@@ -95,6 +95,25 @@ class PickController extends Controller
     }
 
     /**
+     * @Route("/pick-list/view/{id}", name="pickset_view")
+     * @Template("CollegeCraziesMainBundle:Pick:view.html.twig")
+     */
+    public function viewPickAction($id) 
+    {
+        $pickSet = $this->findPickSet($id);
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($pickSet->getUser() !== $user) {
+            $this->get('session')->setFlash('error','You cannot edit another users picks');
+            return $this->redirect('/');
+        }
+
+        return array(
+            'pickSet' => $pickSet
+        );
+    }
+
+    /**
      * @Route("/pick-list/create", name="picklist_create")
      */
     public function createPickAction()

@@ -1,0 +1,86 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <table class="zebra-striped condensed-table">
+        <thead bgcolor=#CCCCCC>
+            <th>Bowl</th>
+            <th>Favorite</th>
+            <th>Confidence</th>
+            <th>Underdog</th>
+            <th>Date</th>
+        </thead>
+        <tbody>
+        {% for pick in pickSet.picks %}
+            {% if pick.game.complete %}
+                {% if pick.game.winner == pick.team %}
+                    {% set pickCorrect = true %}
+                {% else %}
+                    {% set pickCorrect = false %}
+                {% endif %}
+                {% set pickCorrect = (pick.game.winner == pick.team) %}
+            {% endif %}
+            <tr class="pick{% if pick.team.id is defined %} picked{% else %} unpicked{% endif %}">
+                <td>{{ pick.game.name }}</td>
+                <td>
+                    {%if pick.game.complete and pick.game.winner == pick.game.homeTeam  %}
+                        <strong>{{ pick.game.homeTeam.name}}</strong>
+                    {% else %}
+                        {{ pick.game.homeTeam.name }}
+                    {% endif %}
+
+                    {% if pick.game.complete %}
+                        ({{ pick.game.homeTeamScore }})
+                        {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %}
+                            {% if pickCorrect %}
+                                <img src="/img/greencheck.png" height="16" width="16" />
+                            {% else %}
+                                <img src="/img/redx.png" height="16" width="16" />
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                    {% endif %}
+                </td>
+                <td class="confidence">
+                    {% if not pick.game.complete %}
+                        <span class="confDisplay">{{ pick.confidence }}</span>
+                    {% else %}
+                        {% if not pickCorrect %}
+                            <del>{{pick.confidence}}</del>
+                        {% else %}
+                            <b>{{ pick.confidence }}</b>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    {%if pick.game.complete and pick.game.winner == pick.game.awayTeam  %}
+                        <strong>{{ pick.game.awayTeam.name}}</strong>
+                    {% else %}
+                        {{ pick.game.awayTeam.name }}
+                    {% endif %}
+
+                    {% if pick.game.complete %}
+                        ({{ pick.game.awayTeamScore }})
+                        {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %}
+                            {% if pickCorrect %}
+                                <img src="/img/greencheck.png" height="16" width="16" />
+                            {% else %}
+                                <img src="/img/redx.png" height="16" width="16" />
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                    {% endif %}
+                </td>
+                <td>{{ pick.game.gameDate|date('m/d/Y g:i a') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="tiebreaker">
+        <p>Tiebreaker</p>
+        <label>LSU Score</label> {{ pickSet.tiebreakerHomeTeamScore }}
+        <label>Alabama Score</label> {{ pickSet.tiebreakerAwayTeamScore }}
+    </div>
+{% endblock %}
