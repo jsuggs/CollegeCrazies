@@ -1,6 +1,46 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Coming soon.</h2>
-    <p>This is where you will be able to see everyone's picks in The League</p>
+    <h2>Group Picks</h2>
+    <table class="condensed-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Game Name</th>
+                {% for game in games %} 
+                    <th> {{ game.name }} </th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Favorite</td>
+                {% for game in games %} 
+                    <td> {{ game.homeTeam.id }} </td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td>Underdog</td>
+                {% for game in games %} 
+                    <td> {{ game.awayTeam.id }} </td>
+                {% endfor %}
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.username }}</a></td>
+                    {% for pick in user.pickSet.picks %}
+                        {% if pick.game.complete %}
+                            {% if pick.team == pick.game.winner %}
+                                {% set pickClass="correct" %}
+                            {% else %}
+                                {% set pickClass="incorrect" %}
+                            {% endif %}
+                        {% else %}
+                            {% set pickClass="no" %}
+                        {% endif %}
+                        <td class="{{ pickClass }}">{{ pick.team.id }} ({{ pick.confidence }})</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

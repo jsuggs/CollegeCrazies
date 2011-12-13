@@ -16,12 +16,34 @@ class LeagueController extends Controller
      * @Route("/league/picks", name="league_picks")
      * @Template("CollegeCraziesMainBundle:League:picks.html.twig")
      */
-    public function listAction()
+    public function groupPicksAction()
     {
-        return array();
+        $league = $this->findLeague(1);
+        if (!$league->isLocked()) {
+            $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
+            return $this->redirect('/');
+        }
+
         $em = $this->get('doctrine.orm.entity_manager');
-        $teams = $em->getRepository('Team')->findAll();
-        return array('teams' => $teams);
+        //$games = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->findAll();
+        $query = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.id');
+        $games = $query->getResult();
+
+        //TODO only in out league
+        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
+        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u 
+            JOIN u.pickSet p 
+            JOIN u.leagues l
+            JOIN p.picks pk
+            JOIN pk.game pg
+            WHERE l.id = 1 
+            ORDER BY pg.id');
+        $users = $query->getResult();
+        //$teams = $em->getRepository('Team')->findAll();
+        return array(
+            'games' => $games,
+            'users' => $users,
+        );
     }
 
     /**
