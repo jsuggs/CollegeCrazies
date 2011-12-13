@@ -1,7 +1,7 @@
 <ul class="game-list unstyled">
 {% for game in games %}
     <li class="game">
-        <h5>{{ game.name}} {% if game.complete %} (F){% endif %}</h5>
+        <h5>{{ game.name}}</h5>
         <small>{{ game.gameDate|date('m/d/Y') }}</small>
         {% if game.complete %}
             {% if game.winner == game.homeTeam %}
@@ -13,9 +13,10 @@
             {% endif %}
 
             <p>
-		        <span class="label {{ homeClass }}"><strong>{{ game.homeTeam.id }} ({{ game.homeTeamScore }})</strong></span>
+		<span class="label {{ homeClass }}"><b>{{ game.homeTeam.id }} ({{ game.homeTeamScore }})</b></span>
                 vs
-                <span class="label {{ awayClass }}"><em>{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</em></span>
+                <span class="label {{ awayClass }}"><b>{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</b></span>
+		
             </p>
         {% else %}
             <p>{{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i> <time>{{ game.gameDate|date('g:i a') }}</time></p>

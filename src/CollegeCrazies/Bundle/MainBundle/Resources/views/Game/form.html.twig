@@ -1,0 +1,30 @@
+<div class="errors">
+    {{ form_errors(form) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.name, "Name") }}
+    {{ form_widget(form.name) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.network, "Network") }}
+    {{ form_widget(form.network) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.gamedate, "Date") }}
+    {{ form_widget(form.gamedate) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.homeTeamScore, game.homeTeam.name ~ ' Score') }}
+    {{ form_widget(form.homeTeamScore) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.awayTeamScore, game.awayTeam.name ~ ' Score') }}
+    {{ form_widget(form.awayTeamScore) }}
+</div>
+
+{{ form_rest(form) }}

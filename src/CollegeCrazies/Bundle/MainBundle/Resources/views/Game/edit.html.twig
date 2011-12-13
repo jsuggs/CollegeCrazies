@@ -1,0 +1,12 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Update Game</h3>
+
+    <form action="{{ path('game_update', {'id': game.id}) }}" class="form-stacked" method="post" {{ form_enctype(form) }}>
+        {% include 'CollegeCraziesMainBundle:Game:form.html.twig' %}
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Update Game" />
+        </div>
+    </form>
+{% endblock %}

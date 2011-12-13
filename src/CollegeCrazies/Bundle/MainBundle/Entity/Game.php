@@ -63,9 +63,30 @@ class Game {
      */
     protected $network;
 
+    /**
+     * homeTeamScore
+     *
+     * @ORM\Column(type="integer", nullable="true")
+     * @var integer
+     */
+    protected $homeTeamScore;
+
+    /**
+     * awayTeamScore
+     *
+     * @ORM\Column(type="integer", nullable="true")
+     * @var integer
+     */
+    protected $awayTeamScore;
+
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function setHomeTeam(Team $team)
@@ -88,9 +109,19 @@ class Game {
         $this->awayTeam = $team;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setGameDate($date)
+    {
+        $this->gameDate = $date;
     }
 
     public function getGameDate()
@@ -106,5 +137,39 @@ class Game {
     public function getNetwork()
     {
         return $this->network;
+    }
+
+    public function setHomeTeamScore($score)
+    {
+        $this->homeTeamScore = $score;
+    }
+
+    public function getHomeTeamScore()
+    {
+        return $this->homeTeamScore;
+    }
+
+    public function setAwayTeamScore($score)
+    {
+        $this->awayTeamScore = $score;
+    }
+
+    public function getAwayTeamScore()
+    {
+        return $this->awayTeamScore;
+    }
+
+    public function isComplete()
+    {
+        return (isset($this->homeTeamScore) && isset($this->awayTeamScore));
+    }
+
+    public function getWinner()
+    {
+        if (!$this->isComplete()) {
+            return null;
+        }
+
+        return ($this->homeTeamScore > $this->awayTeamScore) ? $this->homeTeam : $this->awayTeam;
     }
 }
