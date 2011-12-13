@@ -117,8 +117,8 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if ($pickSet->getUser() !== $user) {
-            $this->get('session')->setFlash('error','You cannot edit another users picks');
+        if ($pickSet->getUser() !== $user && !$this->isPickSetLocked($id)) {
+            $this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
             return $this->redirect('/');
         }
 
