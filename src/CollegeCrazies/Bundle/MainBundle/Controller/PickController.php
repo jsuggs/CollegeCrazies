@@ -73,6 +73,14 @@ class PickController extends Controller
         );
     }
 
+    private function isPickSetLocked($id)
+    {
+        // TODO: We need to associated a pickSet with a leage, so we can check to see whether
+        // or not the leage is locked
+        $league = $this->findLeague(1);
+        return $league->isLocked();
+    }
+
     /**
      * @Route("/pick-list/edit/{id}", name="pickset_edit")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
@@ -81,6 +89,12 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
         $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($this->isPickSetLocked($id)) {
+            return $this->redirect($this->generateUrl('pickset_view', array(
+                'id' => $id
+            )));
+        }
 
         if ($pickSet->getUser() !== $user) {
             $this->get('session')->setFlash('error','You cannot edit another users picks');
@@ -164,6 +178,12 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
 
+        if ($this->isPickSetLocked($id)) {
+            return $this->redirect($this->generateUrl('pickset_view', array(
+                'id' => $id
+            )));
+        }
+
         $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->get('doctrine.orm.entity_manager');
         $gameRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game');
@@ -208,7 +228,6 @@ class PickController extends Controller
         )));
     }
 
-
     /**
      * @Route("/pick/new", name="pick_new")
      * @Template("CollegeCraziesMainBundle:Team:new.html.twig")
@@ -241,5 +260,15 @@ class PickController extends Controller
             throw new \NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
         }
         return $pickSet;
+    }
+
+    private function findLeague($id)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $league = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\League')->find($id);
+        if (!$league) {
+            throw new \NotFoundHttpException(sprintf('There was no league with id = %s', $id));
+        }
+        return $league;
     }
 }

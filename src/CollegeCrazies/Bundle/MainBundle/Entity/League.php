@@ -37,6 +37,11 @@ class League {
      */
     protected $users;
 
+    /**
+     * @ORM\Column(type="datetime", nullable="true")
+     */
+    protected $lockTime;
+
     public function getId()
     {
         return $this->id;
@@ -70,5 +75,21 @@ class League {
     public function setUsers($users)
     {
         $this->users = $users;
+    }
+
+    public function setLockTime($time)
+    {
+        $this->lockTime = $time;
+    }
+
+    public function getLockTime()
+    {
+        return $this->lockTime;
+    }
+
+    public function isLocked()
+    {
+        $now = new \DateTime();
+        return ($this->lockTime < $now);
     }
 }
