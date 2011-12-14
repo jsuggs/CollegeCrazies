@@ -2,7 +2,7 @@
 {% for game in games %}
     <li class="game">
         <h5>{{ game.name}} {% if game.complete %} (F){% endif %}</h5>
-        <small>{{ game.gameDate|date('m/d/Y') }}</small>
+        
         {% if game.complete %}
             {% if game.winner == game.homeTeam %}
                 {% set homeClass = "success" %}
@@ -18,7 +18,8 @@
                 <span class="label {{ awayClass }}">{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</span>
             </p>
         {% else %}
-            <p>{{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i> <time>{{ game.gameDate|date('g:i a') }}</time></p>
+            <p>{{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i><br />
+            {{ game.gameDate|date('m/d/Y') }} <small><time>{{ game.gameDate|date('g:i a') }}</time></small></p>
         {% endif %}
     </li>
 {% endfor %}
