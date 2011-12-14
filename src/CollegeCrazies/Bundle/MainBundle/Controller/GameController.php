@@ -19,11 +19,13 @@ class GameController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         
         $upcomingQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
-            WHERE g.homeTeamScore is null')->setMaxResults(5); 
+            WHERE g.homeTeamScore is null
+            ORDER BY g.gameDate')->setMaxResults(5); 
         $upcoming = $upcomingQuery->getResult();
 
         $completedQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
-            WHERE g.homeTeamScore is not null'); 
+            WHERE g.homeTeamScore is not null
+            ORDER BY g.gameDate desc'); 
         $completed = $completedQuery->getResult();
 
         return array(

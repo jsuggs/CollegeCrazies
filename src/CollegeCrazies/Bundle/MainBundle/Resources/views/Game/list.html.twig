@@ -15,7 +15,7 @@
 <ul class="game-list unstyled">
 {% for game in completed %}
     <li class="game">
-        <h5>{{ game.name}} (F)</h5>
+        <h5>{{ game.name}}</h5>
             {% if game.winner == game.homeTeam %}
                 {% set homeClass = "success" %}
                 {% set awayClass = "important" %}
