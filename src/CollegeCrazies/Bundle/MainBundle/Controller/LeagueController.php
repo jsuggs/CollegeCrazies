@@ -38,10 +38,13 @@ class LeagueController extends Controller
             WHERE l.id = 1 
             ORDER BY pg.id');
         $users = $query->getResult();
-        //$teams = $em->getRepository('Team')->findAll();
+
+        $curUser = $this->get('security.context')->getToken()->getUser();
+
         return array(
             'games' => $games,
             'users' => $users,
+            'curUser' => $curUser,
         );
     }
 
@@ -110,7 +113,7 @@ class LeagueController extends Controller
 
         $query = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCrazies\Bundle\MainBundle\Entity\User u 
             JOIN u.pickSet p 
-            JOIN u.leagues l
+            JOIN u.Uleagues l
             JOIN p.picks pk
             JOIN pk.game pg
             WHERE l.id = 1 
