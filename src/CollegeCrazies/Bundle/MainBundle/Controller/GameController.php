@@ -17,8 +17,19 @@ class GameController extends Controller
     public function listAction()
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $games = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->findAll();
-        return array('games' => $games);
+        
+        $upcomingQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
+            WHERE g.homeTeamScore is null')->setMaxResults(5); 
+        $upcoming = $upcomingQuery->getResult();
+
+        $completedQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
+            WHERE g.homeTeamScore is not null'); 
+        $completed = $completedQuery->getResult();
+
+        return array(
+            'upcoming' => $upcoming,
+            'completed' => $completed,
+        );
     }
 
     /**
