@@ -108,4 +108,64 @@ class PickSet {
     {
         $this->tiebreakerAwayTeamScore = $score;
     }
+
+    public function getGames()
+    {
+        $games = array();
+        foreach ($this->picks as $pick) {
+            $games[] = $pick->getGame();
+        }
+        return $games;
+    }
+
+    public function getCompletedGames()
+    {
+        $completedGames = array();
+        foreach ($this->getGames() as $game) {
+            if ($game->isComplete()) {
+                $completedGames[] = $game;
+            }
+        }
+        return $completedGames;
+    }
+
+    public function getPoints()
+    {
+        $points = 0;
+        foreach ($this->getWins() as $win) {
+            $points += $win->getConfidence();
+        }
+        return $points;
+    }
+
+    public function getWins()
+    {
+        $wins = array();
+        foreach ($this->picks as $pick) {
+            if ($pick->getGame()->isComplete() && $pick->getTeam() == $pick->getGame()->getWinner()) {
+                $wins[] = $pick;
+            }
+        }
+        return $wins;
+    }
+
+    public function getLoses()
+    {
+        $loses = array();
+        foreach ($this->picks as $pick) {
+            if ($pick->getGame()->isComplete() && $pick->getTeam() != $pick->getGame()->getWinner()) {
+                $loses[] = $pick;
+            }
+        }
+        return $loses;
+    }
+
+    public function getPointsPossible()
+    {
+        $pointsPossible = 630;
+        foreach ($this->getLoses() as $loss) {
+            $pointsPossible -= $loss->getConfidence();
+        }
+        return $pointsPossible;
+    }
 }

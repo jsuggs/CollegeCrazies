@@ -12,13 +12,17 @@
             </tr>
         </thead>
         <tbody>
+            {% set rank = 1 %}
+            {% set lastPoints = 0 %}
             {% for user in users %}
+                {% set rank = (lastPoints == user.pickset.points) ? '-' : loop.index %}
+                {% set lastPoints = user.pickset.points %}
                 <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</td>
-                    <td>0</td>
-                    <td>0-0</td>
-                    <td>630</td>
+                    <td>{{ rank }}</td>
+                    <td><a href="{{ path('pickset_view', {'id': user.pickset.id }) }}">{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</a></td>
+                    <td>{{ user.pickset.points }}</td>
+                    <td>{{ user.pickset.wins|length }} - {{ user.pickset.loses|length }}</td>
+                    <td>{{ user.pickset.pointsPossible }}</td>
                 </tr>
             {% endfor %}
         </tbody>

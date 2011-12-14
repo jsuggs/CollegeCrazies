@@ -108,11 +108,32 @@ class LeagueController extends Controller
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u JOIN u.leagues l WHERE l.id = 1');
+
+        $query = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCrazies\Bundle\MainBundle\Entity\User u 
+            JOIN u.pickSet p 
+            JOIN u.leagues l
+            JOIN p.picks pk
+            JOIN pk.game pg
+            WHERE l.id = 1 
+            ORDER BY pg.id');
         $users = $query->getResult();
 
+        // I am sure there is a MUCH better way to do this...
+        // Just for reference, having to get the values from the obj
+        // since not stored in the db to let it do the sorting
+        $rankedUsers = array();
+        foreach ($users as $user) {
+            $rankedUsers[$user->getPickSet()->getPoints()][] = $user;
+        }
+        krsort($rankedUsers);
+        $uu = array();
+        foreach ($rankedUsers as $points) {
+            foreach ($points as $point) {
+                $uu[] = $point;
+            }
+        }
         return array(
-            'users' => $users
+            'users' => $uu
         );
     }
 
