@@ -25,8 +25,7 @@ class LeagueController extends Controller
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        //$games = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->findAll();
-        $query = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.id');
+        $query = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate');
         $games = $query->getResult();
 
         //TODO only in out league

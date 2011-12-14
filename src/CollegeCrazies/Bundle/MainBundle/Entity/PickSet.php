@@ -168,4 +168,16 @@ class PickSet {
         }
         return $pointsPossible;
     }
+
+    /**
+     * Needs to be refactored
+     */
+    public function findPickByGame(Game $game)
+    {
+        foreach ($this->picks as $pick) {
+            if ($pick->getGame() == $game) {
+                return $pick;
+            }
+        }
+    }
 }

@@ -7,7 +7,7 @@
             <tr>
                 <th>Game Name</th>
                 {% for game in games %} 
-                    <th> {{ game.name }} </th>
+                    <th class="vertical-text"> {{ game.name }} </th>
                 {% endfor %}
             </tr>
         </thead>
@@ -26,8 +26,9 @@
             </tr>
             {% for user in users %}
                 <tr>
-                    <td><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.username }}</a></td>
-                    {% for pick in user.pickSet.picks %}
+                    <td class="first-col"><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.username }}</a></td>
+                    {% for game in games %}
+                        {% set pick = user.pickset.findPickByGame(game) %}
                         {% if pick.game.complete %}
                             {% if pick.team == pick.game.winner %}
                                 {% set pickClass="correct" %}
@@ -37,7 +38,7 @@
                         {% else %}
                             {% set pickClass="no" %}
                         {% endif %}
-                        <td class="{{ pickClass }}">{{ pick.team.id }} ({{ pick.confidence }})</td>
+                        <td class="pick-col {{ pickClass }}">{{ pick.team.id }}<br />({{ pick.confidence }})</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
