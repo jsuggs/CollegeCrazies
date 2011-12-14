@@ -13,14 +13,16 @@
             padding-top: 60px;
         }
         .unpicked {
-            border: 1px solid red;
+            background-color: #ffee77 !important;
         }
         .picked {
-            border: 1px solid green;
+            background-color: #ccffcc !important;
         }
         .hidden { display: none; }
         #pick-status { margin-top: 10px; }
+        .status { width: 30px; }
         .game h5 { line-height: 22px; }
+        .confidence { text-align: center; }
 
         td.correct { background-color:green; }
         td.incorrect { background-color:red; }
@@ -77,7 +79,7 @@
             });
 
             $('.makePick').change(function() {
-                var row = $(this).closest('tr').removeClass('unpicked').addClass('picked');
+                var row = $(this).closest('tr').find('.confidence').removeClass('unpicked').addClass('picked');
                 row.find('.team').val($(this).val());
                 checkPickStatus();
             });
