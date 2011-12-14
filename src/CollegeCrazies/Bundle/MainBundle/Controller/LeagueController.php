@@ -113,7 +113,7 @@ class LeagueController extends Controller
 
         $query = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCrazies\Bundle\MainBundle\Entity\User u 
             JOIN u.pickSet p 
-            JOIN u.Uleagues l
+            JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
             WHERE l.id = 1 
