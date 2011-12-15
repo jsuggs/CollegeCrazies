@@ -79,6 +79,14 @@ class Game {
      */
     protected $awayTeamScore;
 
+    /**
+     * description
+     *
+     * @ORM\Column(type="text", nullable="true")
+     * @var string
+     */
+    protected $description;
+
     public function getId()
     {
         return $this->id;
@@ -157,6 +165,16 @@ class Game {
     public function getAwayTeamScore()
     {
         return $this->awayTeamScore;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     public function isComplete()
