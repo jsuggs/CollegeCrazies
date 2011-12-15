@@ -27,7 +27,12 @@
     <tbody>
     {% for pick in form.picks %}
         <tr class="pick">
-            <td>{{ pick.vars.value.game.name }}</td>
+            <td>
+                {{ pick.vars.value.game.name }}
+                {% if pick.vars.value.game.description|length %}
+                    (<a href="#" rel="popover" data-content="{{ pick.vars.value.game.description}}" title="{{ pick.vars.value.game.homeTeam.id }} vs {{ pick.vars.value.game.awayTeam.id }} Preview">?</a>)
+                {% endif %}
+            </td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.homeTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
                 {{ pick.vars.value.game.homeTeam.name }}
