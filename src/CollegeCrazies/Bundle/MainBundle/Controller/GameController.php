@@ -7,6 +7,7 @@ use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GameController extends Controller
 {
@@ -40,6 +41,11 @@ class GameController extends Controller
      */
     public function adminAction()
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == 'anon.') {
+            throw new AccessDeniedException();
+        }
         $em = $this->get('doctrine.orm.entity_manager');
         
         $query = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g');
@@ -56,6 +62,11 @@ class GameController extends Controller
      */
     public function editAction($id)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == 'anon.') {
+            throw new AccessDeniedException();
+        }
         $em = $this->get('doctrine.orm.entity_manager');
         $game = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->find($id);
         $form = $this->getGameForm($game);
@@ -71,6 +82,11 @@ class GameController extends Controller
      */
     public function updateAction($id)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == 'anon.') {
+            throw new AccessDeniedException();
+        }
         $em = $this->get('doctrine.orm.entity_manager');
         $game = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->find($id);
         $form = $this->getGameForm($game);
