@@ -35,7 +35,23 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/game/edit/{id}", name="game_edit")
+     * @Route("/admin/game/list", name="game_admin")
+     * @Template("CollegeCraziesMainBundle:Game:admin.html.twig")
+     */
+    public function adminAction()
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        
+        $query = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g');
+        $games = $query->getResult();
+
+        return array(
+            'games' => $games,
+        );
+    }
+
+    /**
+     * @Route("/admin/game/edit/{id}", name="game_edit")
      * @Template("CollegeCraziesMainBundle:Game:edit.html.twig")
      */
     public function editAction($id)
@@ -51,7 +67,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/game/update/{id}", name="game_update")
+     * @Route("/admin/game/update/{id}", name="game_update")
      */
     public function updateAction($id)
     {
@@ -66,6 +82,7 @@ class GameController extends Controller
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($game);
             $em->flush();
+            $this->get('session')->setFlash('success','Game updated successfully');
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(

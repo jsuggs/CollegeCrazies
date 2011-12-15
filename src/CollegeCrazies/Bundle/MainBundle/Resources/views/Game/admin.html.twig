@@ -1,0 +1,16 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h4>Game List</h4>
+    <ul class="unstyled">
+    {% for game in games %}
+        <li class="game">
+            <h5><a href="{{ path('game_edit', {'id': game.id}) }}">{{ game.name}}</a></h5>
+            <p>
+                {{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i><br />
+                {{ game.gameDate|date('m/d/Y') }} <small><time>{{ game.gameDate|date('g:i a') }}</time></small>
+            </p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
