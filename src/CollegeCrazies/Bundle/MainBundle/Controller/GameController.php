@@ -48,7 +48,7 @@ class GameController extends Controller
         }
         $em = $this->get('doctrine.orm.entity_manager');
         
-        $query = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g');
+        $query = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate');
         $games = $query->getResult();
 
         return array(
