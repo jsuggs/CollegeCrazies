@@ -14,8 +14,8 @@ class GameEditFormType extends AbstractType
             ->add('name', 'text')
             ->add('network', 'text')
             ->add('gamedate', 'datetime')
-            ->add('homeTeamScore', 'integer')
-            ->add('awayTeamScore', 'integer')
+            ->add('homeTeamScore', 'integer', array('required' => false))
+            ->add('awayTeamScore', 'integer', array('required' => false))
             ->add('description', 'textarea')
         ;
     }
