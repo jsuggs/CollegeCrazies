@@ -123,6 +123,9 @@
                     <li><a href="{{ path('my_picks') }}">My Picks</a></li>
                     <li><a href="{{ path('league_picks') }}">Group Picks</a></li>
                     <li><a href="{{ path('leaderboard') }}">Leader Board</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+                    {% endif %}
                 </ul>
                 {% if is_granted('ROLE_USER') %}
                     <p class="pull-right">Logged in as <a href="/profile">{{ app.user }}</a> <a href="/logout">logout</a></p>

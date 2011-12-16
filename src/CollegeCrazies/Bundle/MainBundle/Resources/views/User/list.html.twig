@@ -1,0 +1,19 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h4>Users</h4>
+    <ul class="unstyled">
+    {% for user in users %}
+        <li>
+            <h5>
+                {{ user.username }}
+                {% if user.hasRole('ROLE_ADMIN') %}
+                    ADMIN
+                {% else %}
+                    <a href="{{ path('user_admin', {'id': user.id}) }}">Make Admin</a>
+                {% endif %}
+            </h5>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -24,6 +24,42 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/admin/user/list", name="user_list")
+     * @Template("CollegeCraziesMainBundle:User:list.html.twig")
+     */
+    public function listAction()
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u ORDER BY u.id');
+        $users = $query->getResult();
+
+        return array(
+            'users' => $users
+        );
+    }
+
+    /**
+     * This probably needs to be a little more polished
+     *
+     * @Route("/admin/user/makeadmin/{id}", name="user_admin")
+     */
+    public function makeAdminAction($id)
+    {
+        $user = $this->findUser($id);
+
+        $roles = $user->getRoles();
+        //die(var_dump($roles));
+        array_push($roles, 'ROLE_ADMIN');
+        $roles = array_unique($roles);
+        $user->setRoles($roles);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirect($this->generateURL('user_list'));
+    }
+
+    /**
      * @Route("/user/create", name="user_create")
      * @Template("CollegeCraziesMainBundle:User:new.html.twig")
      */
@@ -53,11 +89,12 @@ class UserController extends Controller
         return $this->createForm(new UserFormType(), $user);
     }
 
-    private function findUser($username)
+    private function findUser($id)
     {
-        $user = $this->getRepository('Team')->findByUsername($username);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $user = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->find($id);
         if (!$user) {
-            throw new \NotFoundHttpException(sprintf('There was no user with username = %s', $username));
+            throw new \NotFoundHttpException(sprintf('There was no user with id = %s', $id));
         }
         return $user;
     }
