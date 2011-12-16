@@ -19,7 +19,12 @@
                 {% set lastPoints = user.pickset.points %}
                 <tr>
                     <td>{{ rank }}</td>
-                    <td><a href="{{ path('pickset_view', {'id': user.pickset.id }) }}">{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</a></td>
+                    <td>
+                        <a href="{{ path('pickset_view', {'id': user.pickset.id }) }}">{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('pickset_edit', {'id': user.pickset.id }) }}" class="label notice">edit</a>
+                        {% endif %}
+                    </td>
                     <td>{{ user.pickset.points }}</td>
                     <td>{{ user.pickset.wins|length }} - {{ user.pickset.loses|length }}</td>
                     <td>{{ user.pickset.pointsPossible }}</td>
