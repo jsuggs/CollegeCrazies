@@ -49,6 +49,28 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/admin/users/nopicks", name="users_nopicks")
+     * @Template("CollegeCraziesMainBundle:League:nopicks.html.twig")
+     */
+    public function userNopicksAction()
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $query = $em->createQuery('SELECT u, p, pk from CollegeCrazies\Bundle\MainBundle\Entity\User u 
+            JOIN u.pickSet p 
+            JOIN u.leagues l
+            JOIN p.picks pk
+            JOIN pk.game pg
+            WHERE l.id = 1
+            AND pk.team IS NULL 
+            ORDER BY pg.id');
+        $users = $query->getResult();
+
+        return array(
+            'users' => $users,
+        );
+    }
+
+    /**
      * @Route("/league/join/{id}", name="league_join")
      * @Template("CollegeCraziesMainBundle:League:join.html.twig")
      */

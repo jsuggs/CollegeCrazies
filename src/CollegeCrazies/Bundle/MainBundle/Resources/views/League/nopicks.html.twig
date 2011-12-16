@@ -1,0 +1,18 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Users with missing picks</h2>
+    <ul>
+    {% for user in users %}
+        <li>
+            {{ user.username }} ({{ user.pickset.name }})
+        </li>
+    {% endfor %}
+    </ul>
+    <h3>Email address list</h3>
+    <pre>
+    {% for user in users %}
+        {{ user.email }},
+    {% endfor %}
+    </pre>
+{% endblock %}
