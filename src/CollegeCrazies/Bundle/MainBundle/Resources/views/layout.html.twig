@@ -109,7 +109,10 @@
                 checkPickStatus();
             });
 
-            $('a[rel="popover"]').popover();
+            var popoverOptions = {
+                html: true
+            };
+            $('a[rel="popover"]').popover(popoverOptions);
         });
     </script>
 </head>
