@@ -90,15 +90,17 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if ($this->isPickSetLocked($id)) {
-            return $this->redirect($this->generateUrl('pickset_view', array(
-                'id' => $id
-            )));
-        }
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            if ($this->isPickSetLocked($id)) {
+                return $this->redirect($this->generateUrl('pickset_view', array(
+                    'id' => $id
+                )));
+            }
 
-        if ($pickSet->getUser() !== $user) {
-            $this->get('session')->setFlash('error','You cannot edit another users picks');
-            return $this->redirect('/');
+            if ($pickSet->getUser() !== $user) {
+                $this->get('session')->setFlash('error','You cannot edit another users picks');
+                return $this->redirect('/');
+            }
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -178,13 +180,17 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
 
-        if ($this->isPickSetLocked($id)) {
-            return $this->redirect($this->generateUrl('pickset_view', array(
-                'id' => $id
-            )));
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN') && 1==1) {
+            $user = $pickSet->getUser();
+        } else {
+            if ($this->isPickSetLocked($id)) {
+                return $this->redirect($this->generateUrl('pickset_view', array(
+                    'id' => $id
+                )));
+            }
+            $user = $this->get('security.context')->getToken()->getUser();
         }
 
-        $user = $this->get('security.context')->getToken()->getUser();
         $em = $this->get('doctrine.orm.entity_manager');
         $gameRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game');
         $teamRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Team');
@@ -255,7 +261,10 @@ class PickController extends Controller
     private function findPickSet($id)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $pickSet = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\PickSet')->find($id);
+        $query = $em->createQuery('SELECT p, u from CollegeCrazies\Bundle\MainBundle\Entity\Pickset p 
+            JOIN p.user u
+            WHERE p.id = :id')->setParameter('id', $id);
+        $pickSet = $query->getSingleResult();
         if (!$pickSet) {
             throw new \NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
         }
