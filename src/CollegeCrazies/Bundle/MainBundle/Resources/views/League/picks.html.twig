@@ -32,7 +32,7 @@
             </tr>
             {% for user in users %}
                 <tr>
-                    <td class="first-col"><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.username }}</a></td>
+                    <td class="first-col pickname"><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.pickset.name }} ({{ user.username }})</a></td>
                     {% for game in games %}
                         {% set pick = user.pickset.findPickByGame(game) %}
                         {% if pick.game.complete %}
