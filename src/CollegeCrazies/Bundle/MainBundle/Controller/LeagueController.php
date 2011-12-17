@@ -18,10 +18,12 @@ class LeagueController extends Controller
      */
     public function groupPicksAction()
     {
-        $league = $this->findLeague(1);
-        if (!$league->isLocked()) {
-            $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
-            return $this->redirect('/');
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $league = $this->findLeague(1);
+            if (!$league->isLocked()) {
+                $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
+                return $this->redirect('/');
+            }
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
