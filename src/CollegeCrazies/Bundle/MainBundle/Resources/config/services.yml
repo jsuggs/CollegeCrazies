@@ -11,3 +11,6 @@ services:
         class: CollegeCrazies\Bundle\MainBundle\Entity\MyUserManager
         public: false
         parent: fos_user.user_manager.default
+
+    user.sorter:
+        class: CollegeCrazies\Bundle\MainBundle\Service\UserSorter

@@ -41,11 +41,14 @@ class LeagueController extends Controller
             ORDER BY pg.id');
         $users = $query->getResult();
 
+        $userSorter = $this->get('user.sorter');
+        $sortedUsers = $userSorter->sortUsersByPoints($users);
+
         $curUser = $this->get('security.context')->getToken()->getUser();
 
         return array(
             'games' => $games,
-            'users' => $users,
+            'users' => $sortedUsers,
             'curUser' => $curUser,
         );
     }
@@ -144,22 +147,11 @@ class LeagueController extends Controller
             ORDER BY pg.id');
         $users = $query->getResult();
 
-        // I am sure there is a MUCH better way to do this...
-        // Just for reference, having to get the values from the obj
-        // since not stored in the db to let it do the sorting
-        $rankedUsers = array();
-        foreach ($users as $user) {
-            $rankedUsers[$user->getPickSet()->getPoints()][] = $user;
-        }
-        krsort($rankedUsers);
-        $uu = array();
-        foreach ($rankedUsers as $points) {
-            foreach ($points as $point) {
-                $uu[] = $point;
-            }
-        }
+        $userSorter = $this->get('user.sorter');
+        $sortedUsers = $userSorter->sortUsersByPoints($users);
+
         return array(
-            'users' => $uu
+            'users' => $sortedUsers
         );
     }
 
