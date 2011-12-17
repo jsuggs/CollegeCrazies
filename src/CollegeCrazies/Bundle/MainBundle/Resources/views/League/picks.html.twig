@@ -9,6 +9,8 @@
                 {% for game in games %} 
                     <th class="vertical-text"> {{ game.name }} </th>
                 {% endfor %}
+                <th>Points Won</th>
+                <th>Points Possible</th>
             </tr>
         </thead>
         <tbody>
@@ -17,12 +19,16 @@
                 {% for game in games %} 
                     <td> {{ game.homeTeam.id }} </td>
                 {% endfor %}
+                <td>-</td>
+                <td>-</td>
             </tr>
             <tr>
                 <td>Underdog</td>
                 {% for game in games %} 
                     <td> {{ game.awayTeam.id }} </td>
                 {% endfor %}
+                <td>-</td>
+                <td>-</td>
             </tr>
             {% for user in users %}
                 <tr>
@@ -46,6 +52,8 @@
                             <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
                         {% endif %}
                     {% endfor %}
+                    <td>{{ user.pickset.points }}</td>
+                    <td>{{ user.pickset.pointsPossible }}</td>
                 </tr>
             {% endfor %}
         </tbody>
