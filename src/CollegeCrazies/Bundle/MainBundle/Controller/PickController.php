@@ -261,9 +261,11 @@ class PickController extends Controller
     private function findPickSet($id)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT p, u from CollegeCrazies\Bundle\MainBundle\Entity\Pickset p 
-            JOIN p.user u
-            WHERE p.id = :id')->setParameter('id', $id);
+        $query = $em->createQuery('SELECT ps, u, p from CollegeCrazies\Bundle\MainBundle\Entity\Pickset ps
+            JOIN ps.user u
+            JOIN ps.picks p
+            WHERE ps.id = :id
+            ORDER BY p.confidence desc')->setParameter('id', $id);
         $pickSet = $query->getSingleResult();
         if (!$pickSet) {
             throw new \NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
