@@ -19,6 +19,11 @@ class LeagueController extends Controller
     public function groupPicksAction()
     {
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            // Again, this is a hack
+            $user = $this->get('security.context')->getToken()->getUser();
+            if ($user == 'anon.') {
+                throw new AccessDeniedException();
+            }
             $league = $this->findLeague(1);
             if (!$league->isLocked()) {
                 $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
