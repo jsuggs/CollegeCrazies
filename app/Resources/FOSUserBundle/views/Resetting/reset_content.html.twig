@@ -1,0 +1,21 @@
+{% form_theme form theme %}
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset form-stacked">
+    <fieldset>
+        <legend>Reset your password</legend>
+
+        <div class="clearfix">
+            <label>Password</label>
+            {{ form_widget(form.new.first) }}
+        </div>
+
+        <div class="clearfix">
+            <label>Password (again)</label>
+            {{ form_widget(form.new.second) }}
+        </div>
+
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Reset Password" />
+            {{ form_rest(form) }}
+        </div>
+    </fieldset>
+</form>

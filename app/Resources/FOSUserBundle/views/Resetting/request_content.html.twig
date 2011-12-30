@@ -1,0 +1,16 @@
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form-stacked">
+    <h3>Reset Password</h3>
+    <p>Enter the username (not the email) for the user to have their password reset</p>
+
+    <div class="clearfix">
+        {% if invalid_username is defined %}
+            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+        {% endif %}
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" />
+    </div>
+
+    <div class="actions">
+        <input type="submit" value="Submit Password Reset Request" />
+    </div>
+</form>
