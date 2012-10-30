@@ -132,6 +132,22 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('user_list') }}">Manage Users</a></li>
                     {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        {% set leagues = app.user.leagues %}
+                        {% if leagues|length == 0 %}
+                            <li>Join a league</li>
+                        {% elseif leagues|length == 1 %}
+                            <li><a href="{{ path('league_picks') }}">League: {{ leagues[0].name }}</a></li>
+                        {% else %}
+                            <li>
+                                <select>
+                                    {% for league in leagues %}
+                                        <option>{{ league.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </li>
+                        {% endif %}
+                    {% endif %}
                 </ul>
                 {% if is_granted('ROLE_USER') %}
                     <p class="pull-right">Logged in as <a href="/profile">{{ app.user }}</a> <a href="/logout">logout</a></p>
