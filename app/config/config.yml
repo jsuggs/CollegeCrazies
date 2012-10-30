@@ -7,15 +7,13 @@ framework:
     #esi:             ~
     #tran  slator:      { fallback: %locale% }
     secret:          %secret%
-    charset:         UTF-8
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session:
-        default_locale: %locale%
-        auto_start:     true
+    default_locale:  %locale%
+    session:         ~
 
 # Twig Configuration
 twig:
@@ -56,12 +54,11 @@ swiftmailer:
     password:  !collegecrazies
 
 jms_security_extra:
-    secure_controllers:  true
     secure_all_services: false
 
 fos_user:
     db_driver: orm
     firewall_name: main
     user_class: CollegeCrazies\Bundle\MainBundle\Entity\User
-    service: 
+    service:
        user_manager: college_crazies.user.manager

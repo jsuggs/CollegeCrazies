@@ -25,7 +25,7 @@ class PickSet {
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length=255)
      */
     protected $name;
 
@@ -40,12 +40,12 @@ class PickSet {
     protected $picks;
 
     /**
-     * @ORM\Column(type="integer", nullable="true")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $tiebreakerHomeTeamScore;
 
     /**
-     * @ORM\Column(type="integer", nullable="true")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $tiebreakerAwayTeamScore;
 

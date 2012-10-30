@@ -1,7 +1,6 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
         <h1>Welcome to College Crazies!</h1>
         <p>Bringing college sports fans together</p>
@@ -12,13 +11,13 @@
                 <p>Welcome to <u>The League!</u></p>
 		        <h2>Picks LOCK, Sat, December 17th at 2:00pm EST.</h2>
 		        <p>Please be sure to make your picks by clicking below:</p>
-                <a href="{{ path('my_picks') }}" class="btn info">Make Your Picks</a>
+                <a href="{{ path('my_picks') }}" class="btn btn-info">Make Your Picks</a>
             {% else %}
 		        <p>Please be sure to join <u>The League</u> by clicking below:</p>
-                <a href="{{ path('league_join', {'id': 1}) }}" class="btn info">Join The League</a>
+                <a href="{{ path('league_join', {'id': 1}) }}" class="btn btn-info">Join The League</a>
             {% endif %}
         {% else %}
-            <a href="/register" class="btn info">Sign up now!</a> or <a href="/login" class="btn info">Login</a>
+            <a href="/register" class="btn btn-info">Sign up now!</a> or <a href="/login" class="btn btn-success">Login</a>
         {% endif %}
     </div>
 {% endblock %}

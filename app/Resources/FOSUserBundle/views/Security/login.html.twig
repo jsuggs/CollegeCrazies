@@ -2,34 +2,44 @@
 
 {% block fos_user_content %}
     {% if error %}
-        <div>{{ error }}</div>
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ error }}</strong>
+        </div>
     {% endif %}
-    
-    <form action="{{ path("fos_user_security_check") }}" method="post" class="form-stacked">
+
+    <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal">
         <fieldset>
             <legend>Login</legend>
 
-            <div class="clearfix">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="_username" value="{{ last_username }}" />
+            <div class="control-group">
+                <label for="username" class="control-label">Username</label>
+                <div class="controls">
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                </div>
             </div>
-    
-            <div class="clearfix">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="_password" />
+
+            <div class="control-group">
+                <label for="password" class="control-label">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" name="_password" />
+                </div>
             </div>
-    
-            <div class="clearfix">
-                <label for="remember_me">Remember Me</label>
-                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+
+            <div class="control-group">
+                <div class="controls">
+                    <label for="remember_me" class="checkbox">
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> Remember Me
+                    </label>
+                </div>
             </div>
-    
-            <div class="clearfix">
+
+            <div class="control-group">
                 <h4>Did you forget your password? <a href="{{ path('fos_user_resetting_request') }}">Click here to reset your password</a></h4>
             </div>
-    
+
             <div class="actions">
-                <input type="submit" id="_submit" name="_submit" class="btn primary" value="Login" />
+                <input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Login" />
             </div>
         </fieldset>
     </form>

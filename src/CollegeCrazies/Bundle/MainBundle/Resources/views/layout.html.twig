@@ -7,7 +7,7 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/css/bootstrap-combined.min.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -24,17 +24,17 @@
         .game h5 { line-height: 22px; }
         .confidence { text-align: center; }
 
-        td.correct { 
-            background-color: #ccffcc !important; 
+        td.correct {
+            background-color: #ccffcc !important;
             font-color: #006600 !important;
             font-weight: normal !important;
         }
-        td.incorrect { 
+        td.incorrect {
             background-color: #ffcccc !important;
             font-color: #990000 !important;
             font-weight: normal !important;
         }
-        .pick-col { 
+        .pick-col {
             width: 33px;
             text-align: center;
         }
@@ -53,11 +53,9 @@
         .not-my-pick { background-color: #d8d8d8 !important; }
         .my-pick { background-color: #ffff99 !important; }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js"></script>
-    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-alerts.js"></script>
-    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-twipsy.js"></script>
-    <script src="http://twitter.github.com/bootstrap/1.4.0/bootstrap-popover.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -120,8 +118,8 @@
     </script>
 </head>
 <body>
-    <div class="topbar">
-        <div class="topbar-inner">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
             <div class="container-fluid">
                 <a class="brand" href="#">College Crazies</a>
                 <ul class="nav">
@@ -133,20 +131,18 @@
                         <li><a href="{{ path('user_list') }}">Manage Users</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
-                        {% set leagues = app.user.leagues %}
-                        {% if leagues|length == 0 %}
-                            <li>Join a league</li>
-                        {% elseif leagues|length == 1 %}
-                            <li><a href="{{ path('league_picks') }}">League: {{ leagues[0].name }}</a></li>
-                        {% else %}
-                            <li>
-                                <select>
-                                    {% for league in leagues %}
-                                        <option>{{ league.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </li>
-                        {% endif %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for league in app.user.leagues %}
+                                    <li><a href="">{{ league.name }}</a></li>
+                                {% endfor %}
+                                <li class="divider"></li>
+                                <li><a href="#">Find a League to Join</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Create a League</a></li>
+                            </ul>
+                        </li>
                     {% endif %}
                 </ul>
                 {% if is_granted('ROLE_USER') %}
@@ -159,35 +155,39 @@
     </div>
 
     <div class="container-fluid">
-        <a href="{{ path('team_list') }}">Team List</a>
-        <div class="sidebar">
-            <div class="well">
-                {% render "CollegeCraziesMainBundle:Game:list" %}
+        <div class="row-fluid">
+            <div class="span2">
+                <div class="well sidebar-name">
+                    {% render "CollegeCraziesMainBundle:Game:list" %}
+                </div>
+            </div>
+
+            <div class="span10">
+                <div class="content">
+                    {% for key, flash in app.session.getFlashes() %}
+                        <div class="alert {{ key }}">
+                            <button type="button" class="close" data-dismiss="alert" href="#">×</a>
+                            <strong>{{ flash }}</strong>
+                        </div>
+                    {% endfor %}
+
+                    {% block content '' %}
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="content">
-        {% for key, flash in app.session.getFlashes() %}
-            <div class="data-alert alert-message {{ key }}">
-                <a class="close" href="#">×</a>
-                <p>{{ flash }}</p>
-            </div>
-        {% endfor %}
-
-        {% block content %}
-        {% endblock %}
-    </div>
     <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-27706928-1']);
-      _gaq.push(['_setDomainName', 'collegecrazies.com']);
-      _gaq.push(['_trackPageview']);
-    
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-27706928-1']);
+        _gaq.push(['_setDomainName', 'collegecrazies.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
     </script>
 </body>
 </html>

@@ -16,12 +16,12 @@ class Team {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length="5")
+     * @ORM\Column(type="string", length=5)
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length=255)
      */
     protected $name;
 

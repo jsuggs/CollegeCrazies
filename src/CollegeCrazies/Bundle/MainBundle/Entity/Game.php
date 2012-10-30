@@ -24,7 +24,7 @@ class Game {
 
     /**
      * The Bowl Game Name
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length=255)
      *
      * @var string
      */
@@ -58,7 +58,7 @@ class Game {
     /**
      * network
      *
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
     protected $network;
@@ -66,7 +66,7 @@ class Game {
     /**
      * homeTeamScore
      *
-     * @ORM\Column(type="integer", nullable="true")
+     * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
     protected $homeTeamScore;
@@ -74,7 +74,7 @@ class Game {
     /**
      * awayTeamScore
      *
-     * @ORM\Column(type="integer", nullable="true")
+     * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
     protected $awayTeamScore;
@@ -82,7 +82,7 @@ class Game {
     /**
      * description
      *
-     * @ORM\Column(type="text", nullable="true")
+     * @ORM\Column(type="text", nullable=true)
      * @var string
      */
     protected $description;
