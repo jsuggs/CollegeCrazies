@@ -12,12 +12,13 @@ use Doctrine\ORM\Mapping as ORM;
  *      name="leagues"
  * )
  */
-class League {
+class League
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="league_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="league_seq", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -41,6 +42,16 @@ class League {
      * @ORM\Column(type="datetime", nullable="true")
      */
     protected $lockTime;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $public;
+
+    /**
+     * @ORM\OneToOne(targetEntity="LeagueMetadata")
+     */
+    protected $metadata;
 
     public function getId()
     {
@@ -91,5 +102,25 @@ class League {
     {
         $now = new \DateTime();
         return ($this->lockTime < $now);
+    }
+
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    public function setPublic($public)
+    {
+        $this->public = $public;
+    }
+
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata(LeagueMetadata $metadata)
+    {
+        $this->metadata = $metadata;
     }
 }
