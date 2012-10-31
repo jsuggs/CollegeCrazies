@@ -27,7 +27,7 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="users")
      */
     protected $leagues;
 

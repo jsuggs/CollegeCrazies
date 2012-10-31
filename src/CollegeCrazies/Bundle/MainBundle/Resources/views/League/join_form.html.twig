@@ -1,0 +1,11 @@
+<div class="errors">
+    {{ form_errors(form) }}
+</div>
+
+<div class="clearfix">
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password) }}
+</div>
+
+{{ form_widget(form._token) }}
+{{ form_rest(form) }}

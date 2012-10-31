@@ -7,6 +7,7 @@ use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class UserController extends Controller
@@ -91,11 +92,15 @@ class UserController extends Controller
 
     private function findUser($id)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $user = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->find($id);
+        $user = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')
+            ->find($id);
+
         if (!$user) {
-            throw new \NotFoundHttpException(sprintf('There was no user with id = %s', $id));
+            throw new NotFoundHttpException(sprintf('There was no user with id = %s', $id));
         }
+
         return $user;
     }
 }

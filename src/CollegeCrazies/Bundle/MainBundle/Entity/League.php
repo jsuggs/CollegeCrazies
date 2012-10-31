@@ -34,7 +34,7 @@ class League
 
     /**
      * @ORM\ManyToMany(targetEntity="User", inversedBy="leagues")
-     * @ORM\JoinTable("user_leagues")
+     * @ORM\JoinTable("user_league")
      */
     protected $users;
 
@@ -122,5 +122,11 @@ class League
     public function setMetadata(LeagueMetadata $metadata)
     {
         $this->metadata = $metadata;
+    }
+
+    public function userCanView(User $user)
+    {
+        // TODO
+        return true;
     }
 }

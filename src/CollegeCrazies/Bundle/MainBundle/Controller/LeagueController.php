@@ -2,33 +2,72 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
-use CollegeCrazies\Bundle\MainBundle\Form\TeamFormType;
+use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueJoinFormType;
-use CollegeCrazies\Bundle\MainBundle\Entity\Team;
+use CollegeCrazies\Bundle\MainBundle\Entity\League;
+use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @Route("/league")
+ */
 class LeagueController extends Controller
 {
     /**
-     * @Route("/league/picks", name="league_picks")
+     * @Route("/home/{leagueId}", name="league_home")
+     * @Template("CollegeCraziesMainBundle:League:home.html.twig")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function homeAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        }
+
+        $em = $this->get('doctrine.orm.entity_manager');
+        $games = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate')->getResult();
+
+        //TODO only in out league
+        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
+        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u
+            JOIN u.pickSet p
+            JOIN u.leagues l
+            JOIN p.picks pk
+            JOIN pk.game pg
+            WHERE l.id = :leagueId
+            ORDER BY pg.id'
+        )->setParameter('leagueId', $leagueId);
+        $users = $query->getResult();
+
+        $userSorter = $this->get('user.sorter');
+        $sortedUsers = $userSorter->sortUsersByPoints($users);
+
+        return array(
+            'games' => $games,
+            'users' => $sortedUsers,
+        );
+    }
+    /**
+     * @Route("/picks", name="league_picks")
      * @Template("CollegeCraziesMainBundle:League:picks.html.twig")
+     * @Secure(roles="ROLE_USER")
      */
     public function groupPicksAction()
     {
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            // Again, this is a hack
-            $user = $this->get('security.context')->getToken()->getUser();
-            if ($user == 'anon.') {
-                throw new AccessDeniedException();
-            }
-            $league = $this->findLeague(1);
-            if (!$league->isLocked()) {
-                $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
-                return $this->redirect('/');
-            }
+        $user = $this->getUser();
+        $league = $this->findLeague(1);
+        if (!$league->isLocked()) {
+            $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
+            return $this->redirect('/');
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
@@ -81,15 +120,13 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/league/join/{id}", name="league_join")
+     * @Route("/join/{id}", name="league_join")
      * @Template("CollegeCraziesMainBundle:League:join.html.twig")
+     * @Secure(roles="ROLE_USER")
      */
     public function joinAction($id)
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
-        }
 
         $league = $this->findLeague($id);
         $form = $this->createFormBuilder($league)
@@ -125,7 +162,7 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/league/leaderboard", name="leaderboard")
+     * @Route("/leaderboard", name="leaderboard")
      * @Template("CollegeCraziesMainBundle:League:leaderboard.html.twig")
      */
     public function leaderboardAction()
@@ -161,19 +198,35 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/team/create", name="team_create")
-     * @Template("CollegeCraziesMainBundle:Team:new.html.twig")
+     * @Route("/new", name="league_new")
+     * @Template()
+     * @Secure(roles="ROLE_USER")
+     */
+    public function newAction()
+    {
+        $league = new League();
+        $form = $this->getLeagueForm($league);
+
+        return array('form' => $form->createView());
+    }
+
+    /**
+     * @Route("/create", name="league_create")
+     * @Template()
+     * @Method({"POST"})
+     * @Secure(roles="ROLE_USER")
      */
     public function createAction()
     {
-        $team = new Team();
-        $form = $this->getTeamForm($team);
+        $league = new League();
+        $form = $this->getLeagueForm($league);
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $team = $form->getData();
+            $league = $form->getData();
+            $league->addUser($this->getUser());
             $em = $this->get('doctrine.orm.entity_manager');
-            $em->persist($team);
+            $em->persist($league);
             $em->flush();
         } else {
             return array('form' => $form->createView());
@@ -182,17 +235,20 @@ class LeagueController extends Controller
         return $this->redirect($this->generateUrl('team_list'));
     }
 
-    private function getTeamForm(Team $team)
+    private function getLeagueForm(League $league)
     {
-        return $this->createForm(new TeamFormType(), $team);
+        return $this->createForm(new LeagueFormType(), $league);
     }
 
     private function findLeague($id)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $league = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\League')->find($id);
+        $league = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\League')
+            ->find($id);
+
         if (!$league) {
-            throw new \NotFoundHttpException(sprintf('There was no league with id = %s', $id));
+            throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
         }
         return $league;
     }

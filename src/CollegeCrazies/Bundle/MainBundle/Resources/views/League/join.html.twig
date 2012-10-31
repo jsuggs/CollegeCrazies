@@ -4,7 +4,7 @@
     <h3>Enter the league password</h3>
 
     <form action="{{ path('league_join', {'id': league.id}) }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }}>
-        {% include 'CollegeCraziesMainBundle:League:form.html.twig' %}
+        {% include 'CollegeCraziesMainBundle:League:join_form.html.twig' %}
         <div class="actions">
             <input type="submit" class="btn primary" value="Join League" />
         </div>

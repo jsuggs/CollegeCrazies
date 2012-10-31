@@ -1,0 +1,61 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Group Picks</h2>
+    <table class="table condensed-table zebra-striped">
+        <thead>
+            <tr>
+                <th>Game Name</th>
+                {% for game in games %}
+                    <th class="vertical-text"> {{ game.name }} </th>
+                {% endfor %}
+                <th>Points Won</th>
+                <th>Points Possible</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Favorite</td>
+                {% for game in games %}
+                    <td> {{ game.homeTeam.id }} </td>
+                {% endfor %}
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>Underdog</td>
+                {% for game in games %}
+                    <td> {{ game.awayTeam.id }} </td>
+                {% endfor %}
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td class="first-col pickname"><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.pickset.name }}</a></td>
+                    {% for game in games %}
+                        {% set pick = user.pickset.findPickByGame(game) %}
+                        {% if pick.game.complete %}
+                            {% if pick.team == pick.game.winner %}
+                                {% set pickClass="correct" %}
+                            {% else %}
+                                {% set pickClass="incorrect" %}
+                            {% endif %}
+                        {% else %}
+                            {% set pickClass="no" %}
+                        {% endif %}
+
+                        {% if user == app.user %}
+                            <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
+                        {% else %}
+                            {% set samePick = (app.user.pickset.findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
+                            <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>{{ user.pickset.points }}</td>
+                    <td>{{ user.pickset.pointsPossible }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
