@@ -2,12 +2,12 @@
 
 {% block content %}
     <h2>Group Picks</h2>
-    <table class="condensed-table zebra-striped">
+    <table class="table table-condensed table-striped">
         <thead>
             <tr>
                 <th>Game Name</th>
-                {% for game in games %} 
-                    <th class="vertical-text"> {{ game.name }} </th>
+                {% for game in games %}
+                    <th class="vertical-text">{{ game.name }}</th>
                 {% endfor %}
                 <th>Points Won</th>
                 <th>Points Possible</th>
@@ -16,7 +16,7 @@
         <tbody>
             <tr>
                 <td>Favorite</td>
-                {% for game in games %} 
+                {% for game in games %}
                     <td> {{ game.homeTeam.id }} </td>
                 {% endfor %}
                 <td>-</td>
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Underdog</td>
-                {% for game in games %} 
+                {% for game in games %}
                     <td> {{ game.awayTeam.id }} </td>
                 {% endfor %}
                 <td>-</td>

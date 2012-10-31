@@ -2,13 +2,11 @@
     {{ form_errors(form) }}
 </div>
 
-<div class="form-stacked">
+<div class="control-group">
     {{ form_errors(form.name) }}
-    <div class="clearfix">
-        {{ form_label(form.name, "Pick Set Name") }}
-    </div>
-    <div class="xxx">
-        {{ form_widget(form.name, {'attr': {'class': 'xlarge'}}) }}
+    {{ form_label(form.name, "Pick Set Name") }}
+    <div class="controls">
+        {{ form_widget(form.name, {'attr': {'class': 'input-xxlarge'}}) }}
     </div>
 </div>
 
@@ -16,7 +14,8 @@
     Status: <span class="label">checking...</span>
 </div>
 <br />
-<table id="pick-list" class="zebra-striped condensed-table">
+
+<table id="pick-list" class="table table-striped table-condensed">
     <thead bgcolor=#CCCCCC>
         <th>Bowl</th>
         <th>Favorite</th>
