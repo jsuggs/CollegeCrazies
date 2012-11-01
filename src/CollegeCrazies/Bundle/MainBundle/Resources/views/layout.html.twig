@@ -98,12 +98,6 @@
                 });
             });
 
-            $('.alert-message .close').click(function() {
-                $(this).parent().slideUp(200, function() {
-                    $(this).remove();
-                });
-            });
-
             $('.makePick').change(function() {
                 var row = $(this).closest('tr').find('.confidence').removeClass('unpicked').addClass('picked');
                 row.find('.team').val($(this).val());
