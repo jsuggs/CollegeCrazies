@@ -19,9 +19,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class LeagueController extends Controller
 {
     /**
-     * @Route("/home/{leagueId}", name="league_home")
-     * @Template("CollegeCraziesMainBundle:League:home.html.twig")
+     * @Route("/{leagueId}/home", name="league_home")
      * @Secure(roles="ROLE_USER")
+     * @Template()
      */
     public function homeAction($leagueId)
     {
@@ -34,37 +34,35 @@ class LeagueController extends Controller
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $games = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate')->getResult();
-
-        //TODO only in out league
-        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
-        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u
+        $games = $em->createQuery('SELECT g from CollegeCraziesMainBundle:Game g ORDER BY g.gameDate')->getResult();
+        $users = $em->createQuery('SELECT u, p from CollegeCraziesMainBundle:User u
             JOIN u.pickSet p
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
             WHERE l.id = :leagueId
-            ORDER BY pg.id'
-        )->setParameter('leagueId', $leagueId);
-        $users = $query->getResult();
+            ORDER BY pg.id')
+            ->setParameter('leagueId', $leagueId)
+            ->getResult();
 
-        $userSorter = $this->get('user.sorter');
-        $sortedUsers = $userSorter->sortUsersByPoints($users);
+        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users);
 
         return array(
             'games' => $games,
+            'league' => $league,
             'users' => $sortedUsers,
         );
     }
+
     /**
-     * @Route("/picks", name="league_picks")
-     * @Template("CollegeCraziesMainBundle:League:picks.html.twig")
+     * @Route("/{leagueId}/picks", name="league_group_picks")
      * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:picks.html.twig")
      */
-    public function groupPicksAction()
+    public function groupPicksAction($leagueId)
     {
+        $league = $this->findLeague($leagueId);
         $user = $this->getUser();
-        $league = $this->findLeague(1);
         if (!$league->isLocked()) {
             $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
             return $this->redirect('/');
@@ -76,12 +74,12 @@ class LeagueController extends Controller
 
         //TODO only in out league
         $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
-        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u 
-            JOIN u.pickSet p 
+        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u
+            JOIN u.pickSet p
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
-            WHERE l.id = 1 
+            WHERE l.id = 1
             ORDER BY pg.id');
         $users = $query->getResult();
 
@@ -92,6 +90,7 @@ class LeagueController extends Controller
 
         return array(
             'games' => $games,
+            'league' => $league,
             'users' => $sortedUsers,
             'curUser' => $curUser,
         );
@@ -233,6 +232,25 @@ class LeagueController extends Controller
         }
 
         return $this->redirect($this->generateUrl('team_list'));
+    }
+
+    /**
+     * @Route("/{leagueId}/picks", name="league_picks")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function picksAction($leagueId)
+    {
+        $user = $this->getUser();
+        $league = $this->findLeague($leagueId);
+
+        $pickSet = $user->getPickSet();
+        if ($pickSet) {
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'id' => $pickSet->getId()
+            )));
+        }
+
+        return $this->redirect($this->generateUrl('picklist_new'));
     }
 
     private function getLeagueForm(League $league)

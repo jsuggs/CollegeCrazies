@@ -8,6 +8,7 @@ use CollegeCrazies\Bundle\MainBundle\Entity\Team;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use CollegeCrazies\Bundle\MainBundle\Entity\Pick;
 use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,29 +16,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PickController extends Controller
 {
-    /**
-     * @Route("/my-picks", name="my_picks")
-     */
-    public function myPicksAction()
-    {
-        //
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
-        }
-
-        $pickSet = $user->getPickSet();
-        if ($pickSet) {
-            return $this->redirect($this->generateUrl('pickset_edit', array(
-                'id' => $pickSet->getId()
-            )));
-        }
-
-        return $this->redirect($this->generateUrl('picklist_new'));
-        
-    }
-
     /**
      * @Route("/pick-list/new", name="picklist_new")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
