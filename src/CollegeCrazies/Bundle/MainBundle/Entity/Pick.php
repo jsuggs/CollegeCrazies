@@ -2,8 +2,8 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\Team;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Users Pick for a single game
@@ -13,37 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
  *      name="picks"
  * )
  */
-class Pick {
-
+class Pick
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="pick_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="seq_pick", initialValue=1, allocationSize=1)
      */
     protected $id;
-
-    /**
-     * @ORM\OneToOne(targetEntity="User")
-     */
-    protected $user;
-
-    protected $league;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Game")
-     */
-    protected $game;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Team")
-     */
-    protected $team;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $confidence;
 
     /**
      * @ORM\ManyToOne(targetEntity="PickSet", inversedBy="picks")
@@ -51,17 +29,25 @@ class Pick {
      */
     protected $pickSet;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Game")
+     */
+    protected $game;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Team")
+     */
+    protected $team;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Min(0)
+     */
+    protected $confidence;
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setTeam(Team $team)
-    {
-        //if ($team != $game->getHomeTeam() || $team != $game->getAwayTeam()) {
-            //die('bad');
-        //}
-        $this->team = $team;
     }
 
     public function getTeam()
@@ -69,19 +55,17 @@ class Pick {
         return $this->team;
     }
 
-    public function setUser(User $user)
+    public function setTeam(Team $team)
     {
-        $this->user = $user;
+        $this->team = $team;
     }
 
-    public function getUser()
+    /**
+     * @Assert\True()
+     */
+    public function isTeamValid()
     {
-        return $this->user;
-    }
-
-    public function setGame(Game $game)
-    {
-        $this->game = $game;
+        return $this->team == $this->game->getHomeTeam() || $this->team == $this->game->getAwayTeam();
     }
 
     public function getGame()
@@ -89,14 +73,19 @@ class Pick {
         return $this->game;
     }
 
-    public function setConfidence($confidence)
+    public function setGame(Game $game)
     {
-        $this->confidence = $confidence;
+        $this->game = $game;
     }
 
     public function getConfidence()
     {
         return $this->confidence;
+    }
+
+    public function setConfidence($confidence)
+    {
+        $this->confidence = $confidence;
     }
 
     public function getPickSet()

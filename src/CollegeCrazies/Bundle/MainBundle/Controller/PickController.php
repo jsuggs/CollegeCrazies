@@ -16,27 +16,36 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PickController extends Controller
 {
+
     /**
-     * @Route("/pick-list/new", name="picklist_new")
+     * @Route("/pickset/list", name="pickset_list")
+     * @Secure(roles="ROLE_USER")
+     * @Template()
+     */
+    public function listAction()
+    {
+        return array(
+            'pickSets' => $this->getUser()->getPickSets(),
+        );
+    }
+
+    /**
+     * @Route("/pickset/new", name="pickset_new")
+     * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
     public function newPickAction()
     {
+        $user = $this->getUser();
+
         $pickSet = new PickSet();
-
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
-        }
         $pickSet->setUser($user);
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $games = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->findAll();
+        $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAll();
         $idx = count($games);
         foreach ($games as $game) {
             $pick = new Pick();
-            $pick->setUser($user);
             $pick->setGame($game);
             $pick->setConfidence($idx);
 
@@ -47,29 +56,50 @@ class PickController extends Controller
         $form = $this->getPickSetForm($pickSet);
 
         return array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
-    private function isPickSetLocked($id)
+    /**
+     * @Route("/pickset/league/{leagueId}/{picksetId}", name="pickset_league")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
+     */
+    public function setPicksetLeague($leagueId, $picksetId)
     {
-        // TODO: We need to associated a pickSet with a leage, so we can check to see whether
-        // or not the leage is locked
-        $league = $this->findLeague(1);
-        return $league->isLocked();
+        $league = $this->findLeague($leagueId);
+
+        if ($league->isLocked()) {
+            $this->get('session')->setFlash('error', 'This league is locked');
+        } else {
+            $pickset = $this->findPickSet($picksetId);
+            $pickset->setLeague($league);
+
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($league);
+            $em->persist($pickset);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('pickset_view', array(
+            'id' => $picksetId,
+        )));
     }
 
     /**
-     * @Route("/pick-list/edit/{id}", name="pickset_edit")
+     * @Route("/pickset/edit/{id}", name="pickset_edit")
+     * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
      */
-    public function editPickAction($id) 
+    public function editPickAction($id)
     {
         $pickSet = $this->findPickSet($id);
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if ($this->isPickSetLocked($id)) {
+            if ($pickSet->isLocked()) {
+                $this->get('session')->setFlash('info', 'This pickset is now locked');
+
                 return $this->redirect($this->generateUrl('pickset_view', array(
                     'id' => $id
                 )));
@@ -84,31 +114,33 @@ class PickController extends Controller
         $form = $this->getPickSetForm($pickSet);
         return array(
             'form' => $form->createView(),
-            'pickSet' => $pickSet
+            'pickSet' => $pickSet,
         );
     }
 
     /**
-     * @Route("/pick-list/view/{id}", name="pickset_view")
+     * @Route("/pickset/view/{id}", name="pickset_view")
+     * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:view.html.twig")
      */
-    public function viewPickAction($id) 
+    public function viewPickAction($id)
     {
         $pickSet = $this->findPickSet($id);
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
-        if ($pickSet->getUser() !== $user && !$this->isPickSetLocked($id)) {
+        if ($pickSet->getUser() !== $user && !$pickSet->isLocked()) {
             $this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
             return $this->redirect('/');
         }
 
         return array(
-            'pickSet' => $pickSet
+            'pickSet' => $pickSet,
         );
     }
 
     /**
-     * @Route("/pick-list/create", name="picklist_create")
+     * @Route("/pickset/create", name="pickset_create")
+     * @Secure(roles="ROLE_USER")
      */
     public function createPickAction()
     {
@@ -117,14 +149,16 @@ class PickController extends Controller
         $request = $this->getRequest();
         $form->bindRequest($request);
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
+
         $em = $this->get('doctrine.orm.entity_manager');
-        $gameRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game');
-        $teamRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Team');
+        $gameRepo = $em->getRepository('CollegeCraziesMainBundle:Game');
+        $teamRepo = $em->getRepository('CollegeCraziesMainBundle:Team');
 
         $pickSet->setUser($user);
         $pickset = $request->request->get('pickset');
 
+        // TODO - Move looksups to a form transformer
         foreach ($pickset['picks'] as $pickObj) {
             $pick = new Pick();
             $pick->setUser($user);
@@ -142,7 +176,8 @@ class PickController extends Controller
 
             $pickSet->addPick($pick);
         }
-        $user->setPickSet($pickSet);
+
+        $user->addPickSet($pickSet);
         $em->persist($user);
         $em->persist($pickSet);
         $em->flush();
@@ -152,7 +187,8 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pick-list/update/{id}", name="picklist_update")
+     * @Route("/pickset/update/{id}", name="pickset_update")
+     * @Secure(roles="ROLE_USER")
      */
     public function updatePickAction($id)
     {
@@ -170,8 +206,8 @@ class PickController extends Controller
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $gameRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game');
-        $teamRepo = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Team');
+        $gameRepo = $em->getRepository('CollegeCraziesMainBundle:Game');
+        $teamRepo = $em->getRepository('CollegeCraziesMainBundle:Team');
 
         $pickSet->setUser($user);
         $request = $this->getRequest();
@@ -212,20 +248,6 @@ class PickController extends Controller
         )));
     }
 
-    /**
-     * @Route("/pick/new", name="pick_new")
-     * @Template("CollegeCraziesMainBundle:Team:new.html.twig")
-     */
-    public function newAction()
-    {
-        $pick = new Pick();
-        $form = $this->getPickForm($pick);
-
-        return array(
-            'form' => $form->createView()
-        );
-    }
-
     private function getPickForm(Pick $pick)
     {
         return $this->createForm(new PickFormType(), $pick);
@@ -239,25 +261,30 @@ class PickController extends Controller
     private function findPickSet($id)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT ps, u, p from CollegeCrazies\Bundle\MainBundle\Entity\Pickset ps
+        $pickSet = $em->createQuery('SELECT ps, u, p from CollegeCraziesMainBundle:Pickset ps
             JOIN ps.user u
             JOIN ps.picks p
             WHERE ps.id = :id
-            ORDER BY p.confidence desc')->setParameter('id', $id);
-        $pickSet = $query->getSingleResult();
+            ORDER BY p.confidence desc'
+        )
+            ->setParameter('id', $id)
+            ->getSingleResult();
+
         if (!$pickSet) {
             throw new \NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
         }
+
         return $pickSet;
     }
 
     private function findLeague($id)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $league = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\League')->find($id);
+        $league = $em->getRepository('CollegeCraziesMainBundle:League')->find($id);
         if (!$league) {
             throw new \NotFoundHttpException(sprintf('There was no league with id = %s', $id));
         }
+
         return $league;
     }
 }

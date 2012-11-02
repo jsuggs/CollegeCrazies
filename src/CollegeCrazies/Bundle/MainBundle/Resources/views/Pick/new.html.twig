@@ -4,7 +4,7 @@
     <h3>Make your picks</h3>
     <p>Select the winner and drag the teams to their desired confidence</p>
 
-    <form action="{{ path('picklist_create') }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }}>
+    <form action="{{ path('pickset_create') }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }}>
         {% include 'CollegeCraziesMainBundle:Pick:form.html.twig' %}
         <div class="actions">
             <input type="submit" class="btn primary" value="Save Picks" />

@@ -2,11 +2,9 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * A User
@@ -22,7 +20,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="user_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="seq_user", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -32,45 +30,38 @@ class User extends BaseUser
     protected $leagues;
 
     /**
-     * @ORM\OneToOne(targetEntity="PickSet")
+     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="user")
      */
-    protected $pickSet;
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    protected $pickSets;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getPickSet()
+    public function setId($id)
     {
-        return $this->pickSet;
+        $this->id = $id;
     }
 
-    public function setPickSet($pickSet)
+    public function getPickSets()
     {
-        $this->pickSet = $pickSet;
+        return $this->pickSets;
     }
 
-    public function __toString()
+    public function addPickSet(PickSet $pickSet)
     {
-        return $this->username;
+        $this->pickSets[] = $pickSet;
     }
 
-    public function isInTheLeague()
+    public function setPickSets($pickSets)
     {
-        $status = false;
-        foreach($this->leagues as $league) {
-            if ($league->getId() == 1) {
-                $status = true;
-            }
-        }
+        $this->pickSets = $pickSets;
+    }
 
-        return $status;
+    public function isInTheLeague(League $league)
+    {
+        return $this->leagues->contains($league);
     }
 
     public function getLeagues()
@@ -82,5 +73,10 @@ class User extends BaseUser
     {
         $this->leagues[] = $league;
         $league->addUser($this);
+    }
+
+    public function __toString()
+    {
+        return $this->username;
     }
 }

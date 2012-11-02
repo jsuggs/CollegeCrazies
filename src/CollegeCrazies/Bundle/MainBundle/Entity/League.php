@@ -18,7 +18,7 @@ class League
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="league_seq", initialValue=1, allocationSize=1)
+     * @ORM\SequenceGenerator(sequenceName="seq_league", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -52,6 +52,11 @@ class League
      * @ORM\OneToOne(targetEntity="LeagueMetadata")
      */
     protected $metadata;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="league")
+     */
+    protected $pickSets;
 
     public function getId()
     {

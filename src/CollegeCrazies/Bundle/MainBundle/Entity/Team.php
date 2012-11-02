@@ -3,6 +3,7 @@
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Team
@@ -12,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  *      name="teams"
  * )
  */
-class Team {
-
+class Team
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=5)
@@ -22,6 +23,7 @@ class Team {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $name;
 

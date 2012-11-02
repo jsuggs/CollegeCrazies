@@ -2,35 +2,43 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\Pick;
+use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Users Pick for a single game
+ * A collection of picks for a given leage
  *
  * @ORM\Entity
  * @ORM\Table(
  *      name="picksets"
  * )
  */
-class PickSet {
+class PickSet
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="pickset_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="seq_pickset", initialValue=1, allocationSize=1)
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="League", inversedBy="pickSets")
+     */
+    protected $league;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="pickSets")
      */
     protected $user;
 
@@ -54,19 +62,19 @@ class PickSet {
         return $this->id;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     public function getName()
     {
         return $this->name;
     }
 
-    public function setPicks($picks)
+    public function setName($name)
     {
-        $this->picks = $picks;
+        $this->name = $name;
+    }
+
+    public function getPicks()
+    {
+        return $this->picks;
     }
 
     public function addPick(Pick $pick)
@@ -74,9 +82,19 @@ class PickSet {
         $this->picks[] = $pick;
     }
 
-    public function getPicks()
+    public function setPicks($picks)
     {
-        return $this->picks;
+        $this->picks = $picks;
+    }
+
+    public function getLeague()
+    {
+        return $this->league;
+    }
+
+    public function setLeague(League $league)
+    {
+        $this->league = $league;
     }
 
     public function getUser()
@@ -89,14 +107,14 @@ class PickSet {
         $this->user = $user;
     }
 
-    public function getTiebreakerHomeTeamScore()
-    {
-        return $this->tiebreakerHomeTeamScore;
-    }
-
     public function setTiebreakerHomeTeamScore($score)
     {
         $this->tiebreakerHomeTeamScore = $score;
+    }
+
+    public function getTiebreakerHomeTeamScore()
+    {
+        return $this->tiebreakerHomeTeamScore;
     }
 
     public function getTiebreakerAwayTeamScore()
@@ -179,5 +197,12 @@ class PickSet {
                 return $pick;
             }
         }
+    }
+
+    public function isLocked()
+    {
+        return $this->league
+            ? false
+            : $this->league->isLocked();
     }
 }

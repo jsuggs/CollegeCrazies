@@ -97,37 +97,14 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/admin/users/nopicks", name="users_nopicks")
-     * @Template("CollegeCraziesMainBundle:League:nopicks.html.twig")
-     */
-    public function userNopicksAction()
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT u, p, pk from CollegeCrazies\Bundle\MainBundle\Entity\User u 
-            JOIN u.pickSet p 
-            JOIN u.leagues l
-            JOIN p.picks pk
-            JOIN pk.game pg
-            WHERE l.id = 1
-            AND pk.team IS NULL 
-            ORDER BY pg.id');
-        $users = $query->getResult();
-
-        return array(
-            'users' => $users,
-        );
-    }
-
-    /**
-     * @Route("/join/{id}", name="league_join")
-     * @Template("CollegeCraziesMainBundle:League:join.html.twig")
+     * @Route("/{leagueId}/join", name="league_join")
      * @Secure(roles="ROLE_USER")
+     * @Template()
      */
-    public function joinAction($id)
+    public function joinAction($leagueId)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $league = $this->findLeague($leagueId);
 
-        $league = $this->findLeague($id);
         $form = $this->createFormBuilder($league)
             ->add('id', 'hidden')
             ->add('password', 'password')
@@ -136,6 +113,7 @@ class LeagueController extends Controller
         $request = $this->getRequest();
 
         if ($request->getMethod() == 'POST') {
+            $user = $this->getUser();
             $data = $request->request->get('form');
             $password = $data['password'];
 
@@ -148,7 +126,7 @@ class LeagueController extends Controller
                 $em->flush();
                 return $this->redirect('/');
             } else {
-                $this->get('session')->setFlash('warning','You password was not correct');
+                $this->get('session')->setFlash('warning', 'You password was not correct');
             }
         }
 
@@ -156,64 +134,62 @@ class LeagueController extends Controller
             'league' => $league,
             'form' => $form->createView()
         );
-        $teams = $em->getRepository('Team')->findAll();
-        return array('teams' => $teams);
     }
 
     /**
-     * @Route("/leaderboard", name="leaderboard")
-     * @Template("CollegeCraziesMainBundle:League:leaderboard.html.twig")
+     * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
+     * @Secure(roles="ROLE_USER")
+     * @Template()
      */
-    public function leaderboardAction()
+    public function leaderboardAction($leagueId)
     {
-        if (false === $this->get('security.context')->isGranted('ROLE_USER')) {
-            $this->get('session')->setFlash('warning','You must be logged in to view the leaderboard');
-            throw new AccessDeniedException();
-        }
+        $league = $this->findLeague($leagueId);
 
-        $user = $this->get('security.context')->getToken()->getUser();
-        if (!$user->isInTheLeague()) {
+        $user = $this->getUser();
+        if (!$user->isInTheLeague($league)) {
             $this->get('session')->setFlash('warning','You must be in the leage to view the leaderboard');
-            return $this->redirect($this->generateUrl('league_join', array('id' => 1)));
+            return $this->redirect($this->generateUrl('league_join', array(
+                'leagueId' => 1,
+            )));
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $query = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCrazies\Bundle\MainBundle\Entity\User u 
-            JOIN u.pickSet p 
+        $users = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCraziesMainBundle:User u
+            JOIN u.pickSet p
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
-            WHERE l.id = 1 
-            ORDER BY pg.id');
-        $users = $query->getResult();
+            WHERE l.id = 1
+            ORDER BY pg.id')->getResult();
 
-        $userSorter = $this->get('user.sorter');
-        $sortedUsers = $userSorter->sortUsersByPoints($users);
+        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users);
 
         return array(
-            'users' => $sortedUsers
+            'users' => $sortedUsers,
         );
     }
 
     /**
      * @Route("/new", name="league_new")
-     * @Template()
      * @Secure(roles="ROLE_USER")
+     * @Template()
      */
     public function newAction()
     {
         $league = new League();
         $form = $this->getLeagueForm($league);
 
-        return array('form' => $form->createView());
+        return array(
+            'form' => $form->createView(),
+        );
     }
 
     /**
      * @Route("/create", name="league_create")
-     * @Template()
      * @Method({"POST"})
      * @Secure(roles="ROLE_USER")
+     * @Template()
      */
     public function createAction()
     {
@@ -228,7 +204,9 @@ class LeagueController extends Controller
             $em->persist($league);
             $em->flush();
         } else {
-            return array('form' => $form->createView());
+            return array(
+                'form' => $form->createView(),
+            );
         }
 
         return $this->redirect($this->generateUrl('team_list'));
@@ -250,7 +228,7 @@ class LeagueController extends Controller
             )));
         }
 
-        return $this->redirect($this->generateUrl('picklist_new'));
+        return $this->redirect($this->generateUrl('pickset_new'));
     }
 
     private function getLeagueForm(League $league)

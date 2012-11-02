@@ -33,39 +33,37 @@
         </div>
     </div>
 
-    {% if league is defined %}
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="brand" href="#">{{ league.name }}</a>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                {% if league is defined %}
+                    <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
                     <ul class="nav">
                         <li><a href="{{ path('league_home', {leagueId: league.id}) }}">League Home</a></li>
                         <li><a href="{{ path('league_picks', {leagueId: league.id}) }}">My Picks</a></li>
                         <li><a href="{{ path('league_group_picks', {leagueId: league.id}) }}">Group Picks</a></li>
-                        <li><a href="{{ path('leaderboard') }}">Leader Board</a></li>
+                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Leader Board</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('user_list') }}">Manage Users</a></li>
                         {% endif %}
                     </ul>
+                {% endif %}
 
-                    <div class="dropdown pull-right">
-                        <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu">
-                            {% for league in app.user.leagues %}
-                            <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
-                            {% endfor %}
-                            <li class="divider"></li>
-                            <li><a href="#">Find a League to Join</a></li>
-                            <li class="divider"></li>
-                            <li><a href="{{ path('league_new') }}">Create a League</a></li>
-                        </ul>
-                    </div>
+                <div class="dropdown pull-right">
+                    <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for league in app.user.leagues %}
+                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
+                        {% endfor %}
+                        <li class="divider"></li>
+                        <li><a href="#">Find a League to Join</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ path('league_new') }}">Create a League</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    {% else %}
-        <h1>This is where the league nav goes...need to login</h1>
-    {% endif %}
+    </div>
 
     <div class="container-fluid">
         <div class="row-fluid">

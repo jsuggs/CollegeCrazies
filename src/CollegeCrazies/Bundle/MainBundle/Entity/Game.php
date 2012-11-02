@@ -13,19 +13,20 @@ use Doctrine\ORM\Mapping as ORM;
  *      name="games"
  * )
  */
-class Game {
+class Game
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="game_seq", initialValue=1, allocationSize=100)
+     * @ORM\SequenceGenerator(sequenceName="seq_game", initialValue=1, allocationSize=1)
      */
     protected $id;
 
     /**
      * The Bowl Game Name
-     * @ORM\Column(type="string", length=255)
      *
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
     protected $name;
@@ -41,13 +42,6 @@ class Game {
     protected $awayTeam;
 
     /**
-     * season
-     *
-     * @var string
-     */
-    protected $season;
-
-    /**
      * Gametime baby
      *
      * @ORM\Column(type="datetime")
@@ -56,7 +50,7 @@ class Game {
     protected $gameDate;
 
     /**
-     * network
+     * TV Network
      *
      * @ORM\Column(type="string", length=255)
      * @var string

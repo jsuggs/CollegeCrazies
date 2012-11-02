@@ -17,6 +17,8 @@ class LeagueMetadata
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="seq_league_metadata", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -28,10 +30,5 @@ class LeagueMetadata
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getLeague()
-    {
-        return $this->league;
     }
 }
