@@ -54,11 +54,13 @@
                 <div class="dropdown pull-right">
                     <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
-                        {% for league in app.user.leagues %}
-                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
-                        {% endfor %}
+                        {% if is_granted('ROLE_USER') %}
+                            {% for league in app.user.leagues %}
+                                <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
+                            {% endfor %}
+                        {% endif %}
                         <li class="divider"></li>
-                        <li><a href="#">Find a League to Join</a></li>
+                        <li><a href="{{ path('league_find') }}">Find a League to Join</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('league_new') }}">Create a League</a></li>
                     </ul>
