@@ -80,9 +80,9 @@
             <div class="span10">
                 <div class="content">
                     {% for key, flash in app.session.getFlashes() %}
-                        <div class="alert {{ key }}">
-                            <button type="button" class="close" data-dismiss="alert" href="#">×</a>
+                        <div class="alert alert-{{ key }}">
                             <strong>{{ flash }}</strong>
+                            <button type="button" class="close" data-dismiss="alert" href="#">×</a>
                         </div>
                     {% endfor %}
 
