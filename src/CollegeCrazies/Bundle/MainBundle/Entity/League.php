@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * A League
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="LeagueRepository")
  * @ORM\Table(
  *      name="leagues"
  * )
@@ -131,7 +131,11 @@ class League
 
     public function userCanView(User $user)
     {
-        // TODO
-        return true;
+        return $this->public || $this->isUserInLeague($user);
+    }
+
+    public function isUserInLeague(User $user)
+    {
+        return $this->users->contains($user);
     }
 }
