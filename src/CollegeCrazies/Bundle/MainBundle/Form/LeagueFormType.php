@@ -12,7 +12,9 @@ class LeagueFormType extends AbstractType
         $builder
             ->add('name', 'text')
             ->add('password', 'text')
-            ->add('public', 'checkbox')
+            ->add('public', 'checkbox', array(
+                'required' => false,
+            ))
         ;
     }
 

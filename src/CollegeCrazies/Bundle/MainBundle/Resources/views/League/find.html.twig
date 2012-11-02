@@ -1,0 +1,17 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h4>Public Leagues</h4>
+    <ol class="unstyled">
+    {% for league in leagues %}
+        <li>
+            {{ league.name }}
+            {% if league.isUserInLeague(app.user) %}
+                (Already in this league)
+            {% else %}
+                <a href="{{ path('league_join', {leagueId: league.id}) }}">Join this league</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ol>
+{% endblock %}

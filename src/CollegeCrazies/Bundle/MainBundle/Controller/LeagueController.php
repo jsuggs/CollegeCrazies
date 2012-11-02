@@ -33,26 +33,31 @@ class LeagueController extends Controller
             return $this->redirect('/');
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
-        $games = $em->createQuery('SELECT g from CollegeCraziesMainBundle:Game g ORDER BY g.gameDate')->getResult();
-        $users = $em->createQuery('SELECT u, p from CollegeCraziesMainBundle:User u
-            JOIN u.pickSet p
-            JOIN u.leagues l
-            JOIN p.picks pk
-            JOIN pk.game pg
-            WHERE l.id = :leagueId
-            ORDER BY pg.id')
-            ->setParameter('leagueId', $leagueId)
-            ->getResult();
-
-        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users);
+        $users = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:User')
+            ->findUsersInLeague($league);
 
         return array(
-            'games' => $games,
             'league' => $league,
-            'users' => $sortedUsers,
+            'users' => $users,
         );
     }
+
+    /**
+     * @Route("/find", name="league_find")
+     * @Template()
+     */
+    public function findAction()
+    {
+        $leagues = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:League')
+            ->findAllPublic();
+
+        return array(
+            'leagues' => $leagues,
+        );
+    }
+
 
     /**
      * @Route("/{leagueId}/picks", name="league_group_picks")
@@ -118,15 +123,12 @@ class LeagueController extends Controller
             $password = $data['password'];
 
             if ($password == $league->getPassword()) {
-                $em = $this->get('doctrine.orm.entity_manager');
-                $user->addLeague($league);
-
-                $em->persist($league);
-                $em->persist($user);
-                $em->flush();
-                return $this->redirect('/');
+                $this->addUserToLeague($league, $user);
+                return $this->redirect($this->generateUrl('league_home', array(
+                    'leagueId' => $leagueId,
+                )));
             } else {
-                $this->get('session')->setFlash('warning', 'You password was not correct');
+                $this->get('session')->setFlash('error', 'The password was not correct');
             }
         }
 
@@ -134,6 +136,16 @@ class LeagueController extends Controller
             'league' => $league,
             'form' => $form->createView()
         );
+    }
+
+    private function addUserToLeague(League $league, User $user)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $user->addLeague($league);
+
+        $em->persist($league);
+        $em->persist($user);
+        $em->flush();
     }
 
     /**
@@ -209,7 +221,9 @@ class LeagueController extends Controller
             );
         }
 
-        return $this->redirect($this->generateUrl('team_list'));
+        return $this->redirect($this->generateUrl('league_home', array(
+            'leagueId' => $league->getId(),
+        )));
     }
 
     /**
