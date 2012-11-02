@@ -27,7 +27,9 @@
                 {% if is_granted('ROLE_USER') %}
                     <p class="navbar-text pull-right">Logged in as <a href="/profile" class="navbar-link">{{ app.user }}</a> <a href="/logout">logout</a></p>
                 {% else %}
-                    <p class="navbar-text pull-right"> <a href="/login" class="navbar-link">Login</a></p>
+                    <p class="navbar-text pull-right">
+                        <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
+                    </p>
                 {% endif %}
             </div>
         </div>
