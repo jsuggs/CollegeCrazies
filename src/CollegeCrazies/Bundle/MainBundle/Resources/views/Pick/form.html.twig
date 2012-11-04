@@ -39,8 +39,8 @@
             <td class="confidence{% if pick.vars.value.team.id is defined %} picked{% else %} unpicked{% endif %}">
                 <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
                 {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden confidenceValue'} }) }}
-                {{ form_widget(pick.team.id, { 'attr': {'class': 'team' } }) }}
-                {{ form_widget(pick.game.id, { 'attr': {'class': 'hidden' } }) }}
+                {{ form_widget(pick.team, { 'attr': {'class': 'team' } }) }}
+                {{ form_widget(pick.game, { 'attr': {'class': 'hidden' } }) }}
             </td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.awayTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.awayTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />

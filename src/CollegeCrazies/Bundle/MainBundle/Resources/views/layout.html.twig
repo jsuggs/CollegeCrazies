@@ -40,7 +40,7 @@
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container-fluid">
-                {% if league is defined %}
+                {% if league is defined and league is not null %}
                     <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
                     <ul class="nav">
                         <li><a href="{{ path('league_home', {leagueId: league.id}) }}">League Home</a></li>

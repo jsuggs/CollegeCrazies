@@ -75,6 +75,15 @@ class User extends BaseUser
         $league->addUser($this);
     }
 
+    public function getPicksetForLeague(League $league)
+    {
+        foreach ($this->pickSets as $pickSet) {
+            if ($pickSet->getLeague() == $league) {
+                return $pickSet;
+            }
+        }
+    }
+
     public function __toString()
     {
         return $this->username;

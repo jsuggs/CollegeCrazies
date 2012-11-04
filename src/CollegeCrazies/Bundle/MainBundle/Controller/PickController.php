@@ -12,11 +12,11 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PickController extends Controller
 {
-
     /**
      * @Route("/pickset/list", name="pickset_list")
      * @Secure(roles="ROLE_USER")
@@ -41,6 +41,11 @@ class PickController extends Controller
         $pickSet = new PickSet();
         $pickSet->setUser($user);
 
+        if ($this->getRequest()->query->has('leagueId')) {
+            $league = $this->findLeague($this->getRequest()->get('leagueId'));
+            $pickSet->setLeague($league);
+        }
+
         $em = $this->get('doctrine.orm.entity_manager');
         $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAll();
         $idx = count($games);
@@ -57,6 +62,7 @@ class PickController extends Controller
 
         return array(
             'form' => $form->createView(),
+            'league' => isset($league) ? $league : null,
         );
     }
 
@@ -149,33 +155,14 @@ class PickController extends Controller
         $request = $this->getRequest();
         $form->bindRequest($request);
 
+        if (!$form->isValid()) {
+            die('todo');
+        }
+
         $user = $this->getUser();
+        $pickSet->setUser($user);
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $gameRepo = $em->getRepository('CollegeCraziesMainBundle:Game');
-        $teamRepo = $em->getRepository('CollegeCraziesMainBundle:Team');
-
-        $pickSet->setUser($user);
-        $pickset = $request->request->get('pickset');
-
-        // TODO - Move looksups to a form transformer
-        foreach ($pickset['picks'] as $pickObj) {
-            $pick = new Pick();
-            $pick->setUser($user);
-            $game = $gameRepo->find($pickObj['game']['id']);
-            $pick->setGame($game);
-
-            $team = $teamRepo->find($pickObj['team']['id']);
-            if ($team) {
-                $pick->setTeam($team);
-            }
-
-            $pick->setConfidence($pickObj['confidence']);
-            $pick->setPickSet($pickSet);
-            $em->persist($pick);
-
-            $pickSet->addPick($pick);
-        }
 
         $user->addPickSet($pickSet);
         $em->persist($user);
@@ -194,55 +181,20 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
 
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN') && 1==1) {
-            $user = $pickSet->getUser();
-        } else {
-            if ($this->isPickSetLocked($id)) {
-                return $this->redirect($this->generateUrl('pickset_view', array(
-                    'id' => $id
-                )));
-            }
-            $user = $this->get('security.context')->getToken()->getUser();
+        if ($pickSet->isLocked()) {
+            return $this->redirect($this->generateUrl('pickset_view', array(
+                'id' => $id
+            )));
         }
+
+        $form = $this->getPickSetForm($pickSet);
+        $form->bindRequest($this->getRequest());
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $gameRepo = $em->getRepository('CollegeCraziesMainBundle:Game');
-        $teamRepo = $em->getRepository('CollegeCraziesMainBundle:Team');
 
-        $pickSet->setUser($user);
-        $request = $this->getRequest();
-        $pickset = $request->request->get('pickset');
-        $pickSet->setName($pickset['name']);
-        $pickSet->setTiebreakerHomeTeamScore($pickset['tiebreakerHomeTeamScore']);
-        $pickSet->setTiebreakerAwayTeamScore($pickset['tiebreakerAwayTeamScore']);
-
-        // Delete and readd
-        $picks = $pickSet->getPicks();
-        foreach ($picks as $pick) {
-            $em->remove($pick);
-        }
-        $pickSet->setPicks(null);
-        $em->flush();
-
-        foreach ($pickset['picks'] as $pickObj) {
-            $pick = new Pick();
-            $pick->setUser($user);
-            $game = $gameRepo->find($pickObj['game']['id']);
-            $pick->setGame($game);
-
-            $team = $teamRepo->find($pickObj['team']['id']);
-            if ($team) {
-                $pick->setTeam($team);
-            }
-
-            $pick->setConfidence($pickObj['confidence']);
-            $pick->setPickSet($pickSet);
-            $em->persist($pick);
-
-            $pickSet->addPick($pick);
-        }
         $em->persist($pickSet);
         $em->flush();
+
         return $this->redirect($this->generateUrl('pickset_edit', array(
             'id' => $pickSet->getId()
         )));
@@ -271,7 +223,7 @@ class PickController extends Controller
             ->getSingleResult();
 
         if (!$pickSet) {
-            throw new \NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
+            throw new NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
         }
 
         return $pickSet;
@@ -279,10 +231,13 @@ class PickController extends Controller
 
     private function findLeague($id)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $league = $em->getRepository('CollegeCraziesMainBundle:League')->find($id);
+        $league = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:League')
+            ->find($id);
+
         if (!$league) {
-            throw new \NotFoundHttpException(sprintf('There was no league with id = %s', $id));
+            throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
         }
 
         return $league;

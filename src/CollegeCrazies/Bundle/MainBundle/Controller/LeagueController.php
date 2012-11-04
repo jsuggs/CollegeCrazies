@@ -60,38 +60,37 @@ class LeagueController extends Controller
 
 
     /**
-     * @Route("/{leagueId}/picks", name="league_group_picks")
+     * @Route("/{leagueId}/group-picks", name="league_group_picks")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:League:picks.html.twig")
      */
     public function groupPicksAction($leagueId)
     {
         $league = $this->findLeague($leagueId);
-        $user = $this->getUser();
+
         if (!$league->isLocked()) {
-            $this->get('session')->setFlash('warning','You cannot view the group picks until the league locks');
-            return $this->redirect('/');
+            $this->get('session')->setFlash('warning', 'You cannot view the group picks until the league locks');
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $leagueId,
+            )));
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT g from CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate');
-        $games = $query->getResult();
+        $games = $em->createQuery('SELECT g FROM CollegeCraziesMainBundle:Game g ORDER BY g.gameDate')->getResult();
 
-        //TODO only in out league
-        $users = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')->findAll();
-        $query = $em->createQuery('SELECT u, p from CollegeCrazies\Bundle\MainBundle\Entity\User u
-            JOIN u.pickSet p
+        $query = $em->createQuery('SELECT u, p from CollegeCraziesMainBundle:User u
+            JOIN u.pickSets p
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
-            WHERE l.id = 1
+            WHERE l.id = :leagueId
             ORDER BY pg.id');
-        $users = $query->getResult();
+        $users = $query->setParameter('leagueId', $leagueId)->getResult();
 
         $userSorter = $this->get('user.sorter');
         $sortedUsers = $userSorter->sortUsersByPoints($users);
 
-        $curUser = $this->get('security.context')->getToken()->getUser();
+        $curUser = $this->getUser();
 
         return array(
             'games' => $games,
@@ -159,7 +158,7 @@ class LeagueController extends Controller
 
         $user = $this->getUser();
         if (!$user->isInTheLeague($league)) {
-            $this->get('session')->setFlash('warning','You must be in the leage to view the leaderboard');
+            $this->get('session')->setFlash('warning', 'You must be in the leage to view the leaderboard');
             return $this->redirect($this->generateUrl('league_join', array(
                 'leagueId' => 1,
             )));
@@ -168,17 +167,20 @@ class LeagueController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
 
         $users = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCraziesMainBundle:User u
-            JOIN u.pickSet p
+            JOIN u.pickSets p
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
-            WHERE l.id = 1
-            ORDER BY pg.id')->getResult();
+            WHERE l.id = :leagueId
+            ORDER BY pg.id')
+            ->setParameter('leagueId', $leagueId)
+            ->getResult();
 
         $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users);
 
         return array(
             'users' => $sortedUsers,
+            'league' => $league,
         );
     }
 
@@ -235,14 +237,17 @@ class LeagueController extends Controller
         $user = $this->getUser();
         $league = $this->findLeague($leagueId);
 
-        $pickSet = $user->getPickSet();
+        $pickSet = $user->getPicksetForLeague($league);
         if ($pickSet) {
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'id' => $pickSet->getId()
+                'id' => $pickSet->getId(),
+                'leagueId' => $leagueId,
             )));
         }
 
-        return $this->redirect($this->generateUrl('pickset_new'));
+        return $this->redirect($this->generateUrl('pickset_new', array(
+            'leagueId' => $leagueId,
+        )));
     }
 
     private function getLeagueForm(League $league)
@@ -254,12 +259,13 @@ class LeagueController extends Controller
     {
         $league = $this
             ->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\League')
+            ->getRepository('CollegeCraziesMainBundle:League')
             ->find($id);
 
         if (!$league) {
             throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
         }
+
         return $league;
     }
 }

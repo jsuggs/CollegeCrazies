@@ -25,9 +25,9 @@ $(document).ready(function(){
         });
 
         if (setPicks == numPicks) {
-            $("#pick-status span").html('Complete').addClass('success').removeClass('important');
+            $("#pick-status span").html('Complete').addClass('label-success').removeClass('label-important');
         } else {
-            $("#pick-status span").html('Incomplete').addClass('important');
+            $("#pick-status span").html('Incomplete').addClass('label-important');
         }
     }
     checkPickStatus();

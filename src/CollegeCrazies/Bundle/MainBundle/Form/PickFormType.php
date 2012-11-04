@@ -3,6 +3,7 @@
 namespace CollegeCrazies\Bundle\MainBundle\Form;
 
 use CollegeCrazies\Bundle\MainBundle\Form\GameFormType;
+use CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\TeamTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -12,8 +13,8 @@ class PickFormType extends AbstractType
     {
         $builder
             ->add('id', 'hidden')
-            ->add('game', new GameFormType())
-            ->add('team', new TeamFormType())
+            ->add('game', 'hidden_game')
+            ->add('team', 'hidden_team')
             ->add('confidence', 'hidden')
         ;
     }

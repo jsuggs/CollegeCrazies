@@ -17,7 +17,8 @@ class PickSetFormType extends AbstractType
             ->add('tiebreakerHomeTeamScore', 'integer')
             ->add('tiebreakerAwayTeamScore', 'integer')
             ->add('picks', 'collection', array(
-                'type' => new PickFormType()
+                'type' => new PickFormType(),
+                'allow_add' => true,
             ))
         ;
     }

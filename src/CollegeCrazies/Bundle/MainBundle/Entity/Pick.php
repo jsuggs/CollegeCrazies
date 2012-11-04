@@ -50,6 +50,13 @@ class Pick
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        if ($id) {
+            $this->id = $id;
+        }
+    }
+
     public function getTeam()
     {
         return $this->team;

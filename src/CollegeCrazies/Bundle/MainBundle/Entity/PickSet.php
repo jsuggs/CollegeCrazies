@@ -43,7 +43,7 @@ class PickSet
     protected $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet")
+     * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet", cascade={"persist"})
      */
     protected $picks;
 
@@ -80,6 +80,12 @@ class PickSet
     public function addPick(Pick $pick)
     {
         $this->picks[] = $pick;
+        $pick->setPickSet($this);
+    }
+
+    public function removePick(Pick $pick)
+    {
+        $this->picks->remove($pick);
     }
 
     public function setPicks($picks)
@@ -201,6 +207,7 @@ class PickSet
 
     public function isLocked()
     {
+        return false;
         return $this->league
             ? false
             : $this->league->isLocked();
