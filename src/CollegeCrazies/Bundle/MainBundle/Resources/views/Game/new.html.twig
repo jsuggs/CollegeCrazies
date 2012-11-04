@@ -1,0 +1,13 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Create Game</h3>
+
+    <form action="{{ path('game_create') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+        {% include 'CollegeCraziesMainBundle:Game:form.html.twig' %}
+
+        <div class="control-group">
+            <input type="submit" class="btn btn-primary" value="Create Game" />
+        </div>
+    </form>
+{% endblock %}

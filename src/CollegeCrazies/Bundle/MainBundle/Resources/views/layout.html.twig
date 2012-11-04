@@ -21,6 +21,8 @@
                 <a class="brand" href="#">College Crazies</a>
                 <ul class="nav">
                     {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
+                        <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
                         <li><a href="{{ path('user_list') }}">Manage Users</a></li>
                     {% endif %}
                 </ul>

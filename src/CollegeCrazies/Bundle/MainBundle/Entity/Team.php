@@ -46,4 +46,9 @@ class Team
     {
         $this->name = $name;
     }
+
+    public function __toString()
+    {
+        return sprintf('%s - %s', $this->id, $this->name);
+    }
 }

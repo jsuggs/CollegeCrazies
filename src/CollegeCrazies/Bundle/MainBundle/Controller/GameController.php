@@ -4,29 +4,33 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @Route("/game")
+ */
 class GameController extends Controller
 {
     /**
-     * @Route("/game/list", name="game_list")
+     * @Route("/list", name="game_list")
      * @Template("CollegeCraziesMainBundle:Game:list.html.twig")
      */
     public function listAction()
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        
-        $upcomingQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
+
+        $upcomingQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g
             WHERE g.homeTeamScore is null
-            ORDER BY g.gameDate')->setMaxResults(5); 
+            ORDER BY g.gameDate')->setMaxResults(5);
         $upcoming = $upcomingQuery->getResult();
 
-        $completedQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g 
+        $completedQuery = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g
             WHERE g.homeTeamScore is not null
-            ORDER BY g.gameDate desc'); 
+            ORDER BY g.gameDate desc');
         $completed = $completedQuery->getResult();
 
         return array(
@@ -36,18 +40,16 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/admin/game/list", name="game_admin")
+     * @Route("/admin/list", name="game_admin")
+     * @Secure(roles="ROLE_ADMIN")
      * @Template("CollegeCraziesMainBundle:Game:admin.html.twig")
      */
     public function adminAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
 
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
-        }
         $em = $this->get('doctrine.orm.entity_manager');
-        
+
         $query = $em->createQuery('SELECT g FROM CollegeCrazies\Bundle\MainBundle\Entity\Game g ORDER BY g.gameDate');
         $games = $query->getResult();
 
@@ -57,18 +59,58 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/admin/game/edit/{id}", name="game_edit")
-     * @Template("CollegeCraziesMainBundle:Game:edit.html.twig")
+     * @Route("/admin/new", name="game_new")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template
      */
-    public function editAction($id)
+    public function newAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $game = new Game();
+        $form = $this->getGameForm($game);
 
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
+        return array(
+            'form' => $form->createView(),
+            'game' => $game,
+        );
+    }
+
+    /**
+     * @Route("/admin/create", name="game_create")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("CollegeCraziesMainBundle:Game:new.html.twig")
+     */
+    public function createAction()
+    {
+        $game = new Game();
+        $form = $this->getGameForm($game);
+        $form->bindRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            $game = $form->getData();
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($game);
+            $em->flush();
+            $this->get('session')->setFlash('success', 'Game Created');
+
+            return $this->redirect($this->generateUrl('game_edit', array(
+                'gameId' => $game->getId()
+            )));
         }
-        $em = $this->get('doctrine.orm.entity_manager');
-        $game = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->find($id);
+
+        return array(
+            'game' => $game,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/admin/game/edit/{gameId}", name="game_edit")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template
+     */
+    public function editAction($gameId)
+    {
+        $game = $this->findGame($gameId);
         $form = $this->getGameForm($game);
 
         return array(
@@ -78,19 +120,14 @@ class GameController extends Controller
     }
 
     /**
-     * @Route("/admin/game/update/{id}", name="game_update")
+     * @Route("/admin/game/update/{gameId}", name="game_update")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("CollegeCraziesMainBundle:Game:edit.html.twig")
      */
-    public function updateAction($id)
+    public function updateAction($gameId)
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        if ($user == 'anon.') {
-            throw new AccessDeniedException();
-        }
-        $em = $this->get('doctrine.orm.entity_manager');
-        $game = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->find($id);
+        $game = $this->findGame($gameId);
         $form = $this->getGameForm($game);
-
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
@@ -98,26 +135,28 @@ class GameController extends Controller
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($game);
             $em->flush();
-            $this->get('session')->setFlash('success','Game updated successfully');
+            $this->get('session')->setFlash('success', 'Game updated successfully');
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(
-            'id' => $game->getId()
+            'gameId' => $game->getId()
         )));
     }
 
-    private function findGame($id)
+    private function findGame($gameId)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $game = $em->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')->find($id);
+        $game = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')
+            ->find($gameId);
+
         if (!$game) {
-            throw new \NotFoundHttpException(sprintf('There was no game with id = %s', $id));
+            throw new \NotFoundHttpException(sprintf('There was no game with id = %s', $gameId));
         }
 
         return $game;
     }
 
-    private function getGameForm(Game $game)
+    private function getGameForm(Game $game = null)
     {
         return $this->createForm(new GameEditFormType(), $game);
     }

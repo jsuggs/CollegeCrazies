@@ -14,6 +14,12 @@ class GameEditFormType extends AbstractType
             ->add('name', 'text')
             ->add('network', 'text')
             ->add('gamedate', 'datetime')
+            ->add('homeTeam', 'entity', array(
+                'class' => 'CollegeCraziesMainBundle:Team',
+            ))
+            ->add('awayTeam', 'entity', array(
+                'class' => 'CollegeCraziesMainBundle:Team',
+            ))
             ->add('homeTeamScore', 'integer', array('required' => false))
             ->add('awayTeamScore', 'integer', array('required' => false))
             ->add('description', 'textarea', array('required' => false))

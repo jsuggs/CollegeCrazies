@@ -2,34 +2,60 @@
     {{ form_errors(form) }}
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.name, "Name") }}
-    {{ form_widget(form.name) }}
+<div class="control-group">
+    {{ form_label(form.name, "Name", {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.name) }}
+    </div>
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.network, "Network") }}
-    {{ form_widget(form.network) }}
+<div class="control-group">
+    {{ form_label(form.network, "Network", {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.network) }}
+    </div>
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.gamedate, "Date") }}
-    {{ form_widget(form.gamedate) }}
+<div class="control-group">
+    {{ form_label(form.gamedate, "Date", {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.gamedate) }}
+    </div>
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.homeTeamScore, game.homeTeam.name ~ ' Score') }}
-    {{ form_widget(form.homeTeamScore) }}
+<div class="control-group">
+    {{ form_label(form.homeTeam, 'Home Team', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.homeTeam) }}
+    </div>
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.awayTeamScore, game.awayTeam.name ~ ' Score') }}
+<div class="control-group">
+    {{ form_label(form.homeTeamScore, 'Home Team Score', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.homeTeamScore) }}
+    </div>
+</div>
+
+<div class="control-group">
+    {{ form_label(form.awayTeam, 'Away Team', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.awayTeam) }}
+    </div>
+</div>
+
+<div class="control-group">
+    {{ form_label(form.awayTeamScore, 'Away Team Score', {label_attr: {class: 'control-label'}}) }}
+        <div class="controls">
     {{ form_widget(form.awayTeamScore) }}
+    </div>
 </div>
 
-<div class="clearfix">
-    {{ form_label(form.description) }}
-    {{ form_widget(form.description) }}
+<div class="control-group">
+    {{ form_label(form.description, 'Description', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.description) }}
+    </div>
 </div>
 
 {{ form_rest(form) }}
