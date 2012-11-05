@@ -5,6 +5,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,6 +19,7 @@ class GameController extends Controller
     /**
      * @Route("/list", name="game_list")
      * @Template("CollegeCraziesMainBundle:Game:list.html.twig")
+     * @Cache(expires="+5 minutes")
      */
     public function listAction()
     {
