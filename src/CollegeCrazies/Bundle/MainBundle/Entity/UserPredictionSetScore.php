@@ -22,6 +22,12 @@ class UserPredictionSetScore
 
     /**
      * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="League")
+     */
+    protected $league;
+
+    /**
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="PredictionSet")
      */
     protected $predictionSet;
