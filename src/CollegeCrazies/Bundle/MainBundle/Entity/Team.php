@@ -27,6 +27,14 @@ class Team
      */
     protected $name;
 
+    /**
+     * Predictions
+     *
+     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner")
+     * @var Prediction
+     */
+    protected $predictions;
+
     public function getId()
     {
         return $this->id;

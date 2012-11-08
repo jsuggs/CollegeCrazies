@@ -52,6 +52,20 @@
 </div>
 
 <div class="control-group">
+    {{ form_label(form.spread, 'Spread', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.spread) }}
+    </div>
+</div>
+
+<div class="control-group">
+    {{ form_label(form.overunder, 'Over Under', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.overunder) }}
+    </div>
+</div>
+
+<div class="control-group">
     {{ form_label(form.description, 'Description', {label_attr: {class: 'control-label'}}) }}
     <div class="controls">
         {{ form_widget(form.description) }}

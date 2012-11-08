@@ -5,6 +5,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueJoinFormType;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
+use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

@@ -133,7 +133,6 @@ class GameController extends Controller
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $game = $form->getData();
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($game);
             $em->flush();

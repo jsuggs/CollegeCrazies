@@ -57,6 +57,11 @@ class PickSet
      */
     protected $tiebreakerAwayTeamScore;
 
+    /**
+     * @ORM\OneToMany(targetEntity="UserPredictionSetScore", mappedBy="pickSet")
+     */
+    protected $predictionScores;
+
     public function getId()
     {
         return $this->id;

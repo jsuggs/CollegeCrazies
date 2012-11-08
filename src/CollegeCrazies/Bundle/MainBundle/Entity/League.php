@@ -138,4 +138,9 @@ class League
     {
         return $this->users->contains($user);
     }
+
+    public function getPickSets()
+    {
+        return $this->pickSets;
+    }
 }

@@ -34,3 +34,11 @@ services:
         arguments: ["@transformer.game"]
         tags:
             - { name: form.type, alias: hidden_game }
+
+    projection.generator:
+        class: CollegeCrazies\Bundle\MainBundle\Service\PredictionGenerator
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    pickset.analyzer:
+        class: CollegeCrazies\Bundle\MainBundle\Service\PicksetAnalyzer
+        arguments: ["@doctrine.dbal.default_connection"]

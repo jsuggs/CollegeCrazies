@@ -42,6 +42,22 @@ class Game
     protected $awayTeam;
 
     /**
+     * The spread of the game
+     *
+     * @ORM\Column(type="float")
+     * @var float
+     */
+    protected $spread;
+
+    /**
+     * The over/under
+     *
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $overunder;
+
+    /**
      * Gametime baby
      *
      * @ORM\Column(type="datetime")
@@ -80,6 +96,14 @@ class Game
      * @var string
      */
     protected $description;
+
+    /**
+     * Predictions
+     *
+     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="game")
+     * @var Prediction
+     */
+    protected $predictions;
 
     public function getId()
     {
@@ -169,6 +193,26 @@ class Game
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getSpread()
+    {
+        return $this->spread;
+    }
+
+    public function setSpread($spread)
+    {
+        $this->spread = $spread;
+    }
+
+    public function getOverunder()
+    {
+        return $this->overunder;
+    }
+
+    public function setOverunder($overunder)
+    {
+        $this->overunder = $overunder;
     }
 
     public function isComplete()
