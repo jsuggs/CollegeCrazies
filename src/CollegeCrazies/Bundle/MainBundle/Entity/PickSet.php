@@ -217,4 +217,54 @@ class PickSet
             ? false
             : $this->league->isLocked();
     }
+
+    public function getAveragePredictionScore()
+    {
+        $scores = $this->getPredictionScores();
+        return array_sum($scores) / count($scores);
+    }
+
+    public function getHighestPredictionScore()
+    {
+        $scores = $this->getPredictionScores();
+        return max($scores);
+    }
+
+    public function getLowestPredictionScore()
+    {
+        $scores = $this->getPredictionScores();
+        return min($scores);
+    }
+
+    public function getAveragePredictionFinish()
+    {
+        $finishes = $this->getPredictionFinishes();
+        return array_sum($finishes) / count($finishes);
+    }
+
+    public function getHigestPredictionFinish()
+    {
+        $finishes = $this->getPredictionFinishes();
+        return min($finishes);
+    }
+
+    public function getLowestPredictionFinish()
+    {
+        $finishes = $this->getPredictionFinishes();
+        return max($finishes);
+    }
+
+    protected function getPredictionScores()
+    {
+        return array_map(function (UserPredictionSetScore $setScore) {
+            return $setScore->getScore();
+        }, $this->predictionScores->toArray());
+    }
+
+    protected function getPredictionFinishes()
+    {
+        return array_map(function (UserPredictionSetScore $setScore) {
+            return $setScore->getFinish();
+        }, $this->predictionScores->toArray());
+    }
 }

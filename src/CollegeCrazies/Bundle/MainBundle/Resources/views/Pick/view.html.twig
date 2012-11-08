@@ -2,7 +2,30 @@
 
 {% block content %}
     <h2>{{ pickSet.name }}</h2>
-    <table class="zebra-striped condensed-table">
+
+    <h3>Projected Stats</h3>
+    <p>Based on 5000 scenarios, here are some projections for this pickset.</p>
+    <dl>
+        <dt>Average Finish</dt>
+        <dd>{{ pickSet.getAveragePredictionFinish() }}</dd>
+
+        <dt>Best Finish</dt>
+        <dd>{{ pickSet.getHigestPredictionFinish() }}</dd>
+
+        <dt>Worst Finish</dt>
+        <dd>{{ pickSet.getLowestPredictionFinish() }}</dd>
+
+        <dt>Average Score</dt>
+        <dd>{{ pickSet.getAveragePredictionScore() }}</dd>
+
+        <dt>Best Score</dt>
+        <dd>{{ pickSet.getHighestPredictionScore() }}</dd>
+
+        <dt>Worst Score</dt>
+        <dd>{{ pickSet.getLowestPredictionScore() }}</dd>
+    </dl>
+
+    <table class="table table-striped table-condensed">
         <thead bgcolor=#CCCCCC>
             <th>Bowl</th>
             <th>Favorite</th>

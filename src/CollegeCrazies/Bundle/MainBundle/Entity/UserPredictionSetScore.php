@@ -37,10 +37,30 @@ class UserPredictionSetScore
      */
     protected $score;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $finish;
+
     public function __construct(User $user, PredictionSet $predictionSet, PickSet $pickSet)
     {
         $this->user = $user;
         $this->predictionSet = $predictionSet;
         $this->pickSet = $pickSet;
+    }
+
+    public function setFinish($finish)
+    {
+        $this->finish = $finish;
+    }
+
+    public function getFinish()
+    {
+        return $this->finish;
+    }
+
+    public function getScore()
+    {
+        return $this->score;
     }
 }
