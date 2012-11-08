@@ -20,7 +20,8 @@
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
         "friendsofsymfony/user-bundle": "*",
-        "monolog/monolog": "1.2.*"
+        "monolog/monolog": "1.2.*",
+        "flot/flot": "master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -43,5 +44,19 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "flot/flot",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/jsuggs/flot.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
 }
