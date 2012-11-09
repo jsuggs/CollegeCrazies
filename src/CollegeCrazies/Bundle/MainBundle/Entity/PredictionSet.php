@@ -41,4 +41,13 @@ class PredictionSet
     {
         $this->predictions = $predictions;
     }
+
+    public function findPredictionByGame(Game $game)
+    {
+        foreach ($this->predictions as $prediction) {
+            if ($prediction->getGame() == $game) {
+                return $prediction;
+            }
+        }
+    }
 }

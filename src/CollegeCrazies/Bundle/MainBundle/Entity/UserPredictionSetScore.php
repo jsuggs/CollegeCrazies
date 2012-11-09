@@ -69,4 +69,9 @@ class UserPredictionSetScore
     {
         return $this->score;
     }
+
+    public function getPredictionSet()
+    {
+        return $this->predictionSet;
+    }
 }

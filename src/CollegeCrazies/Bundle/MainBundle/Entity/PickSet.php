@@ -218,6 +218,15 @@ class PickSet
             : $this->league->isLocked();
     }
 
+    public function getUserPredictionSetScoreForPredictionSet(PredictionSet $predictionSet)
+    {
+        foreach ($this->predictionScores as $predictionScore) {
+            if ($predictionScore->getPredictionSet() == $predictionSet) {
+                return $predictionScore;
+            }
+        }
+    }
+
     public function getAveragePredictionScore()
     {
         $scores = $this->getPredictionScores();

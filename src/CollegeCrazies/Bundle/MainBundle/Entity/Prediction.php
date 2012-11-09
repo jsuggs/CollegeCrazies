@@ -78,4 +78,9 @@ class Prediction
     {
         return $this->game;
     }
+
+    public function getWinner()
+    {
+        return $this->winner;
+    }
 }

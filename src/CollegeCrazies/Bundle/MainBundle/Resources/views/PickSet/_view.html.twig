@@ -1,0 +1,76 @@
+<table class="table table-striped table-condensed">
+    <thead bgcolor=#CCCCCC>
+        <th>Bowl</th>
+        <th>Favorite</th>
+        <th>Confidence</th>
+        <th>Underdog</th>
+        <th>Date</th>
+    </thead>
+    <tbody>
+    {% for pick in pickSet.picks %}
+        {% set gameComplete = predictionSet is defined ? true : pick.game.complete %}
+        {% set prediction = predictionSet is defined ? predictionSet.findPredictionByGame(pick.game) : pick.game %}
+        {% if gameComplete %}
+            {% set gameWinner = predictionSet is defined ? prediction.winner : pick.game.winner %}
+            {% set pickCorrect = (gameWinner == pick.team) %}
+            {% set homeTeamScore = prediction is defined ? prediction.homeTeamScore : pick.game.homeTeamScore %}
+            {% set awayTeamScore = prediction is defined ? prediction.awayTeamScore : pick.game.awayTeamScore %}
+        {% endif %}
+        <tr>
+            <td>{{ pick.game.name }}</td>
+            <td>
+                {%if gameComplete and gameWinner == pick.game.homeTeam  %}
+                    <strong>{{ pick.game.homeTeam.name}}</strong>
+                {% else %}
+                    {{ pick.game.homeTeam.name }}
+                {% endif %}
+
+                {% if gameComplete %}
+                    ({{ homeTeamScore }})
+                    {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %}
+                        {% if pickCorrect %}
+                            <img src="/img/greencheck.png" height="16" width="16" />
+                        {% else %}
+                            <img src="/img/redx.png" height="16" width="16" />
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                {% endif %}
+            </td>
+            <td class="confidence">
+                {% if not gameComplete %}
+                    <span class="confDisplay">{{ pick.confidence }}</span>
+                {% else %}
+                    {% if not pickCorrect %}
+                        <del>{{pick.confidence}}</del>
+                    {% else %}
+                        <b>{{ pick.confidence }}</b>
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {%if gameComplete and gameWinner == pick.game.awayTeam  %}
+                    <strong>{{ pick.game.awayTeam.name}}</strong>
+                {% else %}
+                    {{ pick.game.awayTeam.name }}
+                {% endif %}
+
+                {% if gameComplete %}
+                    ({{ awayTeamScore }})
+                    {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %}
+                        {% if pickCorrect %}
+                            <img src="/img/greencheck.png" height="16" width="16" />
+                        {% else %}
+                            <img src="/img/redx.png" height="16" width="16" />
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                {% endif %}
+            </td>
+            <td>{{ pick.game.gameDate|date('m/d/Y g:i a') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
