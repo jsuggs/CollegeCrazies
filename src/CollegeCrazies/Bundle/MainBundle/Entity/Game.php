@@ -228,4 +228,9 @@ class Game
 
         return ($this->homeTeamScore > $this->awayTeamScore) ? $this->homeTeam : $this->awayTeam;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
