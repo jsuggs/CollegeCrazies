@@ -230,6 +230,49 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/{leagueId}/edit", name="league_edit")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function editAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $form = $this->getLeagueForm($league);
+
+        return array(
+            'form' => $form->createView(),
+            'league' => $league,
+        );
+    }
+
+    /**
+     * @Route("/{leagueId}/update", name="league_update")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:edit.html.twig")
+     */
+    public function updateAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $form = $this->getLeagueForm($league);
+        $form->bindRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            $em = $this->get('doctrine.orm.entity_manager')->flush();
+
+            return $this->redirect($this->generateUrl('league_edit', array(
+                'leagueId' => $leagueId,
+            )));
+        }
+
+        $this->get('session')->setFlash('error', 'Error editing the league');
+
+        return array(
+            'form' => $form->createView(),
+            'league' => $league,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/picks", name="league_picks")
      * @Secure(roles="ROLE_USER")
      */

@@ -11,6 +11,14 @@
 </div>
 
 <div class="control-group">
+    {{ form_errors(form.motto) }}
+    {{ form_label(form.motto, 'Motto', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.motto) }}
+    </div>
+</div>
+
+<div class="control-group">
     {{ form_errors(form.password) }}
     {{ form_label(form.password, 'Password', {label_attr: {class: 'control-label'}}) }}
     <div class="controls">

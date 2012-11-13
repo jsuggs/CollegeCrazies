@@ -28,6 +28,11 @@ class League
     protected $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $motto;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     protected $password;
@@ -71,6 +76,16 @@ class League
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setMotto($motto)
+    {
+        $this->motto = $motto;
+    }
+
+    public function getMotto()
+    {
+        return $this->motto;
     }
 
     public function setPassword($password)

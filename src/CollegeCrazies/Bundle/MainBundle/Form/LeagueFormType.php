@@ -11,6 +11,7 @@ class LeagueFormType extends AbstractType
     {
         $builder
             ->add('name', 'text')
+            ->add('motto', 'textarea')
             ->add('password', 'text')
             ->add('public', 'checkbox', array(
                 'required' => false,
