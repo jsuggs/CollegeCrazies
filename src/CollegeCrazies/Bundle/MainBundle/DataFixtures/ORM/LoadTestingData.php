@@ -63,15 +63,15 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
 
         // Games
         $games = array();
-        $games[] = $bcs     = $this->createGame($manager, $bama, $ore,  'BCS Championship', 'ESPN', new \DateTime('2013-01-07 18:30:00'), 7.5, 51);
-        $games[] = $godaddy = $this->createGame($manager, $ohio, $wku,  'GoDaddy.com',      'NBC',  new \DateTime('2013-01-06 12:30:00'), 3, 39);
-        $games[] = $bbva    = $this->createGame($manager, $pitt, $tenn, 'BBVA Compass',     'ABC',  new \DateTime('2013-01-05 18:30:00'), 7.5, 51);
-        $games[] = $att     = $this->createGame($manager, $tex,  $txam, 'AT&T Cotton',      'ABC',  new \DateTime('2013-01-04 18:30:00'), 7.5, 51);
-        $games[] = $fies    = $this->createGame($manager, $kst,  $nd,   'Tostitos Fiesta',  'ESPN', new \DateTime('2013-01-03 18:35:00'), 7.5, 51);
-        $games[] = $allst   = $this->createGame($manager, $lsu,  $ou,   'Allstate Sugar',   'NCB',  new \DateTime('2013-01-02 18:00:00'), 7.5, 51);
-        $games[] = $disc    = $this->createGame($manager, $fsu,  $lou,  'Discover Orange',  'ABC',  new \DateTime('2013-01-01 19:30:00'), 7.5, 51);
-        $games[] = $rose    = $this->createGame($manager, $osu,  $neb,  'Rose Bowl',        'ESPN', new \DateTime('2013-01-01 14:00:00'), 7.5, 51);
-        $games[] = $cap1    = $this->createGame($manager, $mich, $uga,  'Capital One',      'ESPN', new \DateTime('2013-01-01 11:25:00'), 7.5, 51);
+        $games[] = $bcs     = $this->createGame($manager, $bama, $ore,  'BCS Championship', 'ESPN', new \DateTime('2013-01-07 18:30:00'), 7.5,  51);
+        $games[] = $godaddy = $this->createGame($manager, $ohio, $wku,  'GoDaddy.com',      'NBC',  new \DateTime('2013-01-06 12:30:00'), 3,    39);
+        $games[] = $bbva    = $this->createGame($manager, $pitt, $tenn, 'BBVA Compass',     'ABC',  new \DateTime('2013-01-05 18:30:00'), 6,    45);
+        $games[] = $att     = $this->createGame($manager, $txam, $tex,  'AT&T Cotton',      'ABC',  new \DateTime('2013-01-04 18:30:00'), 9.5,  63);
+        $games[] = $fies    = $this->createGame($manager, $kst,  $nd,   'Tostitos Fiesta',  'ESPN', new \DateTime('2013-01-03 18:35:00'), 2.5,  39);
+        $games[] = $allst   = $this->createGame($manager, $lsu,  $ou,   'Allstate Sugar',   'NCB',  new \DateTime('2013-01-02 18:00:00'), 10.5, 47);
+        $games[] = $disc    = $this->createGame($manager, $fsu,  $lou,  'Discover Orange',  'ABC',  new \DateTime('2013-01-01 19:30:00'), 14.5, 74);
+        $games[] = $rose    = $this->createGame($manager, $osu,  $neb,  'Rose Bowl',        'ESPN', new \DateTime('2013-01-01 14:00:00'), 6.5,  57);
+        $games[] = $cap1    = $this->createGame($manager, $uga,  $mich, 'Capital One',      'ESPN', new \DateTime('2013-01-01 11:25:00'), 10.5, 62);
 
         $manager->flush();
 
