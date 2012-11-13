@@ -3,7 +3,6 @@
 namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
-use CollegeCrazies\Bundle\MainBundle\Form\LeagueJoinFormType;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -12,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/league")
@@ -22,7 +20,7 @@ class LeagueController extends Controller
     /**
      * @Route("/{leagueId}/home", name="league_home")
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function homeAction($leagueId)
     {
@@ -46,7 +44,7 @@ class LeagueController extends Controller
 
     /**
      * @Route("/find", name="league_find")
-     * @Template()
+     * @Template
      */
     public function findAction()
     {
@@ -58,7 +56,6 @@ class LeagueController extends Controller
             'leagues' => $leagues,
         );
     }
-
 
     /**
      * @Route("/{leagueId}/group-picks", name="league_group_picks")
@@ -104,7 +101,7 @@ class LeagueController extends Controller
     /**
      * @Route("/{leagueId}/join", name="league_join")
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function joinAction($leagueId)
     {
@@ -138,20 +135,10 @@ class LeagueController extends Controller
         );
     }
 
-    private function addUserToLeague(League $league, User $user)
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $user->addLeague($league);
-
-        $em->persist($league);
-        $em->persist($user);
-        $em->flush();
-    }
-
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function leaderboardAction($leagueId)
     {
@@ -159,9 +146,9 @@ class LeagueController extends Controller
 
         $user = $this->getUser();
         if (!$user->isInTheLeague($league)) {
-            $this->get('session')->setFlash('warning', 'You must be in the leage to view the leaderboard');
+            $this->get('session')->setFlash('warning', 'You must be in the league to view the leaderboard');
             return $this->redirect($this->generateUrl('league_join', array(
-                'leagueId' => 1,
+                'leagueId' => $leagueId,
             )));
         }
 
@@ -188,7 +175,7 @@ class LeagueController extends Controller
     /**
      * @Route("/new", name="league_new")
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function newAction()
     {
@@ -204,7 +191,7 @@ class LeagueController extends Controller
      * @Route("/create", name="league_create")
      * @Method({"POST"})
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function createAction()
     {
@@ -237,6 +224,19 @@ class LeagueController extends Controller
     public function editAction($leagueId)
     {
         $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        } elseif (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to edit this league');
+
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $league->getId(),
+            )));
+        }
+
         $form = $this->getLeagueForm($league);
 
         return array(
@@ -253,6 +253,19 @@ class LeagueController extends Controller
     public function updateAction($leagueId)
     {
         $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        } elseif (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to edit this league');
+
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $league->getId(),
+            )));
+        }
+
         $form = $this->getLeagueForm($league);
         $form->bindRequest($this->getRequest());
 
@@ -297,6 +310,21 @@ class LeagueController extends Controller
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);
+    }
+
+    private function addUserToLeague(League $league, User $user)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $user->addLeague($league);
+
+        $em->persist($league);
+        $em->persist($user);
+        $em->flush();
+    }
+
+    private function canUserEditLeague(User $user, League $league)
+    {
+        return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
     }
 
     private function findLeague($id)

@@ -34,5 +34,13 @@
     </div>
 </div>
 
+<div class="control-group">
+    {{ form_errors(form.commissioners) }}
+    {{ form_label(form.commissioners, 'Commissioners', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.commissioners) }}
+    </div>
+</div>
+
 {{ form_widget(form._token) }}
 {{ form_rest(form) }}

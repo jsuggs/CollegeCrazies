@@ -44,6 +44,12 @@ class League
     protected $users;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="commissionerLeagues")
+     * @ORM\JoinTable("league_commissioners")
+     */
+    protected $commissioners;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $lockTime;
@@ -157,5 +163,26 @@ class League
     public function getPickSets()
     {
         return $this->pickSets;
+    }
+
+    public function addCommissioner(User $user)
+    {
+        if (!$this->users->contains($user)) {
+            throw new \Exception('You must be a member of the league to be a commissioner');
+        }
+
+        if (!$this->commissioners->contains($user)) {
+            $this->commissioners[] = $user;
+        }
+    }
+
+    public function getCommissioners()
+    {
+        return $this->commissioners;
+    }
+
+    public function userIsCommissioner(User $user)
+    {
+        return $this->commissioners->contains($user);
     }
 }

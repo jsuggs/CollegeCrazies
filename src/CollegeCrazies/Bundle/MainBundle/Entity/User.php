@@ -34,6 +34,11 @@ class User extends BaseUser
      */
     protected $pickSets;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners")
+     */
+    protected $commissionerLeagues;
+
     public function getId()
     {
         return $this->id;

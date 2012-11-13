@@ -16,6 +16,10 @@ class LeagueFormType extends AbstractType
             ->add('public', 'checkbox', array(
                 'required' => false,
             ))
+            ->add('commissioners', 'entity', array(
+                'multiple' => true,
+                'class' => 'CollegeCraziesMainBundle:User',
+            ))
         ;
     }
 
