@@ -1,6 +1,9 @@
 <table class="table table-striped table-condensed">
     <thead bgcolor=#CCCCCC>
         <th>Bowl</th>
+        {% if predictionSet is defined %}
+            <th>Your Pick</th>
+        {% endif %}
         <th>Favorite</th>
         <th>Confidence</th>
         <th>Underdog</th>
@@ -18,6 +21,9 @@
         {% endif %}
         <tr>
             <td>{{ pick.game.name }}</td>
+            {% if predictionSet is defined %}
+                <td>{{ pick.team.name }}</td>
+            {% endif %}
             <td>
                 {%if gameComplete and gameWinner == pick.game.homeTeam  %}
                     <strong>{{ pick.game.homeTeam.name}}</strong>
