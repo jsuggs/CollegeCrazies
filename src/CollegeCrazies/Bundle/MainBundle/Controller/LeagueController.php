@@ -86,7 +86,7 @@ class LeagueController extends Controller
         $users = $query->setParameter('leagueId', $leagueId)->getResult();
 
         $userSorter = $this->get('user.sorter');
-        $sortedUsers = $userSorter->sortUsersByPoints($users);
+        $sortedUsers = $userSorter->sortUsersByPoints($users, $league);
 
         $curUser = $this->getUser();
 
@@ -164,7 +164,7 @@ class LeagueController extends Controller
             ->setParameter('leagueId', $leagueId)
             ->getResult();
 
-        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users);
+        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users, $league);
 
         return array(
             'users' => $sortedUsers,

@@ -31,10 +31,11 @@
                 <td>-</td>
             </tr>
             {% for user in users %}
+                {% set userPickSet = user.getPicksetForLeague(league) %}
                 <tr>
-                    <td class="first-col pickname"><a href="{{ path('pickset_view', {'id': user.pickSet.id }) }}">{{ user.pickset.name }}</a></td>
+                    <td class="first-col pickname"><a href="{{ path('pickset_view', {'id': userPickSet.id }) }}">{{ userPickSet.name }}</a></td>
                     {% for game in games %}
-                        {% set pick = user.pickset.findPickByGame(game) %}
+                        {% set pick = userPickSet.findPickByGame(game) %}
                         {% if pick.game.complete %}
                             {% if pick.team == pick.game.winner %}
                                 {% set pickClass="correct" %}
@@ -48,12 +49,12 @@
                         {% if user == curUser %}
                             <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
                         {% else %}
-                            {% set samePick = (curUser.pickset.findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
+                            {% set samePick = (curUser.getPicksetForLeague(league).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
                             <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
                         {% endif %}
                     {% endfor %}
-                    <td>{{ user.pickset.points }}</td>
-                    <td>{{ user.pickset.pointsPossible }}</td>
+                    <td>{{ userPickSet.points }}</td>
+                    <td>{{ userPickSet.pointsPossible }}</td>
                 </tr>
             {% endfor %}
         </tbody>
