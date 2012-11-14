@@ -2,6 +2,7 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,6 +69,13 @@ class League
      * @ORM\OneToMany(targetEntity="PickSet", mappedBy="league")
      */
     protected $pickSets;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->commissioners = new ArrayCollection();
+        $this->pickSets = new ArrayCollection();
+    }
 
     public function getId()
     {

@@ -180,6 +180,8 @@ class LeagueController extends Controller
     public function newAction()
     {
         $league = new League();
+        $league->addUser($this->getUser());
+        $league->addCommissioner($this->getUser());
         $form = $this->getLeagueForm($league);
 
         return array(
@@ -202,6 +204,7 @@ class LeagueController extends Controller
         if ($form->isValid()) {
             $league = $form->getData();
             $league->addUser($this->getUser());
+            $league->addCommissioner($this->getUser());
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($league);
             $em->flush();
