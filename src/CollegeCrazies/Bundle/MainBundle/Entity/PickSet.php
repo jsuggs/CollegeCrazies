@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A collection of picks for a given leage
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PickSetRepository")
  * @ORM\Table(
  *      name="picksets"
  * )

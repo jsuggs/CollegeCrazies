@@ -12,13 +12,17 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
+/**
+ * @Route("/pickset")
+ */
 class PickController extends Controller
 {
     /**
-     * @Route("/pickset/list", name="pickset_list")
+     * @Route("/list", name="pickset_list")
      * @Secure(roles="ROLE_USER")
      * @Template()
      */
@@ -30,7 +34,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/new", name="pickset_new")
+     * @Route("/new", name="pickset_new")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
@@ -67,7 +71,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/league/{leagueId}/{picksetId}", name="pickset_league")
+     * @Route("/league/{leagueId}/{picksetId}", name="pickset_league")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
@@ -93,7 +97,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/edit/{id}", name="pickset_edit")
+     * @Route("/edit/{id}", name="pickset_edit")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
      */
@@ -125,7 +129,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/view/{id}", name="pickset_view")
+     * @Route("/view/{id}", name="pickset_view")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:view.html.twig")
      */
@@ -134,10 +138,10 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->getUser();
 
-        if ($pickSet->getUser() !== $user && !$pickSet->isLocked()) {
-            $this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
-            return $this->redirect('/');
-        }
+        //if (!$this->get('security.context')->isGranted('ROLE_ADMIN') || $pickSet->getUser() !== $user && !$pickSet->isLocked()) {
+            //$this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
+            //return $this->redirect('/');
+        //}
 
         return array(
             'pickSet' => $pickSet,
@@ -145,7 +149,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/create", name="pickset_create")
+     * @Route("/create", name="pickset_create")
      * @Secure(roles="ROLE_USER")
      */
     public function createPickAction()
@@ -174,7 +178,7 @@ class PickController extends Controller
     }
 
     /**
-     * @Route("/pickset/update/{id}", name="pickset_update")
+     * @Route("/update/{id}", name="pickset_update")
      * @Secure(roles="ROLE_USER")
      */
     public function updatePickAction($id)
@@ -198,6 +202,21 @@ class PickController extends Controller
         return $this->redirect($this->generateUrl('pickset_edit', array(
             'id' => $pickSet->getId()
         )));
+    }
+
+    /**
+     * @Route("/data/{pickSetId}", name="pickset_data")
+     * @Secure(roles="ROLE_USER")
+     */
+    public function dataAction($pickSetId)
+    {
+        $pickSet = $this->findPickSet($pickSetId);
+
+        $data = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:PickSet')
+            ->getPickDistribution($pickSet, $pickSet->getLeague());
+
+        return new JsonResponse($data);
     }
 
     private function getPickForm(Pick $pick)
