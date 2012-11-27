@@ -3,6 +3,8 @@
 namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
+use CollegeCrazies\Bundle\MainBundle\Form\LeagueNoteFormType;
+use CollegeCrazies\Bundle\MainBundle\Form\LeagueLockFormType;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -26,6 +28,7 @@ class LeagueController extends Controller
     {
         $league = $this->findLeague($leagueId);
         $user = $this->getUser();
+        $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->userCanView($user)) {
             $this->get('session')->setFlash('warning', 'You cannot view this league');
@@ -39,6 +42,7 @@ class LeagueController extends Controller
         return array(
             'league' => $league,
             'users' => $users,
+            'pickSet' => $pickSet,
         );
     }
 
@@ -66,7 +70,7 @@ class LeagueController extends Controller
     {
         $league = $this->findLeague($leagueId);
 
-        if (!$league->isLocked()) {
+        if (!$league->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot view the group picks until the league locks');
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $leagueId,
@@ -136,6 +140,33 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/{leagueId}/members", name="league_members")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function membersAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+        $pickSet = $league->getPicksetForUser($user);
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        }
+
+        $members = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:User')
+            ->findUsersInLeague($league);
+
+        return array(
+            'league' => $league,
+            'members' => $members,
+            'pickSet' => $pickSet,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @Secure(roles="ROLE_USER")
      * @Template
@@ -143,8 +174,9 @@ class LeagueController extends Controller
     public function leaderboardAction($leagueId)
     {
         $league = $this->findLeague($leagueId);
-
         $user = $this->getUser();
+        $pickSet = $league->getPicksetForUser($user);
+
         if (!$user->isInTheLeague($league)) {
             $this->get('session')->setFlash('warning', 'You must be in the league to view the leaderboard');
             return $this->redirect($this->generateUrl('league_join', array(
@@ -169,6 +201,7 @@ class LeagueController extends Controller
         return array(
             'users' => $sortedUsers,
             'league' => $league,
+            'pickSet' => $pickSet,
         );
     }
 
@@ -289,6 +322,76 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/{leagueId}/lock", name="league_lock")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:lock.html.twig")
+     */
+    public function lockAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to lock this league');
+
+            return $this->redirect('/');
+        }
+
+        $form = $this->createForm(new LeagueLockFormType(), $league);
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->get('doctrine.orm.entity_manager')->flush();
+            } else {
+                var_dump($form->getErrors());
+                $this->get('session')->setFlash('error', 'Error locking the league');
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'league' => $league,
+        );
+    }
+
+    /**
+     * @Route("/{leagueId}/note", name="league_note")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:note.html.twig")
+     */
+    public function noteAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to edit the note for this league');
+
+            return $this->redirect('/');
+        }
+
+        $form = $this->createForm(new LeagueNoteFormType(), $league);
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->get('doctrine.orm.entity_manager')->flush();
+            } else {
+                var_dump($form->getErrors());
+                $this->get('session')->setFlash('error', 'Error updating the note for the league');
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'league' => $league,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/picks", name="league_picks")
      * @Secure(roles="ROLE_USER")
      */
@@ -297,7 +400,7 @@ class LeagueController extends Controller
         $user = $this->getUser();
         $league = $this->findLeague($leagueId);
 
-        $pickSet = $user->getPicksetForLeague($league);
+        $pickSet = $user->getPicksetForUser($user);
         if ($pickSet) {
             return $this->redirect($this->generateUrl('pickset_edit', array(
                 'id' => $pickSet->getId(),

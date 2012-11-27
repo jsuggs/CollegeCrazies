@@ -15,19 +15,20 @@
             {% set rank = 1 %}
             {% set lastPoints = 0 %}
             {% for user in users %}
-                {% set rank = (lastPoints == user.pickset.points) ? '-' : loop.index %}
-                {% set lastPoints = user.pickset.points %}
+                {% set pickSet = league.getPicksetForUser(user) %}
+                {% set rank = (lastPoints == pickSet.points) ? '-' : loop.index %}
+                {% set lastPoints = pickSet.points %}
                 <tr>
                     <td>{{ rank }}</td>
                     <td>
-                        <a href="{{ path('pickset_view', {'id': user.pickset.id }) }}">{{ user.pickset.name|default('Not Named') }} ({{ user.username }})</a>
+                        <a href="{{ path('pickset_view', {'id': pickSet.id }) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('pickset_edit', {'id': user.pickset.id }) }}" class="label notice">edit</a>
+                            <a href="{{ path('pickset_edit', {'id': pickSet.id }) }}" class="label notice">edit</a>
                         {% endif %}
                     </td>
-                    <td>{{ user.pickset.points }}</td>
-                    <td>{{ user.pickset.wins|length }} - {{ user.pickset.loses|length }}</td>
-                    <td>{{ user.pickset.pointsPossible }}</td>
+                    <td>{{ pickSet.points }}</td>
+                    <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
+                    <td>{{ pickSet.pointsPossible }}</td>
                 </tr>
             {% endfor %}
         </tbody>

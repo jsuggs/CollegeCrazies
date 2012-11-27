@@ -1,0 +1,11 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Manage Picksets</h2>
+    <ol class="unstyled">
+    {% for pickSet in pickSets %}
+        <li><a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.name }}</a></li>
+    {% endfor %}
+    </ol>
+    <a href="{{ path('pickset_new') }}" class="btn">Create new Pickset</a>
+{% endblock %}

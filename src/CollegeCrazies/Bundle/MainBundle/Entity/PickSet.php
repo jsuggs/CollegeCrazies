@@ -5,6 +5,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Entity;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\Pick;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,9 +34,9 @@ class PickSet
     protected $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="League", inversedBy="pickSets")
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="pickSets")
      */
-    protected $league;
+    protected $leagues;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="pickSets")
@@ -61,6 +62,11 @@ class PickSet
      * @ORM\OneToMany(targetEntity="UserPredictionSetScore", mappedBy="pickSet")
      */
     protected $predictionScores;
+
+    public function __construct()
+    {
+        $this->leagues = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -98,14 +104,15 @@ class PickSet
         $this->picks = $picks;
     }
 
-    public function getLeague()
+    public function getLeagues()
     {
-        return $this->league;
+        return $this->leagues;
     }
 
-    public function setLeague(League $league)
+    public function addLeague(League $league)
     {
-        $this->league = $league;
+        $league->addPickSet($this);
+        $this->leagues[] = $league;
     }
 
     public function getUser()
@@ -215,7 +222,7 @@ class PickSet
         return false;
         return $this->league
             ? false
-            : $this->league->isLocked();
+            : $this->league->picksLocked();
     }
 
     public function getUserPredictionSetScoreForPredictionSet(PredictionSet $predictionSet)

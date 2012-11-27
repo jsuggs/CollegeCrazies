@@ -155,6 +155,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $league->setPassword($password);
         $league->setPublic($public);
         $league->setUsers($users);
+        $league->setLocked(false);
 
         $manager->persist($league);
 
@@ -165,15 +166,15 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
     {
         $pickSet = new PickSet();
         $pickSet->setName($name);
-        $pickSet->setLeague($league);
+        $pickSet->addLeague($league);
         $pickSet->setUser($user);
         $pickSet->setTiebreakerHomeTeamScore(floor(rand(10, 51)));
         $pickSet->setTiebreakerAwayTeamScore(floor(rand(3, 45)));
 
-        $manager->persist($pickSet);
-
         $picks = $this->createRandomPicks($manager, $pickSet, $games);
         $pickSet->setPicks($picks);
+
+        $manager->persist($pickSet);
 
         return $pickSet;
     }

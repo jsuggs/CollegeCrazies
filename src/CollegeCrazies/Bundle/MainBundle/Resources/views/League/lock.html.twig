@@ -1,0 +1,23 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Lock the League - {{ league.name }}</h3>
+
+    <form action="{{ path('league_lock', {leagueId: league.id}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+        <div class="control-group">
+            {{ form_errors(form.locked) }}
+            {{ form_label(form.locked, null, {label_attr: {class: 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.locked) }}
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" value="Update League Lock" />
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

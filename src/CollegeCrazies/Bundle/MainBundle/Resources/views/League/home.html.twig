@@ -1,9 +1,30 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>League Home</h2>
-    <p>This needs works but here are the users</p>
-    {% for user in users %}
-        <p>{{ user.username }}</p>
-    {% endfor %}
+    <h2>{{ league.name }} (#{{ league.id }})</h2>
+    <h3>{{ league.motto }}</h3>
+    {% if league.note %}
+        <h4>A note from the commissioner</h4>
+        <p>{{ league.note }}
+    {% endif %}
+
+    <dl>
+        <dt>Current Rank</dt>
+        <dd>TODO: {{ pickSet.getAveragePredictionFinish() }}</dd>
+
+        <dt>Current Points</dt>
+        <dd>{{ pickSet.getPoints() }}</dd>
+
+        <dt>Points Possible Remaining</dt>
+        <dd>{{ pickSet.getPointsPossible() }}</dd>
+
+        <dt>Best Finish</dt>
+        <dd>{{ pickSet.getHigestPredictionFinish() }}</dd>
+    </dl>
+
+    <h5>Top 10 Standings</h5>
+    <p>TODO</p>
+
+    <h5>Top 10 League Games</h5>
+    <p>TODO</p>
 {% endblock %}

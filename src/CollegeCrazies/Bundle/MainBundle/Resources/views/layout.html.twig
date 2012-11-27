@@ -18,13 +18,42 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container-fluid">
-                <a class="brand" href="#">College Crazies</a>
+                <a class="brand" href="/">College Crazies</a>
                 <ul class="nav">
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
-                        <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
-                        <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+                    {% if pickSet is defined and pickSet is not null %}
+                        <li><a href="{{ path('league_home', {leagueId: pickSet.id}) }}">{{ pickSet.name }}</a></li>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="dropdown pull-right" style="padding: 10px 15px">
+                            <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
+                                <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
+                                <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div class="dropdown pull-right" style="padding: 10px 15px">
+                        <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu">
+                            {% if is_granted('ROLE_USER') %}
+                                {% for pickSet in app.user.picksets %}
+                                    <li{% if pickSet.leagues|length %} class="xdropdown-submenu"{% endif %}>
+                                    <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
+                                    {% if pickSet.leagues %}
+                                        <ul class="xdropdown-menu">
+                                        {% for league in pickSet.leagues %}
+                                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
+                                        {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            <li class="divider"></li>
+                            <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
+                        </ul>
+                    </div>
                 </ul>
                 {% if is_granted('ROLE_USER') %}
                     <p class="navbar-text pull-right">Logged in as <a href="/profile" class="navbar-link">{{ app.user }}</a> <a href="/logout">logout</a></p>
@@ -37,39 +66,34 @@
         </div>
     </div>
 
-    <div class="navbar">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                {% if league is defined and league is not null %}
+    {% if league is defined and league is not null %}
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container-fluid">
                     <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
                     <ul class="nav">
-                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}">League Home</a></li>
-                        <li><a href="{{ path('league_picks', {leagueId: league.id}) }}">My Picks</a></li>
                         <li><a href="{{ path('league_group_picks', {leagueId: league.id}) }}">Group Picks</a></li>
                         <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Leader Board</a></li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Stats</a></li>
+                        <li><a href="{{ path('league_members', {leagueId: league.id}) }}">Members</a></li>
+                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">League Settings</a></li>
+                        {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
+                            <div class="dropdown pull-right" style="padding: 10px 15px">
+                                <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{ path('pickset_manage') }}">Invite Users</a></li>
+                                    <li><a href="{{ path('pickset_manage') }}">Remove Members</a></li>
+                                    <li><a href="{{ path('pickset_manage') }}">League Settings</a></li>
+                                    <li><a href="{{ path('league_note', {leagueId: league.id}) }}">Commish Note</a></li>
+                                    <li><a href="{{ path('league_lock', {leagueId: league.id}) }}">Lock League</a></li>
+                                </ul>
+                            </div>
                         {% endif %}
-                    </ul>
-                {% endif %}
-
-                <div class="dropdown pull-right">
-                    <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu">
-                        {% if is_granted('ROLE_USER') %}
-                            {% for league in app.user.leagues %}
-                                <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
-                            {% endfor %}
-                        {% endif %}
-                        <li class="divider"></li>
-                        <li><a href="{{ path('league_find') }}">Find a League to Join</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{{ path('league_new') }}">Create a League</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="container-fluid">
         <div class="row-fluid">

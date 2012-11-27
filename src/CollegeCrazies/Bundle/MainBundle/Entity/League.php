@@ -66,9 +66,20 @@ class League
     protected $metadata;
 
     /**
-     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="league")
+     * @ORM\ManyToMany(targetEntity="PickSet", inversedBy="leagues")
+     * @ORM\JoinTable("pickset_leagues")
      */
     protected $pickSets;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $locked = false;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $note;
 
     public function __construct()
     {
@@ -132,7 +143,7 @@ class League
         return $this->lockTime;
     }
 
-    public function isLocked()
+    public function picksLocked()
     {
         $now = new \DateTime();
         return ($this->lockTime < $now);
@@ -173,6 +184,20 @@ class League
         return $this->pickSets;
     }
 
+    public function addPickSet(PickSet $pickSet)
+    {
+        $this->pickSets[] = $pickSet;
+    }
+
+    public function getPickSetForUser(User $user)
+    {
+        foreach ($this->pickSets as $pickSet) {
+            if ($pickSet->getUser() == $user) {
+                return $pickSet;
+            }
+        }
+    }
+
     public function addCommissioner(User $user)
     {
         if (!$this->users->contains($user)) {
@@ -192,5 +217,25 @@ class League
     public function userIsCommissioner(User $user)
     {
         return $this->commissioners->contains($user);
+    }
+
+    public function isLocked()
+    {
+        return (bool) $this->locked;
+    }
+
+    public function setLocked($locked)
+    {
+        $this->locked = (bool) $locked;
+    }
+
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    public function setNote($note)
+    {
+        $this->note = $note;
     }
 }

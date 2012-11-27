@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function profileAction($username)
     {
-        $user = $this->findByUsername($username);
+        $user = $this->findUserByUsername($username);
         return array(
             'user' => $user
         );
@@ -99,6 +99,20 @@ class UserController extends Controller
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('There was no user with id = %s', $id));
+        }
+
+        return $user;
+    }
+
+    private function findUserByUsername($username)
+    {
+        $user = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')
+            ->findByUsername($username);
+
+        if (!$user) {
+            throw new NotFoundHttpException(sprintf('There was no user with username = %s', $username));
         }
 
         return $user;

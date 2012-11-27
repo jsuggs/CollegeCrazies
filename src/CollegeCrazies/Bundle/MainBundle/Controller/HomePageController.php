@@ -5,24 +5,24 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 use CollegeCrazies\Bundle\MainBundle\Form\UserFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class HomePageController extends Controller
 {
     /**
      * @Route("/")
-     * @Template("CollegeCraziesMainBundle::homepage.html.twig")
      */
     public function homepageAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        if ($user == 'anon.') {
-        }
+        $user = $this->getUser();
+
+        $template = $this->get('security.context')->isGranted('ROLE_USER')
+            ? 'CollegeCraziesMainBundle::homepage.auth.html.twig'
+            : 'CollegeCraziesMainBundle::homepage.unauth.html.twig';
 
         $form = $this->createForm(new UserFormType());
-        return array(
+        return $this->render($template , array(
             'form' => $form->createView(),
             'user' => $user
-        );
+        ));
     }
 }

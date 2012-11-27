@@ -34,6 +34,21 @@ class PickController extends Controller
     }
 
     /**
+     * @Route("/manage", name="pickset_manage")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function manageAction()
+    {
+        $user = $this->getUser();
+
+        return array(
+            'pickSets' => $user->getPickSets(),
+            'leagues' => $user->getLeagues(),
+        );
+    }
+
+    /**
      * @Route("/new", name="pickset_new")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
@@ -79,7 +94,7 @@ class PickController extends Controller
     {
         $league = $this->findLeague($leagueId);
 
-        if ($league->isLocked()) {
+        if ($league->picksLocked()) {
             $this->get('session')->setFlash('error', 'This league is locked');
         } else {
             $pickset = $this->findPickSet($picksetId);
@@ -106,8 +121,9 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->getUser();
 
+        // TODO Add checks for commish here
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if ($pickSet->isLocked()) {
+            if ($pickSet->picksLocked()) {
                 $this->get('session')->setFlash('info', 'This pickset is now locked');
 
                 return $this->redirect($this->generateUrl('pickset_view', array(
@@ -116,9 +132,13 @@ class PickController extends Controller
             }
 
             if ($pickSet->getUser() !== $user) {
-                $this->get('session')->setFlash('error','You cannot edit another users picks');
+                $this->get('session')->setFlash('error', 'You cannot edit another users picks');
                 return $this->redirect('/');
             }
+        }
+
+        if (count($pickSet->getLeagues()) === 0) {
+            $this->get('session')->setFlash('info', 'This pickset is not associated with a league');
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -138,7 +158,7 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->getUser();
 
-        //if (!$this->get('security.context')->isGranted('ROLE_ADMIN') || $pickSet->getUser() !== $user && !$pickSet->isLocked()) {
+        //if (!$this->get('security.context')->isGranted('ROLE_ADMIN') || $pickSet->getUser() !== $user && !$pickSet->picksLocked()) {
             //$this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
             //return $this->redirect('/');
         //}
@@ -185,7 +205,7 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
 
-        if ($pickSet->isLocked()) {
+        if ($pickSet->picksLocked()) {
             return $this->redirect($this->generateUrl('pickset_view', array(
                 'id' => $id
             )));

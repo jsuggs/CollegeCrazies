@@ -31,7 +31,7 @@
                 <td>-</td>
             </tr>
             {% for user in users %}
-                {% set userPickSet = user.getPicksetForLeague(league) %}
+                {% set userPickSet = league.getPicksetForUser(user) %}
                 <tr>
                     <td class="first-col pickname"><a href="{{ path('pickset_view', {'id': userPickSet.id }) }}">{{ userPickSet.name }}</a></td>
                     {% for game in games %}
@@ -49,7 +49,7 @@
                         {% if user == curUser %}
                             <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
                         {% else %}
-                            {% set samePick = (curUser.getPicksetForLeague(league).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
+                            {% set samePick = (league.getPicksetForUser(curUser).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
                             <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('DERP') }}<br />({{ pick.confidence }})</td>
                         {% endif %}
                     {% endfor %}

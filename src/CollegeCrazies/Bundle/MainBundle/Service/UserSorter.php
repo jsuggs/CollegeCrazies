@@ -13,7 +13,10 @@ class UserSorter
         // since not stored in the db to let it do the sorting
         $rankedUsers = array();
         foreach ($users as $user) {
-            $rankedUsers[$user->getPicksetForLeague($league)->getPoints()][] = $user;
+            $pickSet = $league->getPicksetForUser($user);
+            if ($pickSet) {
+                $rankedUsers[$pickSet->getPoints()][] = $user;
+            }
         }
         krsort($rankedUsers);
         $sortedUsers = array();

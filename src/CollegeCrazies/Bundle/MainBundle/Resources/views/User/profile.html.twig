@@ -1,0 +1,13 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+
+    <form action="{{ path('login_check') }}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" />
+        <input type="submit" name="login" />
+    </form>
+{% endblock %}
