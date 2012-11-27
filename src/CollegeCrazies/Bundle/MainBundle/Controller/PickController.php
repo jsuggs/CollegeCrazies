@@ -123,7 +123,7 @@ class PickController extends Controller
 
         // TODO Add checks for commish here
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if ($pickSet->picksLocked()) {
+            if ($pickSet->isLocked()) {
                 $this->get('session')->setFlash('info', 'This pickset is now locked');
 
                 return $this->redirect($this->generateUrl('pickset_view', array(
