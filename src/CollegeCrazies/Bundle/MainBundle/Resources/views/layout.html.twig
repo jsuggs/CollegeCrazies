@@ -66,30 +66,34 @@
         </div>
     </div>
 
-    {% if league is defined and league is not null %}
+    {% if is_granted('ROLE_USER') and app.user.picksets|length %}
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container-fluid">
-                    <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
-                    <ul class="nav">
-                        <li><a href="{{ path('league_group_picks', {leagueId: league.id}) }}">Group Picks</a></li>
-                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Leader Board</a></li>
-                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Stats</a></li>
-                        <li><a href="{{ path('league_members', {leagueId: league.id}) }}">Members</a></li>
-                        <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">League Settings</a></li>
-                        {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
-                            <div class="dropdown pull-right" style="padding: 10px 15px">
-                                <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ path('pickset_manage') }}">Invite Users</a></li>
-                                    <li><a href="{{ path('pickset_manage') }}">Remove Members</a></li>
-                                    <li><a href="{{ path('pickset_manage') }}">League Settings</a></li>
-                                    <li><a href="{{ path('league_note', {leagueId: league.id}) }}">Commish Note</a></li>
-                                    <li><a href="{{ path('league_lock', {leagueId: league.id}) }}">Lock League</a></li>
-                                </ul>
-                            </div>
-                        {% endif %}
-                    </ul>
+                    {% if league is defined and league is not null %}
+                        <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
+                        <ul class="nav">
+                            <li><a href="{{ path('league_group_picks', {leagueId: league.id}) }}">Group Picks</a></li>
+                            <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Leader Board</a></li>
+                            <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Stats</a></li>
+                            <li><a href="{{ path('league_members', {leagueId: league.id}) }}">Members</a></li>
+                            <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">League Settings</a></li>
+                            {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
+                                <div class="dropdown pull-right" style="padding: 10px 15px">
+                                    <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ path('pickset_manage') }}">Invite Users</a></li>
+                                        <li><a href="{{ path('pickset_manage') }}">Remove Members</a></li>
+                                        <li><a href="{{ path('pickset_manage') }}">League Settings</a></li>
+                                        <li><a href="{{ path('league_note', {leagueId: league.id}) }}">Commish Note</a></li>
+                                        <li><a href="{{ path('league_lock', {leagueId: league.id}) }}">Lock League</a></li>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </ul>
+                    {% else %}
+                        <a class="btn btn-info" href="{{ path('league_find') }}">Find a League</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
