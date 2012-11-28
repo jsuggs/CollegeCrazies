@@ -8,6 +8,7 @@
         <p>{{ league.note }}
     {% endif %}
 
+    {% if pickSet is not null %}
     <dl>
         <dt>Current Rank</dt>
         <dd>TODO: {{ pickSet.getAveragePredictionFinish() }}</dd>
@@ -21,6 +22,7 @@
         <dt>Best Finish</dt>
         <dd>{{ pickSet.getHigestPredictionFinish() }}</dd>
     </dl>
+    {% endif %}
 
     <h5>Top 10 Standings</h5>
     <p>TODO</p>

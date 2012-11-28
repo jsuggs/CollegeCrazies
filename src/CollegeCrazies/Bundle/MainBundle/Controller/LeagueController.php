@@ -35,6 +35,10 @@ class LeagueController extends Controller
             return $this->redirect('/');
         }
 
+        if (!$pickSet) {
+            $this->get('session')->setFlash('warning', 'You do not have a pick set for this league');
+        }
+
         $users = $this->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCraziesMainBundle:User')
             ->findUsersInLeague($league);
@@ -47,10 +51,10 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/find", name="league_find")
+     * @Route("/public", name="league_public")
      * @Template
      */
-    public function findAction()
+    public function publicAction()
     {
         $leagues = $this->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCraziesMainBundle:League')
@@ -58,6 +62,28 @@ class LeagueController extends Controller
 
         return array(
             'leagues' => $leagues,
+        );
+    }
+
+    /**
+     * @Route("/find", name="league_find")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function findAction()
+    {
+        $form = $this->createFormBuilder()
+            ->add('id', 'text')
+            ->add('password', 'password')
+            ->getForm();
+
+        $leagues = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:League')
+            ->findAllPublic();
+
+        return array(
+            'leagues' => $leagues,
+            'form' => $form->createView(),
         );
     }
 
@@ -103,40 +129,36 @@ class LeagueController extends Controller
     }
 
     /**
-     * @Route("/{leagueId}/join", name="league_join")
+     * @Route("/join", name="league_join")
      * @Secure(roles="ROLE_USER")
-     * @Template
      */
-    public function joinAction($leagueId)
+    public function joinAction()
     {
-        $league = $this->findLeague($leagueId);
+        $request = $this->getRequest()->request->get('form');
+        $league = $this->findLeague($request['id']);
+        $user = $this->getUser();
 
-        $form = $this->createFormBuilder($league)
-            ->add('id', 'hidden')
-            ->add('password', 'password')
-            ->getForm();
-
-        $request = $this->getRequest();
-
-        if ($request->getMethod() == 'POST') {
-            $user = $this->getUser();
-            $data = $request->request->get('form');
-            $password = $data['password'];
-
-            if ($password == $league->getPassword()) {
-                $this->addUserToLeague($league, $user);
-                return $this->redirect($this->generateUrl('league_home', array(
-                    'leagueId' => $leagueId,
-                )));
-            } else {
+        $allowInLeague = true;
+        if (!$league->isPublic()) {
+            if ($request['password'] !== $league->getPassword()) {
                 $this->get('session')->setFlash('error', 'The password was not correct');
+                $allowInLeague = false;
             }
         }
 
-        return array(
-            'league' => $league,
-            'form' => $form->createView()
-        );
+        if ($league->isUserInLeague($user)) {
+            $this->get('session')->setFlash('info', 'You are already in this league');
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $league->getId(),
+            )));
+        } elseif ($allowInLeague) {
+            $this->addUserToLeague($league, $user);
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $league->getId(),
+            )));
+        }
+
+        return $this->redirect('/');
     }
 
     /**

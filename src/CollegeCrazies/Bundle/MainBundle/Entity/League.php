@@ -135,6 +135,11 @@ class League
             : new ArrayCollection($users);
     }
 
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
     public function setLockTime($time)
     {
         $this->lockTime = $time;
@@ -159,6 +164,11 @@ class League
     public function setPublic($public)
     {
         $this->public = $public;
+    }
+
+    public function isPublic()
+    {
+        return (bool) strlen($this->password);
     }
 
     public function getMetadata()
