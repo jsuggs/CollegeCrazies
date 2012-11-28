@@ -130,7 +130,9 @@ class League
 
     public function setUsers($users)
     {
-        $this->users = $users;
+        $this->users = $users instanceof ArrayCollection
+            ? $users
+            : new ArrayCollection($users);
     }
 
     public function setLockTime($time)
@@ -206,6 +208,13 @@ class League
 
         if (!$this->commissioners->contains($user)) {
             $this->commissioners[] = $user;
+        }
+    }
+
+    public function setCommissioners($commissioners)
+    {
+        foreach ($commissioners as $commissioner) {
+            $this->addCommissioner($commissioner);
         }
     }
 

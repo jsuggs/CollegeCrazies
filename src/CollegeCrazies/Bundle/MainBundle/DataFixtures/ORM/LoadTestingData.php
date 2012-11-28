@@ -31,6 +31,8 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         // Users
         $jsuggs     = $this->createUser($manager, 'jsuggs',     'jsuggs@gmail.com',         array('ROLE_ADMIN'));
         $granite777 = $this->createUser($manager, 'granite777', 'dustin.whitter@gmail.com', array('ROLE_ADMIN'));
+        $commish1   = $this->createUser($manager, 'commish1',   'commish1@test.com');
+        $commish2   = $this->createUser($manager, 'commish2',   'commish2@test.com');
 
         $users = array();
         for ($x = 1; $x < 10; $x++) {
@@ -76,10 +78,10 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         // Leagues
-        $pub1 = $this->createLeague($manager, 'Public 1',  'password', true,  array_merge($users, array($jsuggs, $granite777)));
-        $pub2 = $this->createLeague($manager, 'Public 2',  'password', true,  array_merge($users, array($jsuggs)));
+        $pub1 = $this->createLeague($manager, 'Public 1',  'password', true,  array_merge($users, array($jsuggs, $granite777, $commish1)), array($jsuggs, $commish1));
+        $pub2 = $this->createLeague($manager, 'Public 2',  'password', true,  array_merge($users, array($jsuggs, $commish2)), array($jsuggs, $commish2));
         $pub3 = $this->createLeague($manager, 'Public 3',  'password', true,  array_merge($users, array($granite777)));
-        $pri1 = $this->createLeague($manager, 'Private 1', 'password', false, array($jsuggs, $granite777));
+        $pri1 = $this->createLeague($manager, 'Private 1', 'password', false, array($jsuggs, $granite777, $commish1), array($commish1));
 
         $manager->flush();
 
@@ -90,6 +92,8 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $this->createPickSet($manager, 'granite777 - Mediocre Picks', $pub3, $granite777, $games);
         $this->createPickSet($manager, 'jsuggs - Random Picks',       $pri1, $jsuggs,     $games);
         $this->createPickSet($manager, 'granite777 - Random Picks',   $pri1, $granite777, $games);
+        $this->createPickSet($manager, 'commish1 - Boom',             $pub1, $commish1,   $games);
+        $this->createPickSet($manager, 'commish2 - Boom',             $pub2, $commish2,   $games);
         foreach ($users as $user) {
             $this->createPickSet($manager, sprintf('%s - Pub1 Picks', $user->getUsername()), $pub1, $user, $games);
         }
@@ -148,7 +152,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         return $game;
     }
 
-    private function createLeague(ObjectManager $manager, $name, $password, $public, $users)
+    private function createLeague(ObjectManager $manager, $name, $password, $public, $users, $commissioners = array())
     {
         $league = new League();
         $league->setName($name);
@@ -156,6 +160,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $league->setPublic($public);
         $league->setUsers($users);
         $league->setLocked(false);
+        $league->setCommissioners($commissioners);
 
         $manager->persist($league);
 
