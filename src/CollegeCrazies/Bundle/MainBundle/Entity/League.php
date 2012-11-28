@@ -183,6 +183,7 @@ class League
 
     public function userCanView(User $user)
     {
+        return $this->isUserInLeague($user);
         return $this->public || $this->isUserInLeague($user);
     }
 

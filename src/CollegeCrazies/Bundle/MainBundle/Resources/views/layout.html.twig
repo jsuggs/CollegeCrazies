@@ -91,6 +91,15 @@
                                 </div>
                             {% endif %}
                         </ul>
+                    {% elseif app.user.leagues|length %}
+                        <div class="dropdown" style="padding: 10px 15px">
+                            <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                            {% for league in app.user.leagues %}
+                            <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
                     {% else %}
                         <a class="btn btn-info" href="{{ path('league_find') }}">Find or Create a League</a>
                     {% endif %}

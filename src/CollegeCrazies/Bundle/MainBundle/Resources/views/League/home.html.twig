@@ -8,7 +8,7 @@
         <p>{{ league.note }}
     {% endif %}
 
-    {% if pickSet is not null %}
+    {% if pickSet is not null and league.locked %}
     <dl>
         <dt>Current Rank</dt>
         <dd>TODO: {{ pickSet.getAveragePredictionFinish() }}</dd>

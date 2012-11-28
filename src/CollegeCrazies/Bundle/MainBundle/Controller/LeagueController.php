@@ -137,6 +137,12 @@ class LeagueController extends Controller
         $request = $this->getRequest()->request->get('form');
         $league = $this->findLeague($request['id']);
         $user = $this->getUser();
+        $pickSets = $user->getPickSets();
+
+        if (count($pickSets) === 0) {
+            $this->get('session')->setFlash('info', 'You cannot join a league without first creating a pickset.');
+            return $this->redirect($this->generateUrl('pickset_new'));
+        }
 
         $allowInLeague = true;
         if (!$league->isPublic()) {
@@ -153,6 +159,13 @@ class LeagueController extends Controller
             )));
         } elseif ($allowInLeague) {
             $this->addUserToLeague($league, $user);
+
+            // If the user has one pickset, then auto-assign the pickset to that league
+            if (count($pickSets) === 1) {
+                $pickSets[0]->addLeague($league);
+            }
+            $this->get('doctrine.orm.entity_manager')->flush();
+
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
             )));
@@ -447,7 +460,6 @@ class LeagueController extends Controller
 
         $em->persist($league);
         $em->persist($user);
-        $em->flush();
     }
 
     private function canUserEditLeague(User $user, League $league)
