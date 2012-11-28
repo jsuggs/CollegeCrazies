@@ -205,7 +205,7 @@ class PickController extends Controller
     {
         $pickSet = $this->findPickSet($id);
 
-        if ($pickSet->picksLocked()) {
+        if ($pickSet->isLocked()) {
             return $this->redirect($this->generateUrl('pickset_view', array(
                 'id' => $id
             )));
