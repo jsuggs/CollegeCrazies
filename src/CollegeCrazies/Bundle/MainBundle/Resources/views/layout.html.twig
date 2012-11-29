@@ -22,7 +22,7 @@
                 <a class="brand" href="/">College Crazies</a>
                 <ul class="nav">
                     {% if pickSet is defined and pickSet is not null %}
-                        <li><a href="{{ path('league_home', {leagueId: pickSet.id}) }}">{{ pickSet.name }}</a></li>
+                        <li><a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="dropdown pull-right" style="padding: 10px 15px">
