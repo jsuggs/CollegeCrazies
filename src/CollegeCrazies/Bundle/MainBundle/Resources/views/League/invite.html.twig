@@ -1,0 +1,20 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Invite Users to the league</h3>
+
+    <form action="{{ path('league_invite', {leagueId: league.id}) }}" method="POST" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">Emails (comma separated)</label>
+            <div class="controls">
+                <textarea name="emails"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" value="Invite Users" />
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -82,7 +82,7 @@
                                 <div class="dropdown pull-right" style="padding: 10px 15px">
                                     <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ path('pickset_manage') }}">Invite Users</a></li>
+                                        <li><a href="{{ path('league_invite', {leagueId: league.id}) }}">Invite Users</a></li>
                                         <li><a href="{{ path('league_member_remove', {leagueId: league.id}) }}">Remove Members</a></li>
                                         <li><a href="{{ path('league_edit', {leagueId: league.id}) }}">League Settings</a></li>
                                         <li><a href="{{ path('league_note', {leagueId: league.id}) }}">Commish Note</a></li>

@@ -390,6 +390,42 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/{leagueId}/invite", name="league_invite")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function inviteAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to view this league');
+
+            return $this->redirect('/');
+        }
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $emails = array_filter(array_map('trim', explode(',', $request->get('emails'))), function($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
+
+            $subjectLine = sprintf('Invitation to join CollegeCrazies - League: %s', $league->getName());
+
+            $this->get('email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
+                'league' => $league,
+            ));
+
+            $this->get('session')->setFlash('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
+        }
+
+        return array(
+            'league' => $league,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/lock", name="league_lock")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:League:lock.html.twig")
