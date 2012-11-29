@@ -63,7 +63,7 @@ class PickController extends Controller
                 $league->addPickSet($pickSet);
             }
             $em->flush();
-            $this->get('session')->setFlash('success', 'Picksets saved');
+            $this->get('session')->setFlash('success', 'Picksets have now been assigned to your Leagues');
         }
 
         return array(
