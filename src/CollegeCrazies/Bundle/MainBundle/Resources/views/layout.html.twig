@@ -40,15 +40,15 @@
                             <ul class="dropdown-menu" role="menu">
                                 {% if is_granted('ROLE_USER') %}
                                     {% for pickSet in app.user.picksets %}
-                                        <li{% if pickSet.leagues|length %} class="xdropdown-submenu"{% endif %}>
-                                        <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
-                                        {% if pickSet.leagues %}
-                                            <ul class="xdropdown-menu">
-                                            {% for league in pickSet.leagues %}
-                                            <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
-                                            {% endfor %}
-                                            </ul>
-                                        {% endif %}
+                                        <li>
+                                            <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
+                                            {% if pickSet.leagues %}
+                                                <ul class="unstyled">
+                                                {% for league in pickSet.leagues %}
+                                                    <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                                                {% endfor %}
+                                                </ul>
+                                            {% endif %}
                                         </li>
                                     {% else %}
                                         <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
