@@ -33,6 +33,8 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $granite777 = $this->createUser($manager, 'granite777', 'dustin.whitter@gmail.com', array('ROLE_ADMIN'));
         $commish1   = $this->createUser($manager, 'commish1',   'commish1@test.com');
         $commish2   = $this->createUser($manager, 'commish2',   'commish2@test.com');
+        $nopicks    = $this->createUser($manager, 'nopicks',    'nopicks@test.com');
+        $onepick    = $this->createUser($manager, 'onepick',    'onepick@test.com');
 
         $users = array();
         for ($x = 1; $x < 10; $x++) {
@@ -94,6 +96,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $this->createPickSet($manager, 'granite777 - Random Picks',   $pri1, $granite777, $games);
         $this->createPickSet($manager, 'commish1 - Commish1',         $pub1, $commish1,   $games);
         $this->createPickSet($manager, 'commish2 - Commish2',         $pub2, $commish2,   $games);
+        $this->createPickSet($manager, 'Here are some picks',         $pub1, $onepick,    $games);
         foreach ($users as $user) {
             $this->createPickSet($manager, sprintf('%s - Pub1 Picks', $user->getUsername()), $pub1, $user, $games);
         }
