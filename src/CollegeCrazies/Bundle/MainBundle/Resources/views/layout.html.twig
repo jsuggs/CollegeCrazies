@@ -24,8 +24,10 @@
                     {% if pickSet is defined and pickSet is not null %}
                         <li><a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a></li>
                     {% endif %}
+                </ul>
+                <div class="pull-right navbar-text">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <div class="dropdown pull-right" style="padding: 10px 15px">
+                        <div class="dropdown" style="padding: 10px 15px; display: inline;">
                             <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
@@ -35,8 +37,8 @@
                         </div>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
-                        <div class="dropdown pull-right" style="padding: 10px 15px">
-                            <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
+                        <div class="dropdown" style="padding: 10px 25px; display: inline;">
+                            <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="{{ path('pickset_manage') }}">My Picksets <b class="caret"></b></a>
                             <ul class="dropdown-menu" role="menu">
                                 {% if is_granted('ROLE_USER') %}
                                     {% for pickSet in app.user.picksets %}
@@ -63,14 +65,14 @@
                             </ul>
                         </div>
                     {% endif %}
-                </ul>
-                {% if is_granted('ROLE_USER') %}
-                    <p class="navbar-text pull-right">Logged in as <a href="/profile" class="navbar-link">{{ app.user }}</a> <a href="/logout">logout</a></p>
-                {% else %}
-                    <p class="navbar-text pull-right">
-                        <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
-                    </p>
-                {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        <span><a href="/profile" class="btn btn-primary"><i class="icon-user icon-white"></i> {{ app.user }}</a> <a href="/logout" class="btn btn-danger btn-mini">logout</a></span>
+                    {% else %}
+                        <p class="navbar-text">
+                            <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
+                        </p>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
