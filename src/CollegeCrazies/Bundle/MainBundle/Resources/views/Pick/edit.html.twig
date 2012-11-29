@@ -1,13 +1,28 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h3>Make your picks</h3>
-    <p>Select the winner and drag the teams to their desired confidence</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="span9">
+                <h3>Make your picks</h3>
+                <p>Select the winner and drag the teams to their desired confidence</p>
 
-    <form action="{{ path('pickset_update', {'id': pickSet.id }) }}" class="pickForm" method="post" {{ form_enctype(form) }}>
-        {% include 'CollegeCraziesMainBundle:Pick:form.html.twig' %}
-        <div class="actions">
-            <input type="submit" class="btn btn-primary" value="Save Picks" />
+                <form action="{{ path('pickset_update', {'id': pickSet.id }) }}" class="pickForm" method="post" {{ form_enctype(form) }}>
+                    {% include 'CollegeCraziesMainBundle:Pick:form.html.twig' %}
+                    <div class="actions">
+                        <input type="submit" class="btn btn-primary" value="Save Picks" />
+                    </div>
+                </form>
+            </div>
+            <div class="span3">
+                <h3>Assigned Leagues</h3>
+                <p><small>This pickset is assigned to all of these leagues</small></p>
+                <ul class="unstyled">
+                {% for league in pickSet.leagues %}
+                    <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
-    </form>
+    </div>
 {% endblock %}
