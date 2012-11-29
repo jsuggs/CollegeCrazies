@@ -41,6 +41,12 @@ class PickController extends Controller
     public function manageAction()
     {
         $user = $this->getUser();
+        $pickSets = $user->getPickSets();
+
+        if (count($pickSets) === 0) {
+            return $this->redirect($this->generateUrl('pickset_new'));
+        }
+
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
@@ -61,7 +67,7 @@ class PickController extends Controller
         }
 
         return array(
-            'pickSets' => $user->getPickSets(),
+            'pickSets' => $pickSets,
             'leagues' => $user->getLeagues(),
         );
     }
