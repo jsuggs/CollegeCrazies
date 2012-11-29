@@ -4,26 +4,26 @@
     <div class="hero-unit">
         <h1>Welcome to College Crazies!</h1>
         <p>Bringing college sports fans together</p>
+        {% if user.picksets|length %}
+            <h2>My Picksets</h2>
+            <ul>
+            {% for pickset in user.picksets %}
+                <li>
+                    {{ pickset.name }}
+                    {% if pickset.leagues %}
+                        <ul>
+                        {% for league in pickset.leagues %}
+                            <li>{{ league.name }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+            <a href="{{ path('pickset_manage') }}" class="btn">Manage Picksets</a>
+        {% else %}
+            <h2>You don't have any picksets</h2>
+            <a href="{{ path('pickset_new') }}" class="btn btn-success">Create new Pickset Now!</a>
+        {% endif %}
     </div>
-    {% if user.picksets|length %}
-        <h2>My Picksets</h2>
-        <ul>
-        {% for pickset in user.picksets %}
-            <li>
-                {{ pickset.name }}
-                {% if pickset.leagues %}
-                    <ul>
-                    {% for league in pickset.leagues %}
-                        <li>{{ league.name }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-        </ul>
-        <a href="{{ path('pickset_manage') }}" class="btn">Manage Picksets</a>
-    {% else %}
-        <h3>You don't have any picksets</h3>
-        <a href="{{ path('pickset_new') }}" class="btn btn-success">Create a Pickset</a>
-    {% endif %}
 {% endblock %}
