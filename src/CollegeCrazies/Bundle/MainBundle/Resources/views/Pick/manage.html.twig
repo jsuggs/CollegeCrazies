@@ -21,8 +21,12 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
-            </tbody>
         </table>
         <button type="submit" class="btn btn-success">Update Picksets</button>
     </form>
+
+    <div class="row-fluid">
+        <h4>Looking for some more action?</h4>
+        <a href="{{ path('league_find') }}" class="btn btn-info">Find another League to Join</a>
+    </div>
 {% endblock %}
