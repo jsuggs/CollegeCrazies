@@ -224,6 +224,7 @@ class PickController extends Controller
     /**
      * @Route("/update/{id}", name="pickset_update")
      * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
      */
     public function updatePickAction($id)
     {
@@ -237,15 +238,23 @@ class PickController extends Controller
 
         $form = $this->getPickSetForm($pickSet);
         $form->bindRequest($this->getRequest());
+        if ($form->isValid()) {
+            $em = $this->get('doctrine.orm.entity_manager');
 
-        $em = $this->get('doctrine.orm.entity_manager');
+            $em->persist($pickSet);
+            $em->flush();
 
-        $em->persist($pickSet);
-        $em->flush();
+            $this->get('session')->setFlash('success', 'Pickset successfully updated');
 
-        return $this->redirect($this->generateUrl('pickset_edit', array(
-            'id' => $pickSet->getId()
-        )));
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'id' => $pickSet->getId()
+            )));
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'pickSet' => $pickSet,
+        );
     }
 
     /**

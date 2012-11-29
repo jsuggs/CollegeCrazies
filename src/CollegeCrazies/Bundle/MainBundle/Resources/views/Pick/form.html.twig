@@ -1,12 +1,8 @@
-<div class="errors">
-    {{ form_errors(form) }}
-</div>
-
-<div class="control-group">
-    {{ form_errors(form.name) }}
+<div class="control-group{% if form.name.vars.errors|length %} error{% endif %}">
     {{ form_label(form.name, "Pick Set Name") }}
     <div class="controls">
         {{ form_widget(form.name, {'attr': {'class': 'input-xxlarge'}}) }}
+        {{ form_errors(form.name) }}
     </div>
 </div>
 
