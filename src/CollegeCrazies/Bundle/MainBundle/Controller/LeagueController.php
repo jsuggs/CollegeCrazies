@@ -202,6 +202,39 @@ class LeagueController extends Controller
     }
 
     /**
+     * @Route("/{leagueId}/members-remove", name="league_member_remove")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:remove.html.twig")
+     */
+    public function memberRemoveAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You cannot edit this league');
+            return $this->redirect('/');
+        }
+
+        $request = $this->getRequest();
+        $em = $this->get('doctrine.orm.entity_manager');
+        if ($request->getMethod() === 'POST') {
+            $userId = $request->request->get('userId');
+            $em->getConnection()->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($leagueId, $userId));
+            $em->getConnection()->executeUpdate('DELETE FROM user_league WHERE league_id = ? AND user_id = ?', array($leagueId, $userId));
+            $em->flush();
+            $this->get('session')->setFlash('info', 'User Removed');
+        }
+
+        $members = $em->getRepository('CollegeCraziesMainBundle:User')->findUsersInLeague($league);
+
+        return array(
+            'league' => $league,
+            'members' => $members,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @Secure(roles="ROLE_USER")
      * @Template

@@ -1,0 +1,27 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Remove Members</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            <tr>
+                <td>{{ member.username }}</td>
+                <td>
+                    <form action="{{ path('league_member_remove', {leagueId: league.id}) }}" method="POST" style="margin: 0;">
+                        <button type="submit" class="btn btn-small btn-danger">Remove</button>
+                        <input type="hidden" name="userId" value="{{ member.id }}" />
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
