@@ -55,6 +55,10 @@
                                 {% endif %}
                                 <li class="divider"></li>
                                 <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
+                                {% if app.user.picksets|length %}
+                                    <li class="divider"></li>
+                                    <li><a href="{{ path('pickset_new') }}">Create a new Pickset</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     {% endif %}
