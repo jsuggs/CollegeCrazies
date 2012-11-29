@@ -19,19 +19,19 @@
 </div>
 
 <div class="control-group">
+    {{ form_errors(form.public) }}
+    {{ form_label(form.public, 'Public', {label_attr: {class: 'control-label'}}) }}
+    <div class="controls">
+        {{ form_widget(form.public) }}
+    </div>
+
+<div class="control-group password-container">
     {{ form_errors(form.password) }}
     {{ form_label(form.password, 'Password', {label_attr: {class: 'control-label'}}) }}
     <div class="controls">
         {{ form_widget(form.password) }}
     </div>
 </div>
-
-<div class="control-group">
-    {{ form_errors(form.public) }}
-    {{ form_label(form.public, 'Public', {label_attr: {class: 'control-label'}}) }}
-    <div class="controls">
-        {{ form_widget(form.public) }}
-    </div>
 </div>
 
 <div class="control-group">
@@ -44,3 +44,27 @@
 
 {{ form_widget(form._token) }}
 {{ form_rest(form) }}
+
+<script>
+    $(document).ready(function() {
+        // The radio button
+        var pubprirdo = $('input:radio[name="league[public]"]');
+        var passwdContainer = $('.password-container');
+
+        // If public, then clear and hide the password
+        var pubpri = function() {
+            if (pubprirdo.filter(':checked').val() == 1) {
+                passwdContainer.hide();
+                passwdContainer.find('input').val('');
+            } else {
+                passwdContainer.show();
+            }
+        }
+
+        // Run when changed
+        pubprirdo.click(pubpri);
+
+        // Run on load
+        pubpri();
+    });
+</script>
