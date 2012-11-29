@@ -303,9 +303,16 @@ class LeagueController extends Controller
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
+            $user = $this->getUser();
+            $pickSets = $user->getPickSets();
+
             $league = $form->getData();
-            $league->addUser($this->getUser());
+            $league->addUser($user);
+
             $league->addCommissioner($this->getUser());
+            if (count($pickSets) === 1) {
+                $pickSets[0]->addLeague($league);
+            }
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($league);
             $em->flush();

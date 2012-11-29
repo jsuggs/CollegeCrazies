@@ -48,6 +48,8 @@
                                         </ul>
                                     {% endif %}
                                     </li>
+                                {% else %}
+                                    <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
                                 {% endfor %}
                             {% endif %}
                             <li class="divider"></li>
