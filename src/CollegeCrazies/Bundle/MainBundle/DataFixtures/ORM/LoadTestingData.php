@@ -86,14 +86,14 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         // PickSets
-        $this->createPickSet($manager, 'jsuggs - Awesome Sauce',      $pub1, $jsuggs,     $games);
-        $this->createPickSet($manager, 'jsuggs - Awesome Sauce',      $pub2, $jsuggs,     $games);
-        $this->createPickSet($manager, 'granite777 - Mediocre Picks', $pub1, $granite777, $games);
-        $this->createPickSet($manager, 'granite777 - Mediocre Picks', $pub3, $granite777, $games);
+        $this->createPickSet($manager, 'jsuggs - My Picks VIP',       $pub1, $jsuggs,     $games);
+        $this->createPickSet($manager, 'jsuggs - Yo Picks Need ID',   $pub2, $jsuggs,     $games);
+        $this->createPickSet($manager, 'granite777 - Pick in a box',  $pub1, $granite777, $games);
+        $this->createPickSet($manager, 'granite777 - Suck my pick',   $pub3, $granite777, $games);
         $this->createPickSet($manager, 'jsuggs - Random Picks',       $pri1, $jsuggs,     $games);
         $this->createPickSet($manager, 'granite777 - Random Picks',   $pri1, $granite777, $games);
-        $this->createPickSet($manager, 'commish1 - Boom',             $pub1, $commish1,   $games);
-        $this->createPickSet($manager, 'commish2 - Boom',             $pub2, $commish2,   $games);
+        $this->createPickSet($manager, 'commish1 - Commish1',         $pub1, $commish1,   $games);
+        $this->createPickSet($manager, 'commish2 - Commish2',         $pub2, $commish2,   $games);
         foreach ($users as $user) {
             $this->createPickSet($manager, sprintf('%s - Pub1 Picks', $user->getUsername()), $pub1, $user, $games);
         }
