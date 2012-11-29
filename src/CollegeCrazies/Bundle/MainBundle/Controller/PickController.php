@@ -41,6 +41,24 @@ class PickController extends Controller
     public function manageAction()
     {
         $user = $this->getUser();
+        $request = $this->getRequest();
+
+        if ($request->getMethod() === 'POST') {
+            $em = $this->get('doctrine.orm.entity_manager');
+            $conn = $em->getConnection();
+            // Delete all of the users picksets
+            $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
+
+            // This is a semi-hack, not using the form framework
+            foreach ($request->request->get('league_pickset') as $leagueId => $pickSetId) {
+                $league = $this->findLeague($leagueId);
+                $pickSet = $this->findPickSet($pickSetId);
+
+                $league->addPickSet($pickSet);
+            }
+            $em->flush();
+            $this->get('session')->setFlash('success', 'Picksets saved');
+        }
 
         return array(
             'pickSets' => $user->getPickSets(),

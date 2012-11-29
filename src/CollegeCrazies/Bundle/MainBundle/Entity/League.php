@@ -88,6 +88,11 @@ class League
         $this->pickSets = new ArrayCollection();
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -199,7 +204,9 @@ class League
 
     public function addPickSet(PickSet $pickSet)
     {
-        $this->pickSets[] = $pickSet;
+        if (!$this->pickSets->contains($pickSet)) {
+            $this->pickSets[] = $pickSet;
+        }
     }
 
     public function getPickSetForUser(User $user)
@@ -257,5 +264,10 @@ class League
     public function setNote($note)
     {
         $this->note = $note;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
