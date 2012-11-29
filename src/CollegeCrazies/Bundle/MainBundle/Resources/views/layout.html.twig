@@ -33,29 +33,31 @@
                             </ul>
                         </div>
                     {% endif %}
-                    <div class="dropdown pull-right" style="padding: 10px 15px">
-                        <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu">
-                            {% if is_granted('ROLE_USER') %}
-                                {% for pickSet in app.user.picksets %}
-                                    <li{% if pickSet.leagues|length %} class="xdropdown-submenu"{% endif %}>
-                                    <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
-                                    {% if pickSet.leagues %}
-                                        <ul class="xdropdown-menu">
-                                        {% for league in pickSet.leagues %}
-                                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
-                                        {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                    </li>
-                                {% else %}
-                                    <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
-                                {% endfor %}
-                            {% endif %}
-                            <li class="divider"></li>
-                            <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
-                        </ul>
-                    </div>
+                    {% if is_granted('ROLE_USER') %}
+                        <div class="dropdown pull-right" style="padding: 10px 15px">
+                            <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% if is_granted('ROLE_USER') %}
+                                    {% for pickSet in app.user.picksets %}
+                                        <li{% if pickSet.leagues|length %} class="xdropdown-submenu"{% endif %}>
+                                        <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
+                                        {% if pickSet.leagues %}
+                                            <ul class="xdropdown-menu">
+                                            {% for league in pickSet.leagues %}
+                                            <li><a href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a></li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                        </li>
+                                    {% else %}
+                                        <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
+                                    {% endfor %}
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
                 </ul>
                 {% if is_granted('ROLE_USER') %}
                     <p class="navbar-text pull-right">Logged in as <a href="/profile" class="navbar-link">{{ app.user }}</a> <a href="/logout">logout</a></p>
