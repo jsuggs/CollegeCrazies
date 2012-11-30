@@ -2,8 +2,9 @@
 
 {% block content %}
     <h3>Commissioners</h3>
+    <p>Select which members are Commissioners for your League.  Commissioners have the ability to remove members, lock the league, and change the commish note.</p>
 
-    <form action="{{ path('league_commissioners', {leagueId: league.id}) }}" method="POST">
+    <form action="{{ path('league_commissioners', {leagueId: league.id}) }}" method="POST" id="commish-form">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -20,7 +21,21 @@
             {% endfor %}
             </tbody>
         </table>
+
         <input type="submit" class="btn btn-success" value="Update Commissioners" />
         {{ form_rest(form) }}
     </form>
+    <script>
+        $(document).ready(function() {
+            $("#commish-form").submit(function(e) {
+                var $form = this;
+                e.preventDefault();
+                bootbox.confirm('Are you sure you want to assign these members as Commissioners?', 'Cancel', 'Yes', function(result) {
+                    if (result) {
+                        $form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
