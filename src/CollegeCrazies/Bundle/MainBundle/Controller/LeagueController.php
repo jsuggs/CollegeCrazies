@@ -3,6 +3,7 @@
 namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
+use CollegeCrazies\Bundle\MainBundle\Form\LeagueCommissionersFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueNoteFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueLockFormType;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
@@ -456,8 +457,41 @@ class LeagueController extends Controller
             if ($form->isValid()) {
                 $this->get('doctrine.orm.entity_manager')->flush();
             } else {
-                var_dump($form->getErrors());
                 $this->get('session')->setFlash('error', 'Error locking the league');
+            }
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'league' => $league,
+        );
+    }
+
+    /**
+     * @Route("/{leagueId}/commissioners", name="league_commissioners")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:commissioners.html.twig")
+     */
+    public function commissionersAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to edit this league');
+
+            return $this->redirect('/');
+        }
+
+        $form = $this->createForm(new LeagueCommissionersFormType(), $league);
+
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->get('doctrine.orm.entity_manager')->flush();
+            } else {
+                $this->get('session')->setFlash('error', 'Error updating the commissioners for the league');
             }
         }
 
@@ -491,7 +525,6 @@ class LeagueController extends Controller
             if ($form->isValid()) {
                 $this->get('doctrine.orm.entity_manager')->flush();
             } else {
-                var_dump($form->getErrors());
                 $this->get('session')->setFlash('error', 'Error updating the note for the league');
             }
         }

@@ -1,0 +1,26 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Commissioners</h3>
+
+    <form action="{{ path('league_commissioners', {leagueId: league.id}) }}" method="POST">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Commissioner</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for member in form.commissioners %}
+                <tr>
+                    <td>{{ member.vars.label }}</td>
+                    <td>{{ form_widget(member) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-success" value="Update Commissioners" />
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

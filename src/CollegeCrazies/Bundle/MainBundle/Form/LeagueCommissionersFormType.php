@@ -5,22 +5,15 @@ namespace CollegeCrazies\Bundle\MainBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class LeagueFormType extends AbstractType
+class LeagueCommissionersFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text')
-            ->add('motto', 'textarea')
-            ->add('password', 'text', array(
-                'required' => false,
-            ))
-            ->add('public', 'choice', array(
+            ->add('commissioners', 'entity', array(
+                'multiple' => true,
                 'expanded' => true,
-                'choices' => array(
-                    true => 'Public',
-                    false => 'Private',
-                ),
+                'class' => 'CollegeCraziesMainBundle:User',
             ))
         ;
     }
@@ -34,6 +27,6 @@ class LeagueFormType extends AbstractType
 
     public function getName()
     {
-        return 'league';
+        return 'league_commissioners';
     }
 }
