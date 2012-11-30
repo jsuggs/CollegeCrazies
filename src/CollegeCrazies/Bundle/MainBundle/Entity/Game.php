@@ -52,7 +52,7 @@ class Game
     /**
      * The over/under
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      * @var int
      */
     protected $overunder;
@@ -104,6 +104,14 @@ class Game
      * @var Prediction
      */
     protected $predictions;
+
+    /**
+     * Bowl location
+     *
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    protected $location;
 
     public function getId()
     {
@@ -227,6 +235,16 @@ class Game
         }
 
         return ($this->homeTeamScore > $this->awayTeamScore) ? $this->homeTeam : $this->awayTeam;
+    }
+
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     public function __toString()
