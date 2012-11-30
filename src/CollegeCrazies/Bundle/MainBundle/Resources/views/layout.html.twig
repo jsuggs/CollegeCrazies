@@ -89,7 +89,7 @@
                             <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Leader Board</a></li>
                             <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">Stats</a></li>
                             <li><a href="{{ path('league_members', {leagueId: league.id}) }}">Members</a></li>
-                            <li><a href="{{ path('league_leaderboard', {leagueId: league.id}) }}">League Settings</a></li>
+                            <li><a href="{{ path('league_settings', {leagueId: league.id}) }}">League Settings</a></li>
                             {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
                                 <div class="dropdown pull-right" style="padding: 10px 15px">
                                     <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>

@@ -557,6 +557,26 @@ class LeagueController extends Controller
         )));
     }
 
+    /**
+     * @Route("/{leagueId}/settings", name="league_settings")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function settingsAction($leagueId)
+    {
+        $user = $this->getUser();
+        $league = $this->findLeague($leagueId);
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        }
+
+        return array(
+            'league' => $league,
+        );
+    }
+
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);
