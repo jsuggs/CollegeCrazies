@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="span9">
-                <h2>Make your picks <small><a href="#" rel="popover" title="Help" data-content="Yo dawg.">Need some help?</a></small></h2>
+                <h2>Make your picks <small><a href="{{ path('howto') }}">Need some help?</a></small></h2>
                 <p>Select the winner and drag the teams to their desired confidence</p>
 
                 <form action="{{ path('pickset_update', {'id': pickSet.id }) }}" class="pickForm" method="post" {{ form_enctype(form) }}>

@@ -28,7 +28,7 @@ class HomePageController extends Controller
     }
 
     /**
-     * @Route("/how-to")
+     * @Route("/how-to", name="howto")
      * @Template("CollegeCraziesMainBundle::howto.html.twig")
      */
     public function howtoAction()
