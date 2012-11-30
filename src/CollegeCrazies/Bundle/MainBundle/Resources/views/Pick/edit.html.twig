@@ -17,11 +17,15 @@
             <div class="span3">
                 <h3>Assigned Leagues</h3>
                 <p><small>This pickset is assigned to all of these leagues</small></p>
-                <ul class="unstyled">
-                {% for league in pickSet.leagues %}
-                    <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
-                {% endfor %}
-                </ul>
+                {% if pickSet.leagues|length %}
+                    <ul class="unstyled">
+                    {% for league in pickSet.leagues %}
+                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <a href="{{ path('league_find') }}" class="btn btn-success">Find or Create a League</a>
+                {% endif %}
             </div>
         </div>
     </div>
