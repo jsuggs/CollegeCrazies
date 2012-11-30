@@ -528,7 +528,9 @@ class LeagueController extends Controller
             return $this->redirect('/');
         }
 
-        $form = $this->createForm(new LeagueCommissionersFormType(), $league);
+        $form = $this->createForm(new LeagueCommissionersFormType(), $league, array(
+            'league' => $league,
+        ));
 
         if ($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
