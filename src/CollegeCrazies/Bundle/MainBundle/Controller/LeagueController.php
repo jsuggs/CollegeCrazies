@@ -98,6 +98,8 @@ class LeagueController extends Controller
     public function groupPicksAction($leagueId)
     {
         $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+        $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot view the group picks until the league locks');
@@ -127,6 +129,7 @@ class LeagueController extends Controller
             'games' => $games,
             'league' => $league,
             'users' => $sortedUsers,
+            'pickSet' => $pickSet,
             'curUser' => $curUser,
         );
     }
@@ -566,8 +569,9 @@ class LeagueController extends Controller
      */
     public function settingsAction($leagueId)
     {
-        $user = $this->getUser();
         $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+        $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->userCanView($user)) {
             $this->get('session')->setFlash('warning', 'You cannot view this league');
@@ -576,6 +580,7 @@ class LeagueController extends Controller
 
         return array(
             'league' => $league,
+            'pickSet' => $pickSet,
         );
     }
 
