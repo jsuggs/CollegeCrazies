@@ -45,9 +45,9 @@
                                 {% if is_granted('ROLE_USER') %}
                                     {% for pickSet in app.user.picksets %}
                                         <li>
-                                            <a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a>
+                                            <a href="{{ path('pickset_edit', {id: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
                                             {% if pickSet.leagues %}
-                                                <ul class="unstyled">
+                                                <ul class="unstyled" style="margin-left: 15px">
                                                 {% for league in pickSet.leagues %}
                                                     <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
                                                 {% endfor %}
