@@ -1,0 +1,26 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Associate Pickset with League</h2>
+    <p>Choose a pickset for league "{{ league.name }}"</p>
+
+    <form action="{{ path('league_assoc', {leagueId: league.id}) }}" method="POST" class="form-horizontal">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>PickSet Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for idx, pickSet in pickSets %}
+                <tr>
+                    <td>{{ pickSet.name }}</td>
+                    <td><input type="radio" name="pickset" value="{{ pickSet.id }}"{% if idx ==0 %} checked="checked"{% endif %} /></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-success" value="Save PickSet" />
+    </form>
+{% endblock %}

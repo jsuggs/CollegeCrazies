@@ -163,14 +163,24 @@ class LeagueController extends Controller
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
             )));
+        } elseif ($league->isLocked()) {
+            $this->get('session')->setFlash('error', 'This league has been locked by the commissioner');
         } elseif ($allowInLeague) {
             $this->addUserToLeague($league, $user);
 
             // If the user has one pickset, then auto-assign the pickset to that league
             if (count($pickSets) === 1) {
                 $pickSets[0]->addLeague($league);
+            } else {
+                $this->get('doctrine.orm.entity_manager')->flush();
+
+                // Go to an intermediate page for assiging pickset to this league
+                return $this->redirect($this->generateUrl('league_assoc', array(
+                    'leagueId' => $league->getId(),
+                )));
             }
             $this->get('doctrine.orm.entity_manager')->flush();
+            $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
@@ -178,6 +188,36 @@ class LeagueController extends Controller
         }
 
         return $this->redirect($this->generateUrl('league_find'));
+    }
+
+    /**
+     * @Route("/{leagueId}/assoc", name="league_assoc")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function assocAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $pickSet = $this->findPickSet($request->request->get('pickset'));
+            $pickSet->addLeague($league);
+            $this->get('doctrine.orm.entity_manager')->flush();
+
+            $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $leagueId,
+            )));
+        }
+
+        $user = $this->getUser();
+        $pickSets = $user->getPickSets();
+
+        return array(
+            'league' => $league,
+            'pickSets' => $pickSets,
+        );
     }
 
     /**
@@ -615,5 +655,19 @@ class LeagueController extends Controller
         }
 
         return $league;
+    }
+
+    private function findPickSet($id)
+    {
+        $pickSet = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:PickSet')
+            ->find($id);
+
+        if (!$pickSet) {
+            throw new NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
+        }
+
+        return $pickSet;
     }
 }
