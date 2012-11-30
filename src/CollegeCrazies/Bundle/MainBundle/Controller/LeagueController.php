@@ -75,7 +75,9 @@ class LeagueController extends Controller
     {
         $form = $this->createFormBuilder()
             ->add('id', 'text')
-            ->add('password', 'password')
+            ->add('password', 'password', array(
+                'required' => false,
+            ))
             ->getForm();
 
         $leagues = $this->get('doctrine.orm.entity_manager')
@@ -172,7 +174,7 @@ class LeagueController extends Controller
             )));
         }
 
-        return $this->redirect('/');
+        return $this->redirect($this->generateUrl('league_find'));
     }
 
     /**
