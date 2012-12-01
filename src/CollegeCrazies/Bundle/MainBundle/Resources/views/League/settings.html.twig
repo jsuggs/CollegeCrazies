@@ -4,7 +4,16 @@
     <h2>League Settings</h2>
 
     <dl>
-        <dt>Key</dt>
-        <dd>Value</dd>
+        <dt>League Name</dt>
+        <dd>{{ league.name }}</dd>
+
+        <dt>League ID</dt>
+        <dd>{{ league.id }}</dd>
+
+        <dt>League Type</dt>
+        <dd>{{ league.public ? 'Public' : 'Private' }}</dd>
+
+        <dt>League Password</dt>
+        <dd>{{ league.public ? 'Not Required' : league.password }}</dd>
     </dl>
 {% endblock %}
