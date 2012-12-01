@@ -4,7 +4,7 @@
     <p>Enter the username or email for the user to have their password reset.</p>
 
     <div class="control-group{% if invalid_username is defined %} error{% endif %}">
-        <label for="username" class="control-label">Username</label>
+        <label for="username" class="control-label">Username/Email</label>
         <div class="controls">
             <input type="text" id="username" name="username" />
             {% if invalid_username is defined %}
