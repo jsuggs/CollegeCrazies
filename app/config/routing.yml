@@ -1,3 +1,8 @@
+college_crazies_user:
+    resource: "@CollegeCraziesUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 CollegeCraziesMainBundle:
     resource: "@CollegeCraziesMainBundle/Controller/"
     type:     annotation

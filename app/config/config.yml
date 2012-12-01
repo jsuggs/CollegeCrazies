@@ -5,7 +5,7 @@ imports:
 
 framework:
     #esi:             ~
-    translator: ~
+    translator: { fallback: en }
     secret:          %secret%
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
@@ -62,3 +62,9 @@ fos_user:
     user_class: CollegeCrazies\Bundle\MainBundle\Entity\User
     service:
        user_manager: college_crazies.user.manager
+    registration:
+        form:
+            handler: college_crazies.form.handler.registration
+    resetting:
+        form:
+            handler: college_crazies.form.handler.resetting

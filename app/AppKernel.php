@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new CollegeCrazies\Bundle\MainBundle\CollegeCraziesMainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new CollegeCrazies\Bundle\EmailBundle\CollegeCraziesEmailBundle(),
+            new CollegeCrazies\Bundle\UserBundle\CollegeCraziesUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

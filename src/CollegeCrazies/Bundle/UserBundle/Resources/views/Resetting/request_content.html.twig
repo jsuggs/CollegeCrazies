@@ -1,14 +1,15 @@
-<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form-horizontal">
-    <h3>Reset Password</h3>
-    <p>Enter the username (not the email) for the user to have their password reset</p>
+<h2>Reset Password</h2>
 
-    <div class="control-group">
-        {% if invalid_username is defined %}
-            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
-        {% endif %}
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form-horizontal">
+    <p>Enter the username or email for the user to have their password reset.</p>
+
+    <div class="control-group{% if invalid_username is defined %} error{% endif %}">
         <label for="username" class="control-label">Username</label>
         <div class="controls">
             <input type="text" id="username" name="username" />
+            {% if invalid_username is defined %}
+                <p class="text-error">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+            {% endif %}
         </div>
     </div>
 

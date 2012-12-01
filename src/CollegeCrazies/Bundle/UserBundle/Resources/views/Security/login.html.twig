@@ -1,10 +1,10 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "CollegeCraziesUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
     {% if error %}
         <div class="alert alert-error">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>{{ error }}</strong>
+            <button type="btn" class="close" data-dismiss="alert">×</button>
+            <strong>{{ error|trans }}</strong>
         </div>
     {% endif %}
 
@@ -35,11 +35,13 @@
             </div>
 
             <div class="control-group">
-                <h4>Did you forget your password? <a href="{{ path('fos_user_resetting_request') }}">Click here to reset your password</a></h4>
+                <div class="controls">
+                    <input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Login" />
+                </div>
             </div>
 
-            <div class="actions">
-                <input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Login" />
+            <div class="control-group">
+                <h4>Did you forget your password? <a href="{{ path('fos_user_resetting_request') }}">Click here to reset your password</a></h4>
             </div>
         </fieldset>
     </form>
