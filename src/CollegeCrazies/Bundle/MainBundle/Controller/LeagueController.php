@@ -40,14 +40,18 @@ class LeagueController extends Controller
             $this->get('session')->setFlash('warning', 'You do not have a pick set for this league');
         }
 
-        $users = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCraziesMainBundle:User')
-            ->findUsersInLeague($league);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $users = $em->getRepository('CollegeCraziesMainBundle:League')->getUsersAndPoints($league);
+        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
+
+        // Only show the top 10 users
+        $sortedUsers = array_slice($sortedUsers, 0, 10);
 
         return array(
             'league' => $league,
-            'users' => $users,
+            'users' => $sortedUsers,
             'pickSet' => $pickSet,
+            'rank' => $rank,
         );
     }
 
@@ -120,8 +124,7 @@ class LeagueController extends Controller
             ORDER BY pg.id');
         $users = $query->setParameter('leagueId', $leagueId)->getResult();
 
-        $userSorter = $this->get('user.sorter');
-        $sortedUsers = $userSorter->sortUsersByPoints($users, $league);
+        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
 
         $curUser = $this->getUser();
 
@@ -299,18 +302,8 @@ class LeagueController extends Controller
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-
-        $users = $em->createQuery('SELECT u, p, l, pk, pg from CollegeCraziesMainBundle:User u
-            JOIN u.pickSets p
-            JOIN u.leagues l
-            JOIN p.picks pk
-            JOIN pk.game pg
-            WHERE l.id = :leagueId
-            ORDER BY pg.id')
-            ->setParameter('leagueId', $leagueId)
-            ->getResult();
-
-        $sortedUsers = $this->get('user.sorter')->sortUsersByPoints($users, $league);
+        $users = $em->getRepository('CollegeCraziesMainBundle:League')->getUsersAndPoints($league);
+        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
 
         return array(
             'users' => $sortedUsers,

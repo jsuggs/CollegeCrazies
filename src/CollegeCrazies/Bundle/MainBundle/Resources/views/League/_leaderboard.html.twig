@@ -1,0 +1,32 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Pick Name (user)</th>
+            <th>Points Won</th>
+            <th>Record</th>
+            <th>Points Possible</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set rank = 1 %}
+        {% set lastPoints = 0 %}
+        {% for user in users %}
+            {% set pickSet = league.getPicksetForUser(user) %}
+            {% set rank = (lastPoints == pickSet.points) ? '-' : loop.index %}
+            {% set lastPoints = pickSet.points %}
+            <tr>
+                <td>{{ rank }}</td>
+                <td>
+                    <a href="{{ path('pickset_view', {'id': pickSet.id }) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('pickset_edit', {'id': pickSet.id }) }}" class="label notice">edit</a>
+                    {% endif %}
+                </td>
+                <td>{{ pickSet.points }}</td>
+                <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
+                <td>{{ pickSet.pointsPossible }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

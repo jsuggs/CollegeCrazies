@@ -2,31 +2,46 @@
 
 {% block content %}
     <h2>{{ league.name }} (#{{ league.id }})</h2>
-    <h3>{{ league.motto }}</h3>
-    {% if league.note %}
-        <h4>A note from the commissioner</h4>
-        <p>{{ league.note }}
+    <p><small>"{{ league.motto }}"</small></p>
+    <div class="container-fluid">
+        <div class="row well">
+            <div class="span6">
+                <h4>{{ pickSet.name }}</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Points</th>
+                            <th><abbr title="Potential Points Remaining">PPR</abbr></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ league.locked ? rank : '--' }}</td>
+                            <td>{{ pickSet.points }}</td>
+                            <td>{{ pickSet.getPointsPossible() }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="span6">
+                {% if league.note %}
+                    <h4>Commissioner's Note</h4>
+                    <p>{{ league.note }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if true or pickSet is not null and league.locked %}
+        <div class="well">
+            <h4>Best possible finish <span class="label label-important">Coming Soon (after picks lock)</span>{# <a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.getHigestPredictionFinish() }}</a> #}</h4>
+        </div>
+
+        <h5>League Top 10 Standings</h5>
+        {% include 'CollegeCraziesMainBundle:League:_leaderboard.html.twig' %}
+
+        <h5>League Top 10 Games</h5>
+        <p>These will populate after picks have locked</p>
     {% endif %}
-
-    {% if pickSet is not null and league.locked %}
-    <dl>
-        <dt>Current Rank</dt>
-        <dd>TODO: {{ pickSet.getAveragePredictionFinish() }}</dd>
-
-        <dt>Current Points</dt>
-        <dd>{{ pickSet.getPoints() }}</dd>
-
-        <dt>Points Possible Remaining</dt>
-        <dd>{{ pickSet.getPointsPossible() }}</dd>
-
-        <dt>Best Finish</dt>
-        <dd>{{ pickSet.getHigestPredictionFinish() }}</dd>
-    </dl>
-    {% endif %}
-
-    <h5>Top 10 Standings</h5>
-    <p>TODO</p>
-
-    <h5>Top 10 League Games</h5>
-    <p>TODO</p>
 {% endblock %}

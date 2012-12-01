@@ -3,10 +3,11 @@
 namespace CollegeCrazies\Bundle\MainBundle\Service;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
+use CollegeCrazies\Bundle\MainBundle\Entity\User;
 
 class UserSorter
 {
-    public function sortUsersByPoints($users, League $league)
+    public function sortUsersByPoints($users, User $userToRank, League $league)
     {
         // I am sure there is a MUCH better way to do this...
         // Just for reference, having to get the values from the obj
@@ -20,12 +21,18 @@ class UserSorter
         }
         krsort($rankedUsers);
         $sortedUsers = array();
-        foreach ($rankedUsers as $points) {
-            foreach ($points as $point) {
-                $sortedUsers[] = $point;
+        $rank = 1;
+        $userRank = 0;
+        foreach ($rankedUsers as $points => $users) {
+            foreach ($users as $user) {
+                if ($user == $userToRank) {
+                    $userRank = $rank;
+                }
+                $sortedUsers[] = $user;
             }
+            $rank++;
         }
 
-        return $sortedUsers;
+        return array($userRank, $sortedUsers);
     }
 }
