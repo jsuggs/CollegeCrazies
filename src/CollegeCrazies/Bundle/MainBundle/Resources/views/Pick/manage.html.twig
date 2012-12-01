@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Manage Picksets</h2>
     <p>Choose the pickset you want to use for the league</p>
-    <form action="{{ path('pickset_manage') }}" method="POST">
+    <form action="{{ path('pickset_manage') }}" method="POST" id="pickset-update">
         <table class="table table-bordered table-hover">
             <thead>
                 <th style="width: 60px">Commish</th>
@@ -26,6 +26,19 @@
         </table>
         <button type="submit" class="btn btn-success">Update Picksets</button>
     </form>
+    <script>
+        $(document).ready(function() {
+            $("#pickset-update").submit(function(e) {
+                var $form = this;
+                e.preventDefault();
+                bootbox.confirm('Are you sure you want to assign your picksets to new leagues?', 'No', 'Yes', function(result) {
+                    if (result) {
+                        $form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 
     <div class="row-fluid">
         <h4>Looking for some more action?</h4>
