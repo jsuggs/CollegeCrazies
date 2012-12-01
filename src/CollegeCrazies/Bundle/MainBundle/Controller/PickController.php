@@ -91,14 +91,14 @@ class PickController extends Controller
 
         $em = $this->get('doctrine.orm.entity_manager');
         $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAll();
-        $idx = count($games);
+        $idx = 1;
         foreach ($games as $game) {
             $pick = new Pick();
             $pick->setGame($game);
             $pick->setConfidence($idx);
 
             $pickSet->addPick($pick);
-            $idx--;
+            $idx++;
         }
 
         $form = $this->getPickSetForm($pickSet);
