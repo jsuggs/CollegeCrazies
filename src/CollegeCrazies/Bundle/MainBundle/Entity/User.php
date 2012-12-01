@@ -42,7 +42,7 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $emailVisible = false;
+    protected $emailVisible = true;
 
     /**
      * @ORM\Column(type="string", nullable=true)
