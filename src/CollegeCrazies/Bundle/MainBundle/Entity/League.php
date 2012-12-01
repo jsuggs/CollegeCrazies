@@ -140,6 +140,11 @@ class League
             : new ArrayCollection($users);
     }
 
+    public function removeUser($user)
+    {
+        $this->users->removeElement($user);
+    }
+
     public function getUsers()
     {
         return $this->users;

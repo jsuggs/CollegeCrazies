@@ -627,6 +627,31 @@ class LeagueController extends Controller
         );
     }
 
+    /**
+     * @Route("/leave", name="league_leave")
+     * @Template
+     */
+    public function leaveAction()
+    {
+        $user = $this->getUser();
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $em = $this->get('doctrine.orm.entity_manager');
+
+            $league = $this->findLeague($request->request->get('leagueId'));
+            $user->removeLeague($league);
+            $em->persist($user);
+            $em->flush();
+
+            $this->get('session')->setFlash('warning', sprintf('You are no longer in league "%s"', $league->getName()));
+        }
+
+        return array(
+            'leagues' => $user->getLeagues(),
+        );
+    }
+
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);

@@ -80,6 +80,14 @@ class User extends BaseUser
         $league->addUser($this);
     }
 
+    public function removeLeague(League $league)
+    {
+        if ($this->leagues->contains($league)) {
+            $this->leagues->removeElement($league);
+            $league->removeUser($this);
+        }
+    }
+
     public function __toString()
     {
         return $this->username;
