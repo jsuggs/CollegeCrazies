@@ -329,6 +329,7 @@ class LeagueController extends Controller
         $league = new League();
         $league->addUser($this->getUser());
         $league->addCommissioner($this->getUser());
+        $league->setPublic(true);
         $form = $this->getLeagueForm($league);
 
         return array(
