@@ -64,6 +64,7 @@ fos_user:
        user_manager: college_crazies.user.manager
     registration:
         form:
+            type: college_crazies_user_registration
             handler: college_crazies.form.handler.registration
     resetting:
         form:

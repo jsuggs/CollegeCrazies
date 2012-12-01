@@ -1,6 +1,8 @@
+<h2>Sign Up</h2>
+
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
     <fieldset>
-        <legend>Sign Up</legend>
+        <legend>Required Fields</legend>
 
         <div class="control-group">
             <label for="username" class="control-label">Username:</label>
@@ -29,12 +31,34 @@
                 {{ form_widget(form.plainPassword.second) }}
             </div>
         </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Optional Fields</legend>
+        <div class="control-group">
+            <label for="username" class="control-label">Email visible in leagues:</label>
+            <div class="controls">
+                {{ form_widget(form.emailVisible) }}
+            </div>
+        </div>
 
         <div class="control-group">
+            <label for="username" class="control-label">First Name:</label>
             <div class="controls">
-                <input type="submit" class="btn primary" value="Sign Up" />
-                {{ form_rest(form) }}
+                {{ form_widget(form.firstName) }}
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="username" class="control-label">Last Name:</label>
+            <div class="controls">
+                {{ form_widget(form.lastName) }}
             </div>
         </div>
     </fieldset>
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Sign Up" />
+        {{ form_rest(form) }}
+    </div>
 </form>

@@ -9,3 +9,8 @@ services:
         arguments: ["@fos_user.resetting.form", "@request", "@fos_user.user_manager"]
         scope: request
         public: false
+    college_crazies.registration.form.type:
+        class: CollegeCrazies\Bundle\UserBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: college_crazies_user_registration }

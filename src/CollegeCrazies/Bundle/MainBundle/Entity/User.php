@@ -39,6 +39,21 @@ class User extends BaseUser
      */
     protected $commissionerLeagues;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $emailVisible = false;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $firstName;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $lastName;
+
     public function getId()
     {
         return $this->id;
@@ -86,6 +101,36 @@ class User extends BaseUser
             $this->leagues->removeElement($league);
             $league->removeUser($this);
         }
+    }
+
+    public function setEmailVisible($emailVisible)
+    {
+        $this->emailVisible = $emailVisible;
+    }
+
+    public function getEmailVisible()
+    {
+        return $this->emailVisible;
+    }
+
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getLastName()
+    {
+        return $this->lastName;
     }
 
     public function __toString()
