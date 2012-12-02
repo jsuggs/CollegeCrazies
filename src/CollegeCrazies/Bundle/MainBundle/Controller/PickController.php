@@ -11,7 +11,6 @@ use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -19,7 +18,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * @Route("/pickset")
  */
-class PickController extends Controller
+class PickController extends BaseController
 {
     /**
      * @Route("/list", name="pickset_list")
@@ -182,10 +181,10 @@ class PickController extends Controller
         $pickSet = $this->findPickSet($id);
         $user = $this->getUser();
 
-        //if (!$this->get('security.context')->isGranted('ROLE_ADMIN') || $pickSet->getUser() !== $user && !$pickSet->picksLocked()) {
-            //$this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
-            //return $this->redirect('/');
-        //}
+        if (!$this->canUserViewPickSet($user, $pickSet)) {
+            $this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
+            return $this->redirect('/');
+        }
 
         return array(
             'pickSet' => $pickSet,
