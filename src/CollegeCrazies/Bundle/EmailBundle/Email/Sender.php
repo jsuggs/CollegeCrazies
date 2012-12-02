@@ -43,9 +43,13 @@ class Sender implements SenderInterface
         $html = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.html.twig', $templateName), $data);
         $text = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.text.twig', $templateName), $data);
 
+        $from = array_key_exists('from', $data)
+            ? $data['from']
+            : array('help@sofachamps.com' => 'SofaChamps');
+
         $message = \Swift_Message::newInstance()
             ->setSubject($subjectLine)
-            ->setFrom('collegecrazies@murmp.com')
+            ->setFrom($from)
             ->setTo($email)
             ->setBody($html, 'text/html')
             ->addPart($text, 'text/plain');

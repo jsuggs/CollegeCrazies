@@ -458,9 +458,12 @@ class LeagueController extends BaseController
 
             $subjectLine = sprintf('Invitation to join SofaChamps Bowl Pickem Challenge - League: %s', $league->getName());
 
+            $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
+
             $this->get('email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
+                'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
             $this->get('session')->setFlash('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
