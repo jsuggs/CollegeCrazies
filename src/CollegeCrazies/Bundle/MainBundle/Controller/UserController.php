@@ -109,7 +109,7 @@ class UserController extends Controller
         $user = $this
             ->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')
-            ->findByUsername($username);
+            ->findOneByUsername($username);
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('There was no user with username = %s', $username));
