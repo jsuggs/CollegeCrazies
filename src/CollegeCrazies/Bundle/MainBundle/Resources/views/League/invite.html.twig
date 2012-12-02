@@ -1,20 +1,21 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h3>Invite Users to the league</h3>
+    <h2>Invite Users</h2>
+    <p>The more the merrier, send some invitations to join the league<p>
 
-    <form action="{{ path('league_invite', {leagueId: league.id}) }}" method="POST" class="form-horizontal">
+    <form action="{{ path('league_invite', {leagueId: league.id}) }}" method="POST">
         <div class="control-group">
-            <label class="control-label">Emails (comma separated)</label>
+            <label class="control-label">Emails</label>
+            <span class="help-block">You can enter multiple addresses, comma separated.  We'll send them a link with the league information (id, password, etc).  Nothing more, nothing less.</span>
             <div class="controls">
-                <textarea name="emails"></textarea>
+                <textarea name="emails" class="input-block-level"></textarea>
+                <pre>Example: "test1@test.com, test2@test.com"</pre>
             </div>
         </div>
 
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary" value="Invite Users" />
-            </div>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Invite Users" />
         </div>
     </form>
 {% endblock %}

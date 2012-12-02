@@ -1,6 +1,22 @@
 {% extends 'CollegeCraziesEmailBundle:Layout:base.html.twig' %}
 
 {% block content %}
-	<h1>You have been invited to join a league: {{ league.name }}</h1>
-	<p>This is the other text of the message</p>
+    <h1>Evidentially you are awesome</h1>
+    <h2>Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you go join them in a <a href="http://sofachamps.com">SofaChamps</a> league.</h2>
+
+    <h3>Here are the details:</h3>
+    <dl>
+        <dt>League Name</dt>
+        <dd>{{ league.name }}</dd>
+
+        <dt>League ID</dt>
+        <dd>{{ league.id }}</dd>
+
+        {% if not league.public %}
+            <dt>League Password</dt>
+            <dd>{{ league.password }}</dd>
+        {% endif %}
+    </dl>
+
+    <p><a href="{{ url('league_find') }}">Click here to join the league</a></p>
 {% endblock %}

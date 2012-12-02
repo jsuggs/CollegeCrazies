@@ -12,13 +12,11 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/league")
  */
-class LeagueController extends Controller
+class LeagueController extends BaseController
 {
     /**
      * @Route("/{leagueId}/home", name="league_home")
@@ -447,7 +445,7 @@ class LeagueController extends Controller
         $user = $this->getUser();
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->setFlash('warning', 'You do not have permissions to view this league');
+            $this->get('session')->setFlash('warning', 'You do not have permissions to send invitations for this league');
 
             return $this->redirect('/');
         }
@@ -458,9 +456,10 @@ class LeagueController extends Controller
                 return filter_var($email, FILTER_VALIDATE_EMAIL);
             });
 
-            $subjectLine = sprintf('Invitation to join CollegeCrazies - League: %s', $league->getName());
+            $subjectLine = sprintf('Invitation to join SofaChamps Bowl Pickem Challenge - League: %s', $league->getName());
 
             $this->get('email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
+                'user' => $user,
                 'league' => $league,
             ));
 
@@ -662,33 +661,5 @@ class LeagueController extends Controller
     private function canUserEditLeague(User $user, League $league)
     {
         return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
-    }
-
-    private function findLeague($id)
-    {
-        $league = $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCraziesMainBundle:League')
-            ->find($id);
-
-        if (!$league) {
-            throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
-        }
-
-        return $league;
-    }
-
-    private function findPickSet($id)
-    {
-        $pickSet = $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCraziesMainBundle:PickSet')
-            ->find($id);
-
-        if (!$pickSet) {
-            throw new NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
-        }
-
-        return $pickSet;
     }
 }

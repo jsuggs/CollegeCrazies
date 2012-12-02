@@ -7,9 +7,51 @@ use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BaseController extends Controller
 {
+
+    protected function findLeague($id)
+    {
+        $league = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:League')
+            ->find($id);
+
+        if (!$league) {
+            throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
+        }
+
+        return $league;
+    }
+
+    protected function findPickSet($id, $loadPicks = false)
+    {
+        if ($loadPicks) {
+            $em = $this->get('doctrine.orm.entity_manager');
+            $pickSet = $em->createQuery('SELECT ps, u, p from CollegeCraziesMainBundle:Pickset ps
+                JOIN ps.user u
+                JOIN ps.picks p
+                WHERE ps.id = :id
+                ORDER BY p.confidence desc'
+            )
+                ->setParameter('id', $id)
+                ->getSingleResult();
+        } else {
+            $pickSet = $this
+                ->get('doctrine.orm.entity_manager')
+                ->getRepository('CollegeCraziesMainBundle:PickSet')
+                ->find($id);
+        }
+
+        if (!$pickSet) {
+            throw new NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
+        }
+
+        return $pickSet;
+    }
+
     protected function findGame($gameId)
     {
         $game = $this->get('doctrine.orm.entity_manager')
@@ -17,7 +59,7 @@ class BaseController extends Controller
             ->find($gameId);
 
         if (!$game) {
-            throw new \NotFoundHttpException(sprintf('There was no game with id = %s', $gameId));
+            throw new NotFoundHttpException(sprintf('There was no game with id = %s', $gameId));
         }
 
         return $game;

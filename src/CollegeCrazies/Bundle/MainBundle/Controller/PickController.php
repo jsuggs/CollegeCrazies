@@ -141,7 +141,7 @@ class PickController extends BaseController
      */
     public function editPickAction($id)
     {
-        $pickSet = $this->findPickSet($id);
+        $pickSet = $this->findPickSet($id, true);
         $user = $this->getUser();
 
         // TODO Add checks for commish here
@@ -178,7 +178,7 @@ class PickController extends BaseController
      */
     public function viewPickAction($id)
     {
-        $pickSet = $this->findPickSet($id);
+        $pickSet = $this->findPickSet($id, true);
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet)) {
@@ -227,7 +227,7 @@ class PickController extends BaseController
      */
     public function updatePickAction($id)
     {
-        $pickSet = $this->findPickSet($id);
+        $pickSet = $this->findPickSet($id, true);
 
         if ($pickSet->isLocked()) {
             return $this->redirect($this->generateUrl('pickset_view', array(
@@ -262,7 +262,7 @@ class PickController extends BaseController
      */
     public function dataAction($pickSetId)
     {
-        $pickSet = $this->findPickSet($pickSetId);
+        $pickSet = $this->findPickSet($pickSetId, true);
 
         $data = $this->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCraziesMainBundle:PickSet')
@@ -279,38 +279,5 @@ class PickController extends BaseController
     private function getPickSetForm(PickSet $pickSet)
     {
         return $this->createForm(new PickSetFormType(), $pickSet);
-    }
-
-    private function findPickSet($id)
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $pickSet = $em->createQuery('SELECT ps, u, p from CollegeCraziesMainBundle:Pickset ps
-            JOIN ps.user u
-            JOIN ps.picks p
-            WHERE ps.id = :id
-            ORDER BY p.confidence desc'
-        )
-            ->setParameter('id', $id)
-            ->getSingleResult();
-
-        if (!$pickSet) {
-            throw new NotFoundHttpException(sprintf('There was no pickSet with id = %s', $id));
-        }
-
-        return $pickSet;
-    }
-
-    private function findLeague($id)
-    {
-        $league = $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCraziesMainBundle:League')
-            ->find($id);
-
-        if (!$league) {
-            throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
-        }
-
-        return $league;
     }
 }
