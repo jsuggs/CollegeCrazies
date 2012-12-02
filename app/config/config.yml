@@ -49,9 +49,9 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: gmail
-    username:  collegecrazies@murmp.com
-    password:  !collegecrazies
+    transport: %mailer_transport%
+    username:  %mailer_user%
+    password:  %mailer_password%
 
 jms_security_extra:
     secure_all_services: false
