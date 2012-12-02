@@ -2,18 +2,9 @@
 
 {% block content %}
     <div class="hero-unit">
-        <h1>Welcome to College Crazies!</h1>
-        <p>Bringing college sports fans together</p>
-        <p><a href="http://blog.collegecrazies.com/" target="_blank" >See how all of this happened!</a> </p>
+        <h1>SofaChamps.com</h1>
+        <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
 
-        {% if is_granted('ROLE_USER') %}
-            {% if user.leagues|length > 0 %}
-                <p>TODO: Find the first league that locks, and show that below</p>
-            {% else %}
-		        <p>TODO: Find a league to join</p>
-            {% endif %}
-        {% else %}
-            <a href="/register" class="btn btn-info">Sign up now!</a> or <a href="/login" class="btn btn-success">Login</a>
-        {% endif %}
+        <p><a href="/register" class="btn btn-info">Sign up now!</a> or <a href="/login" class="btn btn-success">Login</a></p>
     </div>
 {% endblock %}
