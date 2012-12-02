@@ -84,4 +84,18 @@ class BaseController extends Controller
 
         return false;
     }
+
+    protected function addUserToLeague(League $league, User $user)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $user->addLeague($league);
+
+        $em->persist($league);
+        $em->persist($user);
+    }
+
+    protected function canUserEditLeague(User $user, League $league)
+    {
+        return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
+    }
 }

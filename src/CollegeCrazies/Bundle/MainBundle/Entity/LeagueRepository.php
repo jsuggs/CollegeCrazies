@@ -25,4 +25,11 @@ class LeagueRepository extends EntityRepository
             ->setParameter('leagueId', $league->getId())
             ->getResult();
     }
+
+    public function getNumberOfGames()
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT COUNT(g.id) FROM CollegeCraziesMainBundle:Game g')
+            ->getSingleScalarResult();
+    }
 }

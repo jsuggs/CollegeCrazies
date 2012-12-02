@@ -579,6 +579,32 @@ class LeagueController extends BaseController
     }
 
     /**
+     * @Route("/{leagueId}/no-picks", name="league_nopicks")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:nopicks.html.twig")
+     */
+    public function nopicksAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You do not have permissions to edit the note for this league');
+
+            return $this->redirect('/');
+        }
+
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
+        $emailList = array_map(function($user) { return $user->getEmail(); }, $users);
+
+        return array(
+            'users' => $users,
+            'league' => $league,
+            'emailList' => $emailList,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/picks", name="league_picks")
      * @Secure(roles="ROLE_USER")
      */
@@ -650,19 +676,5 @@ class LeagueController extends BaseController
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);
-    }
-
-    private function addUserToLeague(League $league, User $user)
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $user->addLeague($league);
-
-        $em->persist($league);
-        $em->persist($user);
-    }
-
-    private function canUserEditLeague(User $user, League $league)
-    {
-        return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
     }
 }

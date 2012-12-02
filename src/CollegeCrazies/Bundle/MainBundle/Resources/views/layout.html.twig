@@ -105,6 +105,7 @@
                                     <ul class="dropdown-menu" role="menu">
                                         <li><a href="{{ path('league_member_remove', {leagueId: league.id}) }}">Remove Members</a></li>
                                         <li><a href="{{ path('league_commissioners', {leagueId: league.id}) }}">League Commissioners</a></li>
+                                        <li><a href="{{ path('league_nopicks', {leagueId: league.id}) }}">Users with incomplete PickSets</a></li>
                                         <li><a href="{{ path('league_edit', {leagueId: league.id}) }}">League Settings</a></li>
                                         <li><a href="{{ path('league_note', {leagueId: league.id}) }}">Commish Note</a></li>
                                         <li><a href="{{ path('league_lock', {leagueId: league.id}) }}">Lock League</a></li>
