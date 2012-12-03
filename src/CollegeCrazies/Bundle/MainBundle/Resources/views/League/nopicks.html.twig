@@ -7,6 +7,8 @@
             <tr>
                 <th>User</th>
                 <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>PickSet</th>
             </tr>
         </thead>
@@ -16,6 +18,8 @@
                 <td><a href="{{ path('user_profile', {username: user.username}) }}">{{ user.username }}</a></td>
                 <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                 {% set pickSet = league.getPickSetForUser(user) %}
+                <td>{{ user.firstName ?: '--' }}</td>
+                <td>{{ user.lastName ?: '--' }}</td>
                 <td><a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.name }}</a></td>
             </tr>
         {% endfor %}
