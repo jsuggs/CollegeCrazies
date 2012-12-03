@@ -5,8 +5,8 @@
 
     <form action="{{ path('league_join', {leagueId: league.id}) }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }}>
         {% include 'CollegeCraziesMainBundle:League:join_form.html.twig' %}
-        <div class="actions">
-            <input type="submit" class="btn primary" value="Join League" />
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Join League" />
         </div>
     </form>
 {% endblock %}
