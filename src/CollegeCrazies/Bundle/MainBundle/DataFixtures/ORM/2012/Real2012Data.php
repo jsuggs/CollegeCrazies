@@ -234,12 +234,13 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         return $team;
     }
 
-    private function createGame(ObjectManager $manager, Team $homeTeam, Team $awayTeam, $name, $network, \DateTime $gameDate, $spread, $overUnder, $location)
+    private function createGame(ObjectManager $manager, Team $homeTeam, Team $awayTeam, $name, $shortName, $network, \DateTime $gameDate, $spread, $overUnder, $location)
     {
         $game = new Game();
         $game->setHomeTeam($homeTeam);
         $game->setAwayTeam($awayTeam);
         $game->setName($name);
+        $game->setShortName($shortName);
         $game->setNetwork($network);
         $game->setGameDate($gameDate);
         $game->setSpread($spread);

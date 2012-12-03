@@ -1,13 +1,13 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Group Picks</h2>
+    <h2>Group Picksx</h2>
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
                 <th>Game Name</th>
                 {% for game in games %}
-                    <th class="vertical-text">{{ game.name }}</th>
+                    <th class="vertical-text"><abbr title="{{ game.name }}">{{ game.shortName }}</abbr></th>
                 {% endfor %}
                 <th>Points Won</th>
                 <th>Points Possible</th>

@@ -4,6 +4,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\Team;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Game
@@ -30,6 +31,15 @@ class Game
      * @var string
      */
     protected $name;
+
+    /**
+     * The short name of the bowl game
+     *
+     * @ORM\Column(type="string", length=12)
+     * @Assert\MaxLength(12)
+     * @var string
+     */
+    protected $shortName;
 
     /**
      * @ORM\OneToOne(targetEntity="Team")
@@ -151,6 +161,16 @@ class Game
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setShortName($shortName)
+    {
+        $this->shortName = $shortName;
+    }
+
+    public function getShortName()
+    {
+        return $this->shortName;
     }
 
     public function setGameDate($date)
