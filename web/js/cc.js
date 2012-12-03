@@ -16,6 +16,8 @@ $(document).ready(function(){
     var checkPickStatus = function() {
         var setPicks = 0;
         var numPicks = 0;
+        var homeTeamScore = $("#pickset_tiebreakerHomeTeamScore").val();
+        var awayTeamScore = $("#pickset_tiebreakerAwayTeamScore").val();
 
         $(".pick").each(function() {
             numPicks++;
@@ -25,7 +27,7 @@ $(document).ready(function(){
         });
 
         if (setPicks == numPicks) {
-            if ($("#pickset_tiebreakerHomeTeamScore").val().length && $("#pickset_tiebreakerAwayTeamScore").val().length) {
+            if (homeTeamScore.length && awayTeamScore.length) {
                 $("#pick-status span").html('Complete').addClass('label-success').removeClass('label-important').removeClass('label-warning');
                 $("#incomplete-help").remove();
             } else {
@@ -39,7 +41,11 @@ $(document).ready(function(){
             }
         }
     }
-    checkPickStatus();
+
+    // Check the status only if the pick form is valid
+    if ($('.pickForm').length) {
+        checkPickStatus();
+    }
 
     $('.pickForm').submit(function() {
         $(this).find('.makePick').each(function() {
