@@ -13,9 +13,15 @@ class RegistrationFormType extends BaseType
 
         // Additional Fields
         $builder
-            ->add('emailVisible', 'checkbox')
-            ->add('firstName', 'text')
-            ->add('lastName', 'text');
+            ->add('emailVisible', 'checkbox', array(
+                'required' => false
+            ))
+            ->add('firstName', 'text', array(
+                'required' => false
+            ))
+            ->add('lastName', 'text', array(
+                'required' => false
+            ));
     }
 
     public function getName()
