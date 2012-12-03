@@ -7,6 +7,8 @@
             <tr>
                 <th>PickSet Name</th>
                 <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>Email</th>
             </tr>
         </thead>
@@ -20,6 +22,8 @@
                     <td>--</td>
                 {% endif %}
                 <td><a href="{{ path('user_profile', {username: member.username}) }}">{{ member.username }}</a></td>
+                <td>{{ member.firstName ?: '--' }}</td>
+                <td>{{ member.lastName ?: '--' }}</td>
                 <td>{% if member.emailVisible %}<a href="mailto:{{ member.email }}">{{ member.email }}</a>{% else %}--{% endif %}</td>
             </tr>
         {% endfor %}
