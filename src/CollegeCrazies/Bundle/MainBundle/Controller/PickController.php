@@ -89,15 +89,15 @@ class PickController extends BaseController
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAll();
-        $idx = 1;
+        $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate();
+        $idx = count($games);
         foreach ($games as $game) {
             $pick = new Pick();
             $pick->setGame($game);
             $pick->setConfidence($idx);
 
             $pickSet->addPick($pick);
-            $idx++;
+            $idx--;
         }
 
         $form = $this->getPickSetForm($pickSet);
