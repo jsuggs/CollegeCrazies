@@ -1,6 +1,6 @@
 Hello {{ emailTo }},
 Evidentially you are awesome
-Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you to join them in a <a href="http://sofachamps.com">SofaChamps</a> league.
+Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you to join them in a <a href="http://sofachamps.com">SofaChamps</a> league to play College Bowl Pick'em.
 
 To accept the invitation, just <a href="{{ url('league_find') }}">Click here</a> or copy and paste "{{ path('league_find') }}" into your browser and enter the League's information.
  * League Name: {{ league.name }}
