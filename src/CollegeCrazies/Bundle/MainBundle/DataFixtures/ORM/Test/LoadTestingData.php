@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\MainBundle\DataFixtures\ORM;
+namespace CollegeCrazies\Bundle\MainBundle\DataFixtures\ORM\Test;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
@@ -145,6 +145,8 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $game->setHomeTeam($homeTeam);
         $game->setAwayTeam($awayTeam);
         $game->setName($name);
+        $game->setShortName(substr($name, 0, 12));
+        $game->setLocation('Don\'t care');
         $game->setNetwork($network);
         $game->setGameDate($gameDate);
         $game->setSpread($spread);
