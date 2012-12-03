@@ -26,7 +26,7 @@ class RegistrationController extends BaseController
                 $route = 'pickset_new';
             }
 
-            $this->setFlash('success', 'Account Created!  Welcome to CollegeCrazies.');
+            $this->setFlash('success', 'Account Created!  Welcome to SofaChamps.');
             $url = $this->container->get('router')->generate($route);
             $response = new RedirectResponse($url);
 
