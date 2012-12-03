@@ -4,8 +4,6 @@ namespace CollegeCrazies\Bundle\MainBundle\DataFixtures\ORM;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
-use CollegeCrazies\Bundle\MainBundle\Entity\Pick;
-use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
 use CollegeCrazies\Bundle\MainBundle\Entity\Team;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -28,18 +26,9 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        // Users
+        // Admin Users
         $jsuggs     = $this->createUser($manager, 'jsuggs',     'jsuggs@gmail.com',         array('ROLE_ADMIN'));
         $granite777 = $this->createUser($manager, 'granite777', 'dustin.whitter@gmail.com', array('ROLE_ADMIN'));
-        $commish1   = $this->createUser($manager, 'commish1',   'commish1@test.com');
-        $commish2   = $this->createUser($manager, 'commish2',   'commish2@test.com');
-        $nopicks    = $this->createUser($manager, 'nopicks',    'nopicks@test.com');
-        $onepick    = $this->createUser($manager, 'onepick',    'onepick@test.com');
-
-        $users = array();
-        for ($x = 1; $x < 10; $x++) {
-            $users[] = $this->createUser($manager, "test$x", "test$x@test.com");
-        }
 
         $manager->flush();
 
@@ -172,72 +161,46 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         // Games
-        $games = array();
-	    $games[] = $discover = $this->createGame($manager, $ND, $ALA, 'Discover BCS National Championship Game', 'ESPN', new \DateTime('2013-01-07 20:30:00'), 20, 49, 'Miami, Fla.');
-	    $games[] = $godaddy = $this->createGame($manager, $KEST, $ARST, 'GoDaddy.com', 'ESPN', new \DateTime('2013-01-06 21:0:00'), 3.5, 52.5, 'Mobile, Ala.');
-	    $games[] = $bbva = $this->createGame($manager, $TOL, $MSST, 'BBVA Compass', 'ESPN', new \DateTime('2013-01-05 13:0:00'), -2.5, 46, 'Birmingham, Ala.');
-	    $games[] = $att = $this->createGame($manager, $TEX, $LSU, 'AT&T Cotton', 'FOX', new \DateTime('2013-01-04 20:0:00'), 14, 60.5, 'Arlington, Texas');
-	    $games[] = $tostitos = $this->createGame($manager, $KSST, $ORE, 'Tostitos Fiesta', 'ESPN', new \DateTime('2013-01-03 20:30:00'), 29, 52.5, 'Glendale, Ariz.');
-	    $games[] = $allstate = $this->createGame($manager, $FLA, $OKLA, 'Allstate Sugar', 'ESPN', new \DateTime('2013-01-02 20:30:00'), -7, 56, 'New Orleans, La.');
-	    $games[] = $discover = $this->createGame($manager, $FLST, $RUT, 'Discover Orange', 'ESPN', new \DateTime('2013-01-01 20:30:00'), 7, 59.5, 'Miami, Fla.');
-	    $games[] = $rose = $this->createGame($manager, $STAN, $NEB, 'Rose Bowl Game presented by Vizio', 'ESPN', new \DateTime('2013-01-01 17:0:00'), 4, 55, 'Pasadena, Calif.');
-	    $games[] = $capital = $this->createGame($manager, $MICH, $TAMU, 'Capital One', 'TBA', new \DateTime('2013-01-01 13:0:00'), -26.5, 55, 'Orlando, Fla.');
-	    $games[] = $outback = $this->createGame($manager, $NW, $SCAR, 'Outback', 'TBA', new \DateTime('2013-01-01 13:0:00'), 2, 43.5, 'Tampa, Fla.');
-	    $games[] = $heart = $this->createGame($manager, $MINN, $IAST, 'Heart of Dallas', 'ESPNU', new \DateTime('2013-01-01 12:0:00'), -31.5, 55.5, 'Dallas, Texas');
-	    $games[] = $taxslayer = $this->createGame($manager, $WIS, $VAND, 'TaxSlayer.com Gator', 'ESPN2', new \DateTime('2013-01-01 12:0:00'), -12, 68, 'Jacksonville, Fla.');
-	    $games[] = $chickfila = $this->createGame($manager, $CLEM, $UGA, 'Chick-fil-A', 'ESPN', new \DateTime('2012-12-31 19:30:00'), -11.5, 61, 'Atlanta, Ga.');
-	    $games[] = $autozone = $this->createGame($manager, $TULS, $ULM, 'AutoZone Liberty', 'ESPN', new \DateTime('2012-12-31 15:30:00'), -7.5, 63.5, 'Memphis, Tenn.');
-	    $games[] = $hyundai = $this->createGame($manager, $GT, $USC, 'Hyundai Sun', 'CBS', new \DateTime('2012-12-31 14:0:00'), -11, 70.5, 'El Paso, Texas');
-	    $games[] = $franklin = $this->createGame($manager, $NCST, $MISS, 'Franklin American Mortgage Music City', 'ESPN', new \DateTime('2012-12-31 12:0:00'), -7, 59.5, 'Nashville, Tenn.');
-	    $games[] = $buffalo = $this->createGame($manager, $TCU, $MIST, 'Buffalo Wild Wings', 'ESPN', new \DateTime('2012-12-29 22:15:00'), 14.5, 55, 'Tempe, Ariz.');
-	    $games[] = $valero = $this->createGame($manager, $OKST, $ORST, 'Valero Alamo', 'ESPN', new \DateTime('2012-12-29 18:45:00'), -27, 55, 'San Antonio, Texas');
-	    $games[] = $kraft = $this->createGame($manager, $NAVY, $WASH, 'Kraft Fight Hunger', 'ESPN2', new \DateTime('2012-12-29 15:15:00'), -2, 67.5, 'San Francisco, Calif.');
-	    $games[] = $new = $this->createGame($manager, $SYRA, $BAY, 'New Era Pinstripe', 'ESPN2', new \DateTime('2012-12-29 15:15:00'), -12.5, 54.5, 'Bronx, N.Y.');
-	    $games[] = $bell = $this->createGame($manager, $SMU, $AFA, 'Bell Helicopter Armed Forces', 'ESPN', new \DateTime('2012-12-29 11:45:00'), -27, 49, 'Fort Worth, Texas');
-	    $games[] = $meineke = $this->createGame($manager, $PURD, $TEXT, 'Meineke Car Care of Texas', 'ESPN', new \DateTime('2012-12-28 21:0:00'), -21, 55, 'Houston, Texas');
-	    $games[] = $russell = $this->createGame($manager, $VT, $LOUI, 'Russell Athletic', 'ESPN', new \DateTime('2012-12-28 17:30:00'), -29, 56, 'Orlando, Fla.');
-	    $games[] = $advocare = $this->createGame($manager, $MTSU, $LT, 'AdvoCare V100 Independence', 'ESPN', new \DateTime('2012-12-28 14:0:00'), -17, 52.5, 'Shreveport, La.');
-	    $games[] = $bridgepoint = $this->createGame($manager, $WVU, $UCLA, 'Bridgepoint Education Holiday', 'ESPN', new \DateTime('2012-12-27 21:45:00'), -16.5, 54.5, 'San Diego, Calif.');
-	    $games[] = $belk = $this->createGame($manager, $DUKE, $CINC, 'Belk', 'ESPN', new \DateTime('2012-12-27 18:30:00'), -14.5, 52, 'Charlotte, N.C.');
-	    $games[] = $military = $this->createGame($manager, $BGSU, $WEKY, 'Military Bowl Presented By Northrop Grumman', 'ESPN', new \DateTime('2012-12-27 15:0:00'), -28, 55, 'Washington, D.C.');
-	    $games[] = $little = $this->createGame($manager, $NIU, $SJSU, 'Little Caesars Pizza', 'ESPN', new \DateTime('2012-12-26 19:30:00'), 31.5, 50.5, 'Detroit, Mich.');
-	    $games[] = $sheraton = $this->createGame($manager, $ECU, $FRST, 'Sheraton Hawaii', 'ESPN', new \DateTime('2012-12-24 20:0:00'), 7, 50.5, 'Honolulu, Ha.');
-	    $games[] = $maaco = $this->createGame($manager, $BOST, $AZST, 'MAACO Las Vegas', 'ESPN', new \DateTime('2012-12-22 15:30:00'), 2.5, 44.5, 'Las Vegas, Nev.');
-	    $games[] = $rl = $this->createGame($manager, $RICE, $ULL, 'R+L Carriers New Orleans', 'ESPN', new \DateTime('2012-12-22 12:0:00'), 4, 55.5, 'New Orleans, La.');
-	    $games[] = $beef = $this->createGame($manager, $PITT, $UCF, 'Beef \'O\' Brady\'s St. Petersburg', 'ESPN', new \DateTime('2012-12-21 19:30:00'), 2, 44.5, 'St. Petersburg, Fla.');
-	    $games[] = $sd = $this->createGame($manager, $BYU, $SDSU, 'S.D. County Credit Union Poinsettia', 'ESPN', new \DateTime('2012-12-20 20:0:00'), -7, 46, 'San Diego, Calif.');
-	    $games[] = $famous = $this->createGame($manager, $BAST, $UTST, 'Famous Idaho Potato', 'ESPN', new \DateTime('2012-12-15 16:30:00'), 26, 44.5, 'Boise, Idaho');
-	    $games[] = $gildan = $this->createGame($manager, $NEV, $ARIZ, 'Gildan New Mexico', 'ESPN', new \DateTime('2012-12-15 13:0:00'), 2.5, 44, 'Albuquerque, N.M.');
+	    $this->createGame($manager, $ND, $ALA, 'Discover BCS National Championship Game', 'ESPN', new \DateTime('2013-01-07 20:30:00'), 20, 49, 'Miami, Fla.');
+	    $this->createGame($manager, $KEST, $ARST, 'GoDaddy.com', 'ESPN', new \DateTime('2013-01-06 21:0:00'), 3.5, 52.5, 'Mobile, Ala.');
+	    $this->createGame($manager, $TOL, $MSST, 'BBVA Compass', 'ESPN', new \DateTime('2013-01-05 13:0:00'), -2.5, 46, 'Birmingham, Ala.');
+	    $this->createGame($manager, $TEX, $LSU, 'AT&T Cotton', 'FOX', new \DateTime('2013-01-04 20:0:00'), 14, 60.5, 'Arlington, Texas');
+	    $this->createGame($manager, $KSST, $ORE, 'Tostitos Fiesta', 'ESPN', new \DateTime('2013-01-03 20:30:00'), 29, 52.5, 'Glendale, Ariz.');
+	    $this->createGame($manager, $FLA, $OKLA, 'Allstate Sugar', 'ESPN', new \DateTime('2013-01-02 20:30:00'), -7, 56, 'New Orleans, La.');
+	    $this->createGame($manager, $FLST, $RUT, 'Discover Orange', 'ESPN', new \DateTime('2013-01-01 20:30:00'), 7, 59.5, 'Miami, Fla.');
+	    $this->createGame($manager, $STAN, $NEB, 'Rose Bowl Game presented by Vizio', 'ESPN', new \DateTime('2013-01-01 17:0:00'), 4, 55, 'Pasadena, Calif.');
+	    $this->createGame($manager, $MICH, $TAMU, 'Capital One', 'TBA', new \DateTime('2013-01-01 13:0:00'), -26.5, 55, 'Orlando, Fla.');
+	    $this->createGame($manager, $NW, $SCAR, 'Outback', 'TBA', new \DateTime('2013-01-01 13:0:00'), 2, 43.5, 'Tampa, Fla.');
+	    $this->createGame($manager, $MINN, $IAST, 'Heart of Dallas', 'ESPNU', new \DateTime('2013-01-01 12:0:00'), -31.5, 55.5, 'Dallas, Texas');
+	    $this->createGame($manager, $WIS, $VAND, 'TaxSlayer.com Gator', 'ESPN2', new \DateTime('2013-01-01 12:0:00'), -12, 68, 'Jacksonville, Fla.');
+	    $this->createGame($manager, $CLEM, $UGA, 'Chick-fil-A', 'ESPN', new \DateTime('2012-12-31 19:30:00'), -11.5, 61, 'Atlanta, Ga.');
+	    $this->createGame($manager, $TULS, $ULM, 'AutoZone Liberty', 'ESPN', new \DateTime('2012-12-31 15:30:00'), -7.5, 63.5, 'Memphis, Tenn.');
+	    $this->createGame($manager, $GT, $USC, 'Hyundai Sun', 'CBS', new \DateTime('2012-12-31 14:0:00'), -11, 70.5, 'El Paso, Texas');
+	    $this->createGame($manager, $NCST, $MISS, 'Franklin American Mortgage Music City', 'ESPN', new \DateTime('2012-12-31 12:0:00'), -7, 59.5, 'Nashville, Tenn.');
+	    $this->createGame($manager, $TCU, $MIST, 'Buffalo Wild Wings', 'ESPN', new \DateTime('2012-12-29 22:15:00'), 14.5, 55, 'Tempe, Ariz.');
+	    $this->createGame($manager, $OKST, $ORST, 'Valero Alamo', 'ESPN', new \DateTime('2012-12-29 18:45:00'), -27, 55, 'San Antonio, Texas');
+	    $this->createGame($manager, $NAVY, $WASH, 'Kraft Fight Hunger', 'ESPN2', new \DateTime('2012-12-29 15:15:00'), -2, 67.5, 'San Francisco, Calif.');
+	    $this->createGame($manager, $SYRA, $BAY, 'New Era Pinstripe', 'ESPN2', new \DateTime('2012-12-29 15:15:00'), -12.5, 54.5, 'Bronx, N.Y.');
+	    $this->createGame($manager, $SMU, $AFA, 'Bell Helicopter Armed Forces', 'ESPN', new \DateTime('2012-12-29 11:45:00'), -27, 49, 'Fort Worth, Texas');
+	    $this->createGame($manager, $PURD, $TEXT, 'Meineke Car Care of Texas', 'ESPN', new \DateTime('2012-12-28 21:0:00'), -21, 55, 'Houston, Texas');
+	    $this->createGame($manager, $VT, $LOUI, 'Russell Athletic', 'ESPN', new \DateTime('2012-12-28 17:30:00'), -29, 56, 'Orlando, Fla.');
+	    $this->createGame($manager, $MTSU, $LT, 'AdvoCare V100 Independence', 'ESPN', new \DateTime('2012-12-28 14:0:00'), -17, 52.5, 'Shreveport, La.');
+	    $this->createGame($manager, $WVU, $UCLA, 'Bridgepoint Education Holiday', 'ESPN', new \DateTime('2012-12-27 21:45:00'), -16.5, 54.5, 'San Diego, Calif.');
+	    $this->createGame($manager, $DUKE, $CINC, 'Belk', 'ESPN', new \DateTime('2012-12-27 18:30:00'), -14.5, 52, 'Charlotte, N.C.');
+	    $this->createGame($manager, $BGSU, $WEKY, 'Military Bowl Presented By Northrop Grumman', 'ESPN', new \DateTime('2012-12-27 15:0:00'), -28, 55, 'Washington, D.C.');
+	    $this->createGame($manager, $NIU, $SJSU, 'Little Caesars Pizza', 'ESPN', new \DateTime('2012-12-26 19:30:00'), 31.5, 50.5, 'Detroit, Mich.');
+	    $this->createGame($manager, $ECU, $FRST, 'Sheraton Hawaii', 'ESPN', new \DateTime('2012-12-24 20:0:00'), 7, 50.5, 'Honolulu, Ha.');
+	    $this->createGame($manager, $BOST, $AZST, 'MAACO Las Vegas', 'ESPN', new \DateTime('2012-12-22 15:30:00'), 2.5, 44.5, 'Las Vegas, Nev.');
+	    $this->createGame($manager, $RICE, $ULL, 'R+L Carriers New Orleans', 'ESPN', new \DateTime('2012-12-22 12:0:00'), 4, 55.5, 'New Orleans, La.');
+	    $this->createGame($manager, $PITT, $UCF, 'Beef \'O\' Brady\'s St. Petersburg', 'ESPN', new \DateTime('2012-12-21 19:30:00'), 2, 44.5, 'St. Petersburg, Fla.');
+	    $this->createGame($manager, $BYU, $SDSU, 'S.D. County Credit Union Poinsettia', 'ESPN', new \DateTime('2012-12-20 20:0:00'), -7, 46, 'San Diego, Calif.');
+	    $this->createGame($manager, $BAST, $UTST, 'Famous Idaho Potato', 'ESPN', new \DateTime('2012-12-15 16:30:00'), 26, 44.5, 'Boise, Idaho');
+	    $this->createGame($manager, $NEV, $ARIZ, 'Gildan New Mexico', 'ESPN', new \DateTime('2012-12-15 13:0:00'), 2.5, 44, 'Albuquerque, N.M.');
 
         $manager->flush();
 
         // Leagues
-        $pub1 = $this->createLeague($manager, 'Public 1',  'password', true,  array_merge($users, array($jsuggs, $granite777, $commish1)), array($jsuggs, $commish1));
-        $pub2 = $this->createLeague($manager, 'Public 2',  'password', true,  array_merge($users, array($jsuggs, $commish2)), array($jsuggs, $commish2));
-        $pub3 = $this->createLeague($manager, 'Public 3',  'password', true,  array_merge($users, array($granite777)));
-        $pri1 = $this->createLeague($manager, 'Private 1', 'password', false, array($jsuggs, $granite777, $commish1), array($commish1));
-
-        $manager->flush();
-
-        // PickSets
-        $this->createPickSet($manager, 'jsuggs - My Picks VIP',       $pub1, $jsuggs,     $games);
-        $this->createPickSet($manager, 'jsuggs - Yo Picks Need ID',   $pub2, $jsuggs,     $games);
-        $this->createPickSet($manager, 'granite777 - Pick in a box',  $pub1, $granite777, $games);
-        $this->createPickSet($manager, 'granite777 - Suck my pick',   $pub3, $granite777, $games);
-        $this->createPickSet($manager, 'jsuggs - Random Picks',       $pri1, $jsuggs,     $games);
-        $this->createPickSet($manager, 'granite777 - Random Picks',   $pri1, $granite777, $games);
-        $this->createPickSet($manager, 'commish1 - Commish1',         $pub1, $commish1,   $games);
-        $this->createPickSet($manager, 'commish2 - Commish2',         $pub2, $commish2,   $games);
-        $this->createPickSet($manager, 'Here are some picks',         $pub1, $onepick,    $games);
-        foreach ($users as $user) {
-            $this->createPickSet($manager, sprintf('%s - Pub1 Picks', $user->getUsername()), $pub1, $user, $games);
-        }
-        foreach ($users as $user) {
-            $this->createPickSet($manager, sprintf('%s - Pub2 Picks', $user->getUsername()), $pub2, $user, $games);
-        }
-        foreach ($users as $user) {
-            $this->createPickSet($manager, sprintf('%s - Pub3 Picks', $user->getUsername()), $pub3, $user, $games);
-        }
+        $pub1 = $this->createLeague($manager, 'College Crazies', 'dores', true,  array_merge($users, array($jsuggs, $granite777)), array($jsuggs, $commish1));
 
         $manager->flush();
     }
@@ -301,50 +264,5 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         $manager->persist($league);
 
         return $league;
-    }
-
-    private function createPickSet(ObjectManager $manager, $name, League $league, User $user, $games)
-    {
-        $pickSet = new PickSet();
-        $pickSet->setName($name);
-        $pickSet->addLeague($league);
-        $pickSet->setUser($user);
-        $pickSet->setTiebreakerHomeTeamScore(floor(rand(10, 51)));
-        $pickSet->setTiebreakerAwayTeamScore(floor(rand(3, 45)));
-
-        $picks = $this->createRandomPicks($manager, $pickSet, $games);
-        $pickSet->setPicks($picks);
-
-        $manager->persist($pickSet);
-
-        return $pickSet;
-    }
-
-    private function createRandomPicks(ObjectManager $manager, PickSet $pickSet, $games)
-    {
-        $picks = array();
-
-        // Randomize the confidence
-        shuffle($games);
-
-        foreach ($games as $idx => $game) {
-            $pick = $this->createRandomPick($game, $pickSet, $idx + 1);
-
-            $manager->persist($pick);
-            $picks[] = $pick;
-        }
-
-        return $picks;
-    }
-
-    private function createRandomPick(Game $game, PickSet $pickSet, $confidence)
-    {
-        $pick = new Pick();
-        $pick->setPickSet($pickSet);
-        $pick->setConfidence($confidence);
-        $pick->setGame($game);
-        $pick->setTeam(rand(0, 1) < .5 ? $game->getHomeTeam() : $game->getAwayTeam());
-
-        return $pick;
     }
 }
