@@ -40,6 +40,9 @@ class Sender implements SenderInterface
 
     public function sendToEmail($email, $templateName, $subjectLine, array $data = array())
     {
+        // Make the email being sent to available to the templates
+        $data['emailTo'] = $email;
+
         $html = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.html.twig', $templateName), $data);
         $text = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.text.twig', $templateName), $data);
 

@@ -1,10 +1,12 @@
 {% extends 'CollegeCraziesEmailBundle:Layout:base.html.twig' %}
 
 {% block content %}
+    <p>Hello {{ emailTo }},</p>
     <h1>Evidentially you are awesome</h1>
-    <h2>Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you go join them in a <a href="http://sofachamps.com">SofaChamps</a> league.</h2>
+    <h2>Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you to join them in a <a href="http://sofachamps.com">SofaChamps</a> league.</h2>
 
-    <h3>Here are the details:</h3>
+    <p>To accept the invitation, just <a href="{{ url('league_find') }}">click here to join the league.</a>  For reference, here's the League's information:</p>
+
     <dl>
         <dt>League Name</dt>
         <dd>{{ league.name }}</dd>
@@ -17,6 +19,4 @@
             <dd>{{ league.password }}</dd>
         {% endif %}
     </dl>
-
-    <p><a href="{{ url('league_find') }}">Click here to join the league</a></p>
 {% endblock %}
