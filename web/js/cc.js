@@ -35,7 +35,7 @@ $(document).ready(function(){
         } else {
             var status = $("#pick-status span").html('Incomplete').addClass('label-important');
             if (!$("#incomplete-help").length) {
-                status.after('<a id="incomplete-help" href="#" rel="popover" title="Help" data-content="Please be sure to pick a winning team for every game and enter a tiebreaker score."> <i class="icon-question-sign"></i></a>');
+                status.after('<a id="incomplete-help" href="#" rel="popover" data-trigger="hover" title="Help" data-content="Please be sure to pick a winning team for every game and enter a tiebreaker score."> <i class="icon-question-sign"></i></a>');
             }
         }
     }
