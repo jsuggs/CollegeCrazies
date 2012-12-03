@@ -15,5 +15,8 @@
 
         <dt>League Password</dt>
         <dd>{{ league.public ? 'Not Required' : league.password }}</dd>
+
+        <dt>Picks Lock</dt>
+        <dd>{{ league.lockTime ? league.lockTime|date("F jS \\a\\t g:ia") : 'Not Set' }}</dd>
     </dl>
 {% endblock %}
