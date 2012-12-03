@@ -55,6 +55,15 @@ class HomePageController extends Controller
     }
 
     /**
+     * @Route("/donate-thanks", name="donate_thanks")
+     * @Template("CollegeCraziesMainBundle::donate-thanks.html.twig")
+     */
+    public function donateThanksAction()
+    {
+        return array();
+    }
+
+    /**
      * @Route("/distribution", name="distribution")
      * @Template("CollegeCraziesMainBundle::distribution.html.twig")
      */
