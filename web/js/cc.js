@@ -62,8 +62,27 @@ $(document).ready(function(){
         checkPickStatus();
     });
 
+    var popoverVisible = false;
+    var popoverClickedAway = false;
+    var currentPopover;
     var popoverOptions = {
-        html: true
+        html: true,
+        trigger: 'manual'
     };
-    $('a[rel="popover"]').popover(popoverOptions);
+    $('a[rel="popover"]').popover(popoverOptions).click(function(e) {
+        currentPopover = $(this).popover('show');
+        popoverClickedAway = false;
+        popoverVisible = true;
+        e.preventDefault();
+    });
+
+    // Close popover when clicked away
+    $(document).click(function(e) {
+        if(popoverVisible & popoverClickedAway) {
+            currentPopover.popover('hide');
+            popoverVisible = popoverClickedAway = false;
+        } else {
+            popoverClickedAway = true;
+        }
+    });
 });
