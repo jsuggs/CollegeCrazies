@@ -249,6 +249,26 @@ class LeagueController extends BaseController
     }
 
     /**
+     * @Route("/{leagueId}/stats", name="league_stats")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function statsAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$league->userCanView($user)) {
+            $this->get('session')->setFlash('warning', 'You cannot view this league');
+            return $this->redirect('/');
+        }
+
+        return array(
+            'league' => $league,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/members-remove", name="league_member_remove")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:League:remove.html.twig")
