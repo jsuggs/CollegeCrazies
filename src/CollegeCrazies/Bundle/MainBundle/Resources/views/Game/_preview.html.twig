@@ -10,7 +10,7 @@
         <tbody>
             <tr>
                 <td><img src='{{ favorite.thumbnail }}' alt='{{ favorite.name }}' width='20' height='20' /> {{ favorite.name }}</td>
-                <td>-{{ game.spread }}</td>
+                <td>{{ game.spread == 0 ? '0' : '-'~ game.spread|abs }}</td>
                 <td>--</td>
             </tr>
             <tr>
