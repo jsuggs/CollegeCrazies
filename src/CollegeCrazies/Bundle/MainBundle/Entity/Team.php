@@ -28,6 +28,12 @@ class Team
     protected $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    protected $thumbnail;
+
+    /**
      * Predictions
      *
      * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner")
@@ -53,6 +59,16 @@ class Team
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 
     public function __toString()

@@ -14,6 +14,7 @@ class TeamFormType extends AbstractType
                 'max_length' => 5,
             ))
             ->add('name', 'text')
+            ->add('thumbnail', 'text')
         ;
     }
 
