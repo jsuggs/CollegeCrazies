@@ -70,6 +70,9 @@ $(document).ready(function(){
         trigger: 'manual'
     };
     $('a[rel="popover"]').popover(popoverOptions).click(function(e) {
+        if(popoverVisible) {
+            currentPopover.popover('hide');
+        }
         currentPopover = $(this).popover('show');
         popoverClickedAway = false;
         popoverVisible = true;
