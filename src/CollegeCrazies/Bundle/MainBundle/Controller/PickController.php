@@ -194,6 +194,7 @@ class PickController extends BaseController
     /**
      * @Route("/create", name="pickset_create")
      * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
      */
     public function createPickAction()
     {
@@ -202,22 +203,26 @@ class PickController extends BaseController
         $request = $this->getRequest();
         $form->bindRequest($request);
 
-        if (!$form->isValid()) {
-            die('todo');
+        if ($form->isValid()) {
+            $user = $this->getUser();
+            $pickSet->setUser($user);
+
+            $em = $this->get('doctrine.orm.entity_manager');
+
+            $user->addPickSet($pickSet);
+            $em->persist($user);
+            $em->persist($pickSet);
+            $em->flush();
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'id' => $pickSet->getId()
+            )));
         }
 
-        $user = $this->getUser();
-        $pickSet->setUser($user);
+        $this->get('session')->setFlash('warning', 'There was an error creating your pickset');
 
-        $em = $this->get('doctrine.orm.entity_manager');
-
-        $user->addPickSet($pickSet);
-        $em->persist($user);
-        $em->persist($pickSet);
-        $em->flush();
-        return $this->redirect($this->generateUrl('pickset_edit', array(
-            'id' => $pickSet->getId()
-        )));
+        return array(
+            'form' => $form->createView(),
+        );
     }
 
     /**
