@@ -22,26 +22,30 @@
     </thead>
     <tbody>
     {% for pick in form.picks %}
+        {% set game = pick.vars.value.game %}
+        {% set team = pick.vars.value.team %}
+        {% set favorite = game.favorite %}
+        {% set underdog = game.underdog %}
         <tr class="pick">
             <td>
-                {{ pick.vars.value.game.name }}
-                {% if pick.vars.value.game.description|length %}
-                    (<a href="#" rel="popover" data-content="{{ pick.vars.value.game.description}}" title="{{ pick.vars.value.game.homeTeam.id }} vs {{ pick.vars.value.game.awayTeam.id }} Preview">?</a>)
+                {{ game.name }}
+                {% if game.description|length %}
+                    (<a href="#" rel="popover" data-content="{% include 'CollegeCraziesMainBundle:Game:_preview.html.twig'|escape %}" title="{{ favorite.id }} vs {{ underdog.id }} Preview">?</a>)
                 {% endif %}
             </td>
             <td>
-                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.homeTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.homeTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
-                {{ pick.vars.value.game.homeTeam.name }}
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ favorite.id }}"{% if team.id is defined and favorite.id == team.id %} checked="checked"{% endif %} />
+                {{ favorite.name }}
             </td>
-            <td class="confidence{% if pick.vars.value.team.id is defined %} picked{% else %} unpicked{% endif %}">
+            <td class="confidence{% if team.id is defined %} picked{% else %} unpicked{% endif %}">
                 <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
                 {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden confidenceValue'} }) }}
                 {{ form_widget(pick.team, { 'attr': {'class': 'team' } }) }}
                 {{ form_widget(pick.game, { 'attr': {'class': 'hidden' } }) }}
             </td>
             <td>
-                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ pick.vars.value.game.awayTeam.id }}"{% if pick.vars.value.team.id is defined and pick.vars.value.game.awayTeam.id == pick.vars.value.team.id %} checked="checked"{% endif %} />
-                {{ pick.vars.value.game.awayTeam.name }}
+                <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ underdog.id }}"{% if team.id is defined and underdog.id == team.id %} checked="checked"{% endif %} />
+                {{ underdog.name }}
             </td>
             <td>{{ pick.vars.value.game.gameDate|date('m/d/Y g:i a') }}</td>
         </tr>

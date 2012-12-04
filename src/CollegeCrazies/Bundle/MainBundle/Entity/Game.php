@@ -267,6 +267,20 @@ class Game
         return $this->location;
     }
 
+    public function getFavorite()
+    {
+        return $this->spread <= 0
+            ? $this->homeTeam
+            : $this->awayTeam;
+    }
+
+    public function getUnderdog()
+    {
+        return $this->spread > 0
+            ? $this->homeTeam
+            : $this->awayTeam;
+    }
+
     public function __toString()
     {
         return $this->name;

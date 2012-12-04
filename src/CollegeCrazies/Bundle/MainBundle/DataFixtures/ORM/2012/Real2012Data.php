@@ -228,6 +228,7 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         $team = new Team();
         $team->setId($id);
         $team->setName($name);
+        $team->setThumbnail($name);
 
         $manager->persist($team);
 
