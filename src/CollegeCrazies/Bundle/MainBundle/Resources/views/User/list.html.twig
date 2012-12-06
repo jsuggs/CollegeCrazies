@@ -1,19 +1,29 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h4>Users</h4>
-    <ul class="unstyled">
-    {% for user in users %}
-        <li>
-            <h5>
-                {{ user.username }}
-                {% if user.hasRole('ROLE_ADMIN') %}
-                    ADMIN
-                {% else %}
-                    <a href="{{ path('user_admin', {'id': user.id}) }}">Make Admin</a>
-                {% endif %}
-            </h5>
-        </li>
-    {% endfor %}
-    </ul>
+    <h2>Users</h2>
+    <table class="table table-rounded">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Admin</th>
+                <th>Impersonate</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>
+                    {% if user.hasRole('ROLE_ADMIN') %}
+                        ADMIN
+                    {% else %}
+                        <a href="{{ path('user_admin', {'id': user.id}) }}" class="btn">Make Admin</a>
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('pickset_manage', {_switch_user: user.username}) }}" class="btn btn-warning">Impersonate</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

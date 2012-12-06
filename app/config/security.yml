@@ -22,6 +22,7 @@ security:
             logout: true
             form_login:
                 provider: fos_userbundle
+            switch_user: { role: ROLE_ADMIN }
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

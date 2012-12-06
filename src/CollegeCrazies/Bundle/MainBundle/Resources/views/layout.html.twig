@@ -34,6 +34,9 @@
                     <li><a href="{{ path('donate') }}">Donate</a></li>
                 </ul>
                 <div class="pull-right navbar-text">
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a href="{{ path('pickset_manage', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="btn-group">
                             <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
