@@ -137,6 +137,7 @@ class LeagueController extends BaseController
 
     /**
      * @Route("/join", name="league_join")
+     * @Method({"POST"})
      * @Secure(roles="ROLE_USER")
      */
     public function joinAction()
@@ -155,7 +156,9 @@ class LeagueController extends BaseController
         if (!$league->isPublic()) {
             if ($request['password'] !== $league->getPassword()) {
                 $this->get('session')->setFlash('error', 'The password was not correct');
-                $allowInLeague = false;
+                return $this->redirect($this->generateUrl('league_prejoin', array(
+                    'leagueId' => $leagueId->getId(),
+                )));
             }
         }
 
@@ -167,6 +170,8 @@ class LeagueController extends BaseController
         } elseif ($league->isLocked()) {
             $this->get('session')->setFlash('error', 'This league has been locked by the commissioner');
         } elseif ($allowInLeague) {
+            $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
+
             $this->addUserToLeague($league, $user);
 
             // If the user has one pickset, then auto-assign the pickset to that league
@@ -181,7 +186,6 @@ class LeagueController extends BaseController
                 )));
             }
             $this->get('doctrine.orm.entity_manager')->flush();
-            $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
@@ -189,6 +193,38 @@ class LeagueController extends BaseController
         }
 
         return $this->redirect($this->generateUrl('league_find'));
+    }
+
+    /**
+     * @Route("/{leagueId}/join", name="league_prejoin")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function prejoinAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if ($league->isUserInLeague($user)) {
+            $this->get('session')->setFlash('info', 'You are already in this league');
+            return $this->redirect($this->generateUrl('league_home', array(
+                'leagueId' => $leagueId,
+            )));
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('id', 'hidden')
+            ->add('password', 'text', array(
+                'required' => false,
+            ))
+            ->setData(array(
+                'id' => $leagueId,
+            ));
+
+        return array(
+            'league' => $league,
+            'form' => $form->getForm()->createView(),
+        );
     }
 
     /**

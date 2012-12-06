@@ -1,0 +1,26 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Join This League</h2>
+    <h3>League Name: <span class="text-info">{{ league.name }}</span></h3>
+
+    <p class="text-warning">Are you sure you want to join this league?</p>
+
+    <form action="{{ path('league_join') }}" method="post" class="pickForm form-horizontal" {{ form_enctype(form) }}>
+        <div class="errors">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="clearfix"{% if league.public %} hidden{% endif %}>
+            {{ form_label(form.password) }}
+            {{ form_widget(form.password) }}
+        </div>
+
+        {{ form_row(form.id) }}
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Join League" />
+            {{ form_rest(form) }}
+        </div>
+    </form>
+{% endblock %}

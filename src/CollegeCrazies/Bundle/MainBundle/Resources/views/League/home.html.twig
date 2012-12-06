@@ -5,31 +5,40 @@
     <p><small>"{{ league.motto }}"</small></p>
     <div class="container-fluid">
         <div class="row well">
-            <div class="span6">
-                <h4>{{ pickSet.name }}</h4>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Points</th>
-                            <th><abbr title="Potential Points Remaining">PPR</abbr></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ league.locked ? rank : '--' }}</td>
-                            <td>{{ pickSet.points }}</td>
-                            <td>{{ pickSet.getPointsPossible() }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="span6">
-                {% if league.note %}
-                    <h4>Commissioner's Note</h4>
-                    <p>{{ league.note }}
-                {% endif %}
-            </div>
+            {% if pickSet is not null %}
+                <div class="span6">
+                    <h4>{{ pickSet.name }}</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Points</th>
+                                <th><abbr title="Potential Points Remaining">PPR</abbr></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ league.locked ? rank : '--' }}</td>
+                                <td>{{ pickSet.points }}</td>
+                                <td>{{ pickSet.getPointsPossible() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="span6">
+                    {% if league.note %}
+                        <h4>Commissioner's Note</h4>
+                        <p>{{ league.note }}
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="span12">
+                    {% if league.note %}
+                        <h4>Commissioner's Note</h4>
+                        <p>{{ league.note }}
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
 

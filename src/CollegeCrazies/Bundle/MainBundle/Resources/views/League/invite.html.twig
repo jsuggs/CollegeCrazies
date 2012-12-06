@@ -6,8 +6,8 @@
 
     <form action="{{ path('league_invite', {leagueId: league.id}) }}" method="POST">
         <div class="control-group">
-            <label class="control-label">Emails</label>
-            <span class="help-block">You can enter multiple addresses, comma separated.  We'll send them a link with the league information (id, password, etc).  Nothing more, nothing less.</span>
+            <p class="help-block">You can enter multiple addresses, comma separated.  We'll send them a link with the league information (id, password, etc).  Nothing more, nothing less.</p>
+            <p class="help-block">Alternatively you can just send out this link: <em class="text-info">{{ url('league_prejoin', {leagueId: league.id}) }}</em></p>
             <div class="controls">
                 <textarea name="emails" class="input-block-level"></textarea>
                 <pre>Example: "test1@test.com, test2@test.com"</pre>
