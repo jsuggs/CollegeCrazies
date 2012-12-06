@@ -599,6 +599,47 @@ class LeagueController extends BaseController
     }
 
     /**
+     * @Route("/{leagueId}/blast", name="league_blast")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:blast.html.twig")
+     */
+    public function blastAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'You cannot send an email for this league');
+
+            return $this->redirect('/');
+        }
+
+        $request = $this->getRequest();
+        if ($request->getMethod() === 'POST') {
+            $emails = array_map(function (User $user) {
+                return $user->getEmail();
+            }, iterator_to_array($league->getUsers()));
+
+            $subjectLine = sprintf('League: "%s" - Commissioner Note - SofaChamps', $league->getName());
+
+            $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
+
+            $this->get('email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
+                'user' => $user,
+                'league' => $league,
+                'message' => $request->get('message'),
+                'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
+            ));
+
+            $this->get('session')->setFlash('note', 'League message sent');
+        }
+
+        return array(
+            'league' => $league,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/no-picks", name="league_nopicks")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:League:nopicks.html.twig")
