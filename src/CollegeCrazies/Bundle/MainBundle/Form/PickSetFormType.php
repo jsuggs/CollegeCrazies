@@ -12,7 +12,6 @@ class PickSetFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('user', new UserFormType())
             ->add('name', 'text', array(
                 'max_length' => 50,
             ))
