@@ -205,7 +205,7 @@ class LeagueController extends BaseController
         $league = $this->findLeague($leagueId);
         $user = $this->getUser();
 
-        if ($league->isUserInLeague($user)) {
+        if ($user && $league->isUserInLeague($user)) {
             $this->get('session')->setFlash('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $leagueId,
