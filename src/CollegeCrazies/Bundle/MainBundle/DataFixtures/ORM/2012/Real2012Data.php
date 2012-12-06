@@ -200,7 +200,7 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         // Leagues
-        $this->createLeague($manager, 'College Crazies', 'dores', true, array($jsuggs, $granite777), array($jsuggs, $granite777));
+        $this->createLeague($manager, 'College Crazies', 'dores', array($jsuggs, $granite777), array($jsuggs, $granite777));
 
         $manager->flush();
     }
@@ -253,12 +253,11 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         return $game;
     }
 
-    private function createLeague(ObjectManager $manager, $name, $password, $public, $users, $commissioners = array())
+    private function createLeague(ObjectManager $manager, $name, $password, $users, $commissioners = array())
     {
         $league = new League();
         $league->setName($name);
         $league->setPassword($password);
-        $league->setPublic($public);
         $league->setUsers($users);
         $league->setLocked(false);
         $league->setCommissioners($commissioners);

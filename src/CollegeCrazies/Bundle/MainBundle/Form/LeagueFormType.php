@@ -21,6 +21,7 @@ class LeagueFormType extends AbstractType
                     true => 'Public',
                     false => 'Private',
                 ),
+                'mapped' => false,
             ))
         ;
     }

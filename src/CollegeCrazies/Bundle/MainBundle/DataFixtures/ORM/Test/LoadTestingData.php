@@ -80,10 +80,10 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $manager->flush();
 
         // Leagues
-        $pub1 = $this->createLeague($manager, 'Public 1',  'password', true,  array_merge($users, array($jsuggs, $granite777, $commish1)), array($jsuggs, $commish1));
-        $pub2 = $this->createLeague($manager, 'Public 2',  'password', true,  array_merge($users, array($jsuggs, $commish2)), array($jsuggs, $commish2));
-        $pub3 = $this->createLeague($manager, 'Public 3',  'password', true,  array_merge($users, array($granite777)));
-        $pri1 = $this->createLeague($manager, 'Private 1', 'password', false, array($jsuggs, $granite777, $commish1), array($commish1));
+        $pub1 = $this->createLeague($manager, 'Public 1',  '',         array_merge($users, array($jsuggs, $granite777, $commish1)), array($jsuggs, $commish1));
+        $pub2 = $this->createLeague($manager, 'Public 2',  '',         array_merge($users, array($jsuggs, $commish2)), array($jsuggs, $commish2));
+        $pub3 = $this->createLeague($manager, 'Public 3',  '',         array_merge($users, array($granite777)));
+        $pri1 = $this->createLeague($manager, 'Private 1', 'password', array($jsuggs, $granite777, $commish1), array($commish1));
 
         $manager->flush();
 
@@ -133,6 +133,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $team = new Team();
         $team->setId($id);
         $team->setName($name);
+        $team->setThumbnail('');
 
         $manager->persist($team);
 
@@ -157,12 +158,11 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         return $game;
     }
 
-    private function createLeague(ObjectManager $manager, $name, $password, $public, $users, $commissioners = array())
+    private function createLeague(ObjectManager $manager, $name, $password, $users, $commissioners = array())
     {
         $league = new League();
         $league->setName($name);
         $league->setPassword($password);
-        $league->setPublic($public);
         $league->setUsers($users);
         $league->setLocked(false);
         $league->setCommissioners($commissioners);

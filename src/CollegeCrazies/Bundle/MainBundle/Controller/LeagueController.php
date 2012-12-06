@@ -157,7 +157,7 @@ class LeagueController extends BaseController
             if ($request['password'] !== $league->getPassword()) {
                 $this->get('session')->setFlash('error', 'The password was not correct');
                 return $this->redirect($this->generateUrl('league_prejoin', array(
-                    'leagueId' => $leagueId->getId(),
+                    'leagueId' => $league->getId(),
                 )));
             }
         }
@@ -350,7 +350,7 @@ class LeagueController extends BaseController
 
         if (!$user->isInTheLeague($league)) {
             $this->get('session')->setFlash('warning', 'You must be in the league to view the leaderboard');
-            return $this->redirect($this->generateUrl('league_join', array(
+            return $this->redirect($this->generateUrl('league_prejoin', array(
                 'leagueId' => $leagueId,
             )));
         }
@@ -376,7 +376,6 @@ class LeagueController extends BaseController
         $league = new League();
         $league->addUser($this->getUser());
         $league->addCommissioner($this->getUser());
-        $league->setPublic(true);
         $form = $this->getLeagueForm($league);
 
         return array(

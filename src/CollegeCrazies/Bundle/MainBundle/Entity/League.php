@@ -56,11 +56,6 @@ class League
     protected $lockTime;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $public;
-
-    /**
      * @ORM\OneToOne(targetEntity="LeagueMetadata")
      */
     protected $metadata;
@@ -121,7 +116,7 @@ class League
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = trim($password);
     }
 
     public function getPassword()
@@ -167,19 +162,9 @@ class League
         return ($this->lockTime < $now);
     }
 
-    public function getPublic()
-    {
-        return $this->public;
-    }
-
-    public function setPublic($public)
-    {
-        $this->public = $public;
-    }
-
     public function isPublic()
     {
-        return (bool) strlen($this->password);
+        return (bool) !($this->password && strlen($this->password) > 0);
     }
 
     public function getMetadata()
@@ -195,7 +180,6 @@ class League
     public function userCanView(User $user)
     {
         return $this->isUserInLeague($user);
-        return $this->public || $this->isUserInLeague($user);
     }
 
     public function isUserInLeague(User $user)

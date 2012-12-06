@@ -24,6 +24,7 @@
     <div class="controls">
         {{ form_widget(form.public) }}
     </div>
+</div>
 
 <div class="control-group password-container">
     {{ form_errors(form.password) }}
@@ -41,6 +42,13 @@
         // The radio button
         var pubprirdo = $('input:radio[name="league[public]"]');
         var passwdContainer = $('.password-container');
+
+        // Run this on load to pre-set the public checkbox.  Kinda a hack, but the public value is just a dummy on the form
+        if ($('input[name="league[password]"]').val().length) {
+            pubprirdo.filter('[value=0]').attr('checked', true);
+        } else {
+            pubprirdo.filter('[value=1]').attr('checked', true);
+        }
 
         // If public, then clear and hide the password
         var pubpri = function() {

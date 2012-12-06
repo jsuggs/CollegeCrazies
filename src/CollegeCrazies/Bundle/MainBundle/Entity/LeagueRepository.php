@@ -9,7 +9,7 @@ class LeagueRepository extends EntityRepository
     public function findAllPublic()
     {
         return $this->findBy(array(
-            'public' => true,
+            'password' => '',
         ));
     }
 
