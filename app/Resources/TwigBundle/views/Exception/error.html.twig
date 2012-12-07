@@ -1,0 +1,7 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Error {{ status_code }}</h2>
+    <p class="text-warning">We are soo sorry, but something has gone terribly wrong.</p>
+    <pre>{{ status_text }}</pre>
+{% endblock %}
