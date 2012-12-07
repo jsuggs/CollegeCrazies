@@ -77,7 +77,7 @@ class LeagueController extends BaseController
     public function findAction()
     {
         $form = $this->createFormBuilder()
-            ->add('id', 'text')
+            ->add('id', 'integer')
             ->add('password', 'password', array(
                 'required' => false,
             ))
@@ -143,7 +143,14 @@ class LeagueController extends BaseController
     public function joinAction()
     {
         $request = $this->getRequest()->request->get('form');
-        $league = $this->findLeague($request['id']);
+        $leagueId = $request['id'];
+
+        if (!is_numeric($leagueId)) {
+            $this->get('session')->setFlash('warning', 'When searching for a league, use the League Id (ex 12) not the name');
+            return $this->redirect($this->generateUrl('league_find'));
+        }
+
+        $league = $this->findLeague($leagueId);
         $user = $this->getUser();
         if (!$user) {
             // Store the league requested into the session

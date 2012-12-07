@@ -17,7 +17,7 @@ class BaseController extends Controller
         $league = $this
             ->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCraziesMainBundle:League')
-            ->find($id);
+            ->find((int) $id);
 
         if (!$league) {
             throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
