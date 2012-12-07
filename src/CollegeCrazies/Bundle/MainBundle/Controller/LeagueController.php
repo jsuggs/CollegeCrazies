@@ -154,7 +154,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
         if (!$user) {
             // Store the league requested into the session
-            $this->getRequest()->getSession()->set('league_join', $league->getId());
+            $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
             throw new AccessDeniedException('Must be logged in to join league');
         }
         $pickSets = $user->getPickSets();

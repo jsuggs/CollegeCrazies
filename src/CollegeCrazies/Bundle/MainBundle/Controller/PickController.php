@@ -212,10 +212,28 @@ class PickController extends BaseController
             $user->addPickSet($pickSet);
             $em->persist($user);
             $em->persist($pickSet);
-            $em->flush();
-            return $this->redirect($this->generateUrl('pickset_edit', array(
+
+            $url = $this->generateUrl('pickset_edit', array(
                 'id' => $pickSet->getId()
-            )));
+            ));
+
+            // Check to see if the user was wanting to auto assign a league
+            $session = $this->container->get('session');
+            if ($session->has('auto_league_assoc')) {
+                $league = $this->findLeague($session->get('auto_league_assoc'));
+                if ($league->isPublic()) {
+                    $league->addPickSet($pickSet);
+                    $this->get('session')->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+                } else {
+                    $url = $this->generateUrl('league_prejoin', array(
+                        'leagueId' => $league->getId(),
+                    ));
+                }
+
+                $session->remove('auto_league_assoc');
+            }
+            $em->flush();
+            return $this->redirect($url);
         }
 
         $this->get('session')->setFlash('warning', 'There was an error creating your pickset');
