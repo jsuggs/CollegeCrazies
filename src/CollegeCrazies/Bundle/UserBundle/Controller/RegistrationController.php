@@ -20,14 +20,16 @@ class RegistrationController extends BaseController
             $authUser = false;
             if ($confirmationEnabled) {
                 $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
-                $route = 'fos_user_registration_check_email';
+                $url = $this->container->get('router')->generate('fos_user_registration_check_email');
             } else {
                 $authUser = true;
-                $route = 'pickset_new';
+                $session = $this->container->get('session');
+                $url = $session->has('league_join')
+                    ? $this->container->get('router')->generate('league_prejoin', array('leagueId' => $session->get('league_join')))
+                    : $this->container->get('router')->generate('pickset_new');
             }
 
             $this->setFlash('success', 'Account Created!  Welcome to SofaChamps.');
-            $url = $this->container->get('router')->generate($route);
             $response = new RedirectResponse($url);
 
             if ($authUser) {

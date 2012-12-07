@@ -12,6 +12,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/league")
@@ -138,13 +139,17 @@ class LeagueController extends BaseController
     /**
      * @Route("/join", name="league_join")
      * @Method({"POST"})
-     * @Secure(roles="ROLE_USER")
      */
     public function joinAction()
     {
         $request = $this->getRequest()->request->get('form');
         $league = $this->findLeague($request['id']);
         $user = $this->getUser();
+        if (!$user) {
+            // Store the league requested into the session
+            $this->getRequest()->getSession()->set('league_join', $league->getId());
+            throw new AccessDeniedException('Must be logged in to join league');
+        }
         $pickSets = $user->getPickSets();
 
         if (count($pickSets) === 0) {
