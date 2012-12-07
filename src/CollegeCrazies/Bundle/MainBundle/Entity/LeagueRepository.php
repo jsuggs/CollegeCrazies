@@ -8,9 +8,10 @@ class LeagueRepository extends EntityRepository
 {
     public function findAllPublic()
     {
-        return $this->findBy(array(
-            'password' => '',
-        ));
+        return $this->createQueryBuilder('l')
+            ->where('l.password IS null OR length(trim(l.password)) = 0')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getUsersAndPoints(League $league)
