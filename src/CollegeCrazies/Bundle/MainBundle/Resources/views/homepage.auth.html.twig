@@ -12,7 +12,7 @@
                         <ul class="unstyled">
                         {% for pickset in user.picksets %}
                             <li>
-                                <i class="icon-list"></i> <a href="{{ path('pickset_edit', {id: pickset.id}) }}">{{ pickset.name }}</a>
+                                <i class="icon-list"></i> <a href="{{ path('pickset_edit', {picksetId: pickset.id}) }}">{{ pickset.name }}</a>
                                 {% if pickset.leagues %}
                                     <ul class="unstyled" style="padding-left: 15px;">
                                     {% for league in pickset.leagues %}

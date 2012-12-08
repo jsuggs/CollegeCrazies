@@ -130,18 +130,19 @@ class PickController extends BaseController
         }
 
         return $this->redirect($this->generateUrl('pickset_view', array(
-            'id' => $picksetId,
+            'picksetId' => $picksetId,
+            'leagueId' => $leagueId,
         )));
     }
 
     /**
-     * @Route("/edit/{id}", name="pickset_edit")
+     * @Route("/edit/{picksetId}", name="pickset_edit")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
      */
-    public function editPickAction($id)
+    public function editPickAction($picksetId)
     {
-        $pickSet = $this->findPickSet($id, true);
+        $pickSet = $this->findPickSet($picksetId, true);
         $user = $this->getUser();
 
         // TODO Add checks for commish here
@@ -149,9 +150,7 @@ class PickController extends BaseController
             if ($pickSet->isLocked()) {
                 $this->get('session')->setFlash('info', 'This pickset is now locked');
 
-                return $this->redirect($this->generateUrl('pickset_view', array(
-                    'id' => $id
-                )));
+                return $this->redirect('/');
             }
 
             if ($pickSet->getUser() !== $user) {
@@ -172,13 +171,14 @@ class PickController extends BaseController
     }
 
     /**
-     * @Route("/view/{id}", name="pickset_view")
+     * @Route("/view/{leagueId}/{picksetId}", name="pickset_view")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:view.html.twig")
      */
-    public function viewPickAction($id)
+    public function viewPickAction($leagueId, $picksetId)
     {
-        $pickSet = $this->findPickSet($id, true);
+        $league = $this->findLeague($leagueId);
+        $pickSet = $this->findPickSet($picksetId, true);
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet)) {
@@ -188,6 +188,7 @@ class PickController extends BaseController
 
         return array(
             'pickSet' => $pickSet,
+            'league' => $league,
         );
     }
 
@@ -214,7 +215,7 @@ class PickController extends BaseController
             $em->persist($pickSet);
 
             $url = $this->generateUrl('pickset_edit', array(
-                'id' => $pickSet->getId()
+                'picksetId' => $pickSet->getId(),
             ));
 
             // Check to see if the user was wanting to auto assign a league
@@ -244,18 +245,18 @@ class PickController extends BaseController
     }
 
     /**
-     * @Route("/update/{id}", name="pickset_update")
+     * @Route("/update/{picksetId}", name="pickset_update")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
      */
-    public function updatePickAction($id)
+    public function updatePickAction($picksetId)
     {
-        $pickSet = $this->findPickSet($id, true);
+        $pickSet = $this->findPickSet($picksetId, true);
 
         if ($pickSet->isLocked()) {
-            return $this->redirect($this->generateUrl('pickset_view', array(
-                'id' => $id
-            )));
+            $this->get('session')->setFlash('warning', 'You cannot update picks after they are locked');
+
+            return $this->redirect('/');
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -269,27 +270,29 @@ class PickController extends BaseController
             $this->get('session')->setFlash('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'id' => $pickSet->getId()
+                'picksetId' => $picksetId,
             )));
         }
 
         return array(
             'form' => $form->createView(),
+            'league' => $league,
             'pickSet' => $pickSet,
         );
     }
 
     /**
-     * @Route("/data/{pickSetId}", name="pickset_data")
+     * @Route("/data/{leagueId}/{pickSetId}", name="pickset_data")
      * @Secure(roles="ROLE_USER")
      */
-    public function dataAction($pickSetId)
+    public function dataAction($leagueId, $pickSetId)
     {
         $pickSet = $this->findPickSet($pickSetId, true);
+        $league = $this->findLeague($leagueId);
 
         $data = $this->get('doctrine.orm.entity_manager')
             ->getRepository('CollegeCraziesMainBundle:PickSet')
-            ->getPickDistribution($pickSet, $pickSet->getLeague());
+            ->getPickDistribution($pickSet, $league);
 
         return new JsonResponse($data);
     }

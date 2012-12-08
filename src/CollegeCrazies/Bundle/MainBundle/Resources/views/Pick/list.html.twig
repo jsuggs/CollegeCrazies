@@ -3,7 +3,7 @@
 {% block content %}
     <ol class="unstyled">
     {% for pickSet in pickSets %}
-        <li><a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.name }}</a></li>
+        <li><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a></li>
     {% endfor %}
     </ol>
 {% endblock %}

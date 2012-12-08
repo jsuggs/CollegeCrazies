@@ -24,7 +24,7 @@
                 <a class="brand" href="/">SofaChamps</a>
                 <ul class="nav">
                     {% if pickSet is defined and pickSet is not null %}
-                        <li><a href="{{ path('pickset_edit', {id: pickSet.id}) }}">{{ pickSet.name }}</a></li>
+                        <li><a href="{{ path('pickset_edit', {picksetId: pickSet.id}) }}">{{ pickSet.name }}</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                         <li><a href="{{ path('distribution') }}">Pick Distribution</a></li>
@@ -56,7 +56,7 @@
                                 {% if is_granted('ROLE_USER') %}
                                     {% for pickSet in app.user.picksets %}
                                         <li>
-                                            <a href="{{ path('pickset_edit', {id: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
+                                            <a href="{{ path('pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
                                             {% if pickSet.leagues %}
                                                 <ul class="unstyled" style="margin-left: 15px">
                                                 {% for league in pickSet.leagues %}

@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 class PickSetRepository extends EntityRepository
 {
     const DISTRIBUTION_SQL =<<<EOF
-SELECT finish, (CAST(COUNT(finish) AS DECIMAL) / 50) * 100 AS distribution
+SELECT finish, COUNT(finish) AS distribution
 FROM user_prediction_set_score
 WHERE league_id = ?
 AND user_id = ?

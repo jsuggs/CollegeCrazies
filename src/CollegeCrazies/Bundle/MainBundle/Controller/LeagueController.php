@@ -724,7 +724,7 @@ class LeagueController extends BaseController
         $pickSet = $user->getPicksetForUser($user);
         if ($pickSet) {
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'id' => $pickSet->getId(),
+                'picksetId' => $pickSet->getId(),
                 'leagueId' => $leagueId,
             )));
         }

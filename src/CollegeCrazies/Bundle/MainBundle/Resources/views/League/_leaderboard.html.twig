@@ -19,12 +19,12 @@
                 <td>{{ rank }}</td>
                 <td>
                     {% if league.picksLocked %}
-                        <a href="{{ path('pickset_view', {'id': pickSet.id }) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
+                        <a href="{{ path('pickset_view', {'picksetId': pickSet.id, 'leagueId': league.id}) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
                     {% else %}
-                        <a href="{{ path('user_profile', {'username': user.username }) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
+                        <a href="{{ path('user_profile', {'username': user.username}) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') or user == app.user %}
-                        <a href="{{ path('pickset_edit', {'id': pickSet.id }) }}" class="label notice">edit</a>
+                        <a href="{{ path('pickset_edit', {'picksetId': pickSet.id}) }}" class="label notice">edit</a>
                     {% endif %}
                 </td>
                 <td>{{ pickSet.points }}</td>

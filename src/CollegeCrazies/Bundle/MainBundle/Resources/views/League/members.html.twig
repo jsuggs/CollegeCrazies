@@ -17,7 +17,7 @@
             {% set pickSet = league.getPickSetForUser(member) %}
             <tr>
                 {% if pickSet is not null %}
-                    <td><a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.name }}</a></td>
+                    <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a></td>
                 {% else %}
                     <td>--</td>
                 {% endif %}
