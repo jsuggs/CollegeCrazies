@@ -20,7 +20,7 @@ class PredictionGenerator
         $this->om = $om;
     }
 
-    public function createProjections($numProjections)
+    public function createPredictions($numPredictions)
     {
         // Clear out the old predictions
         $this->truncatePredictionTables();
@@ -38,7 +38,7 @@ class PredictionGenerator
         $spreadAvg = array_sum($gameSpreads) / count($gameSpreads);
         $maxSpread = max($gameSpreads);
 
-        for ($x = 0; $x < $numProjections; $x++) {
+        for ($x = 0; $x < $numPredictions; $x++) {
             $set = new PredictionSet();
             $this->om->persist($set);
 

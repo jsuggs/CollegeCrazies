@@ -35,7 +35,7 @@ services:
         tags:
             - { name: form.type, alias: hidden_game }
 
-    projection.generator:
+    prediction.generator:
         class: CollegeCrazies\Bundle\MainBundle\Service\PredictionGenerator
         arguments: ["@doctrine.orm.entity_manager"]
 
