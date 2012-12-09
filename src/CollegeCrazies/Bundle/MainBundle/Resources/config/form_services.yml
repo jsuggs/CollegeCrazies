@@ -1,0 +1,21 @@
+services:
+    transformer.team:
+        class: CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\TeamTransformer
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    transformer.game:
+        class: CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\GameTransformer
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    form.type.hidden_team:
+        class: CollegeCrazies\Bundle\MainBundle\Form\Type\HiddenTeamType
+        arguments: ["@transformer.team"]
+        tags:
+            - { name: form.type, alias: hidden_team }
+
+    form.type.hidden_game:
+        class: CollegeCrazies\Bundle\MainBundle\Form\Type\HiddenGameType
+        arguments: ["@transformer.game"]
+        tags:
+            - { name: form.type, alias: hidden_game }
+

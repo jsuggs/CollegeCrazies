@@ -1,44 +1,6 @@
-services:
-    team.controller:
-        scope: prototype
-        class: CollegeCrazies\Bundle\MainBundle\Controller\TeamController
-
-    game.controller:
-        scope: prototype
-        class: CollegeCrazies\Bundle\MainBundle\Controller\GameController
-
-    college_crazies.user.manager:
-        class: CollegeCrazies\Bundle\MainBundle\Entity\MyUserManager
-        public: false
-        parent: fos_user.user_manager.default
-
-    user.sorter:
-        class: CollegeCrazies\Bundle\MainBundle\Service\UserSorter
-
-    transformer.team:
-        class: CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\TeamTransformer
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    transformer.game:
-        class: CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\GameTransformer
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    form.type.hidden_team:
-        class: CollegeCrazies\Bundle\MainBundle\Form\Type\HiddenTeamType
-        arguments: ["@transformer.team"]
-        tags:
-            - { name: form.type, alias: hidden_team }
-
-    form.type.hidden_game:
-        class: CollegeCrazies\Bundle\MainBundle\Form\Type\HiddenGameType
-        arguments: ["@transformer.game"]
-        tags:
-            - { name: form.type, alias: hidden_game }
-
-    prediction.generator:
-        class: CollegeCrazies\Bundle\MainBundle\Service\PredictionGenerator
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    pickset.analyzer:
-        class: CollegeCrazies\Bundle\MainBundle\Service\PicksetAnalyzer
-        arguments: ["@doctrine.dbal.default_connection"]
+imports:
+    - { resource: event_services.yml }
+    - { resource: form_services.yml }
+    - { resource: pickset_services.yml }
+    - { resource: prediction_services.yml }
+    - { resource: user_services.yml }

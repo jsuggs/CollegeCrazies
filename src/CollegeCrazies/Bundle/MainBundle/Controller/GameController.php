@@ -3,6 +3,8 @@
 namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
+use CollegeCrazies\Bundle\MainBundle\Event\GameEvent;
+use CollegeCrazies\Bundle\MainBundle\Event\GameEvents;
 use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
@@ -135,6 +137,12 @@ class GameController extends Controller
         if ($form->isValid()) {
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($game);
+
+            // If the game is complete, then dispatch an event
+            if ($game->isComplete()) {
+                $this->get('event_dispatcher')->dispatch(GameEvents::GAME_COMPLETE, new GameEvent($game));
+            }
+
             $em->flush();
             $this->get('session')->setFlash('success', 'Game updated successfully');
         }
