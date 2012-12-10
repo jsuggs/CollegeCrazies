@@ -1,0 +1,8 @@
+services:
+    twig.extension.sofachamps.user:
+        class: CollegeCrazies\Bundle\MainBundle\Twig\Extension\UserExtension
+        public: false
+        arguments:
+            - @service_container
+        tags:
+            - { name: twig.extension }

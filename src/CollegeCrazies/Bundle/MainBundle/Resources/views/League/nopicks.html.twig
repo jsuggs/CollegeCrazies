@@ -15,7 +15,7 @@
         <tbody>
         {% for user in users %}
             <tr>
-                <td><a href="{{ path('user_profile', {username: user.username}) }}">{{ user.username }}</a></td>
+                <td>{{ profile_link(user)|raw }}</td>
                 <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                 {% set pickSet = league.getPickSetForUser(user) %}
                 <td>{{ user.firstName ?: '--' }}</td>

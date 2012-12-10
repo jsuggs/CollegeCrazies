@@ -21,7 +21,7 @@
                 {% else %}
                     <td>--</td>
                 {% endif %}
-                <td><a href="{{ path('user_profile', {username: member.username}) }}">{{ member.username }}</a></td>
+                <td>{{ profile_link(member)|raw }}</td>
                 <td>{{ member.firstName ?: '--' }}</td>
                 <td>{{ member.lastName ?: '--' }}</td>
                 <td>{% if member.emailVisible %}<a href="mailto:{{ member.email }}">{{ member.email }}</a>{% else %}--{% endif %}</td>

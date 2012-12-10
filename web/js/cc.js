@@ -88,4 +88,6 @@ $(document).ready(function(){
             popoverClickedAway = true;
         }
     });
+
+    $('a[rel="tooltip"]').tooltip();
 });
