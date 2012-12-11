@@ -114,6 +114,11 @@ class PickController extends BaseController
             }
             $em->persist($pickSet);
             $em->flush();
+            $session->set('auto_league_create', true);
+
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'picksetId' => $pickSet->getId(),
+            )));
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -175,8 +180,12 @@ class PickController extends BaseController
             }
         }
 
-        if (count($pickSet->getLeagues()) === 0) {
-            $this->get('session')->setFlash('info', 'This pickset is not associated with a league');
+        if ($this->get('session')->get('auto_league_create')) {
+            $this->get('session')->remove('auto_league_create');
+        } else {
+            if (count($pickSet->getLeagues()) === 0) {
+                $this->get('session')->setFlash('info', 'This pickset is not associated with a league');
+            }
         }
 
         $form = $this->getPickSetForm($pickSet);
