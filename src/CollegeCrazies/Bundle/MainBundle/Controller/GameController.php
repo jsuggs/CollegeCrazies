@@ -6,6 +6,7 @@ use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Event\GameEvent;
 use CollegeCrazies\Bundle\MainBundle\Event\GameEvents;
 use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
+use CollegeCrazies\Bundle\MainBundle\Listener\PicksLockedListener;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -145,6 +146,9 @@ class GameController extends Controller
 
             $em->flush();
             $this->get('session')->setFlash('success', 'Game updated successfully');
+
+            // Play it safe
+            $this->get('session')->remove(PicksLockedListener::PICKS_LOCK_SESSION_KEY);
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(

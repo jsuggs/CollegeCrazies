@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    {% if true or pickSet is not null and league.locked %}
+    {% if picks_locked %}
         <div class="well">
             <h4>Best possible finish <span class="label label-important">Coming Soon (after picks lock)</span>{# <a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.getHigestPredictionFinish() }}</a> #}</h4>
         </div>

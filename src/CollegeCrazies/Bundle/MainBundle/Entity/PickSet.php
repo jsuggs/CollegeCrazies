@@ -218,14 +218,6 @@ class PickSet
         }
     }
 
-    public function isLocked()
-    {
-        return false;
-        return $this->league
-            ? false
-            : $this->league->picksLocked();
-    }
-
     public function getUserPredictionSetScoreForPredictionSet(PredictionSet $predictionSet)
     {
         foreach ($this->predictionScores as $predictionScore) {

@@ -138,7 +138,7 @@ class PickController extends BaseController
     {
         $league = $this->findLeague($leagueId);
 
-        if ($league->picksLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('error', 'This league is locked');
         } else {
             $pickset = $this->findPickSet($picksetId);
@@ -167,17 +167,9 @@ class PickController extends BaseController
         $user = $this->getUser();
 
         // TODO Add checks for commish here
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            if ($pickSet->isLocked()) {
-                $this->get('session')->setFlash('info', 'This pickset is now locked');
-
-                return $this->redirect('/');
-            }
-
-            if ($pickSet->getUser() !== $user) {
-                $this->get('session')->setFlash('error', 'You cannot edit another users picks');
-                return $this->redirect('/');
-            }
+        if (!$this->canUserEditPickSet($user, $pickSet)) {
+            $this->get('session')->setFlash('error', 'You cannot edit this pickset');
+            return $this->redirect('/');
         }
 
         if ($this->get('session')->get('auto_league_create')) {
@@ -261,7 +253,7 @@ class PickController extends BaseController
     {
         $pickSet = $this->findPickSet($picksetId, true);
 
-        if ($pickSet->isLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot update picks after they are locked');
 
             return $this->redirect('/');
