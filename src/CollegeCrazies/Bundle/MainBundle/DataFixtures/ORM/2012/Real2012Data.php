@@ -259,7 +259,6 @@ class Real2012Data implements FixtureInterface, ContainerAwareInterface
         $league->setName($name);
         $league->setPassword($password);
         $league->setUsers($users);
-        $league->setLocked(false);
         $league->setCommissioners($commissioners);
 
         $manager->persist($league);

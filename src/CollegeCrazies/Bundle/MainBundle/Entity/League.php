@@ -51,11 +51,6 @@ class League
     protected $commissioners;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $lockTime;
-
-    /**
      * @ORM\OneToOne(targetEntity="LeagueMetadata")
      */
     protected $metadata;
@@ -81,7 +76,6 @@ class League
         $this->users = new ArrayCollection();
         $this->commissioners = new ArrayCollection();
         $this->pickSets = new ArrayCollection();
-        $this->lockTime = new \DateTime('2012-12-15 11:55:00');
     }
 
     public function setId($id)
@@ -144,22 +138,6 @@ class League
     public function getUsers()
     {
         return $this->users;
-    }
-
-    public function setLockTime($time)
-    {
-        $this->lockTime = $time;
-    }
-
-    public function getLockTime()
-    {
-        return $this->lockTime;
-    }
-
-    public function picksLocked()
-    {
-        $now = new \DateTime();
-        return ($this->lockTime < $now);
     }
 
     public function isPublic()

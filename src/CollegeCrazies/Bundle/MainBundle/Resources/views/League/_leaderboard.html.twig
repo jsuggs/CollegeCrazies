@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ rank }}</td>
                 <td>
-                    {% if league.picksLocked %}
+                    {% if picks_locked %}
                         <a href="{{ path('pickset_view', {'picksetId': pickSet.id, 'leagueId': league.id}) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
                     {% else %}
                         <a href="{{ path('user_profile', {'username': user.username}) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
