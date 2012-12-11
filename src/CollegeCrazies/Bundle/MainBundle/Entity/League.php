@@ -199,6 +199,13 @@ class League
         }
     }
 
+    public function removePickSet(PickSet $pickSet)
+    {
+        if ($this->pickSets->contains($pickSet)) {
+            $this->pickSets->removeElement($pickSet);
+        }
+    }
+
     public function getPickSetForUser(User $user)
     {
         foreach ($this->pickSets as $pickSet) {

@@ -782,11 +782,23 @@ class LeagueController extends BaseController
             $em = $this->get('doctrine.orm.entity_manager');
 
             $league = $this->findLeague($request->request->get('leagueId'));
+            $pickSet = $league->getPicksetForUser($user);
+            $league->removePickSet($pickSet);
             $user->removeLeague($league);
             $em->persist($user);
             $em->flush();
 
             $this->get('session')->setFlash('warning', sprintf('You are no longer in league "%s"', $league->getName()));
+
+            // Check to see if any leagues do not have a pickset
+            foreach ($user->getLeagues() as $league) {
+                if (!$league->getPicksetForUser($user)) {
+                    $this->get('session')->setFlash('warning', 'One or more leagues do not have a pickSet');
+                    return $this->redirect($this->generateUrl('league_assoc', array(
+                        'leagueId' => $league->getId(),
+                    )));
+                }
+            }
         }
 
         return array(
