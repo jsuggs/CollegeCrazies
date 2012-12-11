@@ -20,7 +20,13 @@
                 {% set pickSet = league.getPickSetForUser(user) %}
                 <td>{{ user.firstName ?: '--' }}</td>
                 <td>{{ user.lastName ?: '--' }}</td>
-                <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a></td>
+                <td>
+                    {% if pickSet is not null %}
+                        <a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a>
+                    {% else %}
+                        No PickSet
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

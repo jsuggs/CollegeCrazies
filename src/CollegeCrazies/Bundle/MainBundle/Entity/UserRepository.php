@@ -33,7 +33,13 @@ class UserRepository extends EntityRepository
             ->getResult();
 
         return array_filter($users, function($user) use ($numGames, $league) {
-            $picks = array_filter(iterator_to_array($league->getPickSetForUser($user)->getPicks()), function ($pick) {
+            // Make sure the user has a pickset for the league
+            if (is_null($pickSet = $league->getPickSetForUser($user))) {
+                return true;
+            }
+
+            // Make sure that user has a pick for all of the games
+            $picks = array_filter(iterator_to_array($pickSet->getPicks()), function ($pick) {
                 $team = $pick->getTeam();
                 return isset($team);
             });
