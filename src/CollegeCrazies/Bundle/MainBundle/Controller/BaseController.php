@@ -5,13 +5,13 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
+use CollegeCrazies\Bundle\MainBundle\Listener\PicksLockedListener;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BaseController extends Controller
 {
-
     protected function findLeague($id)
     {
         $league = $this
@@ -75,11 +75,21 @@ class BaseController extends Controller
             return true;
         }
 
-        foreach ($pickSet->getLeagues() as $league) {
-            //if ($league->picksLocked() || $league->userIsCommissioner($user)) {
-            if ($league->picksLocked()) {
-                return true;
-            }
+        return $this->picksLocked();
+    }
+
+    protected function canUserEditPickSet(User $user, PickSet $pickSet)
+    {
+        if ($this->picksLocked()) {
+            return false;
+        }
+
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
+        if ($pickSet->getUser() == $user) {
+            return true;
         }
 
         return false;
@@ -97,5 +107,10 @@ class BaseController extends Controller
     protected function canUserEditLeague(User $user, League $league)
     {
         return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
+    }
+
+    protected function picksLocked()
+    {
+        return $this->get('session')->get(PicksLockedListener::PICKS_LOCK_SESSION_KEY) < new \DateTime();
     }
 }

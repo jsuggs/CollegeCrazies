@@ -105,8 +105,9 @@ class LeagueController extends BaseController
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
 
-        if (!$league->picksLocked()) {
+        if (!$this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot view the group picks until the league locks');
+
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $leagueId,
             )));
