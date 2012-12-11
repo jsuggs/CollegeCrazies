@@ -6,6 +6,7 @@ use CollegeCrazies\Bundle\MainBundle\Form\LeagueFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueCommissionersFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueNoteFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\LeagueLockFormType;
+use CollegeCrazies\Bundle\MainBundle\Entity\Invite;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -537,6 +538,13 @@ class LeagueController extends BaseController
                 'league' => $league,
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
+
+            $em = $this->get('doctrine.orm.entity_manager');
+            foreach ($emails as $email) {
+                $invite = new Invite($user, $email);
+                $em->persist($invite);
+            }
+            $em->flush();
 
             $this->get('session')->setFlash('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
         }
