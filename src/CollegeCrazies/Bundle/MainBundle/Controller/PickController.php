@@ -82,6 +82,7 @@ class PickController extends BaseController
 
         $pickSet = new PickSet();
         $pickSet->setUser($user);
+        $pickSet->setName(sprintf('%s - %s', $user->getUsername(), count($user->getPicksets()) == 0 ? 'Default Pickset' : sprintf('Pickset #%d', count($user->getPicksets()) + 1)));
 
         if ($this->getRequest()->query->has('leagueId')) {
             $league = $this->findLeague($this->getRequest()->get('leagueId'));
@@ -98,6 +99,21 @@ class PickController extends BaseController
 
             $pickSet->addPick($pick);
             $idx--;
+        }
+
+        // If the user does not have a pickset already, auto-save
+        if (count($user->getPicksets()) == 0) {
+            $session = $this->container->get('session');
+            if ($session->has('auto_league_assoc')) {
+                $league = $this->findLeague($session->get('auto_league_assoc'));
+                $this->addUserToLeague($league, $user);
+                $league->addPickSet($pickSet);
+                $this->get('session')->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+
+                $session->remove('auto_league_assoc');
+            }
+            $em->persist($pickSet);
+            $em->flush();
         }
 
         $form = $this->getPickSetForm($pickSet);
@@ -213,28 +229,11 @@ class PickController extends BaseController
             $user->addPickSet($pickSet);
             $em->persist($user);
             $em->persist($pickSet);
-
-            $url = $this->generateUrl('pickset_edit', array(
-                'picksetId' => $pickSet->getId(),
-            ));
-
-            // Check to see if the user was wanting to auto assign a league
-            $session = $this->container->get('session');
-            if ($session->has('auto_league_assoc')) {
-                $league = $this->findLeague($session->get('auto_league_assoc'));
-                if ($league->isPublic()) {
-                    $league->addPickSet($pickSet);
-                    $this->get('session')->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
-                } else {
-                    $url = $this->generateUrl('league_prejoin', array(
-                        'leagueId' => $league->getId(),
-                    ));
-                }
-
-                $session->remove('auto_league_assoc');
-            }
             $em->flush();
-            return $this->redirect($url);
+
+            return $this->redirect($this->generateUrl('pickset_edit', array(
+                'picksetId' => $pickSet->getId(),
+            )));
         }
 
         $this->get('session')->setFlash('warning', 'There was an error creating your pickset');

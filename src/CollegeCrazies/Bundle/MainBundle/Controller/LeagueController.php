@@ -154,6 +154,13 @@ class LeagueController extends BaseController
         $user = $this->getUser();
         if (!$user) {
             // Store the league requested into the session
+            if (!$league->isPublic() && $league->getPassword() !== $request['password']) {
+                $this->get('session')->setFlash('error', 'The password was not correct');
+
+                return $this->redirect($this->generateUrl('league_prejoin', array(
+                    'leagueId' => $league->getId(),
+                )));
+            }
             $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
             throw new AccessDeniedException('Must be logged in to join league');
         }
@@ -164,7 +171,6 @@ class LeagueController extends BaseController
             return $this->redirect($this->generateUrl('pickset_new'));
         }
 
-        $allowInLeague = true;
         if (!$league->isPublic()) {
             if ($request['password'] !== $league->getPassword()) {
                 $this->get('session')->setFlash('error', 'The password was not correct');
@@ -181,7 +187,8 @@ class LeagueController extends BaseController
             )));
         } elseif ($league->isLocked()) {
             $this->get('session')->setFlash('error', 'This league has been locked by the commissioner');
-        } elseif ($allowInLeague) {
+            return $this->redirect($this->generateUrl('league_find'));
+        } else {
             $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
 
             $this->addUserToLeague($league, $user);
@@ -203,8 +210,6 @@ class LeagueController extends BaseController
                 'leagueId' => $league->getId(),
             )));
         }
-
-        return $this->redirect($this->generateUrl('league_find'));
     }
 
     /**
