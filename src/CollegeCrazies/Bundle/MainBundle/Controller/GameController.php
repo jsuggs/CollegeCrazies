@@ -146,9 +146,6 @@ class GameController extends Controller
 
             $em->flush();
             $this->get('session')->setFlash('success', 'Game updated successfully');
-
-            // Play it safe
-            $this->get('session')->remove(PicksLockedListener::PICKS_LOCK_SESSION_KEY);
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(
