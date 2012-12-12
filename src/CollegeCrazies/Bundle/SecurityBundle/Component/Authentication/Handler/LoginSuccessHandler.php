@@ -61,7 +61,6 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
                     }
 
                     $this->session->remove('auto_league_assoc');
-                    $this->om->persist($pickSet);
                     $this->om->flush();
                 }
             }
