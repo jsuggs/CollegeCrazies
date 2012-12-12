@@ -681,6 +681,10 @@ class LeagueController extends BaseController
                 return $user->getEmail();
             }, iterator_to_array($league->getUsers()));
 
+            $emails = array_filter($emails, function ($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
+
             $subjectLine = sprintf('League: "%s" - Commissioner Note - SofaChamps', $league->getName());
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
