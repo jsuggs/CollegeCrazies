@@ -2,6 +2,7 @@
 
 namespace CollegeCrazies\Bundle\UserBundle\Controller;
 
+use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -34,11 +35,15 @@ class SecurityController extends BaseController
 
         $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
 
+        $regForm = $this->container->get('fos_user.registration.form');
+        $regForm->setData(new User());
+
         return $this->renderLogin(array(
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token'    => $csrfToken,
             'form'          => $form->createView(),
+            'regForm'       => $regForm->createView(),
         ));
     }
 
