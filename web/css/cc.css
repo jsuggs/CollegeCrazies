@@ -28,9 +28,10 @@ td.incorrect {
     text-align: center;
 }
 .vertical-text {
-    width: 33px !important;
-    max-width: 33px;
-    overflow: scroll;
+    width: 50px !important;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 10px;
 }
 .pickname { max-width: 300px; }
