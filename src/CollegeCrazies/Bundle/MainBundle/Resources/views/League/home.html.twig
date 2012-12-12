@@ -40,17 +40,22 @@
                 </div>
             {% endif %}
         </div>
-    </div>
 
-    {% if picks_locked %}
-        <div class="well">
-            <h4>Best possible finish <span class="label label-important">Coming Soon (after picks lock)</span>{# <a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.getHigestPredictionFinish() }}</a> #}</h4>
+        <div class="row well">
+            <h4>Best possible finish</h4>
+            <p class="text-warning">Coming Soon (after picks lock)</p>
+            {# <a href="{{ path('pickset_view', {id: pickSet.id}) }}">{{ pickSet.getHigestPredictionFinish() }}</a> #}
         </div>
 
-        <h5>League Top 10 Standings</h5>
-        {% include 'CollegeCraziesMainBundle:League:_leaderboard.html.twig' %}
+        <div class="row">
+            <h5>League Top 10 Standings</h5>
+            {% include 'CollegeCraziesMainBundle:League:_leaderboard.html.twig' %}
+        </div>
 
-        <h5>League Top 10 Games</h5>
-        <p>These will populate after picks have locked</p>
-    {% endif %}
+        {% if picks_locked %}
+            <div class="row">
+                <h5>League Top 10 Games</h5>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
