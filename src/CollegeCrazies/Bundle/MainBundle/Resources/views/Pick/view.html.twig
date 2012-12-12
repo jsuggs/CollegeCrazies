@@ -2,9 +2,9 @@
 
 {% block content %}
     <h2>{{ pickSet.name }}</h2>
-
     <h3>Projected Stats</h3>
     <p>Based on 5000 scenarios, here are some projections for this pickset.</p>
+
     <dl>
         <dt>Average Finish</dt>
         <dd>{{ pickSet.getAveragePredictionFinish() }}</dd>
@@ -25,6 +25,7 @@
         <dd>{{ pickSet.getLowestPredictionScore() }}</dd>
     </dl>
 
+    <h4>Projected Finish Distributions</h4>
     <div class="pick-distribution" style="width:550px;height:200px;">
     </div>
 
@@ -35,11 +36,6 @@
                 success: function(data) {
                     var graphData = [];
                     var graphTicks = [];
-                    var daData = [
-                        {label: 'foo', data: [[1,300], [2,300], [3,300], [4,300], [5,300]]},
-                        {label: 'bar', data: [[1,800], [2,600], [3,400], [4,200], [5,0]]},
-                        {label: 'baz', data: [[1,100], [2,200], [3,300], [4,400], [5,500]]},
-                    ];
                     $(data).each(function(idx, dist) {
                         graphData.push({label: dist.finish, data:[[dist.finish, dist.distribution]]});
                         graphTicks.push([dist.finish, dist.finish]);
@@ -47,9 +43,23 @@
                     var options = {
                         series: {
                             stack: 0,
-                            lines: {show: false, steps: false },
-                            bars: {show: true, barWidth: 0.9, align: 'center',},},
-                            xaxis: {ticks: graphTicks},
+                            lines: {
+                                show: false
+                            },
+                            bars: {
+                                show: true,
+                                barWidth: 0.7,
+                                align: 'center',
+                                fill: true,
+                                fillColor: '#39F'
+                            },
+                        },
+                        xaxis: {
+                            ticks: graphTicks
+                        },
+                        legend: {
+                            show: false
+                        },
                     };
 
                     $.plot('.pick-distribution', graphData, options);
