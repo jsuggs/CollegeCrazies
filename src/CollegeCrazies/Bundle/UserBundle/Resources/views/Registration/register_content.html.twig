@@ -35,12 +35,6 @@
 
     <fieldset>
         <legend>Optional Fields</legend>
-        <div class="control-group">
-            <label for="username" class="control-label">Email visible in leagues:</label>
-            <div class="controls">
-                {{ form_widget(form.emailVisible) }}
-            </div>
-        </div>
 
         <div class="control-group">
             <label for="username" class="control-label">First Name:</label>
@@ -55,6 +49,15 @@
                 {{ form_widget(form.lastName) }}
             </div>
         </div>
+
+        <div class="control-group">
+            <label for="username" class="control-label">Email visible in leagues:</label>
+            <div class="controls">
+                {{ form_widget(form.emailVisible) }}
+            </div>
+        </div>
+
+        {{ form_row(form.emailFromCommish) }}
     </fieldset>
 
     <div class="form-actions">

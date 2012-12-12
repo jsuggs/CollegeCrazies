@@ -45,6 +45,11 @@ class User extends BaseUser
     protected $emailVisible = true;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $emailFromCommish = true;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $firstName;
@@ -111,6 +116,16 @@ class User extends BaseUser
     public function getEmailVisible()
     {
         return $this->emailVisible;
+    }
+
+    public function setEmailFromCommish($emailFromCommish)
+    {
+        $this->emailFromCommish = $emailFromCommish;
+    }
+
+    public function getEmailFromCommish()
+    {
+        return $this->emailFromCommish;
     }
 
     public function setFirstName($firstName)

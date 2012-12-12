@@ -16,6 +16,9 @@
         {% if user == app.user %}
             <dt>Email visible in leagues</dt>
             <dd>{{ user.emailVisible ? 'Yes' : 'No' }}</dd>
+
+            <dt>Receive email from commissioner</dt>
+            <dd>{{ user.emailFromCommish ? 'Yes' : 'No' }}</dd>
         {% endif %}
     </dl>
 </div>

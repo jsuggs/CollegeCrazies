@@ -24,7 +24,12 @@ class ProfileFormType extends BaseType
             ->add('lastName', 'text', array(
                 'required' => false,
                 'label' => 'Last Name',
-            ));
+            ))
+            ->add('emailFromCommish', 'checkbox', array(
+                'required' => false,
+                'label' => 'Receive Emails From Commissioners',
+            ))
+        ;
     }
 
     public function getName()
