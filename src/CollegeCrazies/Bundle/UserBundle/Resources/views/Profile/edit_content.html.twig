@@ -1,6 +1,9 @@
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+<h2>Update your profile</h2>
+
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form form-stacked">
     {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Update Profile" />
     </div>
 </form>

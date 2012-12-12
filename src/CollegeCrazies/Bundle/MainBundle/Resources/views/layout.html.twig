@@ -77,7 +77,7 @@
                                 {% endif %}
                             </ul>
                         </div>
-                        <a href="/profile" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
+                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
                         <a href="/logout" class="btn btn-danger">logout</a>
                     {% else %}
                         <p class="navbar-text">

@@ -1,5 +1,21 @@
-<h2>My Profile</h2>
-<div class="fos_user_user_show">
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
+<h2>User Profile</h2>
+<h3>{{ user.username }}</h3>
+<div>
+    <dl>
+        <dt>First Name</dt>
+        <dd>{{ user.firstName ?: '--' }}</dd>
+
+        <dt>Last Name</dt>
+        <dd>{{ user.lastName ?: '--' }}</dd>
+
+        {% if user == app.user or user.emailVisible %}
+            <dt>Email</dt>
+            <dd>{{ user.email }}</dd>
+        {% endif %}
+
+        {% if user == app.user %}
+            <dt>Email visible in leagues</dt>
+            <dd>{{ user.emailVisible ? 'Yes' : 'No' }}</dd>
+        {% endif %}
+    </dl>
 </div>

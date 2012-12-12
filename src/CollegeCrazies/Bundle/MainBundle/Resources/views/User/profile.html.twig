@@ -1,18 +1,5 @@
 {% extends "CollegeCraziesMainBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ user.username }}</h2>
-
-    <dl>
-        <dt>First Name</dt>
-        <dd>{{ user.firstName ?: 'Not specified' }}</dd>
-
-        <dt>Last Name</dt>
-        <dd>{{ user.lastName ?: 'Not specified' }}</dd>
-
-        {% if user.emailVisible %}
-            <dt>Email</dt>
-            <dd>{{ user.email }}</dd>
-        {% endif %}
-    </dl>
+    {% include "FOSUserBundle:Profile:show_content.html.twig" %}
 {% endblock %}
