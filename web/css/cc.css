@@ -26,6 +26,7 @@ td.incorrect {
 .pick-col {
     width: 33px;
     text-align: center;
+    white-space: nowrap !important;
 }
 .vertical-text {
     width: 50px !important;
@@ -34,7 +35,10 @@ td.incorrect {
     text-overflow: ellipsis;
     font-size: 10px;
 }
-.pickname { max-width: 300px; }
+.pickname {
+    white-space: nowrap !important;
+    padding: 0 5px;
+}
 .not-my-pick { background-color: #d8d8d8 !important; }
 .my-pick { background-color: #ffff99 !important; }
 .datagrid table {

@@ -28,9 +28,9 @@ class PickSet
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(limit=50)
+     * @Assert\MaxLength(limit=40)
      */
     protected $name;
 
