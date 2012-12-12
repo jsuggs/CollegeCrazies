@@ -64,17 +64,6 @@ class HomePageController extends Controller
     }
 
     /**
-     * @Route("/distribution", name="distribution")
-     * @Template("CollegeCraziesMainBundle::distribution.html.twig")
-     */
-    public function distributionAction()
-    {
-        $this->get('session')->setFlash('warning', 'Feature not available until picks lock');
-        return $this->redirect('/');
-        return array();
-    }
-
-    /**
      * @Route("/leaders", name="leaders")
      * @Template("CollegeCraziesMainBundle::leaders.html.twig")
      */
