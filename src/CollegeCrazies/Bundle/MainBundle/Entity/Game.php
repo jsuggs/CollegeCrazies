@@ -267,6 +267,11 @@ class Game
         return $this->location;
     }
 
+    /**
+     * getFavorite
+     *
+     * A negative spread indicates that the designated home team is the favorite
+     */
     public function getFavorite()
     {
         return $this->spread <= 0

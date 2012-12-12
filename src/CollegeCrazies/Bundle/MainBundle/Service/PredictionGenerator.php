@@ -10,6 +10,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class PredictionGenerator
 {
+    const BATCH_SIZE = 5;
+    const CLEAR_SIZE = 10;
+
     /**
      * @var ObjectManager
      */
@@ -20,25 +23,27 @@ class PredictionGenerator
         $this->om = $om;
     }
 
-    public function createPredictions($numPredictions)
+    public function createPredictions($numPredictions, $truncate = true)
     {
         // Clear out the old predictions
-        $this->truncatePredictionTables();
-
-        $games = $this->om->getRepository('CollegeCraziesMainBundle:Game')->findAll();
-        $completedGames = array_filter($games, function ($game) {
-            return $game->isComplete();
-        });
-
-        $incompleteGames = array_filter($games, function ($game) {
-            return !$game->isComplete();
-        });
-
-        $gameSpreads = array_map(function ($game) { return abs($game->getSpread()); }, $games);
-        $spreadAvg = array_sum($gameSpreads) / count($gameSpreads);
-        $maxSpread = max($gameSpreads);
+        if ($truncate) {
+            $this->truncatePredictionTables();
+        }
 
         for ($x = 0; $x < $numPredictions; $x++) {
+            if ($x % self::CLEAR_SIZE === 0) {
+                $this->om->clear();
+
+                $games = $this->om->getRepository('CollegeCraziesMainBundle:Game')->findAll();
+                $completedGames = array_filter($games, function ($game) {
+                    return $game->isComplete();
+                });
+
+                $incompleteGames = array_filter($games, function ($game) {
+                    return !$game->isComplete();
+                });
+            }
+
             $set = new PredictionSet();
             $this->om->persist($set);
 
@@ -52,33 +57,51 @@ class PredictionGenerator
             foreach ($incompleteGames as $game) {
                 $overunder = $game->getOverunder();
                 $spread = $game->getSpread();
-                $spreadDiff = $maxSpread - $spread + 2;
 
                 // Get the base score
-                $homeTeamBase = ($overunder / 2) + $spread;
-                $awayTeamBase = $overunder / 2;
+                $favoriteBase = floor(($overunder / 2) + $spread + 1);
+                $underdogBase = floor($overunder / 2);
 
-                $variance = log($spreadDiff, $overunder) * $spreadDiff;
+                $homeTeamWinPercentage = $this->getHomeTeamWinPercentage($spread);
 
-                // This means that they are a huge underdog
-                if (($variance *2) < $spreadDiff) {
-                    // 30% of the time, bump up the variance, which still doesn't ensure an upset just makes it a possibility
-                    if (rand(0, 1) < .3) {
-                        $variance = $spread;
-                    }
+                // We'll be lame for now with coming up with cool scores
+                if (rand(0, 1) < $homeTeamWinPercentage) {
+                    $homeTeamScore = $favoriteBase;
+                    $awayTeamScore = $underdogBase;
+                } else {
+                    $homeTeamScore = $underdogBase;
+                    $awayTeamScore = $favoriteBase;
                 }
-                $homeTeamScore = floor($homeTeamBase + rand(0, $variance));
-                $awayTeamScore = floor($awayTeamBase + rand(0, $variance));
-
-                //echo sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s\n", $game->getId(), $spreadDiff, $variance, $homeTeamBase, $awayTeamBase, $homeTeamScore, $awayTeamScore);
 
                 $predictions[] = $this->savePrediction($set, $game, $homeTeamScore, $awayTeamScore);
             }
 
             $set->setPredictions($predictions);
 
-            $this->om->flush();
+            if ($x % self::BATCH_SIZE === 0) {
+                $this->om->flush();
+            }
+
+            echo sprintf("%d\t%s %s\n", $x, memory_get_usage(), memory_get_peak_usage());
         }
+    }
+
+    public function getHomeTeamWinPercentage($spread) {
+        // If no spread, its 50/50
+        if ($spread === 0) {
+            return .5;
+        }
+
+        // If spread is greater than 25, its 5/95
+        if (abs($spread) >= 25) {
+            $percent = .95;
+        } else {
+            $percent = (-0.0006 * pow(abs($spread), 2)) + (0.0336 * abs($spread)) + 0.4766;
+        }
+
+        return $spread > 0
+            ? 1 - $percent
+            : $percent;
     }
 
     protected function savePrediction(PredictionSet $set, Game $game, $homeTeamScore, $awayTeamScore)
