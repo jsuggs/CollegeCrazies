@@ -1,0 +1,38 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Most Important Games across all leagues</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Game</th>
+                <th>Home</th>
+                <th><abbr title="Average Confidence">Avg. Conf</abbr></th>
+                <th>Pick Distribution</th>
+                <th><abbr title="Average Confidence">Avg. Conf</abbr></th>
+                <th>Away</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            {% set totalVotes = game.hometeamvotes + game.awayteamvotes %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ game.name }}</td>
+                <td>{{ game.hometeam_id }}</td>
+                <td>{{ game.avghomeconfidence|number_format(1) }}</td>
+                <td>
+                    <div class="progress" style="width: 300px;">
+                        <div class="bar bar-success" style="width: {{ (game.hometeamvotes / totalVotes) * 100 }}%"></div>
+                        <div class="bar bar-warning" style="width: {{ (game.awayteamvotes / totalVotes) * 100 }}%"></div>
+                    </div>
+                </td>
+                <td>{{ game.avgawayconfidence|number_format(1) }}</td>
+                <td>{{ game.awayteam_id }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
