@@ -10,9 +10,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class PredictionGenerator
 {
-    const BATCH_SIZE = 5;
-    const CLEAR_SIZE = 10;
-
     /**
      * @var ObjectManager
      */
@@ -30,20 +27,16 @@ class PredictionGenerator
             $this->truncatePredictionTables();
         }
 
+        $games = $this->om->getRepository('CollegeCraziesMainBundle:Game')->findAll();
+        $completedGames = array_filter($games, function ($game) {
+            return $game->isComplete();
+        });
+
+        $incompleteGames = array_filter($games, function ($game) {
+            return !$game->isComplete();
+        });
+
         for ($x = 0; $x < $numPredictions; $x++) {
-            if ($x % self::CLEAR_SIZE === 0) {
-                $this->om->clear();
-
-                $games = $this->om->getRepository('CollegeCraziesMainBundle:Game')->findAll();
-                $completedGames = array_filter($games, function ($game) {
-                    return $game->isComplete();
-                });
-
-                $incompleteGames = array_filter($games, function ($game) {
-                    return !$game->isComplete();
-                });
-            }
-
             $set = new PredictionSet();
             $this->om->persist($set);
 
@@ -77,10 +70,7 @@ class PredictionGenerator
             }
 
             $set->setPredictions($predictions);
-
-            if ($x % self::BATCH_SIZE === 0) {
-                $this->om->flush();
-            }
+            $this->om->flush();
 
             echo sprintf("%d\t%s %s\n", $x, memory_get_usage(), memory_get_peak_usage());
         }
