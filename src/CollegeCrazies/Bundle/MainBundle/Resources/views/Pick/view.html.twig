@@ -26,6 +26,7 @@
     </dl>
 
     <h4>Projected Finish Distributions</h4>
+    <p class="text-info">Based on our predicted games, this is your percentage chance of finishing in each place</p>
     <div class="pick-distribution" style="width:550px;height:200px;">
     </div>
 
@@ -37,7 +38,7 @@
                     var graphData = [];
                     var graphTicks = [];
                     $(data).each(function(idx, dist) {
-                        graphData.push({label: dist.finish, data:[[dist.finish, dist.distribution]]});
+                        graphData.push({label: dist.finish, data:[[dist.finish, dist.percentage]]});
                         graphTicks.push([dist.finish, dist.finish]);
                     });
                     var options = {
