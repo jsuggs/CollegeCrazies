@@ -1,16 +1,31 @@
 $(document).ready(function(){
+    var setPickConfidence = function () {
+        var children = $("#pick-list tbody").children();
+        var idx = children.length;
+        children.each(function() {
+            var confElement = $(this).find('.confidence');
+            confElement.find('.confDisplay').html(idx);
+            confElement.find('.confidenceValue').val(idx);
+            idx--;
+        });
+    };
+
+    $("#pick-list tbody .move-pick").click(function(e) {
+        e.preventDefault();
+        var row = $(this).parents('tr:first');
+
+        if ($(this).is(".up")) {
+            row.insertBefore(row.prev());
+        } else {
+            row.insertAfter(row.next());
+        }
+
+        setPickConfidence();
+    });
+
     $("#pick-list tbody").sortable({
         cursor: 'move',
-        update: function () {
-            var children = $(this).children();
-            var idx = children.length;
-            children.each(function() {
-                var confElement = $(this).find('.confidence');
-                confElement.find('.confDisplay').html(idx);
-                confElement.find('.confidenceValue').val(idx);
-                idx--;
-            });
-        }
+        update: setPickConfidence
     });
 
     var checkPickStatus = function() {
