@@ -323,8 +323,12 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
+        $pickSet = $league->getPicksetForUser($user);
+        $games = $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->userGamesByImportance($league, $pickSet);
+
         return array(
             'league' => $league,
+            'games' => $games,
         );
     }
 

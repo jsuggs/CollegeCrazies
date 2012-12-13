@@ -26,6 +26,32 @@ GROUP BY g.id
 ORDER BY weightedstddev DESC
 EOF;
 
+    const USER_IMPORTANCE_SQL = <<<EOF
+SELECT
+    g.id
+  , g.name
+  , g.gamedate
+  , p.team_id
+  , p.confidence
+FROM picks p
+INNER JOIN games g ON p.game_id = g.id
+INNER JOIN
+(
+	SELECT
+	    g.id as game_id
+	  , avg(CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END) as weightedmean
+	  , stddev_pop(CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END) as weightedstddev
+	FROM games g
+	INNER JOIN picks p ON g.id = p.game_id
+	INNER JOIN pickset_leagues pl ON p.pickset_id = pl.pickset_id
+	WHERE p.team_id IS NOT NULL
+	AND pl.league_id = ?
+	GROUP BY g.id
+) AS lp ON p.game_id = lp.game_id
+WHERE p.pickset_id = ?
+ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE (CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean)/lp.weightedstddev END DESC
+EOF;
+
     public function findAllOrderedByDate()
     {
         return $this->createQueryBuilder('g')
@@ -37,5 +63,13 @@ EOF;
     public function gamesByImportance()
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::IMPORTANCE_SQL);
+    }
+
+    public function userGamesByImportance(League $league, PickSet $pickSet)
+    {
+        return $this->getEntityManager()->getConnection()->fetchAll(self::USER_IMPORTANCE_SQL, array(
+            $league->getId(),
+            $pickSet->getId(),
+        ));
     }
 }

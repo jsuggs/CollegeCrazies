@@ -3,8 +3,28 @@
 {% block content %}
     <h2>League Stats</h2>
 
+    <h4>Your most important games</h4>
+
     {% if picks_locked %}
-        <h3>TODO</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Game</th>
+                    <th>Date</th>
+                    <th>Confidence</th>
+                    <th>Your Pick</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.name }}</td>
+                    <td>{{ game.gamedate|date }}</td>
+                    <td>{{ game.confidence }}</td>
+                    <td>{{ game.team_id }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% else %}
         <p>The stats will be available after the picks lock.  Get excited...this will be awesome</p>
     {% endif %}

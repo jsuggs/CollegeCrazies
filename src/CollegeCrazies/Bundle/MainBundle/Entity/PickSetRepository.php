@@ -46,6 +46,6 @@ EOF;
             $pickSet->getUser()->getId(),
         ));
 
-        return $result[0];
+        return count($result) ? $result[0] : null;
     }
 }
