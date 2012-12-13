@@ -82,7 +82,8 @@ class PickController extends BaseController
 
         $pickSet = new PickSet();
         $pickSet->setUser($user);
-        $pickSet->setName(sprintf('%s - %s', $user->getUsername(), count($user->getPicksets()) == 0 ? 'Default Pickset' : sprintf('Pickset #%d', count($user->getPicksets()) + 1)));
+        $defaultPickSetName = substr(sprintf('%s - %s', $user->getUsername(), count($user->getPicksets()) == 0 ? 'Default Pickset' : sprintf('Pickset #%d', count($user->getPicksets()) + 1)), 0, 40);
+        $pickSet->setName($defaultPickSetName);
 
         if ($this->getRequest()->query->has('leagueId')) {
             $league = $this->findLeague($this->getRequest()->get('leagueId'));
