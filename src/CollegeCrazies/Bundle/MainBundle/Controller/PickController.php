@@ -211,6 +211,26 @@ class PickController extends BaseController
     }
 
     /**
+     * @Route("/view/{picksetId}", name="pickset_view_noleague")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Pick:view.html.twig")
+     */
+    public function viewPickNoLeagueAction($picksetId)
+    {
+        $pickSet = $this->findPickSet($picksetId, true);
+        $user = $this->getUser();
+
+        if (!$this->canUserViewPickSet($user, $pickSet)) {
+            $this->get('session')->setFlash('error','You cannot view another users picks until the league is locked');
+            return $this->redirect('/');
+        }
+
+        return array(
+            'pickSet' => $pickSet,
+        );
+    }
+
+    /**
      * @Route("/create", name="pickset_create")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")

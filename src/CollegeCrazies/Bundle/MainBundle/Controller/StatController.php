@@ -31,4 +31,25 @@ class StatController extends BaseController
             'games' => $games,
         );
     }
+
+    /**
+     * @Route("/leaderboard", name="site_leaderboard")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Stat:leaderboard.html.twig")
+     */
+    public function leaderboardAction()
+    {
+        if (!$this->picksLocked()) {
+            $this->get('session')->setFlash('warning', 'Feature not available until picks lock');
+            return $this->redirect('/');
+        }
+
+        $pickSets = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:PickSet')
+            ->findAllOrderedByPoints();
+
+        return array(
+            'pickSets' => $pickSets,
+        );
+    }
 }

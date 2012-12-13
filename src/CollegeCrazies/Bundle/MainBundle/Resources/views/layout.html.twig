@@ -9,11 +9,11 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="/css/cc.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.0/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
     <script src="/js/cc.js?v=1"> </script>
     <script src="/js/libs/bootbox/bootbox.min.js"> </script>
 </head>
@@ -27,7 +27,13 @@
                         <li><a href="{{ path('pickset_edit', {picksetId: pickSet.id}) }}">{{ pickSet.name }}</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
-                        <li><a href="{{ path('site_important_games') }}">Site Stats</a></li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="#">Site Stats <b class="caret"></b></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('site_important_games') }}">Most Important Games</a></li>
+                                <li><a href="{{ path('site_leaderboard') }}">Overall Leaderboard</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{{ path('leaders') }}">Overall Leaders</a></li>
                     {% endif %}
                     <li><a href="{{ path('about') }}">About Us</a></li>
