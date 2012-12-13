@@ -38,10 +38,14 @@ class LeagueController extends BaseController
 
         if (!$pickSet) {
             $this->get('session')->setFlash('warning', 'You do not have a pick set for this league');
+            return $this->redirect($this->router->generateUrl('league_assoc', array(
+                'leagueId' => $leagueId,
+            )));
         }
 
         $em = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository('CollegeCraziesMainBundle:League')->getUsersAndPoints($league);
+        $projectedBestFinish = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
 
         // Only show the top 10 users
@@ -52,6 +56,7 @@ class LeagueController extends BaseController
             'users' => $sortedUsers,
             'pickSet' => $pickSet,
             'rank' => $rank,
+            'projectedBestFinish' => $projectedBestFinish,
         );
     }
 

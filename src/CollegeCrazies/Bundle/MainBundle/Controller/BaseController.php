@@ -65,6 +65,20 @@ class BaseController extends Controller
         return $game;
     }
 
+    protected function findPredictionSet($predictionSetId)
+    {
+        $predictionSet = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:PredictionSet')
+            ->find($predictionSetId);
+
+        if (!$predictionSet) {
+            throw new NotFoundHttpException(sprintf('There was no prediction set with id = %s', $predictionSetId));
+        }
+
+        return $predictionSet;
+    }
+
     protected function canUserViewPickSet(User $user, PickSet $pickSet)
     {
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
