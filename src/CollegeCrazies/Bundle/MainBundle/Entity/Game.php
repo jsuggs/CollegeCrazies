@@ -52,6 +52,11 @@ class Game
     protected $awayTeam;
 
     /**
+     * @ORM\OneToMany(targetEntity="Pick", mappedBy="game")
+     */
+    protected $picks;
+
+    /**
      * The spread of the game
      *
      * @ORM\Column(type="float")
