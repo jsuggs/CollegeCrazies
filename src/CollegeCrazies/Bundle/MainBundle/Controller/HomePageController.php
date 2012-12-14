@@ -64,17 +64,6 @@ class HomePageController extends Controller
     }
 
     /**
-     * @Route("/leaders", name="leaders")
-     * @Template("CollegeCraziesMainBundle::leaders.html.twig")
-     */
-    public function leadersAction()
-    {
-        $this->get('session')->setFlash('warning', 'Feature not available until picks lock');
-        return $this->redirect('/');
-        return array();
-    }
-
-    /**
      * @Route("/bowl-schedule", name="schedule")
      * @Template("CollegeCraziesMainBundle::schedule.html.twig")
      */
