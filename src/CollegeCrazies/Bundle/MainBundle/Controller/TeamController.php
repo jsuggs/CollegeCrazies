@@ -17,7 +17,7 @@ class TeamController extends Controller
     /**
      * @Route("/list", name="team_list")
      * @Secure(roles="ROLE_ADMIN")
-     * @Template("CollegeCraziesMainBundle:Team:list.html.twig")
+     * @Template("CollegeCraziesMainBundle:Admin:teams.html.twig")
      */
     public function listAction()
     {

@@ -4,6 +4,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Form\UserFormType;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,7 +27,8 @@ class UserController extends Controller
 
     /**
      * @Route("/admin/user/list", name="user_list")
-     * @Template("CollegeCraziesMainBundle:User:list.html.twig")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("CollegeCraziesMainBundle:Admin:users.html.twig")
      */
     public function listAction()
     {
@@ -40,9 +42,20 @@ class UserController extends Controller
     }
 
     /**
-     * This probably needs to be a little more polished
-     *
+     * @Route("/admin/users-incomplete-picksets", name="admin_user_incomplete_picksets")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("CollegeCraziesMainBundle:Admin:users-incomplete-picksets.html.twig")
+     */
+    public function incompletePicksetsAction()
+    {
+        return array(
+            'users' => $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:User')->getUsersWithIncompletePicksets(),
+        );
+    }
+
+    /**
      * @Route("/admin/user/makeadmin/{id}", name="user_admin")
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function makeAdminAction($id)
     {

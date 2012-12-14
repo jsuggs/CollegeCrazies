@@ -46,7 +46,7 @@ class GameController extends Controller
     /**
      * @Route("/admin/list", name="game_admin")
      * @Secure(roles="ROLE_ADMIN")
-     * @Template("CollegeCraziesMainBundle:Game:admin.html.twig")
+     * @Template("CollegeCraziesMainBundle:Admin:games.html.twig")
      */
     public function adminAction()
     {

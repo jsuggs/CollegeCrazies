@@ -6,6 +6,14 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository
 {
+    const USERS_INCOMPLETE_PICKSETS_SQL =<<<EOF
+SELECT distinct u.username, u.email
+FROM picks p
+INNER JOIN picksets ps ON p.pickset_id = ps.id
+INNER JOIN users u on ps.user_id = u.id
+WHERE team_id IS NULL
+EOF;
+
     public function findUsersInLeague(League $league)
     {
         return $this->createQueryBuilder('u')
@@ -45,5 +53,10 @@ class UserRepository extends EntityRepository
             });
             return count($picks) < $numGames;
         });
+    }
+
+    public function getUsersWithIncompletePicksets()
+    {
+        return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
     }
 }
