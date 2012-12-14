@@ -48,8 +48,12 @@ class UserController extends Controller
      */
     public function incompletePicksetsAction()
     {
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:User')->getUsersWithIncompletePicksets();
+        $emailList = array_map(function($user) { return $user['email']; }, $users);
+
         return array(
-            'users' => $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:User')->getUsersWithIncompletePicksets(),
+            'users' => $users,
+            'emailList' => $emailList,
         );
     }
 
