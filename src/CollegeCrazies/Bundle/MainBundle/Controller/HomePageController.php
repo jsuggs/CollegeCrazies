@@ -73,4 +73,13 @@ class HomePageController extends Controller
             'games' => $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate(),
         );
     }
+
+    /**
+     * @Route("/prediction-info", name="prediction_info")
+     * @Template("CollegeCraziesMainBundle::prediction-info.html.twig")
+     */
+    public function predictionInfoAction()
+    {
+        return array();
+    }
 }

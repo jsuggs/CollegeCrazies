@@ -25,6 +25,8 @@
                 </table>
                 {% if picks_locked %}
                     <h3><a href="{{ path('prediction_view', {pickSetId: pickSet.id, predictionSetId: projectedBestFinish.predictionset_id}) }}">Projected Best Finish: {{ projectedBestFinish.finish }}</a></h3>
+                    <h4>Average Projected Finish: {{ pickSet.getAveragePredictionFinish()|number_format(2) }}</h4>
+                    <p class="text-info"><a href="{{ path('prediction_info') }}">Click here for more information about how we generated our predictions.</a></p>
                 {% else %}
                     <span class="text-warning">Projected Best Finish available after picks lock.</p>
                 {% endif %}
