@@ -1,4 +1,5 @@
 imports:
+    - { resource: app_services.yml }
     - { resource: event_services.yml }
     - { resource: form_services.yml }
     - { resource: listener_services.yml }

@@ -5,7 +5,6 @@ namespace CollegeCrazies\Bundle\MainBundle\Controller;
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
 use CollegeCrazies\Bundle\MainBundle\Entity\PickSet;
-use CollegeCrazies\Bundle\MainBundle\Listener\PicksLockedListener;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -125,6 +124,6 @@ class BaseController extends Controller
 
     protected function picksLocked()
     {
-        return $this->get('session')->get(PicksLockedListener::PICKS_LOCK_SESSION_KEY) < new \DateTime();
+        return $this->get('picks_locked_manager')->arePickLocked();
     }
 }

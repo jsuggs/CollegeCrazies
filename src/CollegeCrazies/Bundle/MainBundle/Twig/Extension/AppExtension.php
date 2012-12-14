@@ -2,7 +2,6 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Twig\Extension;
 
-use CollegeCrazies\Bundle\MainBundle\Listener\PicksLockedListener;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppExtension extends \Twig_Extension
@@ -23,7 +22,7 @@ class AppExtension extends \Twig_Extension
 
     public function picksLocked()
     {
-        return $this->container->get('session')->get(PicksLockedListener::PICKS_LOCK_SESSION_KEY) < new \DateTime();
+        return $this->container->get('picks_locked_manager')->arePickLocked();
     }
 
     public function getName()

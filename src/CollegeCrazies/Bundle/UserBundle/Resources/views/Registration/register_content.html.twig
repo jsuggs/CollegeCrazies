@@ -1,67 +1,73 @@
 <h2>Sign Up</h2>
 
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
-    <fieldset>
-        <legend>Required Fields</legend>
+{% if picks_locked %}
+    <h4 class="text-error">Registration is now disabled</h4>
+    <p>We are so sorry, but picks have locked and we are no longer allowing new sign-ups for this bowl pick'em season.</p>
+    <p>Don't worry, we'll be opening things back up soon and bring more awesome new feature and games in the very near future.</p>
+{% else %}
+    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+        <fieldset>
+            <legend>Required Fields</legend>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Username:</label>
-            <div class="controls">
-                {{ form_widget(form.username) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Username:</label>
+                <div class="controls">
+                    {{ form_widget(form.username) }}
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Email:</label>
-            <div class="controls">
-                {{ form_widget(form.email) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Email:</label>
+                <div class="controls">
+                    {{ form_widget(form.email) }}
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Password:</label>
-            <div class="controls">
-                {{ form_widget(form.plainPassword.first) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Password:</label>
+                <div class="controls">
+                    {{ form_widget(form.plainPassword.first) }}
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Password (again):</label>
-            <div class="controls">
-                {{ form_widget(form.plainPassword.second) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Password (again):</label>
+                <div class="controls">
+                    {{ form_widget(form.plainPassword.second) }}
+                </div>
             </div>
-        </div>
-    </fieldset>
+        </fieldset>
 
-    <fieldset>
-        <legend>Optional Fields</legend>
+        <fieldset>
+            <legend>Optional Fields</legend>
 
-        <div class="control-group">
-            <label for="username" class="control-label">First Name:</label>
-            <div class="controls">
-                {{ form_widget(form.firstName) }}
+            <div class="control-group">
+                <label for="username" class="control-label">First Name:</label>
+                <div class="controls">
+                    {{ form_widget(form.firstName) }}
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Last Name:</label>
-            <div class="controls">
-                {{ form_widget(form.lastName) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Last Name:</label>
+                <div class="controls">
+                    {{ form_widget(form.lastName) }}
+                </div>
             </div>
-        </div>
 
-        <div class="control-group">
-            <label for="username" class="control-label">Email visible in leagues:</label>
-            <div class="controls">
-                {{ form_widget(form.emailVisible) }}
+            <div class="control-group">
+                <label for="username" class="control-label">Email visible in leagues:</label>
+                <div class="controls">
+                    {{ form_widget(form.emailVisible) }}
+                </div>
             </div>
+
+            {{ form_row(form.emailFromCommish) }}
+        </fieldset>
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Sign Up" />
+            {{ form_rest(form) }}
         </div>
-
-        {{ form_row(form.emailFromCommish) }}
-    </fieldset>
-
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Sign Up" />
-        {{ form_rest(form) }}
-    </div>
-</form>
+    </form>
+{% endif %}

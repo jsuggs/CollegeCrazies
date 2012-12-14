@@ -9,6 +9,12 @@ class RegistrationController extends BaseController
 {
     public function registerAction()
     {
+        // If the picks are locked, don't allow regisration
+        if ($this->container->get('picks_locked_manager')->arePickLocked()) {
+            $this->setFlash('warning', 'Regisration is now closed');
+            return new RedirectResponse('/');
+        }
+
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
