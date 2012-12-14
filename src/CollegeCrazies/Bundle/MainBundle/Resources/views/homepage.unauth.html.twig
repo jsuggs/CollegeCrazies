@@ -10,6 +10,6 @@
         <p>So go ahead, create a league, invite your friends, and enjoy another crazy season of Bowl Mania!</p>
         <p>Read more about who we are and why we did this <a href="{{ path('about') }}">here</a></p>
 
-        <p><a href="/register" class="btn btn-info">Sign up now!</a> or <a href="/login" class="btn btn-success">Login</a></p>
+        <p>{% if not picks_locked %}<a href="/register" class="btn btn-info">Sign up now!</a> or {% endif %}<a href="/login" class="btn btn-success">Login</a></p>
     </div>
 {% endblock %}
