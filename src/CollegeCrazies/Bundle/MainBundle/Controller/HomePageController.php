@@ -70,7 +70,7 @@ class HomePageController extends Controller
     public function scheduleAction()
     {
         return array(
-            'games' => $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate(),
+            'games' => array_reverse($this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate()),
         );
     }
 
