@@ -49,20 +49,24 @@ class PickController extends BaseController
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
-            $em = $this->get('doctrine.orm.entity_manager');
-            $conn = $em->getConnection();
-            // Delete all of the users picksets
-            $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
+            if ($this->picksLocked()) {
+                $this->get('session')->setFlash('warning', 'You can\' update your leagues after picks lock');
+            } else {
+                $em = $this->get('doctrine.orm.entity_manager');
+                $conn = $em->getConnection();
+                // Delete all of the users picksets
+                $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
 
-            // This is a semi-hack, not using the form framework
-            foreach ($request->request->get('league_pickset') as $leagueId => $pickSetId) {
-                $league = $this->findLeague($leagueId);
-                $pickSet = $this->findPickSet($pickSetId);
+                // This is a semi-hack, not using the form framework
+                foreach ($request->request->get('league_pickset') as $leagueId => $pickSetId) {
+                    $league = $this->findLeague($leagueId);
+                    $pickSet = $this->findPickSet($pickSetId);
 
-                $league->addPickSet($pickSet);
+                    $league->addPickSet($pickSet);
+                }
+                $em->flush();
+                $this->get('session')->setFlash('success', 'Picksets have now been assigned to your Leagues');
             }
-            $em->flush();
-            $this->get('session')->setFlash('success', 'Picksets have now been assigned to your Leagues');
         }
 
         return array(
@@ -78,6 +82,12 @@ class PickController extends BaseController
      */
     public function newPickAction()
     {
+        // No more picksets after picks lock
+        if ($this->picksLocked()) {
+            $this->get('session')->setFlash('warning', 'Sorry, the fun is over...no more picksets');
+            return $this->redirect('/');
+        }
+
         $user = $this->getUser();
 
         $pickSet = new PickSet();
@@ -237,6 +247,12 @@ class PickController extends BaseController
      */
     public function createPickAction()
     {
+        // No more picksets after picks lock
+        if ($this->picksLocked()) {
+            $this->get('session')->setFlash('warning', 'Sorry, the fun is over...no more picksets');
+            return $this->redirect('/');
+        }
+
         $pickSet = new PickSet();
         $form = $this->getPickSetForm($pickSet);
         $request = $this->getRequest();
