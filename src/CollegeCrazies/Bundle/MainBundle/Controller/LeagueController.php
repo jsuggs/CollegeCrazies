@@ -740,28 +740,6 @@ class LeagueController extends BaseController
     }
 
     /**
-     * @Route("/{leagueId}/picks", name="league_picks")
-     * @Secure(roles="ROLE_USER")
-     */
-    public function picksAction($leagueId)
-    {
-        $user = $this->getUser();
-        $league = $this->findLeague($leagueId);
-
-        $pickSet = $user->getPicksetForUser($user);
-        if ($pickSet) {
-            return $this->redirect($this->generateUrl('pickset_edit', array(
-                'picksetId' => $pickSet->getId(),
-                'leagueId' => $leagueId,
-            )));
-        }
-
-        return $this->redirect($this->generateUrl('pickset_new', array(
-            'leagueId' => $leagueId,
-        )));
-    }
-
-    /**
      * @Route("/{leagueId}/settings", name="league_settings")
      * @Secure(roles="ROLE_USER")
      * @Template
