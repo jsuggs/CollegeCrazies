@@ -33,6 +33,10 @@ SELECT
   , g.gamedate
   , p.team_id
   , p.confidence
+  , CASE WHEN g.hometeamscore IS NOT NULL AND g.awayteamscore IS NOT NULL
+      THEN CASE WHEN g.hometeamscore > g.awayteamscore THEN g.hometeam_id ELSE g.awayteam_id END
+      ELSE null
+    END as winner
 FROM picks p
 INNER JOIN games g ON p.game_id = g.id
 INNER JOIN

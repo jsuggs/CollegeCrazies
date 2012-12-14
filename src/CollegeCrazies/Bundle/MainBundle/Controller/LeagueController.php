@@ -328,6 +328,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'pickSet' => $pickSet,
             'games' => $games,
         );
     }
