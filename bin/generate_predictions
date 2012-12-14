@@ -1,0 +1,7 @@
+#!/bin/bash
+
+app/console college-crazies:generate-predictions --truncate 50
+for i in {1..99}
+do
+   app/console college-crazies:generate-predictions 50
+done
