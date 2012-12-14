@@ -18,6 +18,11 @@ td.correct {
     font-color: #006600 !important;
     font-weight: normal !important;
 }
+th.correct {
+    background-color: #04b404 !important;
+    font-color: #006600 !important;
+    font-weight: bold !important;
+}
 td.incorrect {
     background-color: #ffcccc !important;
     font-color: #990000 !important;

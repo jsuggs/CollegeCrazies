@@ -17,7 +17,11 @@
             <tr>
                 <td>Favorite</td>
                 {% for game in games %}
-                    <td> {{ game.homeTeam.id }} </td>
+                    {% if game.winner == game.homeTeam %}
+                        <th class="correct"><b>{{ game.homeTeam.id }}</b></th>
+                    {% else %}
+                        <th>{{ game.homeTeam.id }}</th>
+                    {% endif %}
                 {% endfor %}
                 <td>-</td>
                 <td>-</td>
@@ -25,7 +29,11 @@
             <tr>
                 <td>Underdog</td>
                 {% for game in games %}
-                    <td> {{ game.awayTeam.id }} </td>
+                    {% if game.winner == game.awayTeam %}
+                        <th class="correct"><b>{{ game.awayTeam.id }}</b></th>
+                    {% else %}
+                        <th>{{ game.awayTeam.id }}</th>
+                    {% endif %}
                 {% endfor %}
                 <td>-</td>
                 <td>-</td>
