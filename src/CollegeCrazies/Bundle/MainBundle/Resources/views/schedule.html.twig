@@ -1,0 +1,36 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>2012-2013 Bowl Schedule</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Game</th>
+                <th>Date</th>
+                <th>Teams</th>
+                <th>Network</th>
+                <th>Score</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            <tr>
+                <td>{{ game.name }}</td>
+                <td>{{ game.gameDate|date("F jS \\a\\t g:ia") }}</td>
+                <td><abbr title="{{ game.homeTeam.name }}">{{ game.homeTeam.id}}</abbr> vs <abbr title="{{ game.awayTeam.name }}">{{ game.awayTeam.id }}</abbr></td>
+                <td>{{ game.network }}</td>
+                <td>
+                {% if game.complete %}
+                    {{ game.homeTeamScore }} - {{ game.awayTeamScore }}
+                {% else %}
+                    --
+                {% endif %}
+                </td>
+                <td>{{ game.location}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -73,4 +73,15 @@ class HomePageController extends Controller
         return $this->redirect('/');
         return array();
     }
+
+    /**
+     * @Route("/bowl-schedule", name="schedule")
+     * @Template("CollegeCraziesMainBundle::schedule.html.twig")
+     */
+    public function scheduleAction()
+    {
+        return array(
+            'games' => $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate(),
+        );
+    }
 }
