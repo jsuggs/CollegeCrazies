@@ -14,6 +14,15 @@ INNER JOIN users u on ps.user_id = u.id
 WHERE team_id IS NULL
 EOF;
 
+    const USERS_NOLEAGUE_SQL = <<<EOF
+SELECT DISTINCT u.username, u.email
+FROM users u
+WHERE u.id NOT IN (
+  SELECT user_id
+  FROM user_league
+)
+EOF;
+
     public function findUsersInLeague(League $league)
     {
         return $this->createQueryBuilder('u')
@@ -56,6 +65,11 @@ EOF;
     }
 
     public function getUsersWithIncompletePicksets()
+    {
+        return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
+    }
+
+    public function getUsersWithNoLeague()
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
     }

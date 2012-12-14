@@ -58,6 +58,22 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/admin/users-noleague", name="admin_user_noleague")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("CollegeCraziesMainBundle:Admin:users-noleague.html.twig")
+     */
+    public function noleagueAction()
+    {
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:User')->getUsersWithNoLeague();
+        $emailList = array_map(function($user) { return $user['email']; }, $users);
+
+        return array(
+            'users' => $users,
+            'emailList' => $emailList,
+        );
+    }
+
+    /**
      * @Route("/admin/user/makeadmin/{id}", name="user_admin")
      * @Secure(roles="ROLE_ADMIN")
      */
