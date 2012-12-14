@@ -1,0 +1,3 @@
+services:
+    text.manipulator:
+        class: CollegeCrazies\Bundle\MainBundle\Util\TextManipulator

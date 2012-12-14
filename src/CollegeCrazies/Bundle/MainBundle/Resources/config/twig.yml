@@ -14,3 +14,11 @@ services:
             - @service_container
         tags:
             - { name: twig.extension }
+
+    twig.extension.sofachamps.text:
+        class: CollegeCrazies\Bundle\MainBundle\Twig\Extension\TextExtension
+        public: false
+        arguments:
+            - @service_container
+        tags:
+            - { name: twig.extension }
