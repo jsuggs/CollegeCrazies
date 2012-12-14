@@ -23,7 +23,7 @@
                     {% else %}
                         <a href="{{ path('user_profile', {'username': user.username}) }}">{{ pickSet.name|default('Not Named') }} ({{ user.username }})</a>
                     {% endif %}
-                    {% if not picks_locked and (is_granted('ROLE_ADMIN') or user == app.user %}
+                    {% if not picks_locked and (is_granted('ROLE_ADMIN') or user == app.user) %}
                         <a href="{{ path('pickset_edit', {'picksetId': pickSet.id}) }}" class="label notice">edit</a>
                     {% endif %}
                 </td>
