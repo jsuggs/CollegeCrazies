@@ -52,18 +52,30 @@ class PredictionGenerator
                 $spread = $game->getSpread();
 
                 // Get the base score
-                $favoriteBase = floor(($overunder / 2) + $spread + 1);
-                $underdogBase = floor($overunder / 2);
+                $favoriteBase = floor(($overunder / 2) + $spread + 4 + rand(2, 12));
+                $underdogBase = floor($overunder / 2 + rand(3, 11));
 
-                $homeTeamWinPercentage = $this->getHomeTeamWinPercentage($spread);
+                if ($favoriteBase === $underdogBase) {
+                    $favoriteBase += 1;
+                }
+
+                if ($favoriteBase > $underdogBase) {
+                    $winnerScore = $favoriteBase;
+                    $loserScore = $underdogBase;
+                } else {
+                    $winnerScore = $underdogBase;
+                    $loserScore = $favoriteBase;
+                }
+
+                $homeTeamWinPercentage = $this->getHomeTeamWinPercentage($spread) * 100;
 
                 // We'll be lame for now with coming up with cool scores
-                if (rand(0, 1) < $homeTeamWinPercentage) {
-                    $homeTeamScore = $favoriteBase;
-                    $awayTeamScore = $underdogBase;
+                if (rand(0, 100) < $homeTeamWinPercentage) {
+                    $homeTeamScore = $winnerScore;
+                    $awayTeamScore = $loserScore;
                 } else {
-                    $homeTeamScore = $underdogBase;
-                    $awayTeamScore = $favoriteBase;
+                    $homeTeamScore = $loserScore;
+                    $awayTeamScore = $winnerScore;
                 }
 
                 $predictions[] = $this->savePrediction($set, $game, $homeTeamScore, $awayTeamScore);
