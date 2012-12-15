@@ -1,8 +1,8 @@
 #!/bin/bash
 
-app/console college-crazies:generate-predictions --env=prod --no-debug --truncate 50
-for i in {1..199}
+app/console college-crazies:generate-predictions --env=prod --no-debug --truncate 10
+for i in {1..499}
 do
-   app/console college-crazies:generate-predictions --env=prod --no-debug 50
+   app/console college-crazies:generate-predictions --env=prod --no-debug 10
 done
-app/console college-crazies:analyze-picksets --env=prod --no-debug 50
+app/console college-crazies:analyze-picksets --env=prod --no-debug
