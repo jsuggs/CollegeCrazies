@@ -8,6 +8,10 @@ class PickSetSorter
 {
     public function sortPickSets($pickSets, $tieBreakerHomeScore = null, $tieBreakerAwayScore = null)
     {
+        $pickSets = array_filter($pickSets, function($pickSet) {
+            return isset($pickSet);
+        });
+
         usort($pickSets, function(PickSet $a, PickSet $b) {
             $aPoints = $a->getPoints();
             $bPoints = $b->getPoints();
