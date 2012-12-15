@@ -9,7 +9,7 @@
                 <th style="width: 60px">Commish</th>
                 <th>League</th>
                 {% for pickSet in pickSets %}
-                    <th><a href="{{ path('pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a></th>
+                    <th><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a></th>
                 {% endfor %}
             </thead>
             <tbody>
