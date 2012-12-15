@@ -47,6 +47,7 @@ class LeagueController extends BaseController
         $users = $em->getRepository('CollegeCraziesMainBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
+        $importantGames = $em->getRepository('CollegeCraziesMainBundle:Game')->gamesByImportanceForLeague($league, 5);
 
         // Only show the top 10 users
         $sortedUsers = array_slice($sortedUsers, 0, 10);
@@ -57,6 +58,7 @@ class LeagueController extends BaseController
             'pickSet' => $pickSet,
             'rank' => $rank,
             'projectedBestFinish' => $projectedBestFinish,
+            'importantGames' => $importantGames,
         );
     }
 

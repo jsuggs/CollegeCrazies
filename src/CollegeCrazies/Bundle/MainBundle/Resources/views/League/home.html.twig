@@ -40,13 +40,16 @@
         </div>
 
         <div class="row">
-            <h5>League Top 10 Standings</h5>
+            <h3>League Top 10 Standings</h3>
+
             {% include 'CollegeCraziesMainBundle:League:_leaderboard.html.twig' %}
         </div>
 
         {% if picks_locked %}
             <div class="row">
-                <h5>League Top 10 Games</h5>
+                <h3><a href="{{ path('league_stats', {leagueId: league.id}) }}">League Top 5 Games</a></h3>
+
+                {% include 'CollegeCraziesMainBundle:Game:_important_games.html.twig' with {games: importantGames} %}
             </div>
         {% endif %}
     </div>
