@@ -1358,12 +1358,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "563b20825f91074b962bc354b6e4a9af3ac52c67"
+                "reference": "c67ddb27b3c8e40ee95564a828494a91f42c75c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/563b20825f91074b962bc354b6e4a9af3ac52c67.zip",
-                "reference": "563b20825f91074b962bc354b6e4a9af3ac52c67",
+                "url": "https://github.com/symfony/symfony/archive/c67ddb27b3c8e40ee95564a828494a91f42c75c5.zip",
+                "reference": "c67ddb27b3c8e40ee95564a828494a91f42c75c5",
                 "shasum": ""
             },
             "require": {
@@ -1412,7 +1412,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "1.*"
             },
-            "time": "1355515505",
+            "time": "1355574476",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -1446,17 +1446,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig-extensions",
-                "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688"
+                "reference": "d1990ffaca93302709d1306d50ae153adb169f49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/zipball/dcdff02fbac1282e6b8f4d0558cc7e9580105688",
-                "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688",
+                "url": "https://github.com/fabpot/Twig-extensions/archive/d1990ffaca93302709d1306d50ae153adb169f49.zip",
+                "reference": "d1990ffaca93302709d1306d50ae153adb169f49",
                 "shasum": ""
             },
             "require": {
                 "twig/twig": "1.*"
             },
+            "time": "1355563570",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1484,8 +1485,7 @@
                 "debug",
                 "i18n",
                 "text"
-            ],
-            "time": "1349889206"
+            ]
         },
         {
             "name": "twig/twig",
