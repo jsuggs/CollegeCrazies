@@ -1,0 +1,39 @@
+<div class="pick-distribution" style="width:550px;height:200px;"></div>
+<script>
+    $(function () {
+        $.ajax({
+            url: '{{ path('pickset_data', {leagueId: league.id, pickSetId: pickSet.id}) }}',
+            success: function(data) {
+                var graphData = [];
+                var graphTicks = [];
+                $(data).each(function(idx, dist) {
+                    graphData.push({label: dist.finish, data:[[dist.finish, dist.percentage]]});
+                    graphTicks.push([dist.finish, dist.finish]);
+                });
+                var options = {
+                    series: {
+                        stack: 0,
+                        lines: {
+                            show: false
+                        },
+                        bars: {
+                            show: true,
+                            barWidth: 0.7,
+                            align: 'center',
+                            fill: true,
+                            fillColor: '#39F'
+                        },
+                    },
+                    xaxis: {
+                        ticks: graphTicks
+                    },
+                    legend: {
+                        show: false
+                    },
+                };
+
+                $.plot('.pick-distribution', graphData, options);
+            }
+        });
+    });
+</script>

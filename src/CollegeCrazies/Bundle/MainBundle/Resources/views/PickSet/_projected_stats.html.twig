@@ -1,0 +1,24 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>--</th>
+            <th>Best</th>
+            <th>Average</th>
+            <th>Worst</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Rank</th>
+            <td>{{ pickSet.getHigestPredictionFinish(league)|number_format(2) }}</td>
+            <td>{{ pickSet.getAveragePredictionFinish(league)|number_format(2) }}</td>
+            <td>{{ pickSet.getLowestPredictionFinish(league)|number_format(2) }}</td>
+        </tr>
+        <tr>
+            <th>Score</th>
+            <td>{{ pickSet.getHighestPredictionScore(league) }}</td>
+            <td>{{ pickSet.getAveragePredictionScore(league)|number_format(2) }}</td>
+            <td>{{ pickSet.getLowestPredictionScore(league) }}</td>
+        </tr>
+    </tbody>
+</table>
