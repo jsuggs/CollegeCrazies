@@ -6,3 +6,5 @@ services:
 
     user.sorter:
         class: CollegeCrazies\Bundle\MainBundle\Service\UserSorter
+        arguments:
+            - @pickset.sorter

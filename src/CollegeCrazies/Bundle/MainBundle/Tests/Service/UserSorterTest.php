@@ -2,6 +2,7 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Tests\Service;
 
+use CollegeCrazies\Bundle\MainBundle\Service\PickSetSorter;
 use CollegeCrazies\Bundle\MainBundle\Service\UserSorter;
 use CollegeCrazies\Bundle\MainBundle\Entity\Game;
 use CollegeCrazies\Bundle\MainBundle\Entity\League;
@@ -16,8 +17,9 @@ class UserSorterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->userSorter = new UserSorter();
+        $this->userSorter = new UserSorter(new PickSetSorter());
     }
+
     public function testSortUsersByPoints()
     {
         $users = array();
