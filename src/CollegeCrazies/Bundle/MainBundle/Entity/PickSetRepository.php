@@ -51,16 +51,10 @@ EOF;
 
     public function findAllOrderedByPoints($limit = 10)
     {
-        $pickSets = $this->getEntityManager()->createQuery('SELECT p, u, pk, pg from CollegeCraziesMainBundle:PickSet p
+        return $this->getEntityManager()->createQuery('SELECT p, u, pk, pg from CollegeCraziesMainBundle:PickSet p
             JOIN p.user u
             JOIN p.picks pk
             JOIN pk.game pg')
             ->getResult();
-
-        usort($pickSets, function($a, $b) {
-            return $a->getPoints() >= $b->getPoints() ? -1 : 1;
-        });
-
-        return $pickSets;
     }
 }

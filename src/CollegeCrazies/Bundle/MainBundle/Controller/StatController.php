@@ -48,6 +48,8 @@ class StatController extends BaseController
             ->getRepository('CollegeCraziesMainBundle:PickSet')
             ->findAllOrderedByPoints();
 
+        $pickSets = $this->get('pickset.sorter')->sortPickSets($pickSets);
+
         return array(
             'pickSets' => $pickSets,
         );
