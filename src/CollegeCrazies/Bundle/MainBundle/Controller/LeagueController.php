@@ -151,7 +151,7 @@ class LeagueController extends BaseController
      */
     public function joinAction()
     {
-        if ($this->arePickLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot join a league after picks lock');
             return $this->redirect('/');
         }
@@ -233,7 +233,7 @@ class LeagueController extends BaseController
      */
     public function prejoinAction($leagueId)
     {
-        if ($this->arePickLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot join a league after picks lock');
         }
 
@@ -273,7 +273,7 @@ class LeagueController extends BaseController
 
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
-            if ($this->arePickLocked()) {
+            if ($this->picksLocked()) {
                 $this->get('session')->setFlash('warning', 'You cannot change league assignments after picks lock');
             } else {
                 $pickSet = $this->findPickSet($request->request->get('pickset'));
@@ -417,7 +417,7 @@ class LeagueController extends BaseController
      */
     public function newAction()
     {
-        if ($this->arePickLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot create a league after picks lock');
             return $this->redirect('/');
         }
@@ -440,7 +440,7 @@ class LeagueController extends BaseController
      */
     public function createAction()
     {
-        if ($this->arePickLocked()) {
+        if ($this->picksLocked()) {
             $this->get('session')->setFlash('warning', 'You cannot create a league after picks lock');
             return $this->redirect('/');
         }
