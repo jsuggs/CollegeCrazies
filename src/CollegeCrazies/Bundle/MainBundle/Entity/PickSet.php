@@ -227,53 +227,61 @@ class PickSet
         }
     }
 
-    public function getAveragePredictionScore()
+    public function getAveragePredictionScore(League $league)
     {
-        $scores = $this->getPredictionScores();
+        $scores = $this->getPredictionScores($league);
         return array_sum($scores) / count($scores);
     }
 
-    public function getHighestPredictionScore()
+    public function getHighestPredictionScore(League $league)
     {
-        $scores = $this->getPredictionScores();
+        $scores = $this->getPredictionScores($league);
         return max($scores);
     }
 
-    public function getLowestPredictionScore()
+    public function getLowestPredictionScore(League $league)
     {
-        $scores = $this->getPredictionScores();
+        $scores = $this->getPredictionScores($league);
         return min($scores);
     }
 
-    public function getAveragePredictionFinish()
+    public function getAveragePredictionFinish(League $league)
     {
-        $finishes = $this->getPredictionFinishes();
+        $finishes = $this->getPredictionFinishes($league);
         return array_sum($finishes) / count($finishes);
     }
 
-    public function getHigestPredictionFinish()
+    public function getHigestPredictionFinish(League $league)
     {
-        $finishes = $this->getPredictionFinishes();
+        $finishes = $this->getPredictionFinishes($league);
         return min($finishes);
     }
 
-    public function getLowestPredictionFinish()
+    public function getLowestPredictionFinish(League $league)
     {
-        $finishes = $this->getPredictionFinishes();
+        $finishes = $this->getPredictionFinishes($league);
         return max($finishes);
     }
 
-    protected function getPredictionScores()
+    protected function getPredictionScores(League $league)
     {
+        $predictionScoresForLeague = array_filter($this->predictionScores->toArray(), function($predictionSore) use ($league) {
+            return $predictionSore->getLeague() == $league;
+        });
+
         return array_map(function (UserPredictionSetScore $setScore) {
             return $setScore->getScore();
-        }, $this->predictionScores->toArray());
+        }, $predictionScoresForLeague);
     }
 
-    protected function getPredictionFinishes()
+    protected function getPredictionFinishes(League $league)
     {
+        $predictionScoresForLeague = array_filter($this->predictionScores->toArray(), function($predictionSore) use ($league) {
+            return $predictionSore->getLeague() == $league;
+        });
+
         return array_map(function (UserPredictionSetScore $setScore) {
             return $setScore->getFinish();
-        }, $this->predictionScores->toArray());
+        }, $predictionScoresForLeague);
     }
 }

@@ -74,4 +74,9 @@ class UserPredictionSetScore
     {
         return $this->predictionSet;
     }
+
+    public function getLeague()
+    {
+        return $this->league;
+    }
 }

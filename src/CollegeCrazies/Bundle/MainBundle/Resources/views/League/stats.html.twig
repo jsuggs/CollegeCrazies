@@ -52,22 +52,22 @@
 
         <dl>
             <dt>Average Finish</dt>
-            <dd>{{ pickSet.getAveragePredictionFinish() }}</dd>
+            <dd>{{ pickSet.getAveragePredictionFinish(league)|number_format(2) }}</dd>
 
             <dt>Best Finish</dt>
-            <dd>{{ pickSet.getHigestPredictionFinish() }}</dd>
+            <dd>{{ pickSet.getHigestPredictionFinish(league)|number_format(2) }}</dd>
 
             <dt>Worst Finish</dt>
-            <dd>{{ pickSet.getLowestPredictionFinish() }}</dd>
+            <dd>{{ pickSet.getLowestPredictionFinish(league)|number_format(2) }}</dd>
 
             <dt>Average Score</dt>
-            <dd>{{ pickSet.getAveragePredictionScore() }}</dd>
+            <dd>{{ pickSet.getAveragePredictionScore(league)|number_format(2) }}</dd>
 
             <dt>Best Score</dt>
-            <dd>{{ pickSet.getHighestPredictionScore() }}</dd>
+            <dd>{{ pickSet.getHighestPredictionScore(league) }}</dd>
 
             <dt>Worst Score</dt>
-            <dd>{{ pickSet.getLowestPredictionScore() }}</dd>
+            <dd>{{ pickSet.getLowestPredictionScore(league) }}</dd>
         </dl>
 
         <h3>Your most important games</h3>
