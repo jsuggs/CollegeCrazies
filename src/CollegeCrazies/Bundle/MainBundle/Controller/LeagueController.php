@@ -151,6 +151,11 @@ class LeagueController extends BaseController
      */
     public function joinAction()
     {
+        if ($this->arePickLocked()) {
+            $this->get('session')->setFlash('warning', 'You cannot join a league after picks lock');
+            return $this->redirect('/');
+        }
+
         $request = $this->getRequest()->request->get('form');
         $leagueId = $request['id'];
 
@@ -228,6 +233,10 @@ class LeagueController extends BaseController
      */
     public function prejoinAction($leagueId)
     {
+        if ($this->arePickLocked()) {
+            $this->get('session')->setFlash('warning', 'You cannot join a league after picks lock');
+        }
+
         $league = $this->findLeague($leagueId);
         $user = $this->getUser();
 
@@ -264,14 +273,18 @@ class LeagueController extends BaseController
 
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
-            $pickSet = $this->findPickSet($request->request->get('pickset'));
-            $pickSet->addLeague($league);
-            $this->get('doctrine.orm.entity_manager')->flush();
+            if ($this->arePickLocked()) {
+                $this->get('session')->setFlash('warning', 'You cannot change league assignments after picks lock');
+            } else {
+                $pickSet = $this->findPickSet($request->request->get('pickset'));
+                $pickSet->addLeague($league);
+                $this->get('doctrine.orm.entity_manager')->flush();
 
-            $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
-            return $this->redirect($this->generateUrl('league_home', array(
-                'leagueId' => $leagueId,
-            )));
+                $this->get('session')->setFlash('success', sprintf('Welcome to %s', $league->getName()));
+                return $this->redirect($this->generateUrl('league_home', array(
+                    'leagueId' => $leagueId,
+                )));
+            }
         }
 
         $user = $this->getUser();
@@ -404,6 +417,11 @@ class LeagueController extends BaseController
      */
     public function newAction()
     {
+        if ($this->arePickLocked()) {
+            $this->get('session')->setFlash('warning', 'You cannot create a league after picks lock');
+            return $this->redirect('/');
+        }
+
         $league = new League();
         $league->addUser($this->getUser());
         $league->addCommissioner($this->getUser());
@@ -422,6 +440,11 @@ class LeagueController extends BaseController
      */
     public function createAction()
     {
+        if ($this->arePickLocked()) {
+            $this->get('session')->setFlash('warning', 'You cannot create a league after picks lock');
+            return $this->redirect('/');
+        }
+
         $league = new League();
         $form = $this->getLeagueForm($league);
         $form->bindRequest($this->getRequest());
