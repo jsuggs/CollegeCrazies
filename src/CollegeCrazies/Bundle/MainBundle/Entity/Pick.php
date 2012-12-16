@@ -30,7 +30,7 @@ class Pick
     protected $pickSet;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Game")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="picks")
      */
     protected $game;
 
