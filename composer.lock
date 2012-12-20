@@ -1,5 +1,5 @@
 {
-    "hash": "520e68f3a2c260bdf81d99a9c73614eb",
+    "hash": "b45388ca403bd6e9d5526787bfd25cd1",
     "packages": [
         {
             "name": "doctrine/common",
@@ -68,7 +68,7 @@
                 "annotations",
                 "persistence"
             ],
-            "time": "1348120518"
+            "time": "2012-09-20 05:55:18"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -96,7 +96,7 @@
                 "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
                 "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
             },
-            "time": "1354528007",
+            "time": "2012-12-03 09:46:47",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -138,7 +138,7 @@
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
-            "time": "1355758554",
+            "time": "2012-12-17 15:35:54",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -151,6 +151,7 @@
                     "Doctrine\\DBAL": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -213,7 +214,6 @@
             "suggest": {
                 "doctrine/orm": "The Doctrine ORM integration is optional in the bundle."
             },
-            "time": "1355219625",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -250,7 +250,8 @@
                 "orm",
                 "persistence",
                 "dbal"
-            ]
+            ],
+            "time": "2012-12-11 09:53:45"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -303,7 +304,7 @@
                 "persistence",
                 "Fixture"
             ],
-            "time": "1350914272"
+            "time": "2012-10-22 13:57:52"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -326,7 +327,7 @@
                 "symfony/framework-bundle": ">=2.1.0,<2.3-dev",
                 "doctrine/doctrine-bundle": "1.0.*"
             },
-            "time": "1350561870",
+            "time": "2012-10-18 12:04:30",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -411,7 +412,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "1350643044"
+            "time": "2012-10-19 10:37:24"
         },
         {
             "name": "doctrine/orm",
@@ -436,7 +437,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1355659227",
+            "time": "2012-12-16 12:00:27",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -453,6 +454,7 @@
                     "Doctrine\\ORM": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -493,7 +495,7 @@
             },
             "type": "library",
             "installation-source": "source",
-            "time": "1348679383"
+            "time": "2012-09-26 17:09:43"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -502,12 +504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle",
-                "reference": "6d1fe1bad7621e618a379aebc45b36e080e7eca8"
+                "reference": "f1e16397ffe06cb38c19d11734204ea0c0699d1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/FriendsOfSymfony/FOSUserBundle/archive/6d1fe1bad7621e618a379aebc45b36e080e7eca8.zip",
-                "reference": "6d1fe1bad7621e618a379aebc45b36e080e7eca8",
+                "url": "https://github.com/FriendsOfSymfony/FOSUserBundle/archive/f1e16397ffe06cb38c19d11734204ea0c0699d1b.zip",
+                "reference": "f1e16397ffe06cb38c19d11734204ea0c0699d1b",
                 "shasum": ""
             },
             "require": {
@@ -528,7 +530,7 @@
                 "doctrine/doctrine-bundle": "*",
                 "doctrine/mongodb-odm-bundle": "*"
             },
-            "time": "1355221561",
+            "time": "2012-12-19 13:19:15",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -541,6 +543,7 @@
                     "FOS\\UserBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -571,17 +574,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "0461ab0ff16e096b8c51f085349f38ed5f2ea241"
+                "reference": "15ab7a899e33f42682f74804d340a6995711a0d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/archive/0461ab0ff16e096b8c51f085349f38ed5f2ea241.zip",
-                "reference": "0461ab0ff16e096b8c51f085349f38ed5f2ea241",
+                "url": "https://github.com/jdorn/sql-formatter/archive/15ab7a899e33f42682f74804d340a6995711a0d4.zip",
+                "reference": "15ab7a899e33f42682f74804d340a6995711a0d4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
+            "time": "2012-12-18 21:46:03",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -594,6 +598,7 @@
                     "lib"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL"
             ],
@@ -609,36 +614,41 @@
             "keywords": [
                 "sql",
                 "highlight"
-            ],
-            "time": "1353191518"
+            ]
         },
         {
             "name": "jms/aop-bundle",
-            "version": "1.0.0",
+            "version": "dev-master",
             "target-dir": "JMS/AopBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSAopBundle",
-                "reference": "1.0.0"
+                "reference": "70ee8edbcf840b20445e3e42e57a249be4373a34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSAopBundle/zipball/1.0.0",
-                "reference": "1.0.0",
+                "url": "https://github.com/schmittjoh/JMSAopBundle/archive/70ee8edbcf840b20445e3e42e57a249be4373a34.zip",
+                "reference": "70ee8edbcf840b20445e3e42e57a249be4373a34",
                 "shasum": ""
             },
             "require": {
                 "symfony/framework-bundle": "2.*",
-                "jms/cg": "1.0.0"
+                "jms/cg": "1.*"
             },
-            "time": "2012-01-02 12:50:26",
+            "time": "2012-11-21 10:42:51",
             "type": "symfony-bundle",
-            "installation-source": "dist",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.0-dev"
+                }
+            },
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "JMS\\AopBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
@@ -658,31 +668,37 @@
         },
         {
             "name": "jms/cg",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/schmittjoh/cg-library.git",
-                "reference": "1.0.0"
+                "reference": "8f3441497215434c95512200fa56f168d1972e47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/cg-library/zipball/1.0.0",
-                "reference": "1.0.0",
+                "url": "https://github.com/schmittjoh/cg-library/archive/8f3441497215434c95512200fa56f168d1972e47.zip",
+                "reference": "8f3441497215434c95512200fa56f168d1972e47",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 12:40:52",
+            "time": "2012-11-21 10:50:41",
             "type": "library",
-            "installation-source": "dist",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "CG\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache"
+                "Apache2"
             ],
             "authors": [
                 {
@@ -699,25 +715,25 @@
         },
         {
             "name": "jms/di-extra-bundle",
-            "version": "1.1.x-dev",
+            "version": "dev-master",
             "target-dir": "JMS/DiExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle",
-                "reference": "1.1.1"
+                "reference": "aff6f3da3c866ef06d13e7c9043e1253f11932a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSDiExtraBundle/zipball/1.1.1",
-                "reference": "1.1.1",
+                "url": "https://github.com/schmittjoh/JMSDiExtraBundle/archive/aff6f3da3c866ef06d13e7c9043e1253f11932a0.zip",
+                "reference": "aff6f3da3c866ef06d13e7c9043e1253f11932a0",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "2.1.*",
-                "jms/aop-bundle": "1.0.*",
-                "jms/metadata": "1.1.*",
-                "symfony/process": "2.1.*",
-                "symfony/finder": "2.1.*"
+                "symfony/framework-bundle": ">=2.1.0,<2.3-dev",
+                "symfony/process": ">=2.1.0,<2.3-dev",
+                "symfony/finder": ">=2.1.0,<2.3-dev",
+                "jms/aop-bundle": ">=1.0.0,<1.2-dev",
+                "jms/metadata": "1.*"
             },
             "require-dev": {
                 "jms/security-extra-bundle": "1.*",
@@ -730,15 +746,23 @@
                 "symfony/twig-bundle": "*",
                 "sensio/framework-extra-bundle": "*",
                 "doctrine/doctrine-bundle": "*",
-                "doctrine/orm": "*"
+                "doctrine/orm": "*",
+                "phpcollection/phpcollection": "0.1.*@dev"
             },
+            "time": "2012-12-17 20:06:01",
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "JMS\\DiExtraBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
@@ -746,7 +770,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -755,34 +779,45 @@
             "keywords": [
                 "dependency injection",
                 "annotations"
-            ],
-            "time": "1348217792"
+            ]
         },
         {
             "name": "jms/metadata",
-            "version": "1.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/metadata",
-                "reference": "1.1.1"
+                "reference": "92d949a8d6dfef83f4b5f68c0e8e294f22029653"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/metadata/zipball/1.1.1",
-                "reference": "1.1.1",
+                "url": "https://github.com/schmittjoh/metadata/archive/92d949a8d6dfef83f4b5f68c0e8e294f22029653.zip",
+                "reference": "92d949a8d6dfef83f4b5f68c0e8e294f22029653",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 13:32:49",
+            "require-dev": {
+                "doctrine/common": ">=2.0,<2.4-dev"
+            },
+            "suggest": {
+                "doctrine/common": ">=2.0"
+            },
+            "time": "2012-12-18 08:18:33",
             "type": "library",
-            "installation-source": "dist",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "Metadata\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
@@ -803,26 +838,63 @@
             ]
         },
         {
+            "name": "jms/parser-lib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/schmittjoh/parser-lib",
+                "reference": "4d469a70c6dd03f921cbdeadafbcb261bb23e8b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/schmittjoh/parser-lib/archive/4d469a70c6dd03f921cbdeadafbcb261bb23e8b0.zip",
+                "reference": "4d469a70c6dd03f921cbdeadafbcb261bb23e8b0",
+                "shasum": ""
+            },
+            "require": {
+                "phpoption/phpoption": ">=0.9,<2.0-dev"
+            },
+            "time": "2012-11-30 08:11:04",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "JMS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "description": "A library for easily creating recursive-descent parsers."
+        },
+        {
             "name": "jms/security-extra-bundle",
-            "version": "1.2.x-dev",
+            "version": "dev-master",
             "target-dir": "JMS/SecurityExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle",
-                "reference": "9ab6aceda50fc7a2b07d741ba4b3f0695508afcb"
+                "reference": "527fd1440287e66e12df70b71406ae26f36131a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle/zipball/9ab6aceda50fc7a2b07d741ba4b3f0695508afcb",
-                "reference": "9ab6aceda50fc7a2b07d741ba4b3f0695508afcb",
+                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle/archive/527fd1440287e66e12df70b71406ae26f36131a1.zip",
+                "reference": "527fd1440287e66e12df70b71406ae26f36131a1",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "2.1.*",
                 "symfony/security-bundle": "*",
-                "jms/metadata": "1.1.*",
-                "jms/aop-bundle": "1.0.*",
-                "jms/di-extra-bundle": "1.1.*"
+                "symfony/framework-bundle": ">=2.1.0,<2.3-dev",
+                "jms/aop-bundle": ">=1.0.0,<1.2-dev",
+                "jms/parser-lib": "1.*",
+                "jms/di-extra-bundle": "1.3.*",
+                "jms/metadata": "1.*"
             },
             "require-dev": {
                 "sensio/framework-extra-bundle": "*",
@@ -838,13 +910,20 @@
                 "symfony/form": "*",
                 "symfony/validator": "*"
             },
+            "time": "2012-12-09 19:12:10",
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
                     "JMS\\SecurityExtraBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache2"
             ],
@@ -852,7 +931,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -864,8 +943,7 @@
                 "security",
                 "secure",
                 "expression"
-            ],
-            "time": "1346947943"
+            ]
         },
         {
             "name": "kriswallsmith/assetic",
@@ -899,7 +977,7 @@
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin"
             },
-            "time": "1355509886",
+            "time": "2012-12-14 18:31:26",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -915,6 +993,7 @@
                     "src/functions.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -990,27 +1069,78 @@
             ]
         },
         {
+            "name": "phpoption/phpoption",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/schmittjoh/php-option",
+                "reference": "7c3d959ac1ab7677cca6463dbb7d443ef9eea8ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/schmittjoh/php-option/archive/7c3d959ac1ab7677cca6463dbb7d443ef9eea8ed.zip",
+                "reference": "7c3d959ac1ab7677cca6463dbb7d443ef9eea8ed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "2012-12-07 09:34:13",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "PhpOption\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com",
+                    "homepage": "http://jmsyst.com",
+                    "role": "Developer of wrapped JMSSerializerBundle"
+                }
+            ],
+            "description": "Option Type for PHP",
+            "keywords": [
+                "php",
+                "language",
+                "type",
+                "option"
+            ]
+        },
+        {
             "name": "sensio/distribution-bundle",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensio/SensioDistributionBundle",
-                "reference": "v2.1.4"
+                "reference": "1ee7c3e9128c939c2ff6efaa41ce323e1b117083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sensio/SensioDistributionBundle/archive/v2.1.4.zip",
-                "reference": "v2.1.4",
+                "url": "https://github.com/sensio/SensioDistributionBundle/archive/1ee7c3e9128c939c2ff6efaa41ce323e1b117083.zip",
+                "reference": "1ee7c3e9128c939c2ff6efaa41ce323e1b117083",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "2.1.*"
+                "symfony/framework-bundle": "2.2.*"
             },
+            "time": "2012-11-19 11:19:32",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "installation-source": "source",
@@ -1019,6 +1149,7 @@
                     "Sensio\\Bundle\\DistributionBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1032,33 +1163,32 @@
             "keywords": [
                 "distribution",
                 "configuration"
-            ],
-            "time": "1353323932"
+            ]
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensio/SensioFrameworkExtraBundle",
-                "reference": "v2.1.4"
+                "reference": "946f74bd4aa78b311c08b14f8a934ec30f20defd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sensio/SensioFrameworkExtraBundle/archive/v2.1.4.zip",
-                "reference": "v2.1.4",
+                "url": "https://github.com/sensio/SensioFrameworkExtraBundle/archive/946f74bd4aa78b311c08b14f8a934ec30f20defd.zip",
+                "reference": "946f74bd4aa78b311c08b14f8a934ec30f20defd",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "2.1.*",
-                "doctrine/common": ">=2.1,<2.4-dev"
+                "doctrine/common": ">=2.1,<2.4-dev",
+                "symfony/framework-bundle": "2.2.*"
             },
-            "time": "1350448707",
+            "time": "2012-12-18 17:22:30",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "installation-source": "source",
@@ -1067,6 +1197,7 @@
                     "Sensio\\Bundle\\FrameworkExtraBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1084,32 +1215,36 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensio/SensioGeneratorBundle",
-                "reference": "v2.1.4"
+                "reference": "f9684874ee5f9dcbab9b6933467c1c40b9ce27c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sensio/SensioGeneratorBundle/archive/v2.1.4.zip",
-                "reference": "v2.1.4",
+                "url": "https://github.com/sensio/SensioGeneratorBundle/archive/f9684874ee5f9dcbab9b6933467c1c40b9ce27c0.zip",
+                "reference": "f9684874ee5f9dcbab9b6933467c1c40b9ce27c0",
                 "shasum": ""
             },
             "require": {
-                "symfony/framework-bundle": "2.1.*",
-                "symfony/console": "2.1.*"
+                "symfony/framework-bundle": "2.2.*",
+                "symfony/console": "2.2.*"
             },
             "require-dev": {
-                "symfony/doctrine-bridge": "2.1.*",
                 "doctrine/orm": ">=2.1,<2.4-dev",
-                "twig/twig": ">=1.8,<2.0-dev"
+                "twig/twig": ">=1.8,<2.0-dev",
+                "symfony/doctrine-bridge": "2.2.*"
             },
+            "suggest": {
+                "doctrine/doctrine-bundle": "to generate entities and their crud controller"
+            },
+            "time": "2012-11-19 16:11:10",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.2.x-dev"
                 }
             },
             "installation-source": "source",
@@ -1118,6 +1253,7 @@
                     "Sensio\\Bundle\\GeneratorBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1127,8 +1263,7 @@
                     "email": "fabien@symfony.com"
                 }
             ],
-            "description": "This bundle generates code for you",
-            "time": "1353341457"
+            "description": "This bundle generates code for you"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1211,7 +1346,7 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
-            "time": "1355510322",
+            "time": "2012-12-14 18:38:42",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1224,6 +1359,7 @@
                     "Symfony\\Bundle\\AsseticBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1295,7 +1431,7 @@
             ],
             "description": "Symfony MonologBundle",
             "homepage": "http://symfony.com",
-            "time": "1348137624"
+            "time": "2012-09-20 10:40:24"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -1323,7 +1459,7 @@
                 "symfony/config": ">=2.1.0,<2.3-dev",
                 "symfony/yaml": ">=2.1.0,<2.3-dev"
             },
-            "time": "1350447491",
+            "time": "2012-10-17 04:18:11",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1354,22 +1490,22 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "ab64da5671ec161ab73aba07fc011bc8de56ae41"
+                "reference": "06c3222d44cc8ac936f3bc293e9caa200dd7f769"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/ab64da5671ec161ab73aba07fc011bc8de56ae41.zip",
-                "reference": "ab64da5671ec161ab73aba07fc011bc8de56ae41",
+                "url": "https://github.com/symfony/symfony/archive/06c3222d44cc8ac936f3bc293e9caa200dd7f769.zip",
+                "reference": "06c3222d44cc8ac936f3bc293e9caa200dd7f769",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
                 "doctrine/common": ">2.2,<2.4-dev",
-                "twig/twig": ">=1.9.1,<2.0-dev"
+                "php": ">=5.3.3",
+                "twig/twig": ">=1.11.0,<2.0-dev"
             },
             "replace": {
                 "symfony/doctrine-bridge": "self.version",
@@ -1403,24 +1539,37 @@
                 "symfony/templating": "self.version",
                 "symfony/translation": "self.version",
                 "symfony/validator": "self.version",
-                "symfony/yaml": "self.version"
+                "symfony/yaml": "self.version",
+                "symfony/stopwatch": "self.version"
             },
             "require-dev": {
-                "doctrine/dbal": ">=2.2,<2.4-dev",
-                "doctrine/orm": ">=2.2.3,<2.4-dev",
                 "doctrine/data-fixtures": "1.0.*",
                 "propel/propel1": "dev-master",
+                "doctrine/dbal": ">=2.2,<2.4-dev",
+                "doctrine/orm": ">=2.2.3,<2.4-dev",
                 "monolog/monolog": "1.*"
             },
-            "time": "1355592495",
+            "suggest": {
+                "doctrine/data-fixtures": "1.0.*"
+            },
+            "time": "2012-12-19 11:31:02",
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
             "installation-source": "source",
             "autoload": {
                 "psr-0": {
-                    "Symfony": "src/",
-                    "SessionHandlerInterface": "src/Symfony/Component/HttpFoundation/Resources/stubs"
-                }
+                    "Symfony\\": "src/"
+                },
+                "classmap": [
+                    "src/Symfony/Component/HttpFoundation/Resources/stubs",
+                    "src/Symfony/Component/Locale/Resources/stubs"
+                ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1457,7 +1606,7 @@
             "require": {
                 "twig/twig": "1.*"
             },
-            "time": "1355563570",
+            "time": "2012-12-15 09:26:10",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1470,6 +1619,7 @@
                     "Twig_Extensions_": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1493,18 +1643,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "6c01c14fd8f42348a032148ebecb6e034e9e18bd"
+                "reference": "f095f3a1777431412954e478f92e8a10cb7b6495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/archive/6c01c14fd8f42348a032148ebecb6e034e9e18bd.zip",
-                "reference": "6c01c14fd8f42348a032148ebecb6e034e9e18bd",
+                "url": "https://github.com/fabpot/Twig/archive/f095f3a1777431412954e478f92e8a10cb7b6495.zip",
+                "reference": "f095f3a1777431412954e478f92e8a10cb7b6495",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1355644506",
+            "time": "2012-12-18 10:01:32",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1517,6 +1667,7 @@
                     "Twig_": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3"
             ],
