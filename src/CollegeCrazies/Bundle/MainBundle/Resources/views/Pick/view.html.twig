@@ -16,7 +16,7 @@
                 <p>Based on 10,000 scenarios, here are some projections for this pickset.</p>
                 <p class="text-info"><a href="{{ path('prediction_info') }}">Click here for more information about how we generated our predictions.</a></p>
 
-                {% include 'CollegeCraziesMainBundle:PickSet:_projected_stats.html.twig' %}
+                {% include 'CollegeCraziesMainBundle:PickSet:_projected_stats.html.twig' with {stats: projectedFinishStats} %}
             </div>
         </div>
     {% endif %}

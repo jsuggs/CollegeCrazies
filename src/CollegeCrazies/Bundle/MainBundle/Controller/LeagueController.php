@@ -46,6 +46,7 @@ class LeagueController extends BaseController
         $em = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository('CollegeCraziesMainBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
+        $projectedFinishStats = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
         list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
         $importantGames = $em->getRepository('CollegeCraziesMainBundle:Game')->gamesByImportanceForLeague($league, 5);
 
@@ -58,6 +59,7 @@ class LeagueController extends BaseController
             'pickSet' => $pickSet,
             'rank' => $rank,
             'projectedBestFinish' => $projectedBestFinish,
+            'projectedFinishStats' => $projectedFinishStats,
             'importantGames' => $importantGames,
         );
     }
@@ -338,13 +340,16 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
+        $em = $this->get('doctrine.orm.entity_manager');
         $pickSet = $league->getPicksetForUser($user);
-        $games = $this->get('doctrine.orm.entity_manager')->getRepository('CollegeCraziesMainBundle:Game')->userGamesByImportance($league, $pickSet);
+        $games = $em->getRepository('CollegeCraziesMainBundle:Game')->userGamesByImportance($league, $pickSet);
+        $projectedFinishStats = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
 
         return array(
             'league' => $league,
             'pickSet' => $pickSet,
             'games' => $games,
+            'projectedFinishStats' => $projectedFinishStats,
         );
     }
 

@@ -29,6 +29,19 @@ ORDER BY predictionset_id
 LIMIT 1
 EOF;
 
+    const PROJECTED_FINISH_STATS_SQL = <<<EOF
+SELECT
+    MIN(finish) AS bestfinish
+  , MAX(finish) AS worstfinish
+  , AVG(finish) AS avgfinish
+  , MAX(score) AS bestscore
+  , MIN(score) AS worstscore
+  , AVG(score) AS avgscore
+FROM user_prediction_set_score
+WHERE league_id = ?
+AND user_id = ?
+EOF;
+
     public function getPickDistribution(PickSet $pickSet, League $league)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::DISTRIBUTION_SQL, array(
@@ -47,6 +60,14 @@ EOF;
         ));
 
         return count($result) ? $result[0] : null;
+    }
+
+    public function getProjectedFinishStats(PickSet $pickSet, League $league)
+    {
+        return $this->getEntityManager()->getConnection()->fetchAssoc(self::PROJECTED_FINISH_STATS_SQL, array(
+            $league->getId(),
+            $pickSet->getUser()->getId(),
+        ));
     }
 
     public function findAllOrderedByPoints($limit = 10)
