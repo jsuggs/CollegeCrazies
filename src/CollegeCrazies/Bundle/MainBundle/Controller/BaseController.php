@@ -29,9 +29,12 @@ class BaseController extends Controller
     {
         if ($loadPicks) {
             $em = $this->get('doctrine.orm.entity_manager');
-            $pickSet = $em->createQuery('SELECT ps, u, p from CollegeCraziesMainBundle:Pickset ps
+            $pickSet = $em->createQuery('SELECT ps, u, p, g, ht, at from CollegeCraziesMainBundle:Pickset ps
                 JOIN ps.user u
                 JOIN ps.picks p
+                JOIN p.game g
+                JOIN g.homeTeam ht
+                JOIN g.awayTeam at
                 WHERE ps.id = :id
                 ORDER BY p.confidence desc'
             )
