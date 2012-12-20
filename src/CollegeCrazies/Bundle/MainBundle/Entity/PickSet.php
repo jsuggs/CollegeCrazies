@@ -45,7 +45,7 @@ class PickSet
     protected $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     protected $picks;
 
@@ -60,7 +60,7 @@ class PickSet
     protected $tiebreakerAwayTeamScore;
 
     /**
-     * @ORM\OneToMany(targetEntity="UserPredictionSetScore", mappedBy="pickSet")
+     * @ORM\OneToMany(targetEntity="UserPredictionSetScore", mappedBy="pickSet", fetch="EXTRA_LAZY")
      */
     protected $predictionScores;
 
