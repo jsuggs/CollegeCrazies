@@ -25,17 +25,17 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="users", fetch="EXTRA_LAZY")
      */
     protected $leagues;
 
     /**
-     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="user", fetch="EXTRA_LAZY")
      */
     protected $pickSets;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners")
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners, fetch="EXTRA_LAZY"")
      */
     protected $commissionerLeagues;
 

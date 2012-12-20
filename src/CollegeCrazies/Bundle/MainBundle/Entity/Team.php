@@ -36,7 +36,7 @@ class Team
     /**
      * Predictions
      *
-     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner")
+     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner", fetch="EXTRA_LAZY")
      * @var Prediction
      */
     protected $predictions;
