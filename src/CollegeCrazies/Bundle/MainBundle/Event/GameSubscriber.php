@@ -22,8 +22,8 @@ class GameSubscriber implements EventSubscriberInterface
     {
         return array(
             GameEvents::GAME_COMPLETE => array(
-                array('updatePredictions', 0),
-                array('analyizePickSets', 10),
+                array('analyizePickSets', 0),
+                array('updatePredictions', 10),
             ),
         );
     }
@@ -42,6 +42,10 @@ class GameSubscriber implements EventSubscriberInterface
 
     public function analyizePickSets(GameEvent $event)
     {
-        $this->analyzer->analyizePickSets();
+        $this->analyzer->deleteAnalysis();
+        $leagues = $this->om->getRepository('CollegeCraziesMainBundle:League')->findAll();
+        foreach ($leagues as $league) {
+            $this->analyzer->analyizeLeaguePickSets($league);
+        }
     }
 }
