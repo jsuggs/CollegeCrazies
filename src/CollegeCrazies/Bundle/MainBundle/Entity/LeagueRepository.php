@@ -21,8 +21,7 @@ class LeagueRepository extends EntityRepository
             JOIN u.leagues l
             JOIN p.picks pk
             JOIN pk.game pg
-            WHERE l.id = :leagueId
-            ORDER BY pg.id')
+            WHERE l.id = :leagueId')
             ->setParameter('leagueId', $league->getId())
             ->getResult();
     }
