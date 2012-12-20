@@ -214,9 +214,13 @@ class PickController extends BaseController
             return $this->redirect('/');
         }
 
+        $em = $this->get('doctrine.orm.entity_manager');
+        $projectedFinishStats = $em->getRepository('CollegeCraziesMainBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
+
         return array(
             'pickSet' => $pickSet,
             'league' => $league,
+            'projectedFinishStats' => $projectedFinishStats,
         );
     }
 

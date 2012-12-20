@@ -10,15 +10,15 @@
     <tbody>
         <tr>
             <th>Rank</th>
-            <td>{{ pickSet.getHigestPredictionFinish(league)|number_format(2) }}</td>
-            <td>{{ pickSet.getAveragePredictionFinish(league)|number_format(2) }}</td>
-            <td>{{ pickSet.getLowestPredictionFinish(league)|number_format(2) }}</td>
+            <td>{{ stats.bestfinish|number_format(2) }}</td>
+            <td>{{ stats.avgfinish|number_format(2) }}</td>
+            <td>{{ stats.worstfinish|number_format(2) }}</td>
         </tr>
         <tr>
             <th>Score</th>
-            <td>{{ pickSet.getHighestPredictionScore(league) }}</td>
-            <td>{{ pickSet.getAveragePredictionScore(league)|number_format(2) }}</td>
-            <td>{{ pickSet.getLowestPredictionScore(league) }}</td>
+            <td>{{ stats.bestscore }}</td>
+            <td>{{ stats.avgscore|number_format(2) }}</td>
+            <td>{{ stats.worstscore }}</td>
         </tr>
     </tbody>
 </table>
