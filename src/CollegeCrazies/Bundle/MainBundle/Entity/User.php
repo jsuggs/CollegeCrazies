@@ -35,7 +35,7 @@ class User extends BaseUser
     protected $pickSets;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners, fetch="EXTRA_LAZY"")
+     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners", fetch="EXTRA_LAZY")
      */
     protected $commissionerLeagues;
 
