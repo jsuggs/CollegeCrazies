@@ -52,7 +52,7 @@ class Game
     protected $awayTeam;
 
     /**
-     * @ORM\OneToMany(targetEntity="Pick", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="Pick", mappedBy="game", fetch="EXTRA_LAZY")
      */
     protected $picks;
 
@@ -115,7 +115,7 @@ class Game
     /**
      * Predictions
      *
-     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="game")
+     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="game", fetch="EXTRA_LAZY")
      * @var Prediction
      */
     protected $predictions;

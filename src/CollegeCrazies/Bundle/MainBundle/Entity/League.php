@@ -39,13 +39,13 @@ class League
     protected $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="leagues")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="leagues", fetch="EXTRA_LAZY")
      * @ORM\JoinTable("user_league")
      */
     protected $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="commissionerLeagues")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="commissionerLeagues", fetch="EXTRA_LAZY")
      * @ORM\JoinTable("league_commissioners")
      */
     protected $commissioners;
@@ -56,7 +56,7 @@ class League
     protected $metadata;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PickSet", inversedBy="leagues")
+     * @ORM\ManyToMany(targetEntity="PickSet", inversedBy="leagues", fetch="EXTRA_LAZY")
      * @ORM\JoinTable("pickset_leagues")
      */
     protected $pickSets;
