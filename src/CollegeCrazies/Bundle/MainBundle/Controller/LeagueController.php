@@ -651,11 +651,14 @@ class LeagueController extends BaseController
 
         if ($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
-
-            if ($form->isValid()) {
-                $this->get('doctrine.orm.entity_manager')->flush();
+            if (count($league->getCommissioners()) === 0) {
+                $this->get('session')->setFlash('warning', 'What cha smokin?  Every league needs a commish...');
             } else {
-                $this->get('session')->setFlash('error', 'Error updating the commissioners for the league');
+                if ($form->isValid()) {
+                    $this->get('doctrine.orm.entity_manager')->flush();
+                } else {
+                    $this->get('session')->setFlash('error', 'Error updating the commissioners for the league');
+                }
             }
         }
 
