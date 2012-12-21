@@ -43,10 +43,13 @@ SELECT
   , avg(CASE WHEN p.team_id = g.awayteam_id THEN p.confidence ELSE null END) as avgAwayConfidence
 FROM games g
 INNER JOIN picks p on g.id = p.game_id
-INNER JOIN picksets ps on p.pickset_id = p.pickset_id
-INNER JOIN pickset_leagues pl on ps.id = pl.pickset_id
 WHERE p.team_id IS NOT NULL
-AND pl.league_id = ?
+AND p.pickset_id IN (
+    SELECT id
+    FROM picksets ps
+    INNER JOIN pickset_leagues pl on ps.id = pl.pickset_id
+    AND pl.league_id = ?
+)
 GROUP BY g.id
 ORDER BY weightedstddev DESC
 LIMIT ?
