@@ -218,6 +218,32 @@ class PickController extends BaseController
     }
 
     /**
+     * @Route("/compare/{picksetId1}/{picksetId2}", name="pickset_compare")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:Pick:compare.html.twig")
+     */
+    public function comparePickSetAction($picksetId1, $picksetId2)
+    {
+        $pickSet1 = $this->findPickSet($picksetId1, true, 'g.gameDate');
+        $pickSet2 = $this->findPickSet($picksetId2, true, 'g.gameDate');
+        $user = $this->getUser();
+
+        if (!$this->canUserViewPickSet($user, $pickSet1) || !$this->canUserViewPickSet($user, $pickSet2)) {
+            $this->get('session')->setFlash('error','You cannot compare another users picks until picks are locked');
+            return $this->redirect('/');
+        }
+
+        $em = $this->get('doctrine.orm.entity_manager');
+        $games = $em->getRepository('CollegeCraziesMainBundle:Game')->findAllOrderedByDate();
+
+        return array(
+            'games' => $games,
+            'pickSet1' => $pickSet1,
+            'pickSet2' => $pickSet2,
+        );
+    }
+
+    /**
      * @Route("/create", name="pickset_create")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")

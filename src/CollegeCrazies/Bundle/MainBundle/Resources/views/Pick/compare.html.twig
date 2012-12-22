@@ -1,0 +1,36 @@
+{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Compare Picksets</h2>
+    <table class="table table-condensed table-striped table-bordered" style="font-size: 90%">
+        <thead>
+            <tr>
+                <th>Points</th>
+                <th>Pick</th>
+                <th>Game</th>
+                <th>Pick</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+                {% set pickSet1Pick = pickSet1.findPickByGame(game) %}
+                {% set pickSet2Pick = pickSet2.findPickByGame(game) %}
+                {% if game.complete %}
+                    {% set pickSet1Class = pickSet1Pick.team == game.winner ? 'correct' : 'incorrect' %}
+                    {% set pickSet2Class = pickSet2Pick.team == game.winner ? 'correct' : 'incorrect' %}
+                {% else %}
+                    {% set pickSet1Class = 'no' %}
+                    {% set pickSet2Class = 'no' %}
+                {% endif %}
+                <tr>
+                    <td>{{ pickSet1Pick.confidence }}</td>
+                    <td class="{{ pickSet1Class }}">{{ pickSet1Pick.team.id }}</td>
+                    <td>{{ game.name }}</td>
+                    <td class="{{ pickSet2Class }}">{{ pickSet2Pick.team.id }}</td>
+                    <td>{{ pickSet2Pick.confidence }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
