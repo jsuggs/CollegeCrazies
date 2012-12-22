@@ -82,7 +82,7 @@ INNER JOIN
 	GROUP BY g.id
 ) AS lp ON p.game_id = lp.game_id
 WHERE p.pickset_id = ?
-ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE (CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean)/lp.weightedstddev END DESC
+ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE abs((CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean))/lp.weightedstddev END DESC
 EOF;
 
     public function findAllOrderedByDate()
