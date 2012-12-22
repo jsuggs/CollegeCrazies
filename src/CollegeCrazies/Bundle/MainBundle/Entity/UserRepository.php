@@ -23,6 +23,14 @@ WHERE u.id NOT IN (
 )
 EOF;
 
+    const LEAGUE_POTENTIAL_WINNERS_SQL = <<<EOF
+SELECT DISTINCT u.id, u.username, u.email
+FROM user_prediction_set_score s
+INNER JOIN users u on s.user_id = u.id
+WHERE league_id = ?
+AND finish = 1
+EOF;
+
     public function findUsersInLeague(League $league)
     {
         return $this->createQueryBuilder('u')
@@ -72,5 +80,14 @@ EOF;
     public function getUsersWithNoLeague()
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
+    }
+
+    public function findPotentialWinersInLeague(League $league)
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->fetchAll(self::LEAGUE_POTENTIAL_WINNERS_SQL, array(
+                $league->getId(),
+            ));
     }
 }

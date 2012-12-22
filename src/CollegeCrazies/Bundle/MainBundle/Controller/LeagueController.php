@@ -669,6 +669,35 @@ class LeagueController extends BaseController
     }
 
     /**
+     * @Route("/{leagueId}/potential-winners", name="league_potential_winners")
+     * @Secure(roles="ROLE_USER")
+     * @Template("CollegeCraziesMainBundle:League:potential-winners.html.twig")
+     */
+    public function potentailWinnersAction($leagueId)
+    {
+        $league = $this->findLeague($leagueId);
+        $user = $this->getUser();
+
+        if (!$this->canUserEditLeague($user, $league)) {
+            $this->get('session')->setFlash('warning', 'Only commissioners can view this feature');
+
+            return $this->redirect('/');
+        }
+
+        $users = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:User')
+            ->findPotentialWinersInLeague($league);
+
+        $emailList = array_map(function($user) { return $user['email']; }, $users);
+
+        return array(
+            'league' => $league,
+            'users' => $users,
+            'emailList' => $emailList,
+        );
+    }
+
+    /**
      * @Route("/{leagueId}/note", name="league_note")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:League:note.html.twig")
