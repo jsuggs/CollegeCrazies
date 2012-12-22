@@ -12,6 +12,7 @@
                         <tr>
                             <th>Rank</th>
                             <th>Points</th>
+                            <th>Record</th>
                             <th><abbr title="Potential Points Remaining">PPR</abbr></th>
                         </tr>
                     </thead>
@@ -19,6 +20,7 @@
                         <tr>
                             <td>{{ picks_locked ? rank : '--' }}</td>
                             <td>{{ pickSet.points }}</td>
+                            <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
                             <td>{{ pickSet.getPointsPossible() }}</td>
                         </tr>
                     </tbody>
