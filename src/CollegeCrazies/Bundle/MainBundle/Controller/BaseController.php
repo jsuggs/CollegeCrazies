@@ -25,21 +25,12 @@ class BaseController extends Controller
         return $league;
     }
 
-    protected function findPickSet($id, $loadPicks = false)
+    protected function findPickSet($id, $loadPicks = false, $sort = 'p.confidence DESC')
     {
         if ($loadPicks) {
-            $em = $this->get('doctrine.orm.entity_manager');
-            $pickSet = $em->createQuery('SELECT ps, u, p, g, ht, at from CollegeCraziesMainBundle:Pickset ps
-                JOIN ps.user u
-                JOIN ps.picks p
-                JOIN p.game g
-                JOIN g.homeTeam ht
-                JOIN g.awayTeam at
-                WHERE ps.id = :id
-                ORDER BY p.confidence desc'
-            )
-                ->setParameter('id', $id)
-                ->getSingleResult();
+            $pickSet = $this->get('doctrine.orm.entity_manager')
+                ->getRepository('CollegeCraziesMainBundle:PickSet')
+                ->findPickSet($id, $sort);
         } else {
             $pickSet = $this
                 ->get('doctrine.orm.entity_manager')

@@ -42,6 +42,18 @@ WHERE league_id = ?
 AND user_id = ?
 EOF;
 
+    const PICKSET_DQL =<<<EOF
+SELECT ps, u, p, g, ht, at
+FROM CollegeCraziesMainBundle:Pickset ps
+JOIN ps.user u
+JOIN ps.picks p
+JOIN p.game g
+JOIN g.homeTeam ht
+JOIN g.awayTeam at
+WHERE ps.id = :id
+ORDER BY %s
+EOF;
+
     public function getPickDistribution(PickSet $pickSet, League $league)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::DISTRIBUTION_SQL, array(
@@ -77,5 +89,15 @@ EOF;
             JOIN p.picks pk
             JOIN pk.game pg')
             ->getResult();
+    }
+
+    public function findPickSet($id, $sort)
+    {
+        // Hack the order via sprintf
+        return $this->getEntityManager()->createQuery(sprintf(self::PICKSET_DQL, $sort))
+            ->setParameters(array(
+                'id' => $id,
+            ))
+            ->getSingleResult();
     }
 }

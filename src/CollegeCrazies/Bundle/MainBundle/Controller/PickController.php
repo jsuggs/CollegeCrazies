@@ -179,7 +179,7 @@ class PickController extends BaseController
     public function viewPickAction($leagueId, $picksetId)
     {
         $league = $this->findLeague($leagueId);
-        $pickSet = $this->findPickSet($picksetId, true);
+        $pickSet = $this->findPickSet($picksetId, true, 'g.gameDate');
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet)) {
