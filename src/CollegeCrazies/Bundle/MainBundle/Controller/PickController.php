@@ -141,33 +141,6 @@ class PickController extends BaseController
     }
 
     /**
-     * @Route("/league/{leagueId}/{picksetId}", name="pickset_league")
-     * @Secure(roles="ROLE_USER")
-     * @Template("CollegeCraziesMainBundle:Pick:new.html.twig")
-     */
-    public function setPicksetLeague($leagueId, $picksetId)
-    {
-        $league = $this->findLeague($leagueId);
-
-        if ($this->picksLocked()) {
-            $this->get('session')->setFlash('error', 'This league is locked');
-        } else {
-            $pickset = $this->findPickSet($picksetId);
-            $pickset->setLeague($league);
-
-            $em = $this->get('doctrine.orm.entity_manager');
-            $em->persist($league);
-            $em->persist($pickset);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('pickset_view', array(
-            'picksetId' => $picksetId,
-            'leagueId' => $leagueId,
-        )));
-    }
-
-    /**
      * @Route("/edit/{picksetId}", name="pickset_edit")
      * @Secure(roles="ROLE_USER")
      * @Template("CollegeCraziesMainBundle:Pick:edit.html.twig")
