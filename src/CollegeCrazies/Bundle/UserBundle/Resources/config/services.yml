@@ -1,21 +1,24 @@
 services:
-    college_crazies.form.handler.registration:
-        class: CollegeCrazies\Bundle\UserBundle\Form\Handler\RegistrationFormHandler
-        arguments: ["@fos_user.registration.form", "@request", "@fos_user.user_manager", "@fos_user.mailer", "@fos_user.util.token_generator"]
-        scope: request
-        public: false
-    college_crazies.form.handler.resetting:
-        class: CollegeCrazies\Bundle\UserBundle\Form\Handler\ResettingFormHandler
-        arguments: ["@fos_user.resetting.form", "@request", "@fos_user.user_manager"]
-        scope: request
-        public: false
     college_crazies.registration.form.type:
         class: CollegeCrazies\Bundle\UserBundle\Form\Type\RegistrationFormType
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: college_crazies_user_registration }
+
     college_crazies.profile.form.type:
         class: CollegeCrazies\Bundle\UserBundle\Form\Type\ProfileFormType
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: college_crazies_user_profile }
+
+    college_crazies.listener.password_resetting:
+        class: CollegeCrazies\Bundle\UserBundle\EventListener\PasswordResettingListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    college_crazies.listener.registration:
+        class: CollegeCrazies\Bundle\UserBundle\EventListener\RegistrationListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }

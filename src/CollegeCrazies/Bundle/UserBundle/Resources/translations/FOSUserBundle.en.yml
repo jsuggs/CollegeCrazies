@@ -1,0 +1,31 @@
+# Password resetting
+resetting:
+    password_already_requested: The password for this user has already been requested within the last 24 hours.
+    check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
+    request:
+        invalid_username: The username or email address "%username%" does not exist.
+        username: "Username or email address:"
+        submit: Reset password
+    reset:
+        submit: Change password
+    flash:
+        success: "Congratulations, your password has been updated.  We encourage you to write it in some concrete so you don't forget!"
+    email:
+
+# Registration
+registration:
+    check_email: An email has been sent to %email%. It contains an activation link you must click to activate your account.
+    confirmed: Congrats %username%, your account is now activated.
+    back: Back to the originating page.
+    submit: Register
+    flash:
+        user_created: Account Created!  Welcome to SofaChamps.
+    email:
+        subject: Welcome %username%!
+        message: |
+            Hello %username%!
+
+            To finish activating your account - please visit %confirmationUrl%
+
+            Regards,
+            the Team.

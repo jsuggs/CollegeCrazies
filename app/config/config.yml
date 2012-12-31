@@ -65,10 +65,6 @@ fos_user:
     registration:
         form:
             type: college_crazies_user_registration
-            handler: college_crazies.form.handler.registration
-    resetting:
-        form:
-            handler: college_crazies.form.handler.resetting
     profile:
         form:
             type: college_crazies_user_profile

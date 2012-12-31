@@ -4,17 +4,15 @@ namespace CollegeCrazies\Bundle\UserBundle\Controller;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class SecurityController extends BaseController
 {
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $form = $this->container->get('fos_user.registration.form');
-        $request = $this->container->get('request');
-        /* @var $request \Symfony\Component\HttpFoundation\Request */
+        /** @var $session \Symfony\Component\HttpFoundation\Session\Session */
         $session = $request->getSession();
-        /* @var $session \Symfony\Component\HttpFoundation\Session */
 
         // get the error if any (works with forward and redirect -- see below)
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -35,14 +33,13 @@ class SecurityController extends BaseController
 
         $csrfToken = $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate');
 
-        $regForm = $this->container->get('fos_user.registration.form');
+        $regForm = $this->container->get('fos_user.registration.form.factory')->createForm();
         $regForm->setData(new User());
 
         return $this->renderLogin(array(
             'last_username' => $lastUsername,
             'error'         => $error,
             'csrf_token'    => $csrfToken,
-            'form'          => $form->createView(),
             'regForm'       => $regForm->createView(),
         ));
     }

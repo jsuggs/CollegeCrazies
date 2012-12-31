@@ -2,7 +2,7 @@
 
 namespace CollegeCrazies\Bundle\MainBundle\Entity;
 
-use FOS\UserBundle\Entity\UserManager;
+use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class MyUserManager extends UserManager

@@ -2,25 +2,12 @@
     <fieldset>
         <legend>Reset your password</legend>
 
-        <div class="control-group">
-            <label for="" class="control-label">Password</label>
-            <div class="controls">
-                {{ form_widget(form.new.first) }}
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label for="" class="control-label">Password (again)</label>
-            <div class="controls">
-                {{ form_widget(form.new.second) }}
-            </div>
-        </div>
+        {{ form_widget(form) }}
 
         <div class="control-group">
             <div class="controls">
                 <input type="submit" class="btn btn-primary" value="Reset Password" />
             </div>
         </div>
-        {{ form_rest(form) }}
     </fieldset>
 </form>
