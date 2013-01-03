@@ -41,7 +41,7 @@ class Pick
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Min(0)
+     * @Assert\Length(min=0)
      */
     protected $confidence;
 

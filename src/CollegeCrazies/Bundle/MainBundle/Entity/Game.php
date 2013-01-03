@@ -36,7 +36,7 @@ class Game
      * The short name of the bowl game
      *
      * @ORM\Column(type="string", length=12)
-     * @Assert\MaxLength(12)
+     * @Assert\Length(min=12)
      * @var string
      */
     protected $shortName;

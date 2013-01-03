@@ -30,7 +30,7 @@ class PickSet
     /**
      * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank()
-     * @Assert\MaxLength(limit=40)
+     * @Assert\Length(min=40)
      */
     protected $name;
 
