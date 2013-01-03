@@ -94,7 +94,7 @@ class GameController extends Controller
             $em = $this->get('doctrine.orm.entity_manager');
             $em->persist($game);
             $em->flush();
-            $this->get('session')->setFlash('success', 'Game Created');
+            $this->get('session')->getFlashBag->set('success', 'Game Created');
 
             return $this->redirect($this->generateUrl('game_edit', array(
                 'gameId' => $game->getId()
@@ -144,7 +144,7 @@ class GameController extends Controller
             }
 
             $em->flush();
-            $this->get('session')->setFlash('success', 'Game updated successfully');
+            $this->get('session')->getFlashBag->set('success', 'Game updated successfully');
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(

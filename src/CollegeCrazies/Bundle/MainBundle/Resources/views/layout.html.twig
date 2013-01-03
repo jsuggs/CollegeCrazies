@@ -152,11 +152,13 @@
 
             <div class="span10">
                 <div class="content">
-                    {% for key, flash in app.session.getFlashes() %}
-                        <div class="alert alert-{{ key }}">
-                            <strong>{{ flash }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" href="#">×</a>
-                        </div>
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ type }}">
+                                <strong>{{ message }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" href="#">×</a>
+                            </div>
+                        {% endfor %}
                     {% endfor %}
 
                     {% block content '' %}
