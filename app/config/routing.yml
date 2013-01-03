@@ -1,3 +1,8 @@
+sofa_champs_super_bowl_challenge:
+    resource: "@SofaChampsSuperBowlChallengeBundle/Controller/"
+    type:     annotation
+    prefix:   /superbowl-challenge
+
 college_crazies_user:
     resource: "@CollegeCraziesUserBundle/Controller/"
     type:     annotation
