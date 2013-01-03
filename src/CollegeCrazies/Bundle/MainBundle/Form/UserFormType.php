@@ -4,6 +4,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserFormType extends AbstractType
 {
@@ -11,17 +12,14 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('id', 'hidden')
-            //->add('username', 'text')
-            //->add('password', 'password')
-            //->add('email', 'text')
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\User'
-        );
+        $resolver->setDefaults(array(
+            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\User',
+        ));
     }
 
     public function getName()

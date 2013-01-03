@@ -6,6 +6,7 @@ use CollegeCrazies\Bundle\MainBundle\Form\GameFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\DataTransformer\TeamTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PickFormType extends AbstractType
 {
@@ -19,10 +20,10 @@ class PickFormType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\Pick'
+        $resolver->setDefaults(array(
+            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\Pick',
         );
     }
 

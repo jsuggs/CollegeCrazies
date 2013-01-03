@@ -4,6 +4,7 @@ namespace CollegeCrazies\Bundle\MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class LeagueNoteFormType extends AbstractType
 {
@@ -14,10 +15,10 @@ class LeagueNoteFormType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\League'
+        $resolver->setDefaults(array(
+            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\League',
         );
     }
 

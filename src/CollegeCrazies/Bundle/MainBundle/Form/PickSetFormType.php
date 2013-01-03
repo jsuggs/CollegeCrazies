@@ -6,6 +6,7 @@ use CollegeCrazies\Bundle\MainBundle\Form\UserFormType;
 use CollegeCrazies\Bundle\MainBundle\Form\PickFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PickSetFormType extends AbstractType
 {
@@ -28,10 +29,10 @@ class PickSetFormType extends AbstractType
         ;
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\PickSet'
+        $resolver->setDefaults(array(
+            'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\PickSet',
         );
     }
 
