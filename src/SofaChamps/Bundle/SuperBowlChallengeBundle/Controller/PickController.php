@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class PickController extends BaseController
 {
     /**
-     * @Route("/new")
+     * @Route("/new", name="sbc_pick_new")
      * @Secure(roles="ROLE_USER")
      * @Template()
      */

@@ -1,5 +1,10 @@
 {% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
 
 {% block content %}
-    <h1>Welcome to the Super Bowl Challenge</h1>
+    <div class="hero-unit">
+        <h1>Super Bowl Challenge</h1>
+        <h2>One day, one game...but with a twist</h2>
+
+        <p><a href="{{ path('sbc_pick_new') }}" class="btn btn-success">Make your picks</a></p>
+    </div>
 {% endblock %}

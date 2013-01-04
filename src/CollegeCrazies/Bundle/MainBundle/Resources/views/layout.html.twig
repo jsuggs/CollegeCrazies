@@ -1,76 +1,65 @@
 {% extends "SofaChampsCoreBundle:Layout:layout.html.twig" %}
 
 {% block nav_primary %}
-    <ul class="nav">
-        {% if pickSet is defined and pickSet is not null %}
-            <li><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}">{{ truncate_text(pickSet.name, 25) }}</a></li>
-        {% endif %}
-        {% if is_granted('ROLE_USER') %}
-            <li class="dropdown">
-                <a data-toggle="dropdown" href="#">Site Stats <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ path('site_important_games') }}">Most Important Games</a></li>
-                    <li><a href="{{ path('site_leaderboard') }}">Overall Leaderboard</a></li>
-                </ul>
-            </li>
-        {% endif %}
-        <li><a href="{{ path('schedule') }}">Schedule</a></li>
-        <li><a href="{{ path('about') }}">About Us</a></li>
-        <li><a href="{{ path('donate') }}">Donate</a></li>
-    </ul>
-    <div class="pull-right navbar-text">
-        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-            <a href="{{ path('pickset_manage', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
-        {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class="btn-group">
-                <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-                <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
-                    <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
-                    <li><a href="{{ path('user_list') }}">Manage Users</a></li>
-                    <li><a href="{{ path('admin_user_incomplete_picksets') }}">Users with Incomplete Picksets</a></li>
-                    <li><a href="{{ path('admin_user_noleague') }}">Users with No League</a></li>
-                </ul>
-            </div>
-        {% endif %}
-        {% if is_granted('ROLE_USER') %}
-            <div class="btn-group">
-                <a class="btn btn-info" href="{{ path('pickset_manage') }}"><i class="icon-list icon-white"></i> My Picksets</a>
-                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    {% if is_granted('ROLE_USER') %}
-                        {% for pickSet in app.user.picksets %}
-                            <li>
-                                <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
-                                {% if pickSet.leagues %}
-                                    <ul class="unstyled" style="margin-left: 15px">
-                                    {% for league in pickSet.leagues %}
-                                        <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
-                                    {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% else %}
-                            <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
-                        {% endfor %}
-                    {% endif %}
-                    <li class="divider"></li>
-                    <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
-                    {% if app.user.picksets|length %}
-                        <li class="divider"></li>
-                        <li><a href="{{ path('pickset_new') }}">Create a new Pickset</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
-            <a href="/logout" class="btn btn-danger">logout</a>
-        {% else %}
-            <p class="navbar-text">
-                <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
-            </p>
-        {% endif %}
+    {% if pickSet is defined and pickSet is not null %}
+        <li><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}">{{ truncate_text(pickSet.name, 25) }}</a></li>
+    {% endif %}
+    {% if is_granted('ROLE_USER') %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#">Site Stats <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('site_important_games') }}">Most Important Games</a></li>
+                <li><a href="{{ path('site_leaderboard') }}">Overall Leaderboard</a></li>
+            </ul>
+        </li>
+    {% endif %}
+    <li><a href="{{ path('schedule') }}">Schedule</a></li>
+    <li><a href="{{ path('about') }}">About Us</a></li>
+    <li><a href="{{ path('donate') }}">Donate</a></li>
+{% endblock %}
+
+{% block nav_admin %}
+    <div class="btn-group">
+        <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
+            <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
+            <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+            <li><a href="{{ path('admin_user_incomplete_picksets') }}">Users with Incomplete Picksets</a></li>
+            <li><a href="{{ path('admin_user_noleague') }}">Users with No League</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block nav_user %}
+    <div class="btn-group">
+        <a class="btn btn-info" href="{{ path('pickset_manage') }}"><i class="icon-list icon-white"></i> My Picksets</a>
+        <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            {% if is_granted('ROLE_USER') %}
+                {% for pickSet in app.user.picksets %}
+                    <li>
+                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
+                        {% if pickSet.leagues %}
+                            <ul class="unstyled" style="margin-left: 15px">
+                            {% for league in pickSet.leagues %}
+                                <li><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li><a href="{{ path('pickset_new') }}">Create a Pickset</a></li>
+                {% endfor %}
+            {% endif %}
+            <li class="divider"></li>
+            <li><a href="{{ path('pickset_manage') }}">Manage Picksets</a></li>
+            {% if app.user.picksets|length %}
+                <li class="divider"></li>
+                <li><a href="{{ path('pickset_new') }}">Create a new Pickset</a></li>
+            {% endif %}
+        </ul>
     </div>
 {% endblock %}
 

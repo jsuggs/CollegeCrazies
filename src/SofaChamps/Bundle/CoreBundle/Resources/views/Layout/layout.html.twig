@@ -23,7 +23,28 @@
         <div class="navbar-inner">
             <div class="container-fluid">
                 <a class="brand" href="/">SofaChamps</a>
-                {% block nav_primary '' %}
+                <ul class="nav">
+                    {% block nav_primary '' %}
+                </ul>
+                <div class="pull-right navbar-text">
+                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                        <a href="{{ path('pickset_manage', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% block nav_admin '' %}
+                    {% endif %}
+
+                    {% if is_granted('ROLE_USER') %}
+                        {% block nav_user '' %}
+                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
+                        <a href="/logout" class="btn btn-danger">logout</a>
+                    {% else %}
+                        <p class="navbar-text">
+                            <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
+                        </p>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
