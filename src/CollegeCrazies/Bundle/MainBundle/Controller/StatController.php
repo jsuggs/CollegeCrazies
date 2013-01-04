@@ -40,7 +40,7 @@ class StatController extends BaseController
     public function leaderboardAction()
     {
         if (!$this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'Feature not available until picks lock');
+            $this->get('session')->getFlashBag()->set('warning', 'Feature not available until picks lock');
             return $this->redirect('/');
         }
 

@@ -32,12 +32,12 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         }
 
         if (!$pickSet) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have a pick set for this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have a pick set for this league');
             return $this->redirect($this->router->generateUrl('league_assoc', array(
                 'leagueId' => $leagueId,
             )));
@@ -115,7 +115,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         if (!$this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view the group picks until the league locks');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view the group picks until the league locks');
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $leagueId,
@@ -154,7 +154,7 @@ class LeagueController extends BaseController
     public function joinAction()
     {
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot join a league after picks lock');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot join a league after picks lock');
             return $this->redirect('/');
         }
 
@@ -162,7 +162,7 @@ class LeagueController extends BaseController
         $leagueId = $request['id'];
 
         if (!is_numeric($leagueId)) {
-            $this->get('session')->getFlashBag->set('warning', 'When searching for a league, use the League Id (ex 12) not the name');
+            $this->get('session')->getFlashBag()->set('warning', 'When searching for a league, use the League Id (ex 12) not the name');
             return $this->redirect($this->generateUrl('league_find'));
         }
 
@@ -171,7 +171,7 @@ class LeagueController extends BaseController
         if (!$user) {
             // Store the league requested into the session
             if (!$league->isPublic() && $league->getPassword() !== $request['password']) {
-                $this->get('session')->getFlashBag->set('error', 'The password was not correct');
+                $this->get('session')->getFlashBag()->set('error', 'The password was not correct');
 
                 return $this->redirect($this->generateUrl('league_prejoin', array(
                     'leagueId' => $league->getId(),
@@ -183,13 +183,13 @@ class LeagueController extends BaseController
         $pickSets = $user->getPickSets();
 
         if (count($pickSets) === 0) {
-            $this->get('session')->getFlashBag->set('info', 'You cannot join a league without first creating a pickset.');
+            $this->get('session')->getFlashBag()->set('info', 'You cannot join a league without first creating a pickset.');
             return $this->redirect($this->generateUrl('pickset_new'));
         }
 
         if (!$league->isPublic()) {
             if ($request['password'] !== $league->getPassword()) {
-                $this->get('session')->getFlashBag->set('error', 'The password was not correct');
+                $this->get('session')->getFlashBag()->set('error', 'The password was not correct');
                 return $this->redirect($this->generateUrl('league_prejoin', array(
                     'leagueId' => $league->getId(),
                 )));
@@ -197,15 +197,15 @@ class LeagueController extends BaseController
         }
 
         if ($league->isUserInLeague($user)) {
-            $this->get('session')->getFlashBag->set('info', 'You are already in this league');
+            $this->get('session')->getFlashBag()->set('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
             )));
         } elseif ($league->isLocked()) {
-            $this->get('session')->getFlashBag->set('error', 'This league has been locked by the commissioner');
+            $this->get('session')->getFlashBag()->set('error', 'This league has been locked by the commissioner');
             return $this->redirect($this->generateUrl('league_find'));
         } else {
-            $this->get('session')->getFlashBag->set('success', sprintf('Welcome to %s', $league->getName()));
+            $this->get('session')->getFlashBag()->set('success', sprintf('Welcome to %s', $league->getName()));
 
             $this->addUserToLeague($league, $user);
 
@@ -236,14 +236,14 @@ class LeagueController extends BaseController
     public function prejoinAction($leagueId)
     {
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot join a league after picks lock');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot join a league after picks lock');
         }
 
         $league = $this->findLeague($leagueId);
         $user = $this->getUser();
 
         if ($user && $league->isUserInLeague($user)) {
-            $this->get('session')->getFlashBag->set('info', 'You are already in this league');
+            $this->get('session')->getFlashBag()->set('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $leagueId,
             )));
@@ -276,13 +276,13 @@ class LeagueController extends BaseController
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
             if ($this->picksLocked()) {
-                $this->get('session')->getFlashBag->set('warning', 'You cannot change league assignments after picks lock');
+                $this->get('session')->getFlashBag()->set('warning', 'You cannot change league assignments after picks lock');
             } else {
                 $pickSet = $this->findPickSet($request->request->get('pickset'));
                 $pickSet->addLeague($league);
                 $this->get('doctrine.orm.entity_manager')->flush();
 
-                $this->get('session')->getFlashBag->set('success', sprintf('Welcome to %s', $league->getName()));
+                $this->get('session')->getFlashBag()->set('success', sprintf('Welcome to %s', $league->getName()));
                 return $this->redirect($this->generateUrl('league_home', array(
                     'leagueId' => $leagueId,
                 )));
@@ -310,7 +310,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         }
 
@@ -336,7 +336,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         }
 
@@ -364,7 +364,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot edit this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot edit this league');
             return $this->redirect('/');
         }
 
@@ -375,7 +375,7 @@ class LeagueController extends BaseController
             $em->getConnection()->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($leagueId, $userId));
             $em->getConnection()->executeUpdate('DELETE FROM user_league WHERE league_id = ? AND user_id = ?', array($leagueId, $userId));
             $em->flush();
-            $this->get('session')->getFlashBag->set('info', 'User Removed');
+            $this->get('session')->getFlashBag()->set('info', 'User Removed');
         }
 
         $members = $em->getRepository('CollegeCraziesMainBundle:User')->findUsersInLeague($league);
@@ -398,7 +398,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         if (!$user->isInTheLeague($league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You must be in the league to view the leaderboard');
+            $this->get('session')->getFlashBag()->set('warning', 'You must be in the league to view the leaderboard');
             return $this->redirect($this->generateUrl('league_prejoin', array(
                 'leagueId' => $leagueId,
             )));
@@ -423,7 +423,7 @@ class LeagueController extends BaseController
     public function newAction()
     {
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot create a league after picks lock');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot create a league after picks lock');
             return $this->redirect('/');
         }
 
@@ -446,7 +446,7 @@ class LeagueController extends BaseController
     public function createAction()
     {
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot create a league after picks lock');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot create a league after picks lock');
             return $this->redirect('/');
         }
 
@@ -490,10 +490,10 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         } elseif (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to edit this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to edit this league');
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
@@ -519,10 +519,10 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         } elseif (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to edit this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to edit this league');
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
@@ -540,7 +540,7 @@ class LeagueController extends BaseController
             )));
         }
 
-        $this->get('session')->getFlashBag->set('error', 'Error editing the league');
+        $this->get('session')->getFlashBag()->set('error', 'Error editing the league');
 
         return array(
             'form' => $form->createView(),
@@ -559,7 +559,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to send invitations for this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to send invitations for this league');
 
             return $this->redirect('/');
         }
@@ -587,7 +587,7 @@ class LeagueController extends BaseController
             }
             $em->flush();
 
-            $this->get('session')->getFlashBag->set('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
+            $this->get('session')->getFlashBag()->set('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
         }
 
         return array(
@@ -606,7 +606,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to lock this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to lock this league');
 
             return $this->redirect('/');
         }
@@ -619,7 +619,7 @@ class LeagueController extends BaseController
             if ($form->isValid()) {
                 $this->get('doctrine.orm.entity_manager')->flush();
             } else {
-                $this->get('session')->getFlashBag->set('error', 'Error locking the league');
+                $this->get('session')->getFlashBag()->set('error', 'Error locking the league');
             }
         }
 
@@ -640,7 +640,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to edit this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to edit this league');
 
             return $this->redirect('/');
         }
@@ -652,12 +652,12 @@ class LeagueController extends BaseController
         if ($this->getRequest()->getMethod() === 'POST') {
             $form->bindRequest($this->getRequest());
             if (count($league->getCommissioners()) === 0) {
-                $this->get('session')->getFlashBag->set('warning', 'What cha smokin?  Every league needs a commish...');
+                $this->get('session')->getFlashBag()->set('warning', 'What cha smokin?  Every league needs a commish...');
             } else {
                 if ($form->isValid()) {
                     $this->get('doctrine.orm.entity_manager')->flush();
                 } else {
-                    $this->get('session')->getFlashBag->set('error', 'Error updating the commissioners for the league');
+                    $this->get('session')->getFlashBag()->set('error', 'Error updating the commissioners for the league');
                 }
             }
         }
@@ -679,7 +679,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'Only commissioners can view this feature');
+            $this->get('session')->getFlashBag()->set('warning', 'Only commissioners can view this feature');
 
             return $this->redirect('/');
         }
@@ -708,7 +708,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to edit the note for this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to edit the note for this league');
 
             return $this->redirect('/');
         }
@@ -721,7 +721,7 @@ class LeagueController extends BaseController
             if ($form->isValid()) {
                 $this->get('doctrine.orm.entity_manager')->flush();
             } else {
-                $this->get('session')->getFlashBag->set('error', 'Error updating the note for the league');
+                $this->get('session')->getFlashBag()->set('error', 'Error updating the note for the league');
             }
         }
 
@@ -742,7 +742,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot send an email for this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot send an email for this league');
 
             return $this->redirect('/');
         }
@@ -768,7 +768,7 @@ class LeagueController extends BaseController
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
-            $this->get('session')->getFlashBag->set('note', 'League message sent');
+            $this->get('session')->getFlashBag()->set('note', 'League message sent');
         }
 
         return array(
@@ -787,7 +787,7 @@ class LeagueController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserEditLeague($user, $league)) {
-            $this->get('session')->getFlashBag->set('warning', 'You do not have permissions to edit the note for this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You do not have permissions to edit the note for this league');
 
             return $this->redirect('/');
         }
@@ -814,7 +814,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         if (!$league->userCanView($user)) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot view this league');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot view this league');
             return $this->redirect('/');
         }
 
@@ -843,12 +843,12 @@ class LeagueController extends BaseController
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag->set('warning', sprintf('You are no longer in league "%s"', $league->getName()));
+            $this->get('session')->getFlashBag()->set('warning', sprintf('You are no longer in league "%s"', $league->getName()));
 
             // Check to see if any leagues do not have a pickset
             foreach ($user->getLeagues() as $league) {
                 if (!$league->getPicksetForUser($user)) {
-                    $this->get('session')->getFlashBag->set('warning', 'One or more leagues do not have a pickSet');
+                    $this->get('session')->getFlashBag()->set('warning', 'One or more leagues do not have a pickSet');
                     return $this->redirect($this->generateUrl('league_assoc', array(
                         'leagueId' => $league->getId(),
                     )));

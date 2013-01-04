@@ -50,7 +50,7 @@ class PickController extends BaseController
 
         if ($request->getMethod() === 'POST') {
             if ($this->picksLocked()) {
-                $this->get('session')->getFlashBag->set('warning', 'You can\' update your leagues after picks lock');
+                $this->get('session')->getFlashBag()->set('warning', 'You can\' update your leagues after picks lock');
             } else {
                 $em = $this->get('doctrine.orm.entity_manager');
                 $conn = $em->getConnection();
@@ -65,7 +65,7 @@ class PickController extends BaseController
                     $league->addPickSet($pickSet);
                 }
                 $em->flush();
-                $this->get('session')->getFlashBag->set('success', 'Picksets have now been assigned to your Leagues');
+                $this->get('session')->getFlashBag()->set('success', 'Picksets have now been assigned to your Leagues');
             }
         }
 
@@ -84,7 +84,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -119,7 +119,7 @@ class PickController extends BaseController
                 $league = $this->findLeague($session->get('auto_league_assoc'));
                 $this->addUserToLeague($league, $user);
                 $league->addPickSet($pickSet);
-                $this->get('session')->getFlashBag->set('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+                $this->get('session')->getFlashBag()->set('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                 $session->remove('auto_league_assoc');
             }
@@ -152,7 +152,7 @@ class PickController extends BaseController
 
         // TODO Add checks for commish here
         if (!$this->canUserEditPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag->set('error', 'You cannot edit this pickset');
+            $this->get('session')->getFlashBag()->set('error', 'You cannot edit this pickset');
             return $this->redirect('/');
         }
 
@@ -160,7 +160,7 @@ class PickController extends BaseController
             $this->get('session')->remove('auto_league_create');
         } else {
             if (count($pickSet->getLeagues()) === 0) {
-                $this->get('session')->getFlashBag->set('info', 'This pickset is not associated with a league');
+                $this->get('session')->getFlashBag()->set('info', 'This pickset is not associated with a league');
             }
         }
 
@@ -183,7 +183,7 @@ class PickController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag->set('error','You cannot view another users picks until the league is locked');
+            $this->get('session')->getFlashBag()->set('error','You cannot view another users picks until the league is locked');
             return $this->redirect('/');
         }
 
@@ -208,7 +208,7 @@ class PickController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag->set('error','You cannot view another users picks until the league is locked');
+            $this->get('session')->getFlashBag()->set('error','You cannot view another users picks until the league is locked');
             return $this->redirect('/');
         }
 
@@ -229,7 +229,7 @@ class PickController extends BaseController
         $user = $this->getUser();
 
         if (!$this->canUserViewPickSet($user, $pickSet1) || !$this->canUserViewPickSet($user, $pickSet2)) {
-            $this->get('session')->getFlashBag->set('error','You cannot compare another users picks until picks are locked');
+            $this->get('session')->getFlashBag()->set('error','You cannot compare another users picks until picks are locked');
             return $this->redirect('/');
         }
 
@@ -252,7 +252,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -277,7 +277,7 @@ class PickController extends BaseController
             )));
         }
 
-        $this->get('session')->getFlashBag->set('warning', 'There was an error creating your pickset');
+        $this->get('session')->getFlashBag()->set('warning', 'There was an error creating your pickset');
 
         return array(
             'form' => $form->createView(),
@@ -294,7 +294,7 @@ class PickController extends BaseController
         $pickSet = $this->findPickSet($picksetId, true);
 
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag->set('warning', 'You cannot update picks after they are locked');
+            $this->get('session')->getFlashBag()->set('warning', 'You cannot update picks after they are locked');
 
             return $this->redirect('/');
         }
@@ -307,7 +307,7 @@ class PickController extends BaseController
             $em->persist($pickSet);
             $em->flush();
 
-            $this->get('session')->getFlashBag->set('success', 'Pickset successfully updated');
+            $this->get('session')->getFlashBag()->set('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
                 'picksetId' => $picksetId,
