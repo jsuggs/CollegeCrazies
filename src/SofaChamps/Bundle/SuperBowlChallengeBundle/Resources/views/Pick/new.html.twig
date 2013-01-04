@@ -1,11 +1,13 @@
-{% extends "SofaChampsCoreBundle::Layout/layout.html.twig" %}
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
 
 {% block content %}
-    <form class="form-horizontal" method="post" {{ form_enctype(form) }}>
+    <h2>Make your picks</h2>
+
+    <form action="{{ path('sbc_pick_create') }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
 
         <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Create Game" />
+            <input type="submit" class="btn btn-primary" value="Make Picks" />
         </div>
     </form>
 {% endblock %}

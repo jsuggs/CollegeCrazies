@@ -11,13 +11,19 @@ class PickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'text')
+            ->add('homeTeamFinalScore', 'integer', array(
+                'label' => 'Final score for home team',
+            ))
+            ->add('awayTeamFinalScore', 'integer', array(
+                'label' => 'Final score for away team',
+            ))
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => 'SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick',
         ));
     }
 

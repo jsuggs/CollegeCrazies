@@ -1,0 +1,13 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Update your picks</h2>
+
+    <form action="{{ path('sbc_pick_update', {pickId: pick.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Update Picks" />
+        </div>
+    </form>
+{% endblock %}
