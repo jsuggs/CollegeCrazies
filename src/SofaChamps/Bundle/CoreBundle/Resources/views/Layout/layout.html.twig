@@ -51,15 +51,22 @@
 
     {% block nav_secondary '' %}
 
+    {% set _sidebar = block('sidebar') %}
+
     <div class="container-fluid">
         <div class="row-fluid">
-            <div class="span2">
-                <div class="well">
-                    {% block sidebar '' %}
+            {% if _sidebar is not empty %}
+                {% set contentSpanClass = 'span10' %}
+                <div class="span2">
+                    <div class="well">
+                        {% block sidebar '' %}
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                {% set contentSpanClass = 'span12' %}
+            {% endif %}
 
-            <div class="span10">
+            <div class="{{ contentSpanClass }}">
                 <div class="content">
                     {% for type, messages in app.session.flashbag.all() %}
                         {% for message in messages %}

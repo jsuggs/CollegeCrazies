@@ -1,8 +1,5 @@
 {% extends "SofaChampsCoreBundle::Layout/layout.html.twig" %}
 
-{% block nav_primary %}
-{% endblock %}
-
 {% block nav_admin %}
     <div class="btn-group">
         <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
@@ -11,12 +8,4 @@
             <li><a href="{{ path('user_list') }}">Manage Users</a></li>
         </ul>
     </div>
-{% endblock %}
-
-{% block nav_user %}
-{% endblock %}
-
-{% block sidebar %}
-    <h4>Super Bowl XLVII</h4>
-    <p>February 3rd 2013</p>
 {% endblock %}
