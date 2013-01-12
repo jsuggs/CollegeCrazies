@@ -59,6 +59,11 @@ class User extends BaseUser
      */
     protected $lastName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    protected $sbcPicks;
+
     public function getId()
     {
         return $this->id;
