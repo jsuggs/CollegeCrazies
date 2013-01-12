@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 sofa_champs_core:
     resource: "@SofaChampsCoreBundle/Controller/"
     type:     annotation
@@ -7,6 +8,11 @@ sofa_champs_user:
     resource: "@SofaChampsUserBundle/Controller/"
     type:     annotation
     prefix:   /
+
+sofa_champs_question:
+    resource: "@SofaChampsQuestionBundle/Controller/"
+    type:     annotation
+    prefix:   /question
 
 sofa_champs_super_bowl_challenge:
     resource: "@SofaChampsSuperBowlChallengeBundle/Controller/"

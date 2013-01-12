@@ -1,0 +1,9 @@
+{% extends "SofaChampsQuestionBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>New Question</h2>
+    <form action="{{ path('question_create') }}" method="post">
+        {% include "SofaChampsQuestionBundle:Admin:form.html.twig" %}
+        <input type="submit" class="btn btn-primary" value="Create new question" />
+    </form>
+{% endblock %}

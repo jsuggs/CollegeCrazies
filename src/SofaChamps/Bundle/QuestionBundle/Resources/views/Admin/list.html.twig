@@ -1,0 +1,11 @@
+{% extends "SofaChampsQuestionBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Questions</h2>
+    <a href="{{ path('question_new') }}" class="btn btn-success">Create new Question</a>
+    <ol>
+    {% for question in questions %}
+        <li><a href="{{ path('question_edit', {id: question.id}) }}">{{ question.id }} - {{ question.text }}</a></li>
+    {% endfor %}
+    </ol>
+{% endblock %}

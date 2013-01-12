@@ -1,0 +1,12 @@
+{% extends "SofaChampsCoreBundle:Layout:layout.html.twig" %}
+
+{% block nav_admin %}
+    <div class="btn-group">
+        <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ path('question_list') }}">Questions</a></li>
+            <li><a href="{{ path('question_new') }}">Create new Question</a></li>
+        </ul>
+    </div>
+{% endblock %}

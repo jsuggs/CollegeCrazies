@@ -1,0 +1,9 @@
+{% extends "SofaChampsQuestionBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Edit Question</h2>
+    <form action="{{ path('question_update', {id: question.id}) }}" method="post">
+        {% include "SofaChampsQuestionBundle:Admin:form.html.twig" %}
+        <input type="submit" class="btn btn-primary" value="Update question" />
+    </form>
+{% endblock %}
