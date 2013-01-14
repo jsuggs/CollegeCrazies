@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class GameController extends Controller
 {
     /**
-     * @Route("/list", name="game_list")
+     * @Route("/list", name="_bp_game_sidebar")
      * @Template("CollegeCraziesMainBundle:Game:list.html.twig")
      * @Cache(expires="+5 minutes")
      */
