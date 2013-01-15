@@ -45,7 +45,7 @@ class AdminController extends Controller
     /**
      * @Route("/create", name="question_create")
      * @Secure(roles="ROLE_ADMIN")
-     * @Template("SofaChampsQuestionBundle:Question:new.html.twig")
+     * @Template("SofaChampsQuestionBundle:Admin:new.html.twig")
      */
     public function createAction()
     {

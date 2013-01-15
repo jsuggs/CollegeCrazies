@@ -6,32 +6,38 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Question Choice
+ * A Question Component
  *
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="responseType", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "multiple-choice" = "MultipleChoiceComponent",
+ *     "text" = "TextComponent"
+ * })
  * @ORM\Table(
- *      name="question_question_choices"
+ *      name="question_question_components"
  * )
  */
-class QuestionChoice
+abstract class AbstractQuestionComponent
 {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="seq_question_question_choice", initialValue=1, allocationSize=1)
+     * @ORM\SequenceGenerator(sequenceName="seq_question_question_component", initialValue=1, allocationSize=1)
      */
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="choices")
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="components")
      */
     protected $question;
 
     /**
-     * The text of the choice
+     * The text of the component
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     protected $text;
@@ -46,16 +52,6 @@ class QuestionChoice
         return $this->id;
     }
 
-    public function setQuestion(Question $question = null)
-    {
-        $this->question = $question;
-    }
-
-    public function getQuestion()
-    {
-        return $this->question;
-    }
-
     public function setText($text)
     {
         $this->text = $text;
@@ -65,4 +61,6 @@ class QuestionChoice
     {
         return $this->text;
     }
+
+    abstract public function getResponseType();
 }

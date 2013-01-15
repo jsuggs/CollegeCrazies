@@ -2,13 +2,13 @@
 
 namespace SofaChamps\Bundle\QuestionBundle\Entity;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Question
+ * A question is made up of one or more components
  *
  * @ORM\Entity
  * @ORM\Table(
@@ -34,13 +34,13 @@ class Question
     protected $text;
 
     /**
-     * @ORM\OneToMany(targetEntity="QuestionChoice", mappedBy="question", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AbstractQuestionComponent", mappedBy="question", cascade={"persist"}, orphanRemoval=true)
      */
-    protected $choices;
+    protected $components;
 
     public function __construct()
     {
-        $this->choices = new ArrayCollection();
+        $this->components = new ArrayCollection();
     }
 
     public function setId($id)
@@ -63,23 +63,23 @@ class Question
         return $this->text;
     }
 
-    public function addChoice(QuestionChoice $choice)
+    public function addComponent(QuestionComponent $component)
     {
-        if (!$this->choices->contains($choice)) {
-            $choice->setQuestion($this);
-            $this->choices[] = $choice;
+        if (!$this->components->contains($component)) {
+            $components->setQuestion($this);
+            $this->components[] = $component;
         }
     }
 
-    public function removeChoice(QuestionChoice $choice)
+    public function removeComponent(QuestionComponent $component)
     {
-        if (!$this->choices->removeElement($choice)) {
-            throw new \InvalidArgumentException('Unable to delete choice');
+        if (!$this->components->removeElement($component)) {
+            throw new \InvalidArgumentException('Unable to delete component');
         }
     }
 
-    public function getChoices()
+    public function getComponents()
     {
-        return $this->choices;
+        return $this->components;
     }
 }

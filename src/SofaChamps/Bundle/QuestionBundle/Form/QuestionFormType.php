@@ -12,8 +12,8 @@ class QuestionFormType extends AbstractType
     {
         $builder
             ->add('text', 'text')
-            ->add('choices', 'collection', array(
-                'type' => new QuestionChoiceFormType(),
+            ->add('components', 'collection', array(
+                'type' => new AbstractQuestionComponentFormType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,

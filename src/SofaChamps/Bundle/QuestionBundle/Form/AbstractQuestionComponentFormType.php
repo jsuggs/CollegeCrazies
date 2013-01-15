@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class QuestionChoiceFormType extends AbstractType
+class AbstractQuestionComponentFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,12 +18,12 @@ class QuestionChoiceFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SofaChamps\Bundle\QuestionBundle\Entity\QuestionChoice',
+            'data_class' => 'SofaChamps\Bundle\QuestionBundle\Entity\AbstractQuestionComponent',
         ));
     }
 
     public function getName()
     {
-        return 'choice';
+        return 'component';
     }
 }
