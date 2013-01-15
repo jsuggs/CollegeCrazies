@@ -95,7 +95,7 @@ class AdminController extends Controller
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $this->get('doctrine.orm.entity_manager')->flush($question);
+            $this->get('doctrine.orm.entity_manager')->flush();
             $this->get('session')->getFlashBag()->set('success', 'Question updated');
 
             return $this->redirect($this->generateUrl('question_edit', array(

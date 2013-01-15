@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\QuestionBundle\Entity;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -33,9 +34,14 @@ class Question
     protected $text;
 
     /**
-     * @ORM\OneToMany(targetEntity="QuestionChoice", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="QuestionChoice", mappedBy="question", cascade={"persist"}, orphanRemoval=true)
      */
     protected $choices;
+
+    public function __construct()
+    {
+        $this->choices = new ArrayCollection();
+    }
 
     public function setId($id)
     {
@@ -59,7 +65,17 @@ class Question
 
     public function addChoice(QuestionChoice $choice)
     {
-        $this->choices[] = $choice;
+        if (!$this->choices->contains($choice)) {
+            $choice->setQuestion($this);
+            $this->choices[] = $choice;
+        }
+    }
+
+    public function removeChoice(QuestionChoice $choice)
+    {
+        if (!$this->choices->removeElement($choice)) {
+            throw new \InvalidArgumentException('Unable to delete choice');
+        }
     }
 
     public function getChoices()

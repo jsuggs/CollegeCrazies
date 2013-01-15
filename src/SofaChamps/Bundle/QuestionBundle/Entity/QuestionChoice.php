@@ -46,6 +46,16 @@ class QuestionChoice
         return $this->id;
     }
 
+    public function setQuestion(Question $question = null)
+    {
+        $this->question = $question;
+    }
+
+    public function getQuestion()
+    {
+        return $this->question;
+    }
+
     public function setText($text)
     {
         $this->text = $text;
