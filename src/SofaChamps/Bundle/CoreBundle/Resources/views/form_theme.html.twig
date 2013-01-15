@@ -32,3 +32,26 @@
     </div>
 {% endspaceless %}
 {% endblock form_row %}
+
+{% block collection_widget %}
+{% spaceless %}
+    <div class="collection-container">
+        <ol class="collection"{% if allow_add %} data-prototype="{{ '<li class="collection-element">%s</li>'|format(form_widget(prototype))|e }}"{% endif %}>
+            {% for key, child in form %}
+                <li class="collection-element">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    {% if allow_delete %}
+                        <a class="collection-remove btn btn-danger">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+        {% if allow_add %}
+            <div class="collection-control">
+                <a class="collection-add btn btn-success">Add More</a>
+            </div>
+        {% endif %}
+    </div>
+{% endspaceless %}
+{% endblock collection_widget %}
