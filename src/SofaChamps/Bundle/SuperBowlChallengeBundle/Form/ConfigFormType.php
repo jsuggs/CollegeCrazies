@@ -14,6 +14,7 @@ class ConfigFormType extends AbstractType
             ->add('year', 'hidden')
             ->add('startTime', 'datetime')
             ->add('closeTime', 'datetime')
+            ->add('finalScorePoints', 'integer')
         ;
     }
 

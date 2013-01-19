@@ -24,6 +24,10 @@ class SuperBowlChallengeExtension extends \Twig_Extension
     {
         $config = $this->getConfig();
 
+        if (!$config) {
+            return false;
+        }
+
         $now = new \DateTime();
 
         return $now > $config->getStartTime() && $now < $config->getCloseTime();

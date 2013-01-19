@@ -36,7 +36,7 @@ class Pick
     protected $user;
 
     /**
-     * nfcFinalScore
+     * The users guess for the final score for the NFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -45,7 +45,7 @@ class Pick
     protected $nfcFinalScore;
 
     /**
-     * acfFinalScore
+     * The users guess for the final score for the AFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -54,7 +54,7 @@ class Pick
     protected $afcFinalScore;
 
     /**
-     * nfcHalfScore
+     * The users guess for the score at halftime for the NFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -63,13 +63,22 @@ class Pick
     protected $nfcHalfScore;
 
     /**
-     * acfHalfScore
+     * The users guess for the score at halftime for the AFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
      * @var integer
      */
     protected $afcHalfScore;
+
+    /**
+     * The points the user gets for guessing the final score
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $finalScorePoints;
 
     public function setId($id)
     {
@@ -139,5 +148,25 @@ class Pick
     public function getAfcHalfScore()
     {
         return $this->afcHalfScore;
+    }
+
+    public function setFinalScorePoints($finalScorePoints)
+    {
+        $this->finalScorePoints = $finalScorePoints;
+    }
+
+    public function getFinalScorePoints()
+    {
+        return $this->finalScorePoints;
+    }
+
+    public function setHalftimeScorePoints($halftimeScorePoints)
+    {
+        $this->halftimeScorePoints = $halftimeScorePoints;
+    }
+
+    public function getHalftimeScorePoints()
+    {
+        return $this->halftimeScorePoints;
     }
 }

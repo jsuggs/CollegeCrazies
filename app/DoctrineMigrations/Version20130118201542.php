@@ -11,7 +11,9 @@ class Version20130118201542 extends AbstractMigration
 CREATE TABLE sbc_config (
     year INT NOT NULL
   , startTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
-  , closeTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(year)
+  , closeTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+  , finalScorePoints INT NOT NULL
+  , PRIMARY KEY(year)
 );
 EOF;
 

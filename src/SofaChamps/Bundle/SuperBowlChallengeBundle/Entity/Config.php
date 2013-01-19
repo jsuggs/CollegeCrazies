@@ -34,6 +34,15 @@ class Config
      */
     protected $closeTime;
 
+    /**
+     * The maximum points the user can get for guessing the final score
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $finalScorePoints;
+
     public function __construct($year)
     {
         $this->setYear($year);
@@ -67,5 +76,15 @@ class Config
     public function getCloseTime()
     {
         return $this->closeTime;
+    }
+
+    public function setFinalScorePoints($finalScorePoints)
+    {
+        $this->finalScorePoints = $finalScorePoints;
+    }
+
+    public function getFinalScorePoints()
+    {
+        return $this->finalScorePoints;
     }
 }
