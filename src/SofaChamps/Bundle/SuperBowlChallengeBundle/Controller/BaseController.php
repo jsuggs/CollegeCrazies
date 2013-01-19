@@ -35,8 +35,10 @@ class BaseController extends Controller
         return $pick;
     }
 
-    protected function getConfig($year)
+    protected function getConfig($year = null)
     {
+        $year = $year ?: date('Y');
+
         $config = $this
             ->get('doctrine.orm.entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')

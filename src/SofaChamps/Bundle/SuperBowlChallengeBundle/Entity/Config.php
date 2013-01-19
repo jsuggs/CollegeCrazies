@@ -34,6 +34,11 @@ class Config
      */
     protected $closeTime;
 
+    public function __construct($year)
+    {
+        $this->setYear($year);
+    }
+
     public function setYear($year)
     {
         $this->year = $year;

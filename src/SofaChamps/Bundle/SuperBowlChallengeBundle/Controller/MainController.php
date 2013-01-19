@@ -9,10 +9,14 @@ class MainController extends BaseController
 {
     /**
      * @Route("/")
-     * @Template()
+     * @Template
      */
     public function homeAction()
     {
-        return array();
+        $config = $this->getConfig();
+
+        return array(
+            'config' => $config,
+        );
     }
 }

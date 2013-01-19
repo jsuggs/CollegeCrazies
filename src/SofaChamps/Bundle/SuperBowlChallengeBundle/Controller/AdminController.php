@@ -25,7 +25,12 @@ class AdminController extends BaseController
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $this->get('doctrine.orm.entity_manager')->flush();
+                $config = $form->getData();
+
+                $em = $this->get('doctrine.orm.entity_manager');
+                $em->persist($config);
+                $em->flush($config);
+
                 $this->get('session')->getFlashBag()->set('success', 'Config updated');
             }
         }
