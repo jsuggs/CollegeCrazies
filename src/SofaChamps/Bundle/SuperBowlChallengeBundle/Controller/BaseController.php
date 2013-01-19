@@ -4,8 +4,10 @@ namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
-use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\PickFormType;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ConfigFormType;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\PickFormType;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ResultFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -19,6 +21,11 @@ class BaseController extends Controller
     protected function getConfigForm(Config $config)
     {
         return $this->createForm(new ConfigFormType(), $config);
+    }
+
+    protected function getResultForm(Result $result)
+    {
+        return $this->createForm(new ResultFormType(), $result);
     }
 
     protected function findPick($pickId)
@@ -45,5 +52,17 @@ class BaseController extends Controller
             ->find($year);
 
         return $config ?: new Config($year);
+    }
+
+    protected function getResult($year = null)
+    {
+        $year = $year ?: date('Y');
+
+        $result = $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('SofaChampsSuperBowlChallengeBundle:Result')
+            ->find($year);
+
+        return $result ?: new Result($year);
     }
 }

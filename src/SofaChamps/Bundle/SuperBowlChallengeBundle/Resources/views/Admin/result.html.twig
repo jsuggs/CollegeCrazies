@@ -1,0 +1,10 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Results</h2>
+
+    <form action="{{ path('sbc_admin_result', {year: year}) }}" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" class="btn btn-success" value="Update Result" />
+    </form>
+{% endblock %}

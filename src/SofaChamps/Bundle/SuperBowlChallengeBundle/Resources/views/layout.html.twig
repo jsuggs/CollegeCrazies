@@ -6,6 +6,7 @@
         <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
             <li><a href="{{ path('sbc_admin_config', {year: date()|date('Y')}) }}">Config</a></li>
+            <li><a href="{{ path('sbc_admin_result', {year: date()|date('Y')}) }}">Result</a></li>
         </ul>
     </div>
 {% endblock %}

@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class AdminController extends BaseController
 {
     /**
-     * @Route("/{year}", name="sbc_admin_config")
+     * @Route("/config/{year}", name="sbc_admin_config")
      * @Secure(roles="ROLE_ADMIN")
      * @Template
      */
@@ -37,6 +37,37 @@ class AdminController extends BaseController
 
         return array(
             'config' => $config,
+            'year' => $year,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/result/{year}", name="sbc_admin_result")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template
+     */
+    public function resultAction($year)
+    {
+        $result = $this->getResult($year);
+        $form = $this->getResultForm($result);
+        $request = $this->getRequest();
+
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $result = $form->getData();
+
+                $em = $this->get('doctrine.orm.entity_manager');
+                $em->persist($result);
+                $em->flush($result);
+
+                $this->get('session')->getFlashBag()->set('success', 'Result updated');
+            }
+        }
+
+        return array(
+            'result' => $result,
             'year' => $year,
             'form' => $form->createView(),
         );
