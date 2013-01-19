@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
 
 /**
  * @Route("/pick")
@@ -12,16 +13,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class PickController extends BaseController
 {
     /**
-     * @Route("/new", name="sbc_pick_new")
+     * @Route("/{year}/new", name="sbc_pick_new")
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function newAction()
+    public function newAction($year)
     {
-        $form = $this->getPickForm();
+        $pick = new Pick();
+        $pick->setYear($year);
+
+        $form = $this->getPickForm($pick);
 
         return array(
             'form' => $form->createView(),
+            'year' => $year,
         );
     }
 

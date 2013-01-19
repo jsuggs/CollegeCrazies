@@ -11,7 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="sbc_picks"
+ *      name="sbc_picks",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="user_unique",columns={"user_id", "year"})}
  * )
  */
 class Pick
@@ -25,27 +26,50 @@ class Pick
     protected $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $year;
+
+    /**
      * @ORM\ManyToOne(targetEntity="\CollegeCrazies\Bundle\MainBundle\Entity\User", inversedBy="sbcPicks")
      */
     protected $user;
 
     /**
-     * homeTeamFinalScore
+     * nfcFinalScore
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $homeTeamFinalScore;
+    protected $nfcFinalScore;
 
     /**
-     * awayTeamFinalScore
+     * acfFinalScore
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $awayTeamFinalScore;
+    protected $afcFinalScore;
+
+    /**
+     * nfcHalfScore
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $nfcHalfScore;
+
+    /**
+     * acfHalfScore
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $afcHalfScore;
 
     public function setId($id)
     {
@@ -67,23 +91,53 @@ class Pick
         return $this->user;
     }
 
-    public function setHomeTeamFinalScore($score)
+    public function setYear($year)
     {
-        $this->homeTeamFinalScore = $score;
+        $this->year = $year;
     }
 
-    public function getHomeTeamFinalScore()
+    public function getYear()
     {
-        return $this->homeTeamFinalScore;
+        return $this->year;
     }
 
-    public function setAwayTeamFinalScore($score)
+    public function setNfcFinalScore($nfcFinalScore)
     {
-        $this->awayTeamFinalScore = $score;
+        $this->nfcFinalScore = $nfcFinalScore;
     }
 
-    public function getAwayTeamFinalScore()
+    public function getNfcFinalScore()
     {
-        return $this->awayTeamFinalScore;
+        return $this->nfcFinalScore;
+    }
+
+    public function setAfcFinalScore($afcFinalScore)
+    {
+        $this->afcFinalScore = $afcFinalScore;
+    }
+
+    public function getAfcFinalScore()
+    {
+        return $this->afcFinalScore;
+    }
+
+    public function setNfcHalfScore($nfcHalfScore)
+    {
+        $this->nfcHalfScore = $nfcHalfScore;
+    }
+
+    public function getNfcHalfScore()
+    {
+        return $this->nfcHalfScore;
+    }
+
+    public function setAfcHalfScore($afcHalfScore)
+    {
+        $this->afcHalfScore = $afcHalfScore;
+    }
+
+    public function getAfcHalfScore()
+    {
+        return $this->afcHalfScore;
     }
 }

@@ -5,6 +5,6 @@
         <h1>Super Bowl Challenge</h1>
         <h2>One day, one game...but with a twist</h2>
 
-        <p><a href="{{ path('sbc_pick_new') }}" class="btn btn-success">Make your picks</a></p>
+        <p><a href="{{ path('sbc_pick_new', {year: date()|date('Y')}) }}" class="btn btn-success">Make your picks</a></p>
     </div>
 {% endblock %}

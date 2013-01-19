@@ -11,12 +11,11 @@ class PickFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('homeTeamFinalScore', 'integer', array(
-                'label' => 'Final score for home team',
-            ))
-            ->add('awayTeamFinalScore', 'integer', array(
-                'label' => 'Final score for away team',
-            ))
+            ->add('year', 'hidden')
+            ->add('nfcFinalScore', 'integer')
+            ->add('afcFinalScore', 'integer')
+            ->add('nfcHalfScore', 'integer')
+            ->add('afcHalfScore', 'integer')
         ;
     }
 
