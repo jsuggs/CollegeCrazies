@@ -5,7 +5,7 @@
         <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
         <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ path('user_list') }}">Manage Users</a></li>
+            <li><a href="{{ path('sbc_admin_config', {year: date()|date('Y')}) }}">Config</a></li>
         </ul>
     </div>
 {% endblock %}
