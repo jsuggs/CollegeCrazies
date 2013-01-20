@@ -14,8 +14,9 @@ CREATE TABLE sbc_picks (
   , year INT NOT NULL
   , nfcFinalScore INT NOT NULL
   , afcFinalScore INT NOT NULL
-  , nfcHalfScore INT NOT NULL
-  , afcHalfScore INT NOT NULL
+  , nfcHalftimeScore INT NOT NULL
+  , afcHalftimeScore INT NOT NULL
+  , totalPoints INT DEFAULT NULL
   , finalScorePoints INT DEFAULT NULL
   , halftimeScorePoints INT DEFAULT NULL
   , PRIMARY KEY(id)

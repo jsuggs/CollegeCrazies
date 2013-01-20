@@ -46,7 +46,7 @@ class Result
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $nfcHalfScore;
+    protected $nfcHalftimeScore;
 
     /**
      * The users guess for the score at halftime for the AFC team
@@ -55,7 +55,7 @@ class Result
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $afcHalfScore;
+    protected $afcHalftimeScore;
 
     public function __construct($year)
     {
@@ -92,24 +92,24 @@ class Result
         return $this->afcFinalScore;
     }
 
-    public function setNfcHalfScore($nfcHalfScore)
+    public function setNfcHalftimeScore($nfcHalftimeScore)
     {
-        $this->nfcHalfScore = $nfcHalfScore;
+        $this->nfcHalftimeScore = $nfcHalftimeScore;
     }
 
-    public function getNfcHalfScore()
+    public function getNfcHalftimeScore()
     {
-        return $this->nfcHalfScore;
+        return $this->nfcHalftimeScore;
     }
 
-    public function setAfcHalfScore($afcHalfScore)
+    public function setAfcHalftimeScore($afcHalftimeScore)
     {
-        $this->afcHalfScore = $afcHalfScore;
+        $this->afcHalftimeScore = $afcHalftimeScore;
     }
 
-    public function getAfcHalfScore()
+    public function getAfcHalftimeScore()
     {
-        return $this->afcHalfScore;
+        return $this->afcHalftimeScore;
     }
 
     public function setFinalScorePoints($finalScorePoints)

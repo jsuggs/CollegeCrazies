@@ -43,6 +43,15 @@ class Config
      */
     protected $finalScorePoints;
 
+    /**
+     * The maximum points the user can get for guessing the score at halftime
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $halftimeScorePoints;
+
     public function __construct($year)
     {
         $this->setYear($year);
@@ -86,5 +95,15 @@ class Config
     public function getFinalScorePoints()
     {
         return $this->finalScorePoints;
+    }
+
+    public function setHalftimeScorePoints($halftimeScorePoints)
+    {
+        $this->halftimeScorePoints = $halftimeScorePoints;
+    }
+
+    public function getHalftimeScorePoints()
+    {
+        return $this->halftimeScorePoints;
     }
 }

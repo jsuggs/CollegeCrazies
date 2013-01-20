@@ -14,8 +14,8 @@ class PickFormType extends AbstractType
             ->add('year', 'hidden')
             ->add('nfcFinalScore', 'integer')
             ->add('afcFinalScore', 'integer')
-            ->add('nfcHalfScore', 'integer')
-            ->add('afcHalfScore', 'integer')
+            ->add('nfcHalftimeScore', 'integer')
+            ->add('afcHalftimeScore', 'integer')
         ;
     }
 

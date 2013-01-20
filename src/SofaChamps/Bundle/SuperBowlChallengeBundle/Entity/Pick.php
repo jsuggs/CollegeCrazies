@@ -60,7 +60,7 @@ class Pick
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $nfcHalfScore;
+    protected $nfcHalftimeScore;
 
     /**
      * The users guess for the score at halftime for the AFC team
@@ -69,7 +69,16 @@ class Pick
      * @Assert\Range(min=0)
      * @var integer
      */
-    protected $afcHalfScore;
+    protected $afcHalftimeScore;
+
+    /**
+     * The total points for this pick
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $totalPoints;
 
     /**
      * The points the user gets for guessing the final score
@@ -79,6 +88,15 @@ class Pick
      * @var integer
      */
     protected $finalScorePoints;
+
+    /**
+     * The points the user gets for guessing the score at halftime
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $halftimeScorePoints;
 
     public function setId($id)
     {
@@ -130,24 +148,34 @@ class Pick
         return $this->afcFinalScore;
     }
 
-    public function setNfcHalfScore($nfcHalfScore)
+    public function setNfcHalftimeScore($nfcHalftimeScore)
     {
-        $this->nfcHalfScore = $nfcHalfScore;
+        $this->nfcHalftimeScore = $nfcHalftimeScore;
     }
 
-    public function getNfcHalfScore()
+    public function getNfcHalftimeScore()
     {
-        return $this->nfcHalfScore;
+        return $this->nfcHalftimeScore;
     }
 
-    public function setAfcHalfScore($afcHalfScore)
+    public function setAfcHalftimeScore($afcHalftimeScore)
     {
-        $this->afcHalfScore = $afcHalfScore;
+        $this->afcHalftimeScore = $afcHalftimeScore;
     }
 
-    public function getAfcHalfScore()
+    public function getAfcHalftimeScore()
     {
-        return $this->afcHalfScore;
+        return $this->afcHalftimeScore;
+    }
+
+    public function setTotalPoints($totalPoints)
+    {
+        $this->totalPoints = $totalPoints;
+    }
+
+    public function getTotalPoints()
+    {
+        return $this->totalPoints;
     }
 
     public function setFinalScorePoints($finalScorePoints)
