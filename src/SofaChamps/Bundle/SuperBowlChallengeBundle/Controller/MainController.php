@@ -19,4 +19,17 @@ class MainController extends BaseController
             'config' => $config,
         );
     }
+
+    /**
+     * @Route("/leaderboard", name="sbc_leaderboard")
+     * @Template
+     */
+    public function leaderboardAction()
+    {
+        $picks = $this->getPicksOrderedByScore();
+
+        return array(
+            'picks' => $picks,
+        );
+    }
 }

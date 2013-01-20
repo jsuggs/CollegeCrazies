@@ -1,0 +1,17 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Leaderboard</h2>
+    <table class="table">
+        <tr>
+            <th>User</th>
+            <th>Score</th>
+        </tr>
+        {% for pick in picks %}
+            <tr>
+                <td>{{ profile_link(pick.user)|raw }}</td>
+                <td>{{ pick.totalPoints }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
