@@ -16,6 +16,10 @@ class ResultFormType extends AbstractType
             ->add('afcFinalScore', 'integer')
             ->add('nfcHalftimeScore', 'integer')
             ->add('afcHalftimeScore', 'integer')
+            ->add('firstTeamToScoreFirstQuarter', 'team_choice')
+            ->add('firstTeamToScoreSecondQuarter', 'team_choice')
+            ->add('firstTeamToScoreThirdQuarter', 'team_choice')
+            ->add('firstTeamToScoreFourthQuarter', 'team_choice')
         ;
     }
 

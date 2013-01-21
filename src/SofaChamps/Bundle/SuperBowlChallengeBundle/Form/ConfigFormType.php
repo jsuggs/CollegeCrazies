@@ -16,6 +16,8 @@ class ConfigFormType extends AbstractType
             ->add('closeTime', 'datetime')
             ->add('finalScorePoints', 'integer')
             ->add('halftimeScorePoints', 'integer')
+            ->add('firstTeamToScoreInAQuarterPoints', 'integer')
+            ->add('neitherTeamToScoreInAQuarterPoints', 'integer')
         ;
     }
 

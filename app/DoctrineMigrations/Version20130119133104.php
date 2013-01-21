@@ -14,6 +14,10 @@ CREATE TABLE sbc_results (
   , afcFinalScore INT NOT NULL
   , nfcHalftimeScore INT NOT NULL
   , afcHalftimeScore INT NOT NULL
+  , firstTeamToScoreFirstQuarter VARCHAR(4) NOT NULL
+  , firstTeamToScoreSecondQuarter VARCHAR(4) NOT NULL
+  , firstTeamToScoreThirdQuarter VARCHAR(4) NOT NULL
+  , firstTeamToScoreFourthQuarter VARCHAR(4) NOT NULL
   , PRIMARY KEY(year)
 );
 EOF;

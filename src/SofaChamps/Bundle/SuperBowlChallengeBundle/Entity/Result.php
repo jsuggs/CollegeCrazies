@@ -22,7 +22,7 @@ class Result
     protected $year;
 
     /**
-     * The users guess for the final score for the NFC team
+     * The final score for the NFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -31,7 +31,7 @@ class Result
     protected $nfcFinalScore;
 
     /**
-     * The users guess for the final score for the AFC team
+     * The final score for the AFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -40,7 +40,7 @@ class Result
     protected $afcFinalScore;
 
     /**
-     * The users guess for the score at halftime for the NFC team
+     * The score at halftime for the NFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
@@ -49,13 +49,45 @@ class Result
     protected $nfcHalftimeScore;
 
     /**
-     * The users guess for the score at halftime for the AFC team
+     * The score at halftime for the AFC team
      *
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
      * @var integer
      */
     protected $afcHalftimeScore;
+
+    /**
+     * The team to score first in the first quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreFirstQuarter;
+
+    /**
+     * The team to score first in the second quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreSecondQuarter;
+
+    /**
+     * The team to score first in the third quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreThirdQuarter;
+
+    /**
+     * The team to score first in the fourth quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreFourthQuarter;
 
     public function __construct($year)
     {
@@ -120,5 +152,45 @@ class Result
     public function getFinalScorePoints()
     {
         return $this->finalScorePoints;
+    }
+
+    public function setFirstTeamToScoreFirstQuarter($firstTeamToScoreFirstQuarter)
+    {
+        $this->firstTeamToScoreFirstQuarter = $firstTeamToScoreFirstQuarter;
+    }
+
+    public function getFirstTeamToScoreFirstQuarter()
+    {
+        return $this->firstTeamToScoreFirstQuarter;
+    }
+
+    public function setFirstTeamToScoreSecondQuarter($firstTeamToScoreSecondQuarter)
+    {
+        $this->firstTeamToScoreSecondQuarter = $firstTeamToScoreSecondQuarter;
+    }
+
+    public function getFirstTeamToScoreSecondQuarter()
+    {
+        return $this->firstTeamToScoreSecondQuarter;
+    }
+
+    public function setFirstTeamToScoreThirdQuarter($firstTeamToScoreThirdQuarter)
+    {
+        $this->firstTeamToScoreThirdQuarter = $firstTeamToScoreThirdQuarter;
+    }
+
+    public function getFirstTeamToScoreThirdQuarter()
+    {
+        return $this->firstTeamToScoreThirdQuarter;
+    }
+
+    public function setFirstTeamToScoreFourthQuarter($firstTeamToScoreFourthQuarter)
+    {
+        $this->firstTeamToScoreFourthQuarter = $firstTeamToScoreFourthQuarter;
+    }
+
+    public function getFirstTeamToScoreFourthQuarter()
+    {
+        return $this->firstTeamToScoreFourthQuarter;
     }
 }

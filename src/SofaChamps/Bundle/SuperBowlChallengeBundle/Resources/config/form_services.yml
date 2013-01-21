@@ -1,0 +1,22 @@
+services:
+    sofachamps.superbowlchallenge.form.type.team_choice:
+        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\TeamChoiceFormType
+        arguments:
+            - @sofachamps.superbowlchallenge.config.currentyear
+        tags:
+            - { name: form.type, alias: team_choice }
+
+    sofachamps.superbowlchallenge.config.repo:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - SofaChampsSuperBowlChallengeBundle:Config
+
+    sofachamps.superbowlchallenge.config.currentyear:
+        public: false
+        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config
+        factory_service: sofachamps.superbowlchallenge.config.repo
+        factory_method: findOneByYear
+        arguments:
+            - 2013

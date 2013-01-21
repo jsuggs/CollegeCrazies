@@ -24,7 +24,35 @@ class PickScorer
 
         $pick->setHalftimeScorePoints($halftimeScorePoints);
 
+        // Get the points for correctly picking the team to score first in each of the quarters
+        $firstTeamToScorePoints = 0;
+        if ($pick->getFirstTeamToScoreFirstQuarter() == $result->getFirstTeamToScoreFirstQuarter()) {
+            $firstTeamToScorePoints += $result->getFirstTeamToScoreFirstQuarter() === 'none'
+                ? $config->getNeitherTeamToScoreInAQuarterPoints()
+                : $config->getFirstTeamToScoreInAQuarterPoints();
+        }
+
+        if ($pick->getFirstTeamToScoreSecondQuarter() == $result->getFirstTeamToScoreSecondQuarter()) {
+            $firstTeamToScorePoints += $result->getFirstTeamToScoreSecondQuarter() === 'none'
+                ? $config->getNeitherTeamToScoreInAQuarterPoints()
+                : $config->getFirstTeamToScoreInAQuarterPoints();
+        }
+
+        if ($pick->getFirstTeamToScoreThirdQuarter() == $result->getFirstTeamToScoreThirdQuarter()) {
+            $firstTeamToScorePoints += $result->getFirstTeamToScoreThirdQuarter() === 'none'
+                ? $config->getNeitherTeamToScoreInAQuarterPoints()
+                : $config->getFirstTeamToScoreInAQuarterPoints();
+        }
+
+        if ($pick->getFirstTeamToScoreFourthQuarter() == $result->getFirstTeamToScoreFourthQuarter()) {
+            $firstTeamToScorePoints += $result->getFirstTeamToScoreFourthQuarter() === 'none'
+                ? $config->getNeitherTeamToScoreInAQuarterPoints()
+                : $config->getFirstTeamToScoreInAQuarterPoints();
+        }
+
+        $pick->setFirstTeamToScorePoints($firstTeamToScorePoints);
+
         // Set the total points
-        $pick->setTotalPoints($finalScorePoints + $halftimeScorePoints);
+        $pick->setTotalPoints($finalScorePoints + $halftimeScorePoints + $firstTeamToScorePoints);
     }
 }

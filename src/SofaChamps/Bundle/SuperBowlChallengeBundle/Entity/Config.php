@@ -46,11 +46,29 @@ class Config
     /**
      * The maximum points the user can get for guessing the score at halftime
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      * @Assert\Range(min=0)
      * @var integer
      */
     protected $halftimeScorePoints;
+
+    /**
+     * The points the user gets for correctly guessing a team to score first in a quarter
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $firstTeamToScoreInAQuarterPoints;
+
+    /**
+     * The points the user gets for correctly guessing neither team to score in a quarter
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $neitherTeamToScoreInAQuarterPoints;
 
     public function __construct($year)
     {
@@ -105,5 +123,25 @@ class Config
     public function getHalftimeScorePoints()
     {
         return $this->halftimeScorePoints;
+    }
+
+    public function setFirstTeamToScoreInAQuarterPoints($firstTeamToScoreInAQuarterPoints)
+    {
+        $this->firstTeamToScoreInAQuarterPoints = $firstTeamToScoreInAQuarterPoints;
+    }
+
+    public function getFirstTeamToScoreInAQuarterPoints()
+    {
+        return $this->firstTeamToScoreInAQuarterPoints;
+    }
+
+    public function setNeitherTeamToScoreInAQuarterPoints($neitherTeamToScoreInAQuarterPoints)
+    {
+        $this->neitherTeamToScoreInAQuarterPoints = $neitherTeamToScoreInAQuarterPoints;
+    }
+
+    public function getNeitherTeamToScoreInAQuarterPoints()
+    {
+        return $this->neitherTeamToScoreInAQuarterPoints;
     }
 }

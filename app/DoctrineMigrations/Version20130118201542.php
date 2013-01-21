@@ -14,6 +14,8 @@ CREATE TABLE sbc_config (
   , closeTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
   , finalScorePoints INT NOT NULL
   , halftimeScorePoints INT NOT NULL
+  , firstTeamToScoreInAQuarterPoints INT NOT NULL
+  , neitherTeamToScoreInAQuarterPoints INT NOT NULL
   , PRIMARY KEY(year)
 );
 EOF;

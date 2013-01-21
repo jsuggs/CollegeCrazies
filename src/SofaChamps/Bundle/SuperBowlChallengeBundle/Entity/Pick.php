@@ -72,6 +72,38 @@ class Pick
     protected $afcHalftimeScore;
 
     /**
+     * The users guess for the team to score first in the first quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreFirstQuarter;
+
+    /**
+     * The users guess for the team to score first in the second quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreSecondQuarter;
+
+    /**
+     * The users guess for the team to score first in the third quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreThirdQuarter;
+
+    /**
+     * The users guess for the team to score first in the fourth quarter
+     *
+     * @ORM\Column(type="string", length=4)
+     * @var string
+     */
+    protected $firstTeamToScoreFourthQuarter;
+
+    /**
      * The total points for this pick
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -97,6 +129,15 @@ class Pick
      * @var integer
      */
     protected $halftimeScorePoints;
+
+    /**
+     * The points the user gets for guessing the first teams to score
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $firstTeamToScorePoints;
 
     public function setId($id)
     {
@@ -168,6 +209,46 @@ class Pick
         return $this->afcHalftimeScore;
     }
 
+    public function setFirstTeamToScoreFirstQuarter($firstTeamToScoreFirstQuarter)
+    {
+        $this->firstTeamToScoreFirstQuarter = $firstTeamToScoreFirstQuarter;
+    }
+
+    public function getFirstTeamToScoreFirstQuarter()
+    {
+        return $this->firstTeamToScoreFirstQuarter;
+    }
+
+    public function setFirstTeamToScoreSecondQuarter($firstTeamToScoreSecondQuarter)
+    {
+        $this->firstTeamToScoreSecondQuarter = $firstTeamToScoreSecondQuarter;
+    }
+
+    public function getFirstTeamToScoreSecondQuarter()
+    {
+        return $this->firstTeamToScoreSecondQuarter;
+    }
+
+    public function setFirstTeamToScoreThirdQuarter($firstTeamToScoreThirdQuarter)
+    {
+        $this->firstTeamToScoreThirdQuarter = $firstTeamToScoreThirdQuarter;
+    }
+
+    public function getFirstTeamToScoreThirdQuarter()
+    {
+        return $this->firstTeamToScoreThirdQuarter;
+    }
+
+    public function setFirstTeamToScoreFourthQuarter($firstTeamToScoreFourthQuarter)
+    {
+        $this->firstTeamToScoreFourthQuarter = $firstTeamToScoreFourthQuarter;
+    }
+
+    public function getFirstTeamToScoreFourthQuarter()
+    {
+        return $this->firstTeamToScoreFourthQuarter;
+    }
+
     public function setTotalPoints($totalPoints)
     {
         $this->totalPoints = $totalPoints;
@@ -196,5 +277,15 @@ class Pick
     public function getHalftimeScorePoints()
     {
         return $this->halftimeScorePoints;
+    }
+
+    public function setFirstTeamToScorePoints($firstTeamToScorePoints)
+    {
+        $this->firstTeamToScorePoints = $firstTeamToScorePoints;
+    }
+
+    public function getFirstTeamToScorePoints()
+    {
+        return $this->firstTeamToScorePoints;
     }
 }
