@@ -26,22 +26,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/admin/user/list", name="user_list")
-     * @Secure(roles="ROLE_ADMIN")
-     * @Template("CollegeCraziesMainBundle:Admin:users.html.twig")
-     */
-    public function listAction()
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u ORDER BY u.id');
-        $users = $query->getResult();
-
-        return array(
-            'users' => $users
-        );
-    }
-
-    /**
      * @Route("/admin/users-incomplete-picksets", name="admin_user_incomplete_picksets")
      * @Secure(roles="ROLE_ADMIN")
      * @Template("CollegeCraziesMainBundle:Admin:users-incomplete-picksets.html.twig")

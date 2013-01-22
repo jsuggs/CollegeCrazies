@@ -28,11 +28,19 @@
                 </ul>
                 <div class="pull-right navbar-text">
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('pickset_manage', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
+                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}
-                        {% block nav_admin '' %}
+                        <div class="btn-group">
+                            <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+                            <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ path('core_admin_users') }}">Manage Users</a></li>
+                                <li class="divider"></li>
+                                {% block nav_admin '' %}
+                            </ul>
+                        </div>
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') %}

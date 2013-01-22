@@ -1,7 +1,8 @@
-{% extends "CollegeCraziesMainBundle::layout.html.twig" %}
+{% extends "SofaChampsCoreBundle::layout.html.twig" %}
 
 {% block content %}
     <h2>Users</h2>
+
     <table class="table table-rounded">
         <thead>
             <tr>
@@ -21,7 +22,7 @@
                         <a href="{{ path('user_admin', {'id': user.id}) }}" class="btn">Make Admin</a>
                     {% endif %}
                 </td>
-                <td><a href="{{ path('pickset_manage', {_switch_user: user.username}) }}" class="btn btn-warning">Impersonate</a></td>
+                <td><a href="{{ path('core_home', {_switch_user: user.username}) }}" class="btn btn-warning">Impersonate</a></td>
             </tr>
         {% endfor %}
         </tbody>

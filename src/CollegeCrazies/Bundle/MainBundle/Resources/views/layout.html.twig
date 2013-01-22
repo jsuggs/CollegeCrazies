@@ -19,17 +19,9 @@
 {% endblock %}
 
 {% block nav_admin %}
-    <div class="btn-group">
-        <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ path('team_list') }}">Manage Teams</a></li>
-            <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
-            <li><a href="{{ path('user_list') }}">Manage Users</a></li>
-            <li><a href="{{ path('admin_user_incomplete_picksets') }}">Users with Incomplete Picksets</a></li>
-            <li><a href="{{ path('admin_user_noleague') }}">Users with No League</a></li>
-        </ul>
-    </div>
+    <li><a href="{{ path('game_admin') }}">Manage Games</a></li>
+    <li><a href="{{ path('admin_user_incomplete_picksets') }}">Users with Incomplete Picksets</a></li>
+    <li><a href="{{ path('admin_user_noleague') }}">Users with No League</a></li>
 {% endblock %}
 
 {% block nav_user %}
