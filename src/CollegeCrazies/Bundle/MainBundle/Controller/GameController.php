@@ -8,6 +8,7 @@ use CollegeCrazies\Bundle\MainBundle\Event\GameEvents;
 use CollegeCrazies\Bundle\MainBundle\Form\GameEditFormType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -109,12 +110,12 @@ class GameController extends Controller
 
     /**
      * @Route("/admin/game/edit/{gameId}", name="game_edit")
+     * @ParamConverter("game", class="CollegeCraziesMainBundle:Game", options={"id" = "gameId"})
      * @Secure(roles="ROLE_ADMIN")
      * @Template
      */
-    public function editAction($gameId)
+    public function editAction(Game $game)
     {
-        $game = $this->findGame($gameId);
         $form = $this->getGameForm($game);
 
         return array(
@@ -125,12 +126,12 @@ class GameController extends Controller
 
     /**
      * @Route("/admin/game/update/{gameId}", name="game_update")
+     * @ParamConverter("game", class="CollegeCraziesMainBundle:Game", options={"id" = "gameId"})
      * @Secure(roles="ROLE_ADMIN")
      * @Template("CollegeCraziesMainBundle:Game:edit.html.twig")
      */
-    public function updateAction($gameId)
+    public function updateAction(Game $game)
     {
-        $game = $this->findGame($gameId);
         $form = $this->getGameForm($game);
         $form->bindRequest($this->getRequest());
 
@@ -150,19 +151,6 @@ class GameController extends Controller
         return $this->redirect($this->generateUrl('game_edit', array(
             'gameId' => $game->getId()
         )));
-    }
-
-    private function findGame($gameId)
-    {
-        $game = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\Game')
-            ->find($gameId);
-
-        if (!$game) {
-            throw new \NotFoundHttpException(sprintf('There was no game with id = %s', $gameId));
-        }
-
-        return $game;
     }
 
     private function getGameForm(Game $game = null)
