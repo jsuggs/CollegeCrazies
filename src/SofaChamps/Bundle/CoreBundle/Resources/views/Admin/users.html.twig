@@ -19,7 +19,7 @@
                     {% if user.hasRole('ROLE_ADMIN') %}
                         ADMIN
                     {% else %}
-                        <a href="{{ path('user_admin', {'id': user.id}) }}" class="btn">Make Admin</a>
+                        <a href="{{ path('core_admin_user_admin', {'userId': user.id}) }}" class="btn">Make Admin</a>
                     {% endif %}
                 </td>
                 <td><a href="{{ path('core_home', {_switch_user: user.username}) }}" class="btn btn-warning">Impersonate</a></td>

@@ -58,26 +58,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/admin/user/makeadmin/{id}", name="user_admin")
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function makeAdminAction($id)
-    {
-        $user = $this->findUser($id);
-
-        $roles = $user->getRoles();
-        //die(var_dump($roles));
-        array_push($roles, 'ROLE_ADMIN');
-        $roles = array_unique($roles);
-        $user->setRoles($roles);
-        $em = $this->get('doctrine.orm.entity_manager');
-        $em->persist($user);
-        $em->flush();
-
-        return $this->redirect($this->generateURL('user_list'));
-    }
-
-    /**
      * @Route("/user/create", name="user_create")
      * @Template("CollegeCraziesMainBundle:User:new.html.twig")
      */
