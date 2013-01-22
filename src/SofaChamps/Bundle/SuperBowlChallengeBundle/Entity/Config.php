@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Entity;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\NFLBundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -33,6 +34,20 @@ class Config
      * @ORM\Column(type="datetime")
      */
     protected $closeTime;
+
+    /**
+     * The NFC Team playing in the superbowl
+     *
+     * @ORM\ManyToOne(targetEntity="\SofaChamps\Bundle\NFLBundle\Entity\Team")
+     */
+    protected $nfcTeam;
+
+    /**
+     * The AFC Team playing in the superbowl
+     *
+     * @ORM\ManyToOne(targetEntity="\SofaChamps\Bundle\NFLBundle\Entity\Team")
+     */
+    protected $afcTeam;
 
     /**
      * The maximum points the user can get for guessing the final score
@@ -93,6 +108,26 @@ class Config
     public function getStartTime()
     {
         return $this->startTime;
+    }
+
+    public function setNfcTeam(Team $team)
+    {
+        $this->nfcTeam = $team;
+    }
+
+    public function getNfcTeam()
+    {
+        return $this->nfcTeam;
+    }
+
+    public function setAfcTeam(Team $team)
+    {
+        $this->afcTeam = $team;
+    }
+
+    public function getAfcTeam()
+    {
+        return $this->afcTeam;
     }
 
     public function setCloseTime(\DateTime $closeTime)

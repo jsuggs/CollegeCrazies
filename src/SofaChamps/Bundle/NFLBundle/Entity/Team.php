@@ -86,4 +86,9 @@ class Team
     {
         return $this->division;
     }
+
+    public function __toString()
+    {
+        return $this->id;
+    }
 }
