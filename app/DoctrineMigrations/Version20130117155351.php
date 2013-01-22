@@ -5,7 +5,7 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration,
     Doctrine\DBAL\Schema\Schema;
 
-class Version20130121155351 extends AbstractMigration
+class Version20130117155351 extends AbstractMigration
 {
     const CREATE_NLF_TEAM_SQL =<<<EOF
 CREATE TABLE nfl_team (
