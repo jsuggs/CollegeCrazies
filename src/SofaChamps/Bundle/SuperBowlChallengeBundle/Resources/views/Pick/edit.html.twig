@@ -4,10 +4,60 @@
     <h2>Update your picks</h2>
 
     <form action="{{ path('sbc_pick_update', {pickId: pick.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
+        <fieldset>
+            <legend>Final Scores</legend>
+            <table class="table table-bordered">
+                <caption>Guess the final score at halftime and the end of the game.</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>AFC</th>
+                        <th>NFC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Final</th>
+                        <td>{{ form_widget(form.afcFinalScore) }}</td>
+                        <td>{{ form_widget(form.nfcFinalScore) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Halftime</th>
+                        <td>{{ form_widget(form.nfcHalftimeScore) }}</td>
+                        <td>{{ form_widget(form.afcHalftimeScore) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset>
+            <legend>First to score</legend>
+            <table class="table table-bordered">
+                <caption>Guess the first to score in each of the quarters</caption>
+                <tbody>
+                    <tr>
+                        <th>First Quarter</th>
+                        <td>{{ form_widget(form.firstTeamToScoreFirstQuarter) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Second Quarter</th>
+                        <td>{{ form_widget(form.firstTeamToScoreSecondQuarter) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Third Quarter</th>
+                        <td>{{ form_widget(form.firstTeamToScoreThirdQuarter) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fourth Quarter</th>
+                        <td>{{ form_widget(form.firstTeamToScoreFourthQuarter) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
 
         <div class="form-actions">
             <input type="submit" class="btn btn-primary" value="Update Picks" />
+            {{ form_rest(form) }}
         </div>
     </form>
 {% endblock %}
