@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
+use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
@@ -28,15 +29,21 @@ class BaseController extends Controller
         return $this->createForm(new ResultFormType(), $result);
     }
 
-    protected function findPick($pickId)
+    protected function getUserPick(User $user, $year = null)
     {
+        $year = $year ?: date('Y');
+
         $pick = $this
             ->get('doctrine.orm.entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
-            ->find((int) $pickId);
+            ->findOneBy(array(
+                'year' => $year,
+                'user' => $user,
+            ));
 
         if (!$pick) {
-            throw new NotFoundHttpException(sprintf('There was no pick with id = %s', $pickId));
+            $pick = new Pick($year);
+            $pick->setUser($user);
         }
 
         return $pick;

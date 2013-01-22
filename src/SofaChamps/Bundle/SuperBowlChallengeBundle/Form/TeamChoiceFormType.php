@@ -20,9 +20,9 @@ class TeamChoiceFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'choices' => array(
-                'afc' => 'AFC',
-                'nfc' => 'NFC',
-                'none' => 'NONE',
+                'afc' => $this->config->getAfcTeam()->getName(),
+                'nfc' => $this->config->getNfcTeam()->getName(),
+                'none' => 'Neither team',
             ),
         ));
     }

@@ -139,6 +139,13 @@ class Pick
      */
     protected $firstTeamToScorePoints;
 
+    public function __construct($year = null)
+    {
+        if ($year) {
+            $this->setYear($year);
+        }
+    }
+
     public function setId($id)
     {
         $this->id = $id;

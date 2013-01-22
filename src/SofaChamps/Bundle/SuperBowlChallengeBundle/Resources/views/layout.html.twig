@@ -12,5 +12,6 @@
 {% endblock %}
 
 {% block nav_primary %}
+    <li><a href="{{ path('sbc_pick', {year: date()|date('Y')}) }}">My Pick</a></li>
     <li><a href="{{ path('sbc_leaderboard') }}">Leaderboard</a></li>
 {% endblock %}

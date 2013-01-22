@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Update your picks</h2>
 
-    <form action="{{ path('sbc_pick_update', {pickId: pick.id}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('sbc_pick', {year: year}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
         <fieldset>
             <legend>Final Scores</legend>
             <table class="table table-bordered">
@@ -11,8 +11,8 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>AFC</th>
-                        <th>NFC</th>
+                        <th>{{ config.AfcTeam.name }}</th>
+                        <th>{{ config.NfcTeam.name }}</th>
                     </tr>
                 </thead>
                 <tbody>
