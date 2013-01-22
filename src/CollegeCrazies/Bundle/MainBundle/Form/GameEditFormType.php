@@ -33,7 +33,7 @@ class GameEditFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CollegeCrazies\Bundle\MainBundle\Entity\Game',
-        );
+        ));
     }
 
     public function getName()
