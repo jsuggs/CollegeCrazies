@@ -14,18 +14,6 @@ use Symfony\Component\Security\Core\SecurityContext;
 class UserController extends Controller
 {
     /**
-     * @Route("/user/profile/{username}", name="user_profile")
-     * @Template("CollegeCraziesMainBundle:User:profile.html.twig")
-     */
-    public function profileAction($username)
-    {
-        $user = $this->findUserByUsername($username);
-        return array(
-            'user' => $user
-        );
-    }
-
-    /**
      * @Route("/admin/users-incomplete-picksets", name="admin_user_incomplete_picksets")
      * @Secure(roles="ROLE_ADMIN")
      * @Template("CollegeCraziesMainBundle:Admin:users-incomplete-picksets.html.twig")
@@ -96,20 +84,6 @@ class UserController extends Controller
 
         if (!$user) {
             throw new NotFoundHttpException(sprintf('There was no user with id = %s', $id));
-        }
-
-        return $user;
-    }
-
-    private function findUserByUsername($username)
-    {
-        $user = $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCrazies\Bundle\MainBundle\Entity\User')
-            ->findOneByUsername($username);
-
-        if (!$user) {
-            throw new NotFoundHttpException(sprintf('There was no user with username = %s', $username));
         }
 
         return $user;

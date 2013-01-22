@@ -13,6 +13,7 @@
             <dd>{{ user.email }}</dd>
         {% endif %}
 
+        {# TODO: Does "Bowl Pickem" specific stuff need to go here #}
         {% if user == app.user %}
             <dt>Email visible in leagues</dt>
             <dd>{{ user.emailVisible ? 'Yes' : 'No' }}</dd>
