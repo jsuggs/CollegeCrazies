@@ -18,9 +18,9 @@ class AdminController extends Controller
      */
     public function usersAction()
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        $query = $em->createQuery('SELECT u from CollegeCrazies\Bundle\MainBundle\Entity\User u ORDER BY u.id');
-        $users = $query->getResult();
+        $users = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('CollegeCraziesMainBundle:User')
+            ->findAll();
 
         return array(
             'users' => $users
