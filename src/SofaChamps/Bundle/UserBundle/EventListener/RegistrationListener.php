@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\UserBundle\EventListener;
+namespace SofaChamps\Bundle\UserBundle\EventListener;
 
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;

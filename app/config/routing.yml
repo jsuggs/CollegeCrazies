@@ -4,7 +4,7 @@ sofa_champs_core:
     prefix:   /
 
 college_crazies_user:
-    resource: "@CollegeCraziesUserBundle/Controller/"
+    resource: "@SofaChampsUserBundle/Controller/"
     type:     annotation
     prefix:   /
 

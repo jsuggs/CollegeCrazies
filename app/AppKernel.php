@@ -24,7 +24,7 @@ class AppKernel extends Kernel
             new CollegeCrazies\Bundle\MainBundle\CollegeCraziesMainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
-            new CollegeCrazies\Bundle\UserBundle\CollegeCraziesUserBundle(),
+            new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),
             new SofaChamps\Bundle\SecurityBundle\SofaChampsSecurityBundle(),
             new SofaChamps\Bundle\SuperBowlChallengeBundle\SofaChampsSuperBowlChallengeBundle(),
             new SofaChamps\Bundle\CoreBundle\SofaChampsCoreBundle(),

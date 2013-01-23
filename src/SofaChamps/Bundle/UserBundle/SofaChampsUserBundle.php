@@ -1,10 +1,10 @@
 <?php
 
-namespace CollegeCrazies\Bundle\UserBundle;
+namespace SofaChamps\Bundle\UserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class CollegeCraziesUserBundle extends Bundle
+class SofaChampsUserBundle extends Bundle
 {
     public function getParent()
     {

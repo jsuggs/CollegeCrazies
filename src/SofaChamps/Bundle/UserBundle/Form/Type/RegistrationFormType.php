@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\UserBundle\Form\Type;
+namespace SofaChamps\Bundle\UserBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
