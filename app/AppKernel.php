@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
-            new CollegeCrazies\Bundle\MainBundle\CollegeCraziesMainBundle(),
+            new SofaChamps\Bundle\BowlPickemBundle\SofaChampsBowlPickemBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
             new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),

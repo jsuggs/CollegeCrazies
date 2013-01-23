@@ -1,7 +1,0 @@
-services:
-    pickset.analyzer:
-        class: CollegeCrazies\Bundle\MainBundle\Service\PicksetAnalyzer
-        arguments: ["@doctrine.dbal.default_connection"]
-
-    pickset.sorter:
-        class: CollegeCrazies\Bundle\MainBundle\Service\PickSetSorter

@@ -28,7 +28,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         if ($this->session->has('auto_league_assoc')) {
-            $league = $this->om->getRepository('CollegeCraziesMainBundle:League')->find($this->session->get('auto_league_assoc'));
+            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($this->session->get('auto_league_assoc'));
 
             if ($league) {
                 $user = $token->getUser();

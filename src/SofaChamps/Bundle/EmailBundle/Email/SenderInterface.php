@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 
 interface SenderInterface
 {

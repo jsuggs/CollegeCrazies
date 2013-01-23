@@ -1,5 +1,5 @@
 imports:
-    - { resource: "@CollegeCraziesMainBundle/Resources/config/services.yml" }
+    - { resource: "@SofaChampsBowlPickemBundle/Resources/config/services.yml" }
     - { resource: parameters.ini }
     - { resource: security.yml }
 
@@ -59,9 +59,9 @@ jms_security_extra:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: CollegeCrazies\Bundle\MainBundle\Entity\User
+    user_class: SofaChamps\Bundle\BowlPickemBundle\Entity\User
     service:
-       user_manager: college_crazies.user.manager
+       user_manager: sofachamps.user.manager
     registration:
         form:
             type: college_crazies_user_registration

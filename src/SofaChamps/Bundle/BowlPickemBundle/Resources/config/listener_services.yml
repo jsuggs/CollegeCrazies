@@ -1,0 +1,8 @@
+services:
+    listener.picks_locked:
+        class: SofaChamps\Bundle\BowlPickemBundle\Listener\PicksLockedListener
+        arguments:
+            - @picks_locked_manager
+            - @session
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

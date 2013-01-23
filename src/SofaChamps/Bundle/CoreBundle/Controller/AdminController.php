@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function usersAction()
     {
         $users = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('CollegeCraziesMainBundle:User')
+            ->getRepository('SofaChampsBowlPickemBundle:User')
             ->findAll();
 
         return array(
@@ -29,7 +29,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/user/makeadmin/{userId}", name="core_admin_user_admin")
-     * @ParamConverter("user", class="CollegeCraziesMainBundle:User", options={"id" = "userId"})
+     * @ParamConverter("user", class="SofaChampsMainBundle:User", options={"id" = "userId"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function makeAdminAction(User $user)

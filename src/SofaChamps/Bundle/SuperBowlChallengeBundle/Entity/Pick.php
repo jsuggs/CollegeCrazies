@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Entity;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,7 +31,7 @@ class Pick
     protected $year;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\CollegeCrazies\Bundle\MainBundle\Entity\User", inversedBy="sbcPicks")
+     * @ORM\ManyToOne(targetEntity="\SofaChamps\Bundle\BowlPickemBundle\Entity\User", inversedBy="sbcPicks")
      */
     protected $user;
 

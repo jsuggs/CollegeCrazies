@@ -1,0 +1,18 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h4>Game List</h4>
+    <p><a href="{{ path('game_new') }}" class="btn btn-success">Add new Game</a></p>
+
+    <ul class="unstyled">
+    {% for game in games %}
+        <li class="game">
+            <h5><a href="{{ path('game_edit', {'gameId': game.id}) }}">{{ game.name}}</a></h5>
+            <p>
+                {{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i><br />
+                {{ game.gameDate|date('m/d/Y') }} <small><time>{{ game.gameDate|date('g:i a') }}</time></small>
+            </p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

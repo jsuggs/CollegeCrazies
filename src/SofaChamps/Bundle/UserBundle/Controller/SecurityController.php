@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\UserBundle\Controller;
 
-use CollegeCrazies\Bundle\MainBundle\Entity\User;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;

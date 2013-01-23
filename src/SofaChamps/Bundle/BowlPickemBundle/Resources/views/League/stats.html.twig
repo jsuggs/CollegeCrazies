@@ -1,0 +1,48 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>My Stats</h2>
+
+    {% if picks_locked %}
+        <div class="container-fluid">
+            <div class="row">
+                <h3>Projected Finish Distributions</h3>
+                <p class="text-info">Based on our predicted games, this is your percentage chance of finishing in each place.</p>
+
+                {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_finish_distribution.html.twig' %}
+            </div>
+            <div class="row well">
+                <h3>Projected Stats</h3>
+                <p>Based on 10,000 scenarios, here are some projections for this pickset.</p>
+                <p class="text-info"><a href="{{ path('prediction_info') }}">Click here for more information about how we generated our predictions.</a></p>
+
+                {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_stats.html.twig' with {stats: projectedFinishStats} %}
+            </div>
+            <div class="row">
+                <h3>Your most important games</h3>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Game</th>
+                            <th>Date</th>
+                            <th>Confidence</th>
+                            <th>Your Pick</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for game in games %}
+                        <tr>
+                            <td>{{ game.name }}</td>
+                            <td>{{ game.gamedate|date }}</td>
+                            <td>{{ game.confidence }}</td>
+                            <td{% if game.winner is not null %} class="{% if game.winner == game.team_id %}correct{% else %}incorrect{% endif %}"{% endif %}>{{ game.team_id }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <p>The stats will be available after the picks lock.  Get excited...this will be awesome</p>
+    {% endif %}
+{% endblock %}

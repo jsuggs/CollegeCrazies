@@ -13,8 +13,8 @@ sofa_champs_super_bowl_challenge:
     type:     annotation
     prefix:   /superbowl-challenge
 
-CollegeCraziesMainBundle:
-    resource: "@CollegeCraziesMainBundle/Controller/"
+sofa_champs_bowlpickem:
+    resource: "@SofaChampsBowlPickemBundle/Controller/"
     type:     annotation
     prefix:   /bowl-pickem
 

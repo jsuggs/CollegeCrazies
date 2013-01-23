@@ -1,0 +1,42 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Users with missing picks</h2>
+
+    {% if users|length %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>PickSet</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ profile_link(user)|raw }}</td>
+                    <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                    {% set pickSet = league.getPickSetForUser(user) %}
+                    <td>{{ user.firstName ?: '--' }}</td>
+                    <td>{{ user.lastName ?: '--' }}</td>
+                    <td>
+                        {% if pickSet is not null %}
+                            <a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a>
+                        {% else %}
+                            No PickSet
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Email address list</h3>
+        <pre>{{ emailList|join(', ') }}</pre>
+    {% else %}
+        <h3 class="text-success">Great job! No users with incomplete picks.</h3>
+    {% endif %}
+{% endblock %}

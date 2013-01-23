@@ -1,0 +1,21 @@
+services:
+    transformer.team:
+        class: SofaChamps\Bundle\BowlPickemBundle\Form\DataTransformer\TeamTransformer
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    transformer.game:
+        class: SofaChamps\Bundle\BowlPickemBundle\Form\DataTransformer\GameTransformer
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    form.type.hidden_team:
+        class: SofaChamps\Bundle\BowlPickemBundle\Form\Type\HiddenTeamType
+        arguments: ["@transformer.team"]
+        tags:
+            - { name: form.type, alias: hidden_team }
+
+    form.type.hidden_game:
+        class: SofaChamps\Bundle\BowlPickemBundle\Form\Type\HiddenGameType
+        arguments: ["@transformer.game"]
+        tags:
+            - { name: form.type, alias: hidden_game }
+

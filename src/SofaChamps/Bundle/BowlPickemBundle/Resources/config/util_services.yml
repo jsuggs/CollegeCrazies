@@ -1,0 +1,3 @@
+services:
+    text.manipulator:
+        class: SofaChamps\Bundle\BowlPickemBundle\Util\TextManipulator

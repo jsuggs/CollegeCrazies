@@ -1,8 +1,0 @@
-services:
-    event.subscriber.game:
-        class: CollegeCrazies\Bundle\MainBundle\Event\GameSubscriber
-        arguments:
-            - @pickset.analyzer
-            - @doctrine.orm.entity_manager
-        tags:
-            - { name: kernel.event_subscriber }
