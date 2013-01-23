@@ -1,9 +1,9 @@
 {% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Update your picks</h2>
+    <h2>Superbowl Challenge</h2>
 
-    <form action="{{ path('sbc_pick', {year: year}) }}" class="form-horizontal" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('sbc_pick', {year: year}) }}" method="post" {{ form_enctype(form) }}>
         <fieldset>
             <legend>Final Scores</legend>
             <table class="table table-bordered">
