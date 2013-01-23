@@ -22,12 +22,19 @@ class PicksLockedManager
     public function arePickLocked()
     {
         if (!$this->session->has(self::PICKS_LOCK_SESSION_KEY)) {
-            $firstLockedString = $this->om->createQuery('SELECT min(g.gameDate) FROM SofaChampsBowlPickemBundle:Game g')->getSingleScalarResult();
-            $firstLocked = new \DateTime($firstLockedString);
-            $firstLocked->modify('-5 minutes');
-            $this->session->set(self::PICKS_LOCK_SESSION_KEY, $firstLocked < new \DateTime());
+            $lockTime = $this->getLockTime();
+            $this->session->set(self::PICKS_LOCK_SESSION_KEY, $lockTime < new \DateTime());
         }
 
         return $this->session->get(self::PICKS_LOCK_SESSION_KEY);
+    }
+
+    public function getLockTime($year = null)
+    {
+        $firstLockedString = $this->om->createQuery('SELECT min(g.gameDate) FROM SofaChampsBowlPickemBundle:Game g')->getSingleScalarResult();
+        $firstLocked = new \DateTime($firstLockedString);
+        $firstLocked->modify('-5 minutes');
+
+        return $firstLocked;
     }
 }

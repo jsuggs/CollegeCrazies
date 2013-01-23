@@ -22,7 +22,6 @@ class Module
 
     /**
      * @ORM\Column(type="string")
-     * @var string
      */
     protected $name;
 
@@ -30,6 +29,11 @@ class Module
      * @ORM\OneToMany(targetEntity="ModuleConfig", mappedBy="module")
      */
     protected $configs;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $activeConfigId;
 
     public function setId($id)
     {

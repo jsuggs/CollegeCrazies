@@ -19,7 +19,7 @@ class ModuleConfig
      * @ORM\Id
      * @ORM\Column(type="integer")
      */
-    protected $year;
+    protected $id;
 
     /**
      * @ORM\Id
@@ -41,19 +41,19 @@ class ModuleConfig
      */
     protected $endTime;
 
-    public function __construct($year)
+    public function __construct($id)
     {
-        $this->setYear($year);
+        $this->id = $id;
     }
 
-    public function setYear($year)
+    public function setId($id)
     {
-        $this->year = $year;
+        $this->id = $id;
     }
 
-    public function getYear()
+    public function getId()
     {
-        return $this->year;
+        return $this->id;
     }
 
     public function setStartTime(\DateTime $startTime)
