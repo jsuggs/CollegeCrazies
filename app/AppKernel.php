@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new CollegeCrazies\Bundle\MainBundle\CollegeCraziesMainBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new CollegeCrazies\Bundle\EmailBundle\CollegeCraziesEmailBundle(),
+            new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
             new CollegeCrazies\Bundle\UserBundle\CollegeCraziesUserBundle(),
             new CollegeCrazies\Bundle\SecurityBundle\CollegeCraziesSecurityBundle(),
             new SofaChamps\Bundle\SuperBowlChallengeBundle\SofaChampsSuperBowlChallengeBundle(),

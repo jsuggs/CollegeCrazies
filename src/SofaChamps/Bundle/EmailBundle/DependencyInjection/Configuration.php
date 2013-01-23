@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\EmailBundle\DependencyInjection;
+namespace SofaChamps\Bundle\EmailBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

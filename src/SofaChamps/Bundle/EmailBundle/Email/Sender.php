@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\EmailBundle\Email;
+namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -43,8 +43,8 @@ class Sender implements SenderInterface
         // Make the email being sent to available to the templates
         $data['emailTo'] = $email;
 
-        $html = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.html.twig', $templateName), $data);
-        $text = $this->templating->render(sprintf('CollegeCraziesEmailBundle:%s.text.twig', $templateName), $data);
+        $html = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.html.twig', $templateName), $data);
+        $text = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $templateName), $data);
 
         $from = array_key_exists('from', $data)
             ? $data['from']

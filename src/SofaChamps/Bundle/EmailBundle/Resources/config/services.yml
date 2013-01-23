@@ -1,6 +1,6 @@
 services:
     email.sender:
-        class: CollegeCrazies\Bundle\EmailBundle\Email\Sender
+        class: SofaChamps\Bundle\EmailBundle\Email\Sender
         arguments:
             - @mailer
             - @templating

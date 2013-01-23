@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\EmailBundle\Email;
+namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use CollegeCrazies\Bundle\MainBundle\Entity\User;
 
