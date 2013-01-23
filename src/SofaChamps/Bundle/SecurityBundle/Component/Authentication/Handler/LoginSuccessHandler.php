@@ -1,6 +1,6 @@
 <?php
 
-namespace CollegeCrazies\Bundle\SecurityBundle\Component\Authentication\Handler;
+namespace SofaChamps\Bundle\SecurityBundle\Component\Authentication\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;

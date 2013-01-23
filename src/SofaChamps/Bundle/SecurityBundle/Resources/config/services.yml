@@ -1,6 +1,6 @@
 services:
     college_crazies.component.authentication.handler.login_success_handler:
-        class:  CollegeCrazies\Bundle\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler
+        class:  SofaChamps\Bundle\SecurityBundle\Component\Authentication\Handler\LoginSuccessHandler
         arguments:
             - @router
             - @security.context
