@@ -1,0 +1,11 @@
+services:
+    config.curdate:
+        class: DateTime
+        factory_class: \DateTime
+
+    config.curyear:
+        class: string
+        factory_service: config.curdate
+        factory_method: format
+        arguments:
+            - Y

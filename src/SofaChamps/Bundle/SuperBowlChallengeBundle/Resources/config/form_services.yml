@@ -19,4 +19,4 @@ services:
         factory_service: sofachamps.superbowlchallenge.config.repo
         factory_method: findOneByYear
         arguments:
-            - 2013
+            - @config.curyear
