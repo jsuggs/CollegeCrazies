@@ -16,7 +16,7 @@ class LeagueRepository extends EntityRepository
 
     public function getUsersAndPoints(League $league)
     {
-        return $this->getEntityManager()->createQuery('SELECT u, p, l, pk, pg from SofaChampsBowlPickemBundle:User u
+        return $this->getEntityManager()->createQuery('SELECT u, p, l, pk, pg from SofaChampsCoreBundle:User u
             JOIN u.pickSets p
             JOIN u.leagues l
             JOIN p.picks pk

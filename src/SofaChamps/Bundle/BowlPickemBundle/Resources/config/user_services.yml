@@ -1,9 +1,4 @@
 services:
-    sofachamps.user.manager:
-        class: SofaChamps\Bundle\BowlPickemBundle\Entity\MyUserManager
-        public: false
-        parent: fos_user.user_manager.default
-
     user.sorter:
         class: SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter
         arguments:

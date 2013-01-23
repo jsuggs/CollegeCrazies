@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 

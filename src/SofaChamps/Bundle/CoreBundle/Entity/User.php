@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
+namespace SofaChamps\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
@@ -25,17 +25,17 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", mappedBy="users", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="SofaChamps\Bundle\BowlPickemBundle\Entity\League", mappedBy="users", fetch="EXTRA_LAZY")
      */
     protected $leagues;
 
     /**
-     * @ORM\OneToMany(targetEntity="PickSet", mappedBy="user", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet", mappedBy="user", fetch="EXTRA_LAZY")
      */
     protected $pickSets;
 
     /**
-     * @ORM\ManyToMany(targetEntity="League", mappedBy="commissioners", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="SofaChamps\Bundle\BowlPickemBundle\Entity\League", mappedBy="commissioners", fetch="EXTRA_LAZY")
      */
     protected $commissionerLeagues;
 

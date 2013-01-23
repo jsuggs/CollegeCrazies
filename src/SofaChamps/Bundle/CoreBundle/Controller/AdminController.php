@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function usersAction()
     {
         $users = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:User')
+            ->getRepository('SofaChampsCoreBundle:User')
             ->findAll();
 
         return array(

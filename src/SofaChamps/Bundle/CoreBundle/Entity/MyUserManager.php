@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
+namespace SofaChamps\Bundle\CoreBundle\Entity;
 
 use FOS\UserBundle\Doctrine\UserManager;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;

@@ -16,7 +16,7 @@ class UserPredictionSetScore
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User")
      */
     protected $user;
 

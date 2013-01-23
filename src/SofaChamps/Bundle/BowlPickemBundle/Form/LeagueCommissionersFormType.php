@@ -16,7 +16,7 @@ class LeagueCommissionersFormType extends AbstractType
             ->add('commissioners', 'entity', array(
                 'multiple' => true,
                 'expanded' => true,
-                'class' => 'SofaChampsBowlPickemBundle:User',
+                'class' => 'SofaChampsCoreBundle:User',
                 'query_builder' => function(EntityRepository $er) use ($league) {
                     return $er->createQueryBuilder('u')
                         ->leftJoin('u.leagues', 'l')

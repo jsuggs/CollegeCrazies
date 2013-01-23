@@ -1,8 +1,9 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
+namespace SofaChamps\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 
 class UserRepository extends EntityRepository
 {

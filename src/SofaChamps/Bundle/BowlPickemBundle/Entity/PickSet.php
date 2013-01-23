@@ -4,7 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,7 +40,7 @@ class PickSet
     protected $leagues;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="pickSets")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="pickSets")
      */
     protected $user;
 

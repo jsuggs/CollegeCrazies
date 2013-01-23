@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 /**
  * An invite

@@ -125,7 +125,7 @@ class LeagueController extends BaseController
         $em = $this->get('doctrine.orm.entity_manager');
         $games = $em->createQuery('SELECT g FROM SofaChampsBowlPickemBundle:Game g ORDER BY g.gameDate')->getResult();
 
-        $query = $em->createQuery('SELECT u, p from SofaChampsBowlPickemBundle:User u
+        $query = $em->createQuery('SELECT u, p from SofaChampsCoreBundle:User u
             JOIN u.pickSets p
             JOIN u.leagues l
             JOIN p.picks pk
@@ -315,7 +315,7 @@ class LeagueController extends BaseController
         }
 
         $members = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:User')
+            ->getRepository('SofaChampsCoreBundle:User')
             ->findUsersInLeague($league);
 
         return array(
@@ -378,7 +378,7 @@ class LeagueController extends BaseController
             $this->get('session')->getFlashBag()->set('info', 'User Removed');
         }
 
-        $members = $em->getRepository('SofaChampsBowlPickemBundle:User')->findUsersInLeague($league);
+        $members = $em->getRepository('SofaChampsCoreBundle:User')->findUsersInLeague($league);
 
         return array(
             'league' => $league,
@@ -685,7 +685,7 @@ class LeagueController extends BaseController
         }
 
         $users = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:User')
+            ->getRepository('SofaChampsCoreBundle:User')
             ->findPotentialWinersInLeague($league);
 
         $emailList = array_map(function($user) { return $user['email']; }, $users);
@@ -792,7 +792,7 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
-        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsBowlPickemBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsCoreBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
         $emailList = array_map(function($user) { return $user->getEmail(); }, $users);
 
         return array(

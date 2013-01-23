@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Entity;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\NFLBundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;

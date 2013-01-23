@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;

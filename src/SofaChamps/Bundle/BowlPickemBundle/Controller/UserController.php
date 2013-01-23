@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function incompletePicksetsAction()
     {
-        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsBowlPickemBundle:User')->getUsersWithIncompletePicksets();
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsCoreBundle:User')->getUsersWithIncompletePicksets();
         $emailList = array_map(function($user) { return $user['email']; }, $users);
 
         return array(
@@ -36,7 +36,7 @@ class UserController extends Controller
      */
     public function noleagueAction()
     {
-        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsBowlPickemBundle:User')->getUsersWithNoLeague();
+        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsCoreBundle:User')->getUsersWithNoLeague();
         $emailList = array_map(function($user) { return $user['email']; }, $users);
 
         return array(
@@ -79,7 +79,7 @@ class UserController extends Controller
     {
         $user = $this
             ->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChamps\Bundle\BowlPickemBundle\Entity\User')
+            ->getRepository('SofaChampsCoreBundle:User')
             ->find($id);
 
         if (!$user) {

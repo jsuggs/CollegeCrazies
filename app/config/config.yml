@@ -1,5 +1,5 @@
 imports:
-    - { resource: "@SofaChampsBowlPickemBundle/Resources/config/services.yml" }
+    - { resource: "@SofaChampsCoreBundle/Resources/config/services.yml" }
     - { resource: parameters.ini }
     - { resource: security.yml }
 
@@ -59,7 +59,7 @@ jms_security_extra:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: SofaChamps\Bundle\BowlPickemBundle\Entity\User
+    user_class: SofaChamps\Bundle\CoreBundle\Entity\User
     service:
        user_manager: sofachamps.user.manager
     registration:

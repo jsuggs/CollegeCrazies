@@ -1,4 +1,9 @@
 services:
+    sofachamps.user.manager:
+        class: SofaChamps\Bundle\CoreBundle\Entity\MyUserManager
+        public: false
+        parent: fos_user.user_manager.default
+
     config.curdate:
         class: DateTime
         factory_class: \DateTime

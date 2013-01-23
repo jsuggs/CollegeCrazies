@@ -2,7 +2,7 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     /**
      * @Route("/user/profile/{username}", name="user_profile")
-     * @ParamConverter("user", class="SofaChampsBowlPickemBundle:User", options={"username" = "username"})
+     * @ParamConverter("user", class="SofaChampsCoreBundle:User", options={"username" = "username"})
      * @Template
      */
     public function profileAction(User $user)
