@@ -49,14 +49,6 @@ class BaseController extends Controller
         return $pick;
     }
 
-    protected function getPicksOrderedByScore()
-    {
-        return $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
-            ->findAll();
-    }
-
     protected function getConfig($year = null)
     {
         $year = $year ?: date('Y');

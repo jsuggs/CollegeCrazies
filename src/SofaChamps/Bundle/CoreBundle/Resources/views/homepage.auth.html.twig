@@ -22,7 +22,7 @@
                                         <p><a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-primary">Make your picks before kickoff!</a></p>
                                     {% endif %}
                                 {% else %}
-                                    <p class="lead">Picks are locked, but you can <a href="{{ path('sbc_leaderboard') }}">view the leaderboard</a></p>
+                                    <p class="lead">Picks are locked, but you can <a href="{{ path('sbc_leaderboard', {year: year}) }}">view the leaderboard</a></p>
                                 {% endif %}
                             </li>
                         {% endif %}

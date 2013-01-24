@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Super Bowl Challenge Pick
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PickRepository")
  * @ORM\Table(
  *      name="sbc_picks",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="user_unique",columns={"user_id", "year"})}

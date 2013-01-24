@@ -13,23 +13,27 @@ class MainController extends BaseController
      */
     public function homeAction()
     {
-        $config = $this->getConfig();
-
         return array(
-            'config' => $config,
+            'config' => $this->getConfig(),
+            'user' => $this->getUser(),
+            'year' => $this->get('config.curyear'),
         );
     }
 
     /**
-     * @Route("/leaderboard", name="sbc_leaderboard")
+     * @Route("/leaderboard/{year}", name="sbc_leaderboard")
      * @Template
      */
-    public function leaderboardAction()
+    public function leaderboardAction($year)
     {
-        $picks = $this->getPicksOrderedByScore();
+        $picks = $this->get('doctrine.orm.entity_manager')
+            ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
+            ->findPicksForYearOrderedByScore($year);
 
         return array(
             'picks' => $picks,
+            'user' => $this->getUser(),
+            'year' => $this->get('config.curyear'),
         );
     }
 }

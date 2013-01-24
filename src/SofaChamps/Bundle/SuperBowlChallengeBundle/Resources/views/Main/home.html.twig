@@ -6,7 +6,7 @@
         <h2>One day, one game...but with a twist</h2>
 
         {% if sbc_picks_open %}
-            <p><a href="{{ path('sbc_pick', {year: date()|date('Y')}) }}" class="btn btn-success">Make your picks</a></p>
+            <p><a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-success">{{ user is not null and user.getSuperBowlChallengePickForYear(year) ? 'Edit your picks' : 'Make your picks' }}</a></p>
         {% endif %}
     </div>
 {% endblock %}
