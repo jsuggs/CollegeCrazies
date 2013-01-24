@@ -39,6 +39,7 @@ class AdminController extends BaseController
             'config' => $config,
             'year' => $year,
             'form' => $form->createView(),
+            'user' => $this->getUser(),
         );
     }
 
@@ -70,6 +71,7 @@ class AdminController extends BaseController
             'result' => $result,
             'year' => $year,
             'form' => $form->createView(),
+            'user' => $this->getUser(),
         );
     }
 }
