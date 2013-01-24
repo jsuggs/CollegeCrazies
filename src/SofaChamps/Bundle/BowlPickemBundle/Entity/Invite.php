@@ -26,7 +26,7 @@ class Invite
     /**
      * Who sent the invite
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User")
      */
     protected $user;
 
