@@ -1,12 +1,4 @@
 services:
-    twig.extension.sofachamps.user:
-        class: SofaChamps\Bundle\BowlPickemBundle\Twig\Extension\UserExtension
-        public: false
-        arguments:
-            - @service_container
-        tags:
-            - { name: twig.extension }
-
     twig.extension.sofachamps.app:
         class: SofaChamps\Bundle\BowlPickemBundle\Twig\Extension\AppExtension
         public: false

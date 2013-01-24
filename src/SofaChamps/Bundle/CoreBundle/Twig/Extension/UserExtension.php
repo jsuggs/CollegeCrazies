@@ -1,8 +1,8 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Twig\Extension;
+namespace SofaChamps\Bundle\CoreBundle\Twig\Extension;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class UserExtension extends \Twig_Extension
@@ -23,7 +23,7 @@ class UserExtension extends \Twig_Extension
 
     public function profileLink(User $user)
     {
-        return $this->container->get('templating')->render('SofaChampsBowlPickemBundle:User:_profile_link.html.twig', array(
+        return $this->container->get('templating')->render('SofaChampsCoreBundle:User:_profile_link.html.twig', array(
             'user' => $user,
         ));
     }

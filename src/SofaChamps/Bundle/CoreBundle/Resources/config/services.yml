@@ -14,3 +14,11 @@ services:
         factory_method: format
         arguments:
             - Y
+
+    twig.extension.sofachamps.user:
+        class: SofaChamps\Bundle\CoreBundle\Twig\Extension\UserExtension
+        public: false
+        arguments:
+            - @service_container
+        tags:
+            - { name: twig.extension }
