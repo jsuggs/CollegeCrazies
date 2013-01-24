@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class HomePageController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="bp_home")
      */
     public function homepageAction()
     {

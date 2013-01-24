@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class MainController extends BaseController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="sbc_home")
      * @Template
      */
     public function homeAction()

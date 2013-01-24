@@ -19,7 +19,8 @@ class HomepageController extends Controller
             : 'SofaChampsCoreBundle::homepage.unauth.html.twig';
 
         return $this->render($template , array(
-            'user' => $user
+            'user' => $user,
+            'year' => $this->get('config.curyear'),
         ));
     }
 }
