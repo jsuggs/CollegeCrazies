@@ -4,13 +4,36 @@
     <div class="hero-unit">
         <h1>SofaChamps.com</h1>
         <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
+        <hr />
         <div class="container-fluid">
             <div class="row">
-                <div class="span6">
-                    <h2>Left Side!</h2>
+                <div class="span8">
+                    <h2><b>Active Games</b></h2>
+                    <ul class="unstyled">
+                        {% if sbc_game_available %}
+                            <li style="padding-left: 15px">
+                                <h3><a href="{{ path('sbc_home') }}" class="text-success">SuperBowl Challenge</a></h3>
+                                {% if sbc_picks_open %}
+                                    {% if user.getSuperBowlChallengePickForYear(year) %}
+                                        <p class="lead text-info">Kickoff is around the corner...</p>
+                                        <p><a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-primary">Edit your picks</a></p>
+                                    {% else %}
+                                        <p class="lead text-info">Hurry there is still time...</p>
+                                        <p><a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-primary">Make your picks before kickoff!</a></p>
+                                    {% endif %}
+                                {% else %}
+                                    <p class="lead">Picks are locked, but you can <a href="{{ path('sbc_leaderboard') }}">view the leaderboard</a></p>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
-                <div class="span6">
-                    <h2>Right Side!</h2>
+                <div class="span4">
+                    <h4>Upcoming Games</h4>
+                    <p><a href="{{ path('bp_home') }}" class="muted">College Bowl Mania</a></p>
+                    {% if not sbc_game_available %}
+                        <p><a href="{{ path('sbc_home') }}" class="muted">SuperBowl Challenge</a></p>
+                    {% endif %}
                 </div>
             </div>
         </div>

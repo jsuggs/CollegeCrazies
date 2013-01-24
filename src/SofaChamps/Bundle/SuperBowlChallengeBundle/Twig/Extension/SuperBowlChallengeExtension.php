@@ -17,6 +17,7 @@ class SuperBowlChallengeExtension extends \Twig_Extension
     {
         return array(
             'sbc_picks_open' => $this->picksOpen(),
+            'sbc_game_available' => $this->gameAvailable(),
         );
     }
 
@@ -31,6 +32,19 @@ class SuperBowlChallengeExtension extends \Twig_Extension
         $now = new \DateTime();
 
         return $now > $config->getStartTime() && $now < $config->getCloseTime();
+    }
+
+    public function gameAvailable()
+    {
+        $config = $this->getConfig();
+
+        if (!$config) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now < $config->getCloseTime()->modify('+30 days');
     }
 
     public function getName()

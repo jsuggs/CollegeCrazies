@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -63,6 +64,11 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="\SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick", mappedBy="user", fetch="EXTRA_LAZY")
      */
     protected $sbcPicks;
+
+    public function __construct()
+    {
+        $this->sbcPicks = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -151,6 +157,13 @@ class User extends BaseUser
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    public function getSuperBowlChallengePickForYear($year)
+    {
+        return $this->sbcPicks->filter(function($pick) use ($year) {
+            return $pick->getYear() == $year;
+        })->first();
     }
 
     public function __toString()

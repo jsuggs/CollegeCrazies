@@ -33,7 +33,7 @@ EOF;
         $this->addSql('CREATE SEQUENCE seq_sbc_pick INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(self::SQL_SBC_PICKS_CREATE);
         $this->addSql('CREATE INDEX IDX_SBC_PICKS_USER_ID ON sbc_picks (user_id)');
-        $this->addSql('CREATE UNIQUE INDEX user_unique ON sbc_picks (user_id, year)');
+        $this->addSql('CREATE UNIQUE INDEX IDX_SBC_PICKS_UNIQUE_USER_YEAR ON sbc_picks (user_id, year)');
         $this->addSql('ALTER TABLE sbc_picks ADD CONSTRAINT FK_SBC_PICKS_REF_USERS_USER_ID FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
