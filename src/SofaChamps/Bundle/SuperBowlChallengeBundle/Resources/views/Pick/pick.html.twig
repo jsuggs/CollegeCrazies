@@ -1,9 +1,14 @@
 {% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
 
+{% form_theme form.bonusQuestion1 _self %}
+{% form_theme form.bonusQuestion2 _self %}
+{% form_theme form.bonusQuestion3 _self %}
+{% form_theme form.bonusQuestion4 _self %}
+
 {% block content %}
     <h2>Superbowl Challenge</h2>
 
-    <form action="{{ path('sbc_pick', {year: year}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('sbc_pick', {year: year}) }}" method="post" class="form" {{ form_enctype(form) }}>
         <fieldset>
             <legend>Final Scores</legend>
             <table class="table table-bordered">
@@ -55,9 +60,43 @@
             </table>
         </fieldset>
 
+        <fieldset>
+            <legend>Bonus Questions</legend>
+            <ol>
+                <li>
+                    {{ config.questionIndex(1).text }}
+                    {{ form_widget(form.bonusQuestion1) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(2).text }}
+                    {{ form_widget(form.bonusQuestion2) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(3).text }}
+                    {{ form_widget(form.bonusQuestion3) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(4).text }}
+                    {{ form_widget(form.bonusQuestion4) }}
+                </li>
+            </ol>
+        </fieldset>
+
         <div class="form-actions">
             <input type="submit" class="btn btn-primary" value="Update Picks" />
             {{ form_rest(form) }}
         </div>
     </form>
 {% endblock %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }}>
+    {% for child in form %}
+        <label class="radio">
+            {{ form_widget(child) }} {{ child.vars.label|trans({}, translation_domain) }}
+        </label>
+    {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock choice_widget_expanded %}

@@ -20,10 +20,15 @@ CREATE TABLE sbc_picks (
   , firstTeamToScoreSecondQuarter VARCHAR(4) NOT NULL
   , firstTeamToScoreThirdQuarter VARCHAR(4) NOT NULL
   , firstTeamToScoreFourthQuarter VARCHAR(4) NOT NULL
+  , bonusQuestion1 INT NOT NULL
+  , bonusQuestion2 INT NOT NULL
+  , bonusQuestion3 INT NOT NULL
+  , bonusQuestion4 INT NOT NULL
   , totalPoints INT DEFAULT NULL
   , finalScorePoints INT DEFAULT NULL
   , firstTeamToScorePoints INT DEFAULT NULL
   , halftimeScorePoints INT DEFAULT NULL
+  , bonusQuestionPoints INT DEFAULT NULL
   , PRIMARY KEY(id)
 );
 EOF;

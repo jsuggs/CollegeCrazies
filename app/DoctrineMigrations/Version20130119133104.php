@@ -18,6 +18,10 @@ CREATE TABLE sbc_results (
   , firstTeamToScoreSecondQuarter VARCHAR(4) NOT NULL
   , firstTeamToScoreThirdQuarter VARCHAR(4) NOT NULL
   , firstTeamToScoreFourthQuarter VARCHAR(4) NOT NULL
+  , bonusQuestion1 INT NOT NULL
+  , bonusQuestion2 INT NOT NULL
+  , bonusQuestion3 INT NOT NULL
+  , bonusQuestion4 INT NOT NULL
   , PRIMARY KEY(year)
 );
 EOF;

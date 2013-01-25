@@ -36,7 +36,7 @@
 {% block collection_widget %}
 {% spaceless %}
     <div class="collection-container">
-        <ol class="collection"{% if allow_add %} data-prototype="{{ '<li class="collection-element">%s</li>'|format(form_widget(prototype))|e }}"{% endif %}>
+        <ol class="unstyled collection"{% if allow_add %} data-prototype="{{ '<li class="collection-element">%s</li>'|format(form_widget(prototype))|e }}"{% endif %}>
             {% for key, child in form %}
                 <li class="collection-element">
                     {{ form_errors(child) }}
@@ -55,3 +55,18 @@
     </div>
 {% endspaceless %}
 {% endblock collection_widget %}
+
+{# This is a hack. For some reason nested collections are not passing down the expanded variable #}
+{% block choice_widget %}
+{% spaceless %}
+    {% if expanded is not defined %}
+        {% set expanded = true %}
+    {% endif %}
+
+    {% if expanded %}
+        {{ block('choice_widget_expanded') }}
+    {% else %}
+        {{ block('choice_widget_collapsed') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock choice_widget %}

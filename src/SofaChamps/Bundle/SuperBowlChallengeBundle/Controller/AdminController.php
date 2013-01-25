@@ -3,6 +3,8 @@
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Question;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -29,7 +31,7 @@ class AdminController extends BaseController
 
                 $em = $this->get('doctrine.orm.entity_manager');
                 $em->persist($config);
-                $em->flush($config);
+                $em->flush();
 
                 $this->get('session')->getFlashBag()->set('success', 'Config updated');
             }
@@ -53,6 +55,7 @@ class AdminController extends BaseController
         $result = $this->getResult($year);
         $form = $this->getResultForm($result);
         $request = $this->getRequest();
+        $config = $this->getConfig($year);
 
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
@@ -68,8 +71,39 @@ class AdminController extends BaseController
         }
 
         return array(
+            'config' => $config,
             'result' => $result,
             'year' => $year,
+            'form' => $form->createView(),
+            'user' => $this->getUser(),
+        );
+    }
+
+    /**
+     * @Route("/question/{questionId}", name="sbc_admin_question")
+     * @ParamConverter("question", class="SofaChampsSuperBowlChallengeBundle:Question", options={"id" = "questionId"})
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template
+     */
+    public function questionAction(Question $question)
+    {
+        $form = $this->getQuestionForm($question);
+        $request = $this->getRequest();
+
+        if ($request->getMethod() === 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $question = $form->getData();
+
+                $this->get('doctrine.orm.entity_manager')->flush();
+
+                $this->get('session')->getFlashBag()->set('success', 'Question updated');
+            }
+        }
+
+        return array(
+            'question' => $question,
+            'year' => $this->get('config.curyear'),
             'form' => $form->createView(),
             'user' => $this->getUser(),
         );

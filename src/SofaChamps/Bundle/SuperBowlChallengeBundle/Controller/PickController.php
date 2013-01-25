@@ -28,11 +28,16 @@ class PickController extends BaseController
         if ($request->getMethod() === 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
+                $pick->setYear($year);
                 $em = $this->get('doctrine.orm.entity_manager');
                 $em->persist($pick);
-                $em->flush($pick);
+                $em->flush();
 
                 $this->get('session')->getFlashBag()->set('success', 'Pick Saved');
+
+                return $this->redirect($this->generateUrl('sbc_pick', array(
+                    'year' => $year,
+                )));
             }
         }
 
@@ -43,6 +48,7 @@ class PickController extends BaseController
             'year' => $year,
             'config' => $config,
             'form' => $form->createView(),
+            'user' => $user,
         );
     }
 }

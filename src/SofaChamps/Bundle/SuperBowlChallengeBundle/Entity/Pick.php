@@ -31,7 +31,9 @@ class Pick
     protected $year;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="sbcPicks")
+     * The user
+     *
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="sbcPicks")
      */
     protected $user;
 
@@ -104,6 +106,34 @@ class Pick
     protected $firstTeamToScoreFourthQuarter;
 
     /**
+     * The users guess for the first bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion1;
+
+    /**
+     * The users guess for the second bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion2;
+
+    /**
+     * The users guess for the third bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion3;
+
+    /**
+     * The users guess for the fourth bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion4;
+
+    /**
      * The total points for this pick
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -139,6 +169,15 @@ class Pick
      */
     protected $firstTeamToScorePoints;
 
+    /**
+     * The points the user gets for guessing the bonus questions
+     *
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $bonusQuestionPoints;
+
     public function __construct($year = null)
     {
         if ($year) {
@@ -168,7 +207,7 @@ class Pick
 
     public function setYear($year)
     {
-        $this->year = $year;
+        $this->year = (int)$year;
     }
 
     public function getYear()
@@ -256,6 +295,46 @@ class Pick
         return $this->firstTeamToScoreFourthQuarter;
     }
 
+    public function setBonusQuestion1($bonusQuestion1)
+    {
+        $this->bonusQuestion1 = $bonusQuestion1;
+    }
+
+    public function getBonusQuestion1()
+    {
+        return $this->bonusQuestion1;
+    }
+
+    public function setBonusQuestion2($bonusQuestion2)
+    {
+        $this->bonusQuestion2 = $bonusQuestion2;
+    }
+
+    public function getBonusQuestion2()
+    {
+        return $this->bonusQuestion2;
+    }
+
+    public function setBonusQuestion3($bonusQuestion3)
+    {
+        $this->bonusQuestion3 = $bonusQuestion3;
+    }
+
+    public function getBonusQuestion3()
+    {
+        return $this->bonusQuestion3;
+    }
+
+    public function setBonusQuestion4($bonusQuestion4)
+    {
+        $this->bonusQuestion4 = $bonusQuestion4;
+    }
+
+    public function getBonusQuestion4()
+    {
+        return $this->bonusQuestion4;
+    }
+
     public function setTotalPoints($totalPoints)
     {
         $this->totalPoints = $totalPoints;
@@ -294,5 +373,15 @@ class Pick
     public function getFirstTeamToScorePoints()
     {
         return $this->firstTeamToScorePoints;
+    }
+
+    public function setBonusQuestionPoints($bonusQuestionPoints)
+    {
+        $this->bonusQuestionPoints = $bonusQuestionPoints;
+    }
+
+    public function getBonusQuestionPoints()
+    {
+        return $this->bonusQuestionPoints;
     }
 }

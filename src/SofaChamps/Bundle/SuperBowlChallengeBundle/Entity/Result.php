@@ -89,6 +89,34 @@ class Result
      */
     protected $firstTeamToScoreFourthQuarter;
 
+    /**
+     * The users guess for the first bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion1;
+
+    /**
+     * The users guess for the second bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion2;
+
+    /**
+     * The users guess for the third bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion3;
+
+    /**
+     * The users guess for the fourth bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion4;
+
     public function __construct($year)
     {
         $this->setYear($year);
@@ -192,5 +220,45 @@ class Result
     public function getFirstTeamToScoreFourthQuarter()
     {
         return $this->firstTeamToScoreFourthQuarter;
+    }
+
+    public function setBonusQuestion1($bonusQuestion1)
+    {
+        $this->bonusQuestion1 = $bonusQuestion1;
+    }
+
+    public function getBonusQuestion1()
+    {
+        return $this->bonusQuestion1;
+    }
+
+    public function setBonusQuestion2($bonusQuestion2)
+    {
+        $this->bonusQuestion2 = $bonusQuestion2;
+    }
+
+    public function getBonusQuestion2()
+    {
+        return $this->bonusQuestion2;
+    }
+
+    public function setBonusQuestion3($bonusQuestion3)
+    {
+        $this->bonusQuestion3 = $bonusQuestion3;
+    }
+
+    public function getBonusQuestion3()
+    {
+        return $this->bonusQuestion3;
+    }
+
+    public function setBonusQuestion4($bonusQuestion4)
+    {
+        $this->bonusQuestion4 = $bonusQuestion4;
+    }
+
+    public function getBonusQuestion4()
+    {
+        return $this->bonusQuestion4;
     }
 }

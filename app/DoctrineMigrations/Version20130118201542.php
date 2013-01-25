@@ -18,6 +18,7 @@ CREATE TABLE sbc_config (
   , halftimeScorePoints INT NOT NULL
   , firstTeamToScoreInAQuarterPoints INT NOT NULL
   , neitherTeamToScoreInAQuarterPoints INT NOT NULL
+  , bonusQuestionPoints INT NOT NULL
   , PRIMARY KEY(year)
 );
 EOF;

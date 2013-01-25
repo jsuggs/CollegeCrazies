@@ -3,7 +3,44 @@
 {% block content %}
     <h2>Results</h2>
 
-    <form action="{{ path('sbc_admin_result', {year: year}) }}" method="post">
+    <form action="{{ path('sbc_admin_result', {year: year}) }}" class="form form-horizontal" method="post">
+        <fieldset>
+            <legend>Final Scores</legend>
+            {{ form_row(form.nfcFinalScore) }}
+            {{ form_row(form.afcFinalScore) }}
+            {{ form_row(form.nfcHalftimeScore) }}
+            {{ form_row(form.afcHalftimeScore) }}
+        </fieldset>
+
+        <fieldset>
+            <legend>First to Score by Quarter</legend>
+            {{ form_row(form.firstTeamToScoreFirstQuarter) }}
+            {{ form_row(form.firstTeamToScoreSecondQuarter) }}
+            {{ form_row(form.firstTeamToScoreThirdQuarter) }}
+            {{ form_row(form.firstTeamToScoreFourthQuarter) }}
+        </fieldset>
+
+        <fieldset>
+            <legend>Bonus Questions</legend>
+            <ol>
+                <li>
+                    {{ config.questionIndex(1).text }}
+                    {{ form_widget(form.bonusQuestion1) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(2).text }}
+                    {{ form_widget(form.bonusQuestion2) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(3).text }}
+                    {{ form_widget(form.bonusQuestion3) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(4).text }}
+                    {{ form_widget(form.bonusQuestion4) }}
+                </li>
+            </ol>
+        </fieldset>
         {{ form_widget(form) }}
         <input type="submit" class="btn btn-success" value="Update Result" />
     </form>

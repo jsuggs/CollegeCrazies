@@ -52,7 +52,28 @@ class PickScorer
 
         $pick->setFirstTeamToScorePoints($firstTeamToScorePoints);
 
+        // Get the points for the bonus questions
+        $bonusQuestionPoints = 0;
+
+        if ($pick->getBonusQuestion1() == $result->getBonusQuestion1()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion2() == $result->getBonusQuestion2()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion3() == $result->getBonusQuestion3()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion4() == $result->getBonusQuestion4()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        $pick->setBonusQuestionPoints($bonusQuestionPoints);
+
         // Set the total points
-        $pick->setTotalPoints($finalScorePoints + $halftimeScorePoints + $firstTeamToScorePoints);
+        $pick->setTotalPoints($finalScorePoints + $halftimeScorePoints + $firstTeamToScorePoints + $bonusQuestionPoints);
     }
 }

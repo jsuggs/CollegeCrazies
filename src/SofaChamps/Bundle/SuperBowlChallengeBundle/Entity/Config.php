@@ -2,8 +2,9 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Entity;
 
-use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\NFLBundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,6 +51,14 @@ class Config
     protected $afcTeam;
 
     /**
+     * Bonus Questions
+     *
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="config", cascade={"persist"})
+     * @ORM\OrderBy({"index" = "ASC"})
+     */
+    protected $questions;
+
+    /**
      * The maximum points the user can get for guessing the final score
      *
      * @ORM\Column(type="integer")
@@ -85,9 +94,19 @@ class Config
      */
     protected $neitherTeamToScoreInAQuarterPoints;
 
+    /**
+     * The points the user gets for correctly guessing a bonus question
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0)
+     * @var integer
+     */
+    protected $bonusQuestionPoints;
+
     public function __construct($year)
     {
         $this->setYear($year);
+        $this->questions = new ArrayCollection();
     }
 
     public function setYear($year)
@@ -110,6 +129,16 @@ class Config
         return $this->startTime;
     }
 
+    public function setCloseTime(\DateTime $closeTime)
+    {
+        $this->closeTime = $closeTime;
+    }
+
+    public function getCloseTime()
+    {
+        return $this->closeTime;
+    }
+
     public function setNfcTeam(Team $team)
     {
         $this->nfcTeam = $team;
@@ -130,14 +159,27 @@ class Config
         return $this->afcTeam;
     }
 
-    public function setCloseTime(\DateTime $closeTime)
+    public function addQuestion(Question $question)
     {
-        $this->closeTime = $closeTime;
+        $question->setConfig($this);
+        $this->questions[] = $question;
     }
 
-    public function getCloseTime()
+    public function removeQuestion(Question $question)
     {
-        return $this->closeTime;
+        $this->questions->removeElement($question);
+    }
+
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    public function getQuestionIndex($index)
+    {
+        return $this->questions->filter(function($question) use ($index) {
+            return $question->getIndex() == $index;
+        })->first();
     }
 
     public function setFinalScorePoints($finalScorePoints)
@@ -178,5 +220,15 @@ class Config
     public function getNeitherTeamToScoreInAQuarterPoints()
     {
         return $this->neitherTeamToScoreInAQuarterPoints;
+    }
+
+    public function setBonusQuestionPoints($bonusQuestionPoints)
+    {
+        $this->bonusQuestionPoints = $bonusQuestionPoints;
+    }
+
+    public function getBonusQuestionPoints()
+    {
+        return $this->bonusQuestionPoints;
     }
 }

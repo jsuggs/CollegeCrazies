@@ -13,10 +13,15 @@ class ConfigFormType extends AbstractType
     {
         $builder
             ->add('year', 'hidden')
-            ->add('startTime', 'datetime')
-            ->add('closeTime', 'datetime')
+            ->add('startTime', 'datetime', array(
+                'label' => 'Start Time',
+            ))
+            ->add('closeTime', 'datetime', array(
+                'label' => 'Close Time',
+            ))
             ->add('nfcTeam', 'entity', array(
                 'class' => 'SofaChampsNFLBundle:Team',
+                'label' => 'NFC Team',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.conference = ?0')
@@ -25,16 +30,34 @@ class ConfigFormType extends AbstractType
             ))
             ->add('afcTeam', 'entity', array(
                 'class' => 'SofaChampsNFLBundle:Team',
+                'label' => 'AFC Team',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.conference = ?0')
                         ->setParameters(array('AFC'));
                 },
             ))
-            ->add('finalScorePoints', 'integer')
-            ->add('halftimeScorePoints', 'integer')
-            ->add('firstTeamToScoreInAQuarterPoints', 'integer')
-            ->add('neitherTeamToScoreInAQuarterPoints', 'integer')
+            ->add('finalScorePoints', 'integer', array(
+                'label' => 'Final Score Points',
+            ))
+            ->add('halftimeScorePoints', 'integer', array(
+                'label' => 'Halftime Score Points',
+            ))
+            ->add('firstTeamToScoreInAQuarterPoints', 'integer', array(
+                'label' => 'First to Score Points',
+            ))
+            ->add('neitherTeamToScoreInAQuarterPoints', 'integer', array(
+                'label' => 'Neither Team scores Points',
+            ))
+            ->add('bonusQuestionPoints', 'integer', array(
+                'label' => 'Bonus Question Points',
+            ))
+            ->add('questions', 'collection', array(
+                'label' => 'Bonus Questions',
+                'type' => new QuestionFormType(),
+                'prototype' => true,
+                'by_reference' => false,
+            ))
         ;
     }
 

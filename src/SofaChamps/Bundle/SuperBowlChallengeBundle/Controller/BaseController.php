@@ -5,10 +5,10 @@ namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Question;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ConfigFormType;
-use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\PickFormType;
-use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ResultFormType;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\QuestionFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -16,7 +16,7 @@ class BaseController extends Controller
 {
     protected function getPickForm(Pick $pick = null)
     {
-        return $this->createForm(new PickFormType(), $pick);
+        return $this->createForm('sbc_pick', $pick);
     }
 
     protected function getConfigForm(Config $config)
@@ -26,7 +26,12 @@ class BaseController extends Controller
 
     protected function getResultForm(Result $result)
     {
-        return $this->createForm(new ResultFormType(), $result);
+        return $this->createForm('sbc_result', $result);
+    }
+
+    protected function getQuestionForm(Question $question)
+    {
+        return $this->createForm(new QuestionFormType(), $question);
     }
 
     protected function getUserPick(User $user, $year = null)
@@ -58,7 +63,21 @@ class BaseController extends Controller
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')
             ->find($year);
 
-        return $config ?: new Config($year);
+        if (!$config) {
+            $config = new Config($year);
+
+            // Default the 4 bonus questions
+            for ($index = 4; $index >= 1; $index--) {
+                $question = new Question();
+                $question->setYear($year);
+                $question->setIndex($index);
+                $question->setText(sprintf('Bonus Question %d', $index));
+
+                $config->addQuestion($question);
+            }
+        }
+
+        return $config;
     }
 
     protected function getResult($year = null)
