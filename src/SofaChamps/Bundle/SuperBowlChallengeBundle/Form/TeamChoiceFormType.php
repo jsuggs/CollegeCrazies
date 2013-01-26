@@ -24,6 +24,7 @@ class TeamChoiceFormType extends AbstractType
                 'nfc' => $this->config->getNfcTeam()->getName(),
                 'none' => 'Neither team',
             ),
+            'empty_value' => 'Choose a Team',
         ));
     }
 
