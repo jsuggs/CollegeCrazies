@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\UserBundle\EventListener;
+namespace SofaChamps\Bundle\BowlPickemBundle\EventListener;
 
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Listener responsible to change the redirection at the end of the password resetting
+ * Listener responsible to change the redirection at the end of the registration
  */
-class PasswordResettingListener implements EventSubscriberInterface
+class RegistrationListener implements EventSubscriberInterface
 {
     private $router;
 
@@ -26,13 +26,17 @@ class PasswordResettingListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FOSUserEvents::RESETTING_RESET_SUCCESS => 'onPasswordResettingSuccess',
+            FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
         );
     }
 
-    public function onPasswordResettingSuccess(FormEvent $event)
+    public function onRegistrationSuccess(FormEvent $event)
     {
-        $url = $this->router->generate('pickset_manage');
+        if (strpos($event->getRequest()->headers->get('referer'), 'bowl-pickem') === false) {
+            return null;
+        }
+
+        $url = $this->router->generate('pickset_new');
         $event->setResponse(new RedirectResponse($url));
     }
 }

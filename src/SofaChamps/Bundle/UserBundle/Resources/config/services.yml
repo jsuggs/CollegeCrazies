@@ -10,15 +10,3 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: college_crazies_user_profile }
-
-    college_crazies.listener.password_resetting:
-        class: SofaChamps\Bundle\UserBundle\EventListener\PasswordResettingListener
-        arguments: [@router]
-        tags:
-            - { name: kernel.event_subscriber }
-
-    college_crazies.listener.registration:
-        class: SofaChamps\Bundle\UserBundle\EventListener\RegistrationListener
-        arguments: [@router]
-        tags:
-            - { name: kernel.event_subscriber }

@@ -13,10 +13,6 @@ class RegistrationFormType extends BaseType
 
         // Additional Fields
         $builder
-            ->add('emailVisible', 'checkbox', array(
-                'required' => false,
-                'label' => 'Email visible in leagues',
-            ))
             ->add('firstName', 'text', array(
                 'required' => false,
                 'label' => 'First Name',
@@ -24,10 +20,6 @@ class RegistrationFormType extends BaseType
             ->add('lastName', 'text', array(
                 'required' => false,
                 'label' => 'Last Name',
-            ))
-            ->add('emailFromCommish', 'checkbox', array(
-                'required' => false,
-                'label' => 'Receive Emails From Commissioners',
             ))
         ;
     }
