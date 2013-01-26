@@ -25,6 +25,7 @@ class ConfigFormType extends AbstractType
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.conference = ?0')
+                        ->orderBy('t.id')
                         ->setParameters(array('NFC'));
                 },
             ))
@@ -34,6 +35,7 @@ class ConfigFormType extends AbstractType
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('t')
                         ->where('t.conference = ?0')
+                        ->orderBy('t.id')
                         ->setParameters(array('AFC'));
                 },
             ))
