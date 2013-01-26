@@ -71,6 +71,22 @@ class PickScorer
             $bonusQuestionPoints += $config->getBonusQuestionPoints();
         }
 
+        if ($pick->getBonusQuestion5() == $result->getBonusQuestion5()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion6() == $result->getBonusQuestion6()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion7() == $result->getBonusQuestion7()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
+        if ($pick->getBonusQuestion8() == $result->getBonusQuestion8()) {
+            $bonusQuestionPoints += $config->getBonusQuestionPoints();
+        }
+
         $pick->setBonusQuestionPoints($bonusQuestionPoints);
 
         // Set the total points

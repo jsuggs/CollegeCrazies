@@ -134,6 +134,34 @@ class Pick
     protected $bonusQuestion4;
 
     /**
+     * The users guess for the fifth bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion5;
+
+    /**
+     * The users guess for the sixth bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion6;
+
+    /**
+     * The users guess for the seventh bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion7;
+
+    /**
+     * The users guess for the eighth bonus question
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $bonusQuestion8;
+
+    /**
      * The total points for this pick
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -333,6 +361,46 @@ class Pick
     public function getBonusQuestion4()
     {
         return $this->bonusQuestion4;
+    }
+
+    public function setBonusQuestion5($bonusQuestion5)
+    {
+        $this->bonusQuestion5 = $bonusQuestion5;
+    }
+
+    public function getBonusQuestion5()
+    {
+        return $this->bonusQuestion5;
+    }
+
+    public function setBonusQuestion6($bonusQuestion6)
+    {
+        $this->bonusQuestion6 = $bonusQuestion6;
+    }
+
+    public function getBonusQuestion6()
+    {
+        return $this->bonusQuestion6;
+    }
+
+    public function setBonusQuestion7($bonusQuestion7)
+    {
+        $this->bonusQuestion7 = $bonusQuestion7;
+    }
+
+    public function getBonusQuestion7()
+    {
+        return $this->bonusQuestion7;
+    }
+
+    public function setBonusQuestion8($bonusQuestion8)
+    {
+        $this->bonusQuestion8 = $bonusQuestion8;
+    }
+
+    public function getBonusQuestion8()
+    {
+        return $this->bonusQuestion8;
     }
 
     public function setTotalPoints($totalPoints)

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Super Bowl Challenge Bonus Question
- * There are 4 questions per year
+ * There are 8 questions per year
  *
  * @ORM\Entity
  * @ORM\Table(
@@ -25,11 +25,11 @@ class Question
     protected $year;
 
     /**
-     * The index/order for the pick (1-4)
+     * The index/order for the pick (1-8)
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @Assert\Range(min=1, max=4, invalidMessage="Index range is 1-4")
+     * @Assert\Range(min=1, max=8, invalidMessage="Index range is 1-8")
      */
     protected $index;
 
@@ -67,8 +67,8 @@ class Question
 
     public function setIndex($index)
     {
-        if ($index < 1 || $index > 4) {
-            throw new \RangeException('Index range 1-4');
+        if ($index < 1 || $index > 8) {
+            throw new \RangeException('Index range 1-8');
         }
 
         $this->index = $index;

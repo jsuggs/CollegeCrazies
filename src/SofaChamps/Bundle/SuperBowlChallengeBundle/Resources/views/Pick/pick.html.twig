@@ -4,6 +4,10 @@
 {% form_theme form.bonusQuestion2 _self %}
 {% form_theme form.bonusQuestion3 _self %}
 {% form_theme form.bonusQuestion4 _self %}
+{% form_theme form.bonusQuestion5 _self %}
+{% form_theme form.bonusQuestion6 _self %}
+{% form_theme form.bonusQuestion7 _self %}
+{% form_theme form.bonusQuestion8 _self %}
 
 {% block content %}
     <h2>Superbowl Challenge</h2>
@@ -78,6 +82,22 @@
                 <li>
                     {{ config.questionIndex(4).text }}
                     {{ form_widget(form.bonusQuestion4) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(5).text }}
+                    {{ form_widget(form.bonusQuestion5) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(6).text }}
+                    {{ form_widget(form.bonusQuestion6) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(7).text }}
+                    {{ form_widget(form.bonusQuestion7) }}
+                </li>
+                <li>
+                    {{ config.questionIndex(8).text }}
+                    {{ form_widget(form.bonusQuestion8) }}
                 </li>
             </ol>
         </fieldset>

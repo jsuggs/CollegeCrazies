@@ -24,6 +24,10 @@ CREATE TABLE sbc_picks (
   , bonusQuestion2 INT NOT NULL
   , bonusQuestion3 INT NOT NULL
   , bonusQuestion4 INT NOT NULL
+  , bonusQuestion5 INT NOT NULL
+  , bonusQuestion6 INT NOT NULL
+  , bonusQuestion7 INT NOT NULL
+  , bonusQuestion8 INT NOT NULL
   , totalPoints INT DEFAULT NULL
   , finalScorePoints INT DEFAULT NULL
   , firstTeamToScorePoints INT DEFAULT NULL

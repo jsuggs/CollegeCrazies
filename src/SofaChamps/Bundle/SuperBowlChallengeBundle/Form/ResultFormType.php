@@ -62,6 +62,22 @@ class ResultFormType extends AbstractType
                 'expanded' => true,
                 'choices' => $this->getChoices($this->year, 4),
             ))
+            ->add('bonusQuestion5', 'choice', array(
+                'expanded' => true,
+                'choices' => $this->getChoices($this->year, 5),
+            ))
+            ->add('bonusQuestion6', 'choice', array(
+                'expanded' => true,
+                'choices' => $this->getChoices($this->year, 6),
+            ))
+            ->add('bonusQuestion7', 'choice', array(
+                'expanded' => true,
+                'choices' => $this->getChoices($this->year, 7),
+            ))
+            ->add('bonusQuestion8', 'choice', array(
+                'expanded' => true,
+                'choices' => $this->getChoices($this->year, 8),
+            ))
         ;
     }
 
