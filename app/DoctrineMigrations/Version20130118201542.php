@@ -30,6 +30,8 @@ EOF;
         $this->addSql('ALTER TABLE sbc_config ADD CONSTRAINT FK_SBC_CONFIG_REF_NFL_TEAM_ACF_TEAM FOREIGN KEY (afcTeam_id) REFERENCES nfl_team (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_SBC_CONFIG_NFC_TEAM_ID ON sbc_config (nfcTeam_id)');
         $this->addSql('CREATE INDEX IDX_SBC_CONFIG_AFC_TEAM_ID ON sbc_config (afcTeam_id)');
+
+        $this->addSql("INSERT INTO sbc_config (year, startTime, closeTime, nfcTeam_id, afcTeam_id, finalScorePoints, halftimeScorePoints, firstTeamToScoreInAQuarterPoints , neitherTeamToScoreInAQuarterPoints , bonusQuestionPoints) VALUES (2013, '2013-01-13', '2013-02-03', 'SF', 'BAL', 150, 100, 25, 40, 25)");
     }
 
     public function down(Schema $schema)
