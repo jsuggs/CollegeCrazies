@@ -10,7 +10,7 @@ class PickRepository extends EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.year = :year')
-            ->orderBy('p.totalPoints')
+            ->orderBy('p.totalPoints', 'DESC')
             ->setParameter('year', $year)
             ->getQuery()
             ->getResult();

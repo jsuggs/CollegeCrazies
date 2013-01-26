@@ -5,11 +5,19 @@
     <table class="table">
         <tr>
             <th>User</th>
-            <th>Score</th>
+            <td>Final Score Points</td>
+            <td>Halftime Score Points</td>
+            <td>First Team to Score Points</td>
+            <td>Bonus Question Points</td>
+            <th>Total Points</th>
         </tr>
         {% for pick in picks %}
             <tr>
                 <td>{{ profile_link(pick.user)|raw }}</td>
+                <td>{{ pick.finalScorePoints }}</td>
+                <td>{{ pick.halftimeScorePoints }}</td>
+                <td>{{ pick.firstTeamToScorePoints }}</td>
+                <td>{{ pick.bonusQuestionPoints }}</td>
                 <td>{{ pick.totalPoints }}</td>
             </tr>
         {% endfor %}
