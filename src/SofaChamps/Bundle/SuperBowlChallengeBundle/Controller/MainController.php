@@ -31,6 +31,7 @@ class MainController extends BaseController
             ->findPicksForYearOrderedByScore($year);
 
         return array(
+            'config' => $this->getConfig(),
             'picks' => $picks,
             'user' => $this->getUser(),
             'year' => $this->get('config.curyear'),

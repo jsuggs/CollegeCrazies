@@ -37,6 +37,13 @@ class Config
     protected $closeTime;
 
     /**
+     * Have the scores been calculated
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $scoresCalculated;
+
+    /**
      * The NFC Team playing in the superbowl
      *
      * @ORM\ManyToOne(targetEntity="\SofaChamps\Bundle\NFLBundle\Entity\Team")
@@ -137,6 +144,16 @@ class Config
     public function getCloseTime()
     {
         return $this->closeTime;
+    }
+
+    public function setScoresCalculated($scoresCalculated)
+    {
+        $this->scoresCalculated = $scoresCalculated;
+    }
+
+    public function getScoresCalculated()
+    {
+        return $this->scoresCalculated;
     }
 
     public function setNfcTeam(Team $team)

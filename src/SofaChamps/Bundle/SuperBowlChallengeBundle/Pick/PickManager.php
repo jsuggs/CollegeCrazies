@@ -27,6 +27,8 @@ class PickManager
             PickScorer::scorePick($pick, $result, $config);
         }
 
+        $config->setScoresCalculated(true);
+
         $this->em->flush();
     }
 

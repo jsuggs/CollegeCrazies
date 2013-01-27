@@ -19,6 +19,10 @@ class ConfigFormType extends AbstractType
             ->add('closeTime', 'datetime', array(
                 'label' => 'Close Time',
             ))
+            ->add('scoresCalculated', 'checkbox', array(
+                'label' => 'Scores Calculated',
+                'read_only' => true,
+            ))
             ->add('nfcTeam', 'entity', array(
                 'class' => 'SofaChampsNFLBundle:Team',
                 'label' => 'NFC Team',

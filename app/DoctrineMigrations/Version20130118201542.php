@@ -12,6 +12,7 @@ CREATE TABLE sbc_config (
     year INT NOT NULL
   , startTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
   , closeTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
+  , scoresCalculated BOOLEAN NOT NULL
   , nfcTeam_id VARCHAR(3) DEFAULT NULL
   , afcTeam_id VARCHAR(3) DEFAULT NULL
   , finalScorePoints INT NOT NULL
@@ -31,7 +32,7 @@ EOF;
         $this->addSql('CREATE INDEX IDX_SBC_CONFIG_NFC_TEAM_ID ON sbc_config (nfcTeam_id)');
         $this->addSql('CREATE INDEX IDX_SBC_CONFIG_AFC_TEAM_ID ON sbc_config (afcTeam_id)');
 
-        $this->addSql("INSERT INTO sbc_config (year, startTime, closeTime, nfcTeam_id, afcTeam_id, finalScorePoints, halftimeScorePoints, firstTeamToScoreInAQuarterPoints , neitherTeamToScoreInAQuarterPoints , bonusQuestionPoints) VALUES (2013, '2013-01-13', '2013-02-03', 'SF', 'BAL', 150, 100, 25, 40, 25)");
+        $this->addSql("INSERT INTO sbc_config (year, startTime, closeTime, scoresCalculated, nfcTeam_id, afcTeam_id, finalScorePoints, halftimeScorePoints, firstTeamToScoreInAQuarterPoints , neitherTeamToScoreInAQuarterPoints , bonusQuestionPoints) VALUES (2013, '2013-01-13', '2013-02-03', false, 'SF', 'BAL', 150, 100, 25, 40, 25)");
     }
 
     public function down(Schema $schema)
