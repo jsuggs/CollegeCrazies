@@ -1,0 +1,16 @@
+{% extends "SofaChampsCoreBundle::Layout/layout.html.twig" %}
+
+{% block title%} - Superbowl Challenge{% endblock %}
+
+{% block nav_admin %}
+    <li><a href="{{ path('sbc_admin_config', {year: year}) }}">Config</a></li>
+    <li><a href="{{ path('sbc_admin_result', {year: year}) }}">Result</a></li>
+{% endblock %}
+
+{% block nav_primary %}
+    <li><a href="{{ path('sbc_home') }}">Superbowl Challenge Home</a></li>
+    {% if user is not null and user.getSuperBowlChallengePickForYear(year) %}
+        <li><a href="{{ path('sbc_pick', {year: year}) }}">Edit your picks</a></li>
+    {% endif %}
+    <li><a href="{{ path('sbc_leaderboard', {year: year}) }}">Leaderboard</a></li>
+{% endblock %}

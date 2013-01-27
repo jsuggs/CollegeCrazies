@@ -1,7 +1,7 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        CollegeCrazies\Bundle\MainBundle\Entity\User: sha512
+        SofaChamps\Bundle\CoreBundle\Entity\User: sha512
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -22,7 +22,6 @@ security:
             logout: true
             form_login:
                 provider: fos_userbundle
-                success_handler: college_crazies.component.authentication.handler.login_success_handler
             switch_user: { role: ROLE_ADMIN }
 
     access_control:

@@ -1,0 +1,10 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Edit Question</h2>
+
+    <form action="{{ path('sbc_admin_question', {questionId: question.id}) }}" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" class="btn btn-success" value="Update Question" />
+    </form>
+{% endblock %}

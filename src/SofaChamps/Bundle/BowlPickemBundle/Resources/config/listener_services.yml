@@ -1,0 +1,20 @@
+services:
+    listener.picks_locked:
+        class: SofaChamps\Bundle\BowlPickemBundle\Listener\PicksLockedListener
+        arguments:
+            - @picks_locked_manager
+            - @session
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    sofachamps.bowlpickem.listener.password_resetting:
+        class: SofaChamps\Bundle\BowlPickemBundle\EventListener\PasswordResettingListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    sofachamps.bowlpickem.listener.registration:
+        class: SofaChamps\Bundle\BowlPickemBundle\EventListener\RegistrationListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }

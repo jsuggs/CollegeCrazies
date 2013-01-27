@@ -1,0 +1,10 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Config</h2>
+
+    <form action="{{ path('sbc_admin_config', {year: year}) }}" class="form form-horizontal" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" class="btn btn-success" value="Update Config" />
+    </form>
+{% endblock %}

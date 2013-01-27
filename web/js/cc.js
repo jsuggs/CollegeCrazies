@@ -1,4 +1,16 @@
 $(document).ready(function(){
+    // Symfony forms js
+    $('.collection-container').on('click', 'a.collection-add', function(e) {
+        e.preventDefault();
+        $collection = $(this).closest('.collection-container').find('.collection');
+        $collection.append($collection.data('prototype').replace(/__name__/g, $collection.find('li.collection-element').length));
+    });
+    $('.collection-container').on('click', 'a.collection-remove', function(e) {
+        e.preventDefault();
+        $(this).closest('li.collection-element').remove();
+        return false;
+    });
+
     var setPickConfidence = function () {
         var children = $("#pick-list tbody").children();
         var idx = children.length;

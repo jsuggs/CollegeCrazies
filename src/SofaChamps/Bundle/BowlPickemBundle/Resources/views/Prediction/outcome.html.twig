@@ -1,0 +1,17 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>{{ pickSet.name }}</h2>
+    <h3>See how your prediction fared</h3>
+    {% set predictionScore = pickSet.getUserPredictionSetScoreForPredictionSet(predictionSet) %}
+
+    <dl>
+        <dt>Score</dt>
+        <dd>{{ predictionScore.score }}</dd>
+
+        <dt>Rank</dt>
+        <dd>{{ predictionScore.finish }}</dd>
+    </dl>
+
+    {% include 'SofaChampsBowlPickemBundle:PickSet:_view.html.twig' %}
+{% endblock %}
