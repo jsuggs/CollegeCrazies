@@ -2,9 +2,9 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

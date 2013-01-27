@@ -3,7 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 class UserSorter
 {

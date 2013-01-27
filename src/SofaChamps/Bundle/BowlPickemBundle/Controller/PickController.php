@@ -2,15 +2,15 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Form\PickFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Form\PickSetFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
+use SofaChamps\Bundle\BowlPickemBundle\Form\PickFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\PickSetFormType;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;

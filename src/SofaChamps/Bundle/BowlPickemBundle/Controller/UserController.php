@@ -2,11 +2,11 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\SecurityContext;

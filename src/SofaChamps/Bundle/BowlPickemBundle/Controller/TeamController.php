@@ -2,11 +2,11 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Form\TeamFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Form\TeamFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**

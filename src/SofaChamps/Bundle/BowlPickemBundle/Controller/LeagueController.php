@@ -2,17 +2,17 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueCommissionersFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueNoteFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLockFormType;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Invite;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Invite;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueCommissionersFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueNoteFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLockFormType;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**

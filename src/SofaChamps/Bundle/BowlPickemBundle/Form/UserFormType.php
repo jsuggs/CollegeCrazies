@@ -18,7 +18,7 @@ class UserFormType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\User',
+            'data_class' => 'SofaChamps\Bundle\CoreBundle\Entity\User',
         ));
     }
 

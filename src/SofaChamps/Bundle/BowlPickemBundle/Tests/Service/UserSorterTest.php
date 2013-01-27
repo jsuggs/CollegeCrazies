@@ -2,14 +2,14 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Service;
 
-use SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter;
-use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\User;
+use SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter;
+use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 class UserSorterTest extends \PHPUnit_Framework_TestCase
 {

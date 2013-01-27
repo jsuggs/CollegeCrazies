@@ -2,10 +2,10 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class HomePageController extends Controller
 {

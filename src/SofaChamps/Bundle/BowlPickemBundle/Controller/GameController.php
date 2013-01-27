@@ -2,15 +2,15 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
-use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvent;
-use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvents;
-use SofaChamps\Bundle\BowlPickemBundle\Form\GameEditFormType;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
+use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvent;
+use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvents;
+use SofaChamps\Bundle\BowlPickemBundle\Form\GameEditFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
