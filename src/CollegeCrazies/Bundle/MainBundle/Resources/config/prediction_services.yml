@@ -1,4 +1,0 @@
-services:
-    prediction.generator:
-        class: CollegeCrazies\Bundle\MainBundle\Service\PredictionGenerator
-        arguments: ["@doctrine.orm.entity_manager"]

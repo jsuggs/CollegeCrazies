@@ -1,0 +1,16 @@
+<h2>User Profile</h2>
+<h3>{{ user.username }}</h3>
+<div>
+    <dl>
+        <dt>First Name</dt>
+        <dd>{{ user.firstName ?: '--' }}</dd>
+
+        <dt>Last Name</dt>
+        <dd>{{ user.lastName ?: '--' }}</dd>
+
+        {% if user == app.user or user.emailVisible %}
+            <dt>Email</dt>
+            <dd>{{ user.email }}</dd>
+        {% endif %}
+    </dl>
+</div>

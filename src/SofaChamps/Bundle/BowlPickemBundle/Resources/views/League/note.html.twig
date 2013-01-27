@@ -1,0 +1,23 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>League Note - {{ league.name }}</h3>
+
+    <form action="{{ path('league_note', {leagueId: league.id}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+        <div class="control-group">
+            {{ form_errors(form.note) }}
+            {{ form_label(form.note, null, {label_attr: {class: 'control-label'}}) }}
+            <div class="controls">
+                {{ form_widget(form.note) }}
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" value="Update League Note" />
+            </div>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

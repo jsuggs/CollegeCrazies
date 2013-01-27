@@ -1,0 +1,72 @@
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length == 1 %}
+        {% set error = errors[0] %}
+        <span class="help-inline">{{
+            error.messagePluralization is null
+                ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+        }}</span>
+    {% elseif errors|length > 1 %}
+    <ul class="help-inline">
+        {% for error in errors %}
+            <li>{{
+                error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+            }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="control-group{% if form.vars.errors|length %} error{% endif %}">
+        {{ form_label(form, null, {label_attr: {class: 'control-label'}}) }}
+        <div class="controls">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block collection_widget %}
+{% spaceless %}
+    <div class="collection-container">
+        <ol class="unstyled collection"{% if allow_add %} data-prototype="{{ '<li class="collection-element">%s</li>'|format(form_widget(prototype))|e }}"{% endif %}>
+            {% for key, child in form %}
+                <li class="collection-element">
+                    {{ form_errors(child) }}
+                    {{ form_widget(child) }}
+                    {% if allow_delete %}
+                        <a class="collection-remove btn btn-danger">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+        {% if allow_add %}
+            <div class="collection-control">
+                <a class="collection-add btn btn-success">Add More</a>
+            </div>
+        {% endif %}
+    </div>
+{% endspaceless %}
+{% endblock collection_widget %}
+
+{# This is a hack. For some reason nested collections are not passing down the expanded variable #}
+{% block choice_widget %}
+{% spaceless %}
+    {% if expanded is not defined %}
+        {% set expanded = true %}
+    {% endif %}
+
+    {% if expanded %}
+        {{ block('choice_widget_expanded') }}
+    {% else %}
+        {{ block('choice_widget_collapsed') }}
+    {% endif %}
+{% endspaceless %}
+{% endblock choice_widget %}

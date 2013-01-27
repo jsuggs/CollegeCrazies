@@ -1,0 +1,5 @@
+services:
+    sofachamps.superbowlchallenge.pickmanager:
+        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Pick\PickManager
+        arguments:
+            - @doctrine.orm.entity_manager

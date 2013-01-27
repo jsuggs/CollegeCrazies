@@ -1,12 +1,27 @@
-college_crazies_user:
-    resource: "@CollegeCraziesUserBundle/Controller/"
+sofa_champs_core:
+    resource: "@SofaChampsCoreBundle/Controller/"
     type:     annotation
     prefix:   /
 
-CollegeCraziesMainBundle:
-    resource: "@CollegeCraziesMainBundle/Controller/"
+college_crazies_user:
+    resource: "@SofaChampsUserBundle/Controller/"
     type:     annotation
     prefix:   /
+
+sofa_champs_super_bowl_challenge:
+    resource: "@SofaChampsSuperBowlChallengeBundle/Controller/"
+    type:     annotation
+    prefix:   /superbowl-challenge
+
+sofa_champs_bowlpickem:
+    resource: "@SofaChampsBowlPickemBundle/Controller/"
+    type:     annotation
+    prefix:   /bowl-pickem
+
+sofa_champs_nfl_admin:
+    resource: "@SofaChampsNFLBundle/Controller/"
+    type:     annotation
+    prefix:   /nfl_admin
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

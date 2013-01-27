@@ -21,11 +21,14 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
-            new CollegeCrazies\Bundle\MainBundle\CollegeCraziesMainBundle(),
+            new SofaChamps\Bundle\BowlPickemBundle\SofaChampsBowlPickemBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new CollegeCrazies\Bundle\EmailBundle\CollegeCraziesEmailBundle(),
-            new CollegeCrazies\Bundle\UserBundle\CollegeCraziesUserBundle(),
-            new CollegeCrazies\Bundle\SecurityBundle\CollegeCraziesSecurityBundle(),
+            new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
+            new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),
+            new SofaChamps\Bundle\SecurityBundle\SofaChampsSecurityBundle(),
+            new SofaChamps\Bundle\SuperBowlChallengeBundle\SofaChampsSuperBowlChallengeBundle(),
+            new SofaChamps\Bundle\CoreBundle\SofaChampsCoreBundle(),
+            new SofaChamps\Bundle\NFLBundle\SofaChampsNFLBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

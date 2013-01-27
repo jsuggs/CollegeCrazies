@@ -1,0 +1,32 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>League Members</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>PickSet Name</th>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for member in members %}
+            {% set pickSet = league.getPickSetForUser(member) %}
+            <tr>
+                {% if pickSet is not null %}
+                    <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id}) }}">{{ pickSet.name }}</a></td>
+                {% else %}
+                    <td>--</td>
+                {% endif %}
+                <td>{{ profile_link(member)|raw }}</td>
+                <td>{{ member.firstName ?: '--' }}</td>
+                <td>{{ member.lastName ?: '--' }}</td>
+                <td>{% if member.emailVisible %}<a href="mailto:{{ member.email }}">{{ member.email }}</a>{% else %}--{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

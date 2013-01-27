@@ -1,0 +1,4 @@
+services:
+    prediction.generator:
+        class: SofaChamps\Bundle\BowlPickemBundle\Service\PredictionGenerator
+        arguments: ["@doctrine.orm.entity_manager"]

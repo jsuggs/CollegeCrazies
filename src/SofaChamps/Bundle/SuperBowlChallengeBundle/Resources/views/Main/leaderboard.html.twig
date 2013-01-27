@@ -1,0 +1,29 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Leaderboard</h2>
+    {% if config.scoresCalculated %}
+        <table class="table">
+            <tr>
+                <th>User</th>
+                <td>Final Score Points</td>
+                <td>Halftime Score Points</td>
+                <td>First Team to Score Points</td>
+                <td>Bonus Question Points</td>
+                <th>Total Points</th>
+            </tr>
+            {% for pick in picks %}
+                <tr>
+                    <td>{{ profile_link(pick.user)|raw }}</td>
+                    <td>{{ pick.finalScorePoints }}</td>
+                    <td>{{ pick.halftimeScorePoints }}</td>
+                    <td>{{ pick.firstTeamToScorePoints }}</td>
+                    <td>{{ pick.bonusQuestionPoints }}</td>
+                    <td>{{ pick.totalPoints }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>The scores have not been calculated, please check back again soon.</p>
+    {% endif %}
+{% endblock %}

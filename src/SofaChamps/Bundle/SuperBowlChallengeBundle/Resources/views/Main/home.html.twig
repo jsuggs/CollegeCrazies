@@ -1,0 +1,12 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="hero-unit">
+        <h1>Super Bowl Challenge</h1>
+        <h2>One day, one game...but with a twist</h2>
+
+        {% if sbc_picks_open %}
+            <p><a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-success">{{ user is not null and user.getSuperBowlChallengePickForYear(year) ? 'Edit your picks' : 'Make your picks' }}</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

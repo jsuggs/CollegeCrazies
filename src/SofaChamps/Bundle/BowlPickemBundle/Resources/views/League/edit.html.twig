@@ -1,0 +1,15 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h3>Editing - {{ league.name }}</h3>
+
+    <form action="{{ path('league_update', {leagueId: league.id}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+        {% include 'SofaChampsBowlPickemBundle:League:form.html.twig' %}
+
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" value="Update League" />
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "SofaChampsCoreBundle::layout.html.twig" %}
+
+{% block content %}
+    <div class="hero-unit">
+        <h1>SofaChamps.com</h1>
+        <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
+        <hr />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="span8">
+                    <h2><b>Active Games</b></h2>
+                    <ul class="unstyled">
+                        <li style="padding-left: 10px">
+                            <h3><a href="{{ path('sbc_home') }}" class="text-success">SuperBowl Challenge</a></h3>
+                            <p class="lead text-info">Make your picks now before kickoff!</p>
+                            <p> <a href="{{ path('sbc_pick', {year: year}) }}" class="btn btn-success">Click here</a> to get started. </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="span4">
+                    <h4>Upcoming Games</h4>
+                    <p><a href="{{ path('bp_home') }}" class="muted">College Bowl Mania</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
