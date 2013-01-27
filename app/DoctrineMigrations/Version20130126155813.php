@@ -24,8 +24,8 @@ class Version20130126155813 extends AbstractMigration
                 'index' => 2,
                 'text' => 'Will Beyonce be jonied by Jay Z on stage during the Half Time Show?',
                 'choices' => array(
-                    'Yes',
                     'No',
+                    'Yes',
                 )
             ),
             array(
@@ -56,8 +56,8 @@ class Version20130126155813 extends AbstractMigration
                 'index' => 5,
                 'text' => 'Will any player get a penalty for excessive celebration in the game?',
                 'choices' => array(
-                    'Yes',
                     'No',
+                    'Yes',
                 )
             ),
             array(
@@ -65,17 +65,17 @@ class Version20130126155813 extends AbstractMigration
                 'index' => 6,
                 'text' => 'Will Alicia Keys take over or under 2 minutes and 15 second?',
                 'choices' => array(
-                    'Over',
                     'Under',
+                    'Over',
                 )
             ),
             array(
                 'year' => 2013,
                 'index' => 7,
-                'text' => 'Will Beyonce be jonied by Jay Z on stage during the Half Time Show?',
+                'text' => 'Will Beyonce\'\'s hair be Curly/Crimped or Straight at the beginning of the Super Bowl Halftime show?',
                 'choices' => array(
-                    'Yes',
-                    'No',
+                    'Straight',
+                    'Curly/Crimped',
                 )
             ),
             array(
@@ -83,8 +83,8 @@ class Version20130126155813 extends AbstractMigration
                 'index' => 8,
                 'text' => 'If Ray Lewis is interviewed on TV after the game on the field or in the locker room how many times will he mention "God/Lord". Live pictures only.',
                 'choices' => array(
-                    'Less than 3',
                     '3 or more',
+                    'Less than 3',
                 )
             ),
         );
