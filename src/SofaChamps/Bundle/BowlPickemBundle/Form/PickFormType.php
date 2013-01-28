@@ -24,7 +24,7 @@ class PickFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\Pick',
-        );
+        ));
     }
 
     public function getName()

@@ -33,7 +33,7 @@ class PickSetFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet',
-        );
+        ));
     }
 
     public function getName()

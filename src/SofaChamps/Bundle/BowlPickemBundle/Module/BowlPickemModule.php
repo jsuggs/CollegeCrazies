@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Module;
 
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
+use SofaChamps\Bundle\CoreBundle\Module\ModuleInterface;
 
 class BowlPickemModule implements ModuleInterface
 {

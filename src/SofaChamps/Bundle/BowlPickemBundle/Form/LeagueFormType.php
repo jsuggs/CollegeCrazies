@@ -31,7 +31,7 @@ class LeagueFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\League',
-        );
+        ));
     }
 
     public function getName()

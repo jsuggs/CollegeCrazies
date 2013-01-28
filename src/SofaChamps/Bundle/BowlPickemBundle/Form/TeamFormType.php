@@ -23,7 +23,7 @@ class TeamFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\Team'
-        );
+        ));
     }
 
     public function getName()

@@ -12,8 +12,6 @@ class GameFormType extends AbstractType
     {
         $builder
             ->add('id', 'hidden')
-            //->add('name', 'text')
-            //->add('homeTeam', new TeamFormType())
         ;
     }
 
@@ -21,7 +19,7 @@ class GameFormType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\Game',
-        );
+        ));
     }
 
     public function getName()
