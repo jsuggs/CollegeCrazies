@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      name="teams"
  * )
  */
-class Team
+class Team extends AbstractTeam
 {
     /**
      * @ORM\Id
@@ -25,41 +26,14 @@ class Team
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    protected $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
     protected $thumbnail;
 
     /**
      * Predictions
      *
      * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner", fetch="EXTRA_LAZY")
-     * @var Prediction
      */
     protected $predictions;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
 
     public function setThumbnail($thumbnail)
     {
@@ -69,10 +43,5 @@ class Team
     public function getThumbnail()
     {
         return $this->thumbnail;
-    }
-
-    public function __toString()
-    {
-        return sprintf('%s - %s', $this->id, $this->name);
     }
 }
