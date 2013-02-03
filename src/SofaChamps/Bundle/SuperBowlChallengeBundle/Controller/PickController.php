@@ -26,6 +26,13 @@ class PickController extends BaseController
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
+            $config = $this->getConfig($year);
+            $now = new \DateTime();
+            if ($now > $config->getCloseTime()) {
+                $this->get('session')->getFlashBag()->set('warning', 'Picks are now locked');
+                return $this->redirect($this->generateUrl('sbc_home'));
+            }
+
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $pick->setYear($year);
