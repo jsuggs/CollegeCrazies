@@ -1,0 +1,19 @@
+{% extends "SofaChampsSuperBowlChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Superbowl Challenge - {{ pick.user.username }}'s Picks</h2>
+    <p class="lead">{{ pick.totalPoints }} Total Points</p>
+
+    <div>
+        <h3>Final Score</h3>
+        {{ pick.finalScorePoints }}
+    </div>
+    <div>
+        <h3>First to Score</h3>
+        {{ pick.firstTeamToScorePoints }}
+    </div>
+    <div>
+        <h3>Bonus Questions</h3>
+        {{ pick.bonusQuestionPoints }}
+    </div>
+{% endblock %}

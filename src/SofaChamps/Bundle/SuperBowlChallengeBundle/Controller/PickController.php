@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
@@ -56,6 +57,30 @@ class PickController extends BaseController
             'config' => $config,
             'form' => $form->createView(),
             'user' => $user,
+        );
+    }
+
+    /**
+     * @Route("/{year}/{pickId}/view", name="sbc_pick_view")
+     * @ParamConverter("pick", class="SofaChampsSuperBowlChallengeBundle:Pick", options={"id" = "pickId"})
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function viewAction(Pick $pick, $year)
+    {
+        $manager = $this->get('sofachamps.superbowlchallenge.pickmanager');
+
+        if (!$manager->picksViewable($year)) {
+            $this->get('session')->getFlashBag()->set('warning', 'Picks cannot be viewed until after picks are closed');
+            return $this->redirect($this->generateUrl('sbc_home'));
+        }
+
+        $config = $this->getConfig($year);
+
+        return array(
+            'pick' => $pick,
+            'year' => $year,
+            'config' => $config,
         );
     }
 }

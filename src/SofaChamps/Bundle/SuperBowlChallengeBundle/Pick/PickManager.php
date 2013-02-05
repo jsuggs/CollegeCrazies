@@ -32,6 +32,58 @@ class PickManager
         $this->em->flush();
     }
 
+    public function picksOpen($year)
+    {
+        $config = $this->getConfig($year);
+
+        if (!$config) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now > $config->getStartTime() && $now < $config->getCloseTime();
+    }
+
+    public function picksEditable($year)
+    {
+        $config = $this->getConfig($year);
+
+        if (!$config) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now > $config->getStartTime();
+    }
+
+    public function picksViewable($year)
+    {
+        $config = $this->getConfig($year);
+
+        if (!$config) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now > $config->getCloseTime();
+    }
+
+    public function gameAvailable($year)
+    {
+        $config = $this->getConfig($year);
+
+        if (!$config) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now < $config->getCloseTime()->modify('+30 days');
+    }
+
     protected function getConfig($year)
     {
         return $this->em->getRepository('SofaChampsSuperBowlChallengeBundle:Config')->find($year);
