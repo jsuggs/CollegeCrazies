@@ -2,49 +2,25 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Twig\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Pick\PickManager;
 
 class SuperBowlChallengeExtension extends \Twig_Extension
 {
-    private $container;
+    private $manager;
+    private $year;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(PickManager $manager, $year)
     {
-        $this->container = $container;
+        $this->manager = $manager;
+        $this->year = $year;
     }
 
     public function getGlobals()
     {
         return array(
-            'sbc_picks_open' => $this->picksOpen(),
-            'sbc_game_available' => $this->gameAvailable(),
+            'sbc_picks_open' => $this->manager->picksOpen($this->year),
+            'sbc_game_available' => $this->manager->gameAvailable($this->year),
         );
-    }
-
-    public function picksOpen()
-    {
-        $config = $this->getConfig();
-
-        if (!$config) {
-            return false;
-        }
-
-        $now = new \DateTime();
-
-        return $now > $config->getStartTime() && $now < $config->getCloseTime();
-    }
-
-    public function gameAvailable()
-    {
-        $config = $this->getConfig();
-
-        if (!$config) {
-            return false;
-        }
-
-        $now = new \DateTime();
-
-        return $now < $config->getCloseTime()->modify('+30 days');
     }
 
     public function getName()

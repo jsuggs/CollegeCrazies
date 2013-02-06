@@ -22,7 +22,8 @@
         "jms/di-extra-bundle": "*",
         "friendsofsymfony/user-bundle": "*",
         "monolog/monolog": "1.3.*",
-        "flot/flot": "master"
+        "flot/flot": "master",
+        "liip/functional-test-bundle": "dev-master"
     },
     "config": {
         "bin-dir": "bin"

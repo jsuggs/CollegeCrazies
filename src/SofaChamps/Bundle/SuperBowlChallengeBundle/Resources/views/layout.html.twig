@@ -9,7 +9,7 @@
 
 {% block nav_primary %}
     <li><a href="{{ path('sbc_home') }}">Superbowl Challenge Home</a></li>
-    {% if user is not null and user.getSuperBowlChallengePickForYear(year) %}
+    {% if app.user is not null and app.user.getSuperBowlChallengePickForYear(year) %}
         <li><a href="{{ path('sbc_pick', {year: year}) }}">Edit your picks</a></li>
     {% endif %}
     <li><a href="{{ path('sbc_leaderboard', {year: year}) }}">Leaderboard</a></li>
