@@ -19,7 +19,7 @@
                     <td>{{ pick.halftimeScorePoints }}</td>
                     <td>{{ pick.firstTeamToScorePoints }}</td>
                     <td>{{ pick.bonusQuestionPoints }}</td>
-                    <td>{{ pick.totalPoints }}</td>
+                    <td><a href="{{ path('sbc_pick_view', {year: year, pickId: pick.id}) }}">{{ pick.totalPoints }}</a></td>
                 </tr>
             {% endfor %}
         </table>

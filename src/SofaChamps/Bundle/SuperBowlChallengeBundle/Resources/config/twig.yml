@@ -3,6 +3,7 @@ services:
         class: SofaChamps\Bundle\SuperBowlChallengeBundle\Twig\Extension\SuperBowlChallengeExtension
         public: false
         arguments:
-            - @service_container
+            - @sofachamps.superbowlchallenge.pickmanager
+            - @config.curyear
         tags:
             - { name: twig.extension }
