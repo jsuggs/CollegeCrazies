@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 interface BracketInterface
 {
-    public function setId($id);
-    public function getId();
     public function addGame(BracketGame $game);
     public function removeGame(BracketGame $game);
     public function getGames();

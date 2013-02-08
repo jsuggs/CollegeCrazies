@@ -7,21 +7,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A Bracket is the container for a set of BracketGames
+ *
+ * NOTE: The id and game relationships for the bracket is left up to the concrete implementation
  */
 abstract class AbstractBracket implements BracketInterface
 {
-    protected $id;
+    /**
+     * The bracket name
+     *
+     * @ORM\Column(type="string")
+     * @var string
+     */
     protected $name;
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function setName($name)
     {

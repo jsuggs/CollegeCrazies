@@ -7,7 +7,7 @@ use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * March Madness Bracket
+ * The results for a March Madness Bracket
  *
  * @ORM\Entity
  * @ORM\Table(
@@ -19,20 +19,13 @@ class Bracket extends AbstractBracket
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="seq_mm_brackets", initialValue=1, allocationSize=1)
      */
-    protected $id;
+    protected $year;
 
     /**
      * @ORM\OneToMany(targetEntity="Game", mappedBy="bracket")
      */
     protected $games;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $year;
 
     public function setYear($year)
     {

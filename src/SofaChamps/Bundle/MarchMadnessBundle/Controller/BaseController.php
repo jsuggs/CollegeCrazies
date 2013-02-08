@@ -13,4 +13,12 @@ class BaseController extends Controller
             ->getRepository('SofaChampsMarchMadnessBundle:Game')
             ->findAll();
     }
+
+    public function getBracket()
+    {
+        return $this
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('SofaChampsMarchMadnessBundle:Bracket')
+            ->findAll();
+    }
 }

@@ -11,10 +11,10 @@ use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="mm_games"
+ *      name="mm_picks"
  * )
  */
-class Game extends AbstractBracketGame
+class BracketPick extends AbstractBracketGame
 {
     /**
      * @ORM\Id
@@ -25,23 +25,18 @@ class Game extends AbstractBracketGame
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Bracket", inversedBy="games")
-     * @ORM\JoinColumn(name="year", referencedColumnName="year")
+     * @ORM\ManyToOne(targetEntity="UserBracket", inversedBy="picks")
      */
     protected $bracket;
 
     /**
-     * @ORM\OneToOne(targetEntity="Game")
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="picks")
      */
-    protected $parent;
+    protected $game;
 
     /**
-     * @ORM\OneToOne(targetEntity="Game")
+     * ORM\ManyToOne(targetEntity="Team")
+     * TODO: Add a NCAA mens team bundle
      */
-    protected $child;
-
-    /**
-     * @ORM\OneToMany(targetEntity="BracketPick", mappedBy="game", fetch="EXTRA_LAZY")
-     */
-    protected $picks;
+    protected $team;
 }

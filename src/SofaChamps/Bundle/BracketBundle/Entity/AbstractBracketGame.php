@@ -7,25 +7,11 @@ use SofaChamps\Bundle\CoreBundle\Entity\AbstractGame;
 use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
 
 /**
- * A BracketGame
+ * The basis for a BracketGame
+ * The id and the relationships for bracket, parent and child need to be defined in the concrete class
  */
 abstract class AbstractBracketGame extends AbstractGame implements BracketGameInterface
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="Bracket", inversedBy="games")
-     */
-    protected $bracket;
-
-    /**
-     * ORM\OneToOne(targetEntity="BracketGame")
-     */
-    protected $parent;
-
-    /**
-     * ORM\OneToOne(targetEntity="BracketGame")
-     */
-    protected $child;
-
     public function setBracket(BracketInterface $bracket)
     {
         $this->bracket = $bracket;
