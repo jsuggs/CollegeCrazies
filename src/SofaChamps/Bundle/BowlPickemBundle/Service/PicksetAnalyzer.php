@@ -2,9 +2,15 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 
+/**
+ * PicksetAnalyzer
+ *
+ * @DI\Service("sofachamps.bp.pickset_analyzer")
+ */
 class PicksetAnalyzer
 {
     const DELETE_USER_SCORE_SQL =<<<EOF

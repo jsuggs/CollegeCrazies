@@ -20,8 +20,8 @@ class AnalyzeLeagueCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->analyzer = $this->getContainer()->get('pickset.analyzer');
-        $this->leagues = $this->getContainer()->get('doctrine.orm.entity_manager')->getRepository('SofaChampsBowlPickemBundle:League')->findAll();
+        $this->analyzer = $this->getContainer()->get('sofachamps.bp.pickset_analyzer');
+        $this->leagues = $this->getContainer()->get('doctrine.orm.default_entity_manager')->getRepository('SofaChampsBowlPickemBundle:League')->findAll();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
