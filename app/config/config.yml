@@ -56,6 +56,12 @@ swiftmailer:
 jms_security_extra:
     secure_all_services: false
 
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [SofChampsCoreBundle]
+        directories: ["%kernel.root_dir%/../src"]
+
 fos_user:
     db_driver: orm
     firewall_name: main

@@ -2,11 +2,11 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use SofaChamps\Bundle\CoreBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 class AdminController extends CoreController
 {
@@ -26,7 +26,6 @@ class AdminController extends CoreController
 
     /**
      * @Route("/admin/user/makeadmin/{userId}", name="core_admin_user_admin")
-     * @ParamConverter("user", class="SofaChampsMainBundle:User", options={"id" = "userId"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function makeAdminAction(User $user)
