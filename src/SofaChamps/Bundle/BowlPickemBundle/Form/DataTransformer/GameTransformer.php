@@ -2,10 +2,16 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Form\DataTransformer;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * GameTransformer
+ *
+ * @DI\Service("sofachamps.bp.transformer.game")
+ */
 class GameTransformer implements DataTransformerInterface
 {
     /**
@@ -14,7 +20,9 @@ class GameTransformer implements DataTransformerInterface
     private $om;
 
     /**
-     * @param ObjectManager $om
+     * @DI\InjectParams({
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager")
+     * })
      */
     public function __construct(ObjectManager $om)
     {
