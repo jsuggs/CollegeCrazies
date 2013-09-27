@@ -1,7 +1,6 @@
 imports:
     - { resource: event_services.yml }
     - { resource: form_services.yml }
-    - { resource: listener_services.yml }
     - { resource: pickset_services.yml }
     - { resource: prediction_services.yml }
     - { resource: twig.yml }
