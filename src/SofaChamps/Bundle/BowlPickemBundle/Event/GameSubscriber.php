@@ -2,16 +2,28 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Event;
 
-use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetAnalyzer;
 use Doctrine\Common\Persistence\ObjectManager;
+use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetAnalyzer;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * GameSubscriber
+ *
+ * @DI\Service
+ * @DI\Tag("kernel.event_subscriber")
+ */
 class GameSubscriber implements EventSubscriberInterface
 {
     protected $analyzer;
     protected $om;
 
+    /**
+     * @DI\InjectParams({
+     *      "analyzer" = @DI\Inject("pickset.analyzer"),
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager")
+     * })
+     */
     public function __construct(PicksetAnalyzer $analyzer, ObjectManager $om)
     {
         $this->analyzer = $analyzer;
