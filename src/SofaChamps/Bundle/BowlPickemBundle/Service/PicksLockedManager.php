@@ -2,10 +2,16 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
-use SofaChamps\Bundle\BowlPickemBundle\Listener\PicksLockedListener;
 use Doctrine\Common\Persistence\ObjectManager;
+use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BowlPickemBundle\Listener\PicksLockedListener;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * PicksLockedManager
+ *
+ * @DI\Service("sofachamps.bp.picks_locked_manager")
+ */
 class PicksLockedManager
 {
     const PICKS_LOCK_SESSION_KEY = 'picks_locked';
@@ -13,6 +19,12 @@ class PicksLockedManager
     private $om;
     private $session;
 
+    /**
+     * @DI\InjectParams({
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "session" = @DI\Inject("session")
+     * })
+     */
     public function __construct(ObjectManager $om, Session $session)
     {
         $this->om      = $om;

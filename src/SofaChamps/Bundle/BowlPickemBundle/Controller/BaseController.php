@@ -118,6 +118,6 @@ class BaseController extends Controller
 
     protected function picksLocked()
     {
-        return $this->get('picks_locked_manager')->arePickLocked();
+        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
     }
 }

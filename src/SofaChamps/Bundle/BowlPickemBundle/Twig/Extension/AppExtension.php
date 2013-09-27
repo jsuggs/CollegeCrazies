@@ -22,7 +22,7 @@ class AppExtension extends \Twig_Extension
 
     public function picksLocked()
     {
-        return $this->container->get('picks_locked_manager')->arePickLocked();
+        return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
     }
 
     public function getName()
