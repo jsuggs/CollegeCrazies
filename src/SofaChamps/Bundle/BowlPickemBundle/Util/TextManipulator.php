@@ -2,6 +2,14 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Util;
 
+use JMS\DiExtraBundle\Annotation as DI;
+
+/**
+ * TextManipulator
+ *
+ * TODO - Move to Core
+ * @DI\Service("text.manipulator")
+ */
 class TextManipulator
 {
     /**
