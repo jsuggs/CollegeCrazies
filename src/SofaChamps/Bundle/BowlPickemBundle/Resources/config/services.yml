@@ -1,4 +1,3 @@
 imports:
-    - { resource: twig.yml }
     - { resource: user_services.yml }
     - { resource: util_services.yml }
