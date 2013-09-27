@@ -1,3 +1,0 @@
-services:
-    pickset.sorter:
-        class: SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter

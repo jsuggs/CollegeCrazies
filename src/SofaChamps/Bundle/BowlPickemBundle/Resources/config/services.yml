@@ -1,5 +1,4 @@
 imports:
-    - { resource: pickset_services.yml }
     - { resource: prediction_services.yml }
     - { resource: twig.yml }
     - { resource: user_services.yml }
