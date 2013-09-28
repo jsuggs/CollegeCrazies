@@ -47,7 +47,7 @@ class LeagueController extends BaseController
         $users = $em->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         $projectedFinishStats = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
-        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
         $importantGames = $em->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
 
         // Only show the top 10 users
@@ -134,7 +134,7 @@ class LeagueController extends BaseController
             ORDER BY pg.id');
         $users = $query->setParameter('leagueId', $leagueId)->getResult();
 
-        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
 
         $curUser = $this->getUser();
 
@@ -406,7 +406,7 @@ class LeagueController extends BaseController
 
         $em = $this->get('doctrine.orm.entity_manager');
         $users = $em->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
-        list($rank, $sortedUsers) = $this->get('user.sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
 
         return array(
             'users' => $sortedUsers,
@@ -574,7 +574,7 @@ class LeagueController extends BaseController
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
+            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
@@ -761,7 +761,7 @@ class LeagueController extends BaseController
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
+            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
                 'message' => $request->get('message'),

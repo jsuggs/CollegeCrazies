@@ -24,7 +24,7 @@ class GeneratePredictionsCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->generator = $this->getContainer()->get('prediction.generator');
+        $this->generator = $this->getContainer()->get('sofachamps.bp.prediction_generator');
         $this->numPredictions = $input->getArgument('predictions');
     }
 

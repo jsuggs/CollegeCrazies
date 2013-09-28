@@ -11,13 +11,12 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvents;
 use SofaChamps\Bundle\BowlPickemBundle\Form\GameEditFormType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/game")
  */
-class GameController extends Controller
+class GameController extends BaseController
 {
     /**
      * @Route("/list", name="_bp_game_sidebar")
@@ -26,8 +25,9 @@ class GameController extends Controller
      */
     public function listAction()
     {
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->getEntityManager();
 
+        //TODO - Move to repo methods
         $upcomingQuery = $em->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g
             WHERE g.homeTeamScore is null
             ORDER BY g.gameDate')->setMaxResults(5);

@@ -4,19 +4,16 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BaseController extends Controller
+class BaseController extends CoreController
 {
     protected function findLeague($id)
     {
-        $league = $this
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:League')
-            ->find((int) $id);
+        $league = $this->getRepository('SofaChampsBowlPickemBundle:League')->find((int) $id);
 
         if (!$league) {
             throw new NotFoundHttpException(sprintf('There was no league with id = %s', $id));
@@ -118,6 +115,6 @@ class BaseController extends Controller
 
     protected function picksLocked()
     {
-        return $this->get('picks_locked_manager')->arePickLocked();
+        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
     }
 }

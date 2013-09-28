@@ -56,6 +56,11 @@ swiftmailer:
 jms_security_extra:
     secure_all_services: false
 
+jms_di_extra:
+    locations:
+        all_bundles: true
+        directories: ["%kernel.root_dir%/../src"]
+
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -64,7 +69,7 @@ fos_user:
        user_manager: sofachamps.user.manager
     registration:
         form:
-            type: college_crazies_user_registration
+            type: "sofachamps_user_registration"
     profile:
         form:
-            type: college_crazies_user_profile
+            type: "sofachamps_user_profile"

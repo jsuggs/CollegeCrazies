@@ -1,7 +1,0 @@
-services:
-    pickset.analyzer:
-        class: SofaChamps\Bundle\BowlPickemBundle\Service\PicksetAnalyzer
-        arguments: ["@doctrine.dbal.default_connection"]
-
-    pickset.sorter:
-        class: SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter

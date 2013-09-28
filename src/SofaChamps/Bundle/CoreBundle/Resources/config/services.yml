@@ -1,9 +1,4 @@
 services:
-    sofachamps.user.manager:
-        class: SofaChamps\Bundle\CoreBundle\Entity\MyUserManager
-        public: false
-        parent: fos_user.user_manager.default
-
     config.curdate:
         class: DateTime
         factory_class: \DateTime
@@ -14,11 +9,3 @@ services:
         factory_method: format
         arguments:
             - Y
-
-    twig.extension.sofachamps.user:
-        class: SofaChamps\Bundle\CoreBundle\Twig\Extension\UserExtension
-        public: false
-        arguments:
-            - @service_container
-        tags:
-            - { name: twig.extension }

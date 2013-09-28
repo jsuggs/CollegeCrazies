@@ -1,6 +1,0 @@
-services:
-    picks_locked_manager:
-        class: SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager
-        arguments:
-            - @doctrine.orm.entity_manager
-            - @session

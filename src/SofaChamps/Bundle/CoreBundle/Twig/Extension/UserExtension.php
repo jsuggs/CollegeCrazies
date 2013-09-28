@@ -2,13 +2,25 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Twig\Extension;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * UserExtension
+ *
+ * @DI\Service("sofachamps.core.twig.user")
+ * @DI\Tag("twig.extension")
+ */
 class UserExtension extends \Twig_Extension
 {
     private $container;
 
+    /**
+     * @DI\InjectParams({
+     *      "container" = @DI\Inject("service_container")
+     * })
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;

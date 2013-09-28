@@ -2,11 +2,25 @@
 
 namespace SofaChamps\Bundle\UserBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\ProfileFormType as BaseType;
+use JMS\DiExtraBundle\Annotation as DI;
+use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * @DI\FormType(alias="sofachamps_user_profile")
+ */
 class ProfileFormType extends BaseType
 {
+    /**
+     * @DI\InjectParams({
+     *      "class" = @DI\Inject("%fos_user.model.user.class%")
+     * })
+     */
+    public function __construct($class)
+    {
+        parent::__construct($class);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -26,6 +40,6 @@ class ProfileFormType extends BaseType
 
     public function getName()
     {
-        return 'college_crazies_user_profile';
+        return 'sofachamps_user_profile';
     }
 }

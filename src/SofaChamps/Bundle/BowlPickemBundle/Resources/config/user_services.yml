@@ -1,5 +1,0 @@
-services:
-    user.sorter:
-        class: SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter
-        arguments:
-            - @pickset.sorter
