@@ -574,7 +574,7 @@ class LeagueController extends BaseController
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
+            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
@@ -761,7 +761,7 @@ class LeagueController extends BaseController
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
+            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
                 'message' => $request->get('message'),

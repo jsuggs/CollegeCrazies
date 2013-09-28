@@ -1,7 +1,0 @@
-services:
-    email.sender:
-        class: SofaChamps\Bundle\EmailBundle\Email\Sender
-        arguments:
-            - @mailer
-            - @templating
-            - @logger
