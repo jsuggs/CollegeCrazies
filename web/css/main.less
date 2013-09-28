@@ -1,0 +1,78 @@
+@import "../components/bootstrap/less/bootstrap.less";
+body {
+    padding-top: 45px;
+}
+.game-list dd { margin-left: 0; }
+.unpicked {
+    background-color: #ffee77 !important;
+}
+.picked {
+    background-color: #ccffcc !important;
+}
+.hidden { display: none; }
+#pick-status { margin-top: 10px; }
+.status { width: 30px; }
+.confidence { text-align: center; }
+
+td.correct {
+    background-color: #ccffcc !important;
+    font-color: #006600 !important;
+    font-weight: normal !important;
+}
+th.correct {
+    background-color: #04b404 !important;
+    font-color: #006600 !important;
+    font-weight: bold !important;
+}
+td.incorrect {
+    background-color: #ffcccc !important;
+    font-color: #990000 !important;
+    font-weight: normal !important;
+}
+.pick-col {
+    width: 33px;
+    text-align: center;
+    white-space: nowrap !important;
+}
+.vertical-text {
+    width: 50px !important;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 10px;
+}
+.pickname {
+    white-space: nowrap !important;
+    padding: 0 5px;
+}
+.not-my-pick { background-color: #d8d8d8 !important; }
+.my-pick { background-color: #ffff99 !important; }
+.datagrid table {
+    border-collapse: collapse;
+    text-align: left;
+    width: 100%;
+}
+.datagrid {
+    font: normal 12px/150% Geneva, Arial, Helvetica, sans-serif;
+    background: #fff;
+    overflow: hidden;
+    border: 1px solid #006699;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px; border-radius: 3px;
+}
+.datagrid table td, .datagrid table th { padding: 3px 10px; }
+.datagrid table thead th {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );
+    background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+    background-color:#006699;
+    color:#FFFFFF;
+    font-size: 15px;
+    font-weight: bold;
+    border-left: 1px solid #0070A8;
+}
+.datagrid table thead th:first-child { border: none; }.datagrid table tbody td { color: #00496B; border-left: 1px solid #E1EEF4;font-size: 12px;border-bottom: 1px solid #E1EEF4;font-weight: normal; }.datagrid table tbody td:first-child { border-left: none; }
+.datagrid table tbody tr:last-child td { border-bottom: none; }
+.popover {
+    width: auto !important;
+}
+caption { text-align: left; }
