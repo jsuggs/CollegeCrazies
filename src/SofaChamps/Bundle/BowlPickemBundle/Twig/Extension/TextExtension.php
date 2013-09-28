@@ -34,7 +34,7 @@ class TextExtension extends \Twig_Extension
 
     public function truncateText($text, $maxLen, $additionalText = '...')
     {
-        return $this->container->get('text.manipulator')->truncateText($text, $maxLen, $additionalText = '...');
+        return $this->container->get('sofachamps.util.text_manipulator')->truncateText($text, $maxLen, $additionalText = '...');
     }
 
     public function getName()
