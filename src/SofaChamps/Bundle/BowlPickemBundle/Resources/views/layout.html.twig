@@ -26,8 +26,8 @@
 
 {% block nav_user %}
     <div class="btn-group">
-        <a class="btn btn-info" href="{{ path('pickset_manage') }}"><i class="icon-list icon-white"></i> My Picksets</a>
-        <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <a class="btn btn-info btn-xs" href="{{ path('pickset_manage') }}"><i class="icon-list icon-white"></i> My Picksets</a>
+        <a class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
         <ul class="dropdown-menu">
             {% if is_granted('ROLE_USER') %}
                 {% for pickSet in app.user.picksets %}

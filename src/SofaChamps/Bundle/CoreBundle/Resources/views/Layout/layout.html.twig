@@ -16,10 +16,12 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <a class="brand" href="/">SofaChamps</a>
-                <ul class="nav">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">SofaChamps</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
                     {% block nav_primary '' %}
                 </ul>
                 <div class="pull-right navbar-text">
@@ -29,8 +31,8 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="btn-group">
-                            <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-                            <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <a class="btn btn-warning btn-xs" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+                            <a class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ path('core_admin_users') }}">Manage Users</a></li>
                                 <li class="divider"></li>
@@ -41,8 +43,8 @@
 
                     {% if is_granted('ROLE_USER') %}
                         {% block nav_user '' %}
-                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
-                        <a href="/logout" class="btn btn-danger">logout</a>
+                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary btn-xs" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
+                        <a href="/logout" class="btn btn-danger btn-xs">logout</a>
                     {% else %}
                         <p class="navbar-text">
                             <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
