@@ -2,15 +2,24 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Form;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * @DI\FormType(alias="team_choice")
+ */
 class TeamChoiceFormType extends AbstractType
 {
     protected $config;
 
+    /**
+     * @DI\InjectParams({
+     *      "config" = @DI\Inject("sofachamps.superbowlchallenge.config.currentyear")
+     * })
+     */
     public function __construct(Config $config)
     {
         $this->config = $config;

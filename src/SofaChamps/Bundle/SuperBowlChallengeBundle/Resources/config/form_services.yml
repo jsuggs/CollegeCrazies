@@ -1,27 +1,4 @@
 services:
-    sofachamps.superbowlchallenge.form.type.team_choice:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\TeamChoiceFormType
-        arguments:
-            - @sofachamps.superbowlchallenge.config.currentyear
-        tags:
-            - { name: form.type, alias: team_choice }
-
-    sofachamps.superbowlchallenge.form.type.sbc_pick:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\PickFormType
-        arguments:
-            - @sofachamps.superbowlchallenge.repo.question_choice
-            - @config.curyear
-        tags:
-            - { name: form.type, alias: sbc_pick }
-
-    sofachamps.superbowlchallenge.form.type.sbc_result:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ResultFormType
-        arguments:
-            - @sofachamps.superbowlchallenge.repo.question_choice
-            - @config.curyear
-        tags:
-            - { name: form.type, alias: sbc_result }
-
     sofachamps.superbowlchallenge.repo.config:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
@@ -43,27 +20,3 @@ services:
         factory_method: findOneByYear
         arguments:
             - @config.curyear
-
-    transformer.pick:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\DataTransformer\PickTransformer
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    transformer.question:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\DataTransformer\QuestionTransformer
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    transformer.choice:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\DataTransformer\QuestionChoiceTransformer
-        arguments: ["@doctrine.orm.entity_manager"]
-
-    form.type.hidden_pick:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\Type\HiddenPickType
-        arguments: ["@transformer.pick"]
-        tags:
-            - { name: form.type, alias: hidden_pick }
-
-    form.type.hidden_question:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Form\Type\HiddenQuestionType
-        arguments: ["@transformer.question"]
-        tags:
-            - { name: form.type, alias: hidden_question }
