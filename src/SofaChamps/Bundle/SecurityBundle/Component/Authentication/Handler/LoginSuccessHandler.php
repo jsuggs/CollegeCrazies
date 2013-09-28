@@ -3,20 +3,36 @@
 namespace SofaChamps\Bundle\SecurityBundle\Component\Authentication\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\SecurityContext;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 
+/**
+ * LoginSuccessHandler
+ *
+ * @DI\Service("sofachamps.component.authentication.handler.login_success_handler")
+ * @DI\Tag("monolog.logger", attributes={"channel":"secutiry"})
+ */
 class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
     protected $router;
     protected $security;
     protected $session;
+    protected $om;
 
+    /**
+     * @DI\InjectParams({
+     *      "router" = @DI\Inject("router"),
+     *      "security" = @DI\Inject("security.context"),
+     *      "session" = @DI\Inject("session"),
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     * })
+     */
     public function __construct(Router $router, SecurityContext $security, Session $session, ObjectManager $om)
     {
         $this->router = $router;
