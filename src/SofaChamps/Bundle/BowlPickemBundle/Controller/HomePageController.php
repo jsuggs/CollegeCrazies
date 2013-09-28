@@ -5,9 +5,8 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class HomePageController extends Controller
+class HomePageController extends BaseController
 {
     /**
      * @Route("/", name="bp_home")
@@ -70,7 +69,7 @@ class HomePageController extends Controller
     public function scheduleAction()
     {
         return array(
-            'games' => array_reverse($this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate()),
+            'games' => array_reverse($this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate()),
         );
     }
 

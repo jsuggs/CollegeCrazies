@@ -2,8 +2,14 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 
+/**
+ * PickSetSorter
+ *
+ * @DI\Service("sofachamps.bp.pickset_sorter")
+ */
 class PickSetSorter
 {
     public function sortPickSets($pickSets, $tieBreakerHomeScore = null, $tieBreakerAwayScore = null)

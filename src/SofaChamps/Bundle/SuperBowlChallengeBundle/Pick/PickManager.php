@@ -3,15 +3,26 @@
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Pick;
 
 use Doctrine\ORM\EntityManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 
+/**
+ * PickManager
+ *
+ * @DI\Service("sofachamps.superbowlchallenge.pickmanager")
+ */
 class PickManager
 {
     protected $em;
 
+    /**
+     * @DI\InjectParams({
+     *      "em" = @DI\Inject("doctrine.orm.default_entity_manager")
+     * })
+     */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;

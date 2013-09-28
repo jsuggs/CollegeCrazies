@@ -2,19 +2,22 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Form\DataTransformer;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * @DI\Service("transformer.question")
+ */
 class QuestionTransformer implements DataTransformerInterface
 {
-    /**
-     * @var ObjectManager
-     */
     private $om;
 
     /**
-     * @param ObjectManager $om
+     * @DI\InjectParams({
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager")
+     * })
      */
     public function __construct(ObjectManager $om)
     {

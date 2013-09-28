@@ -2,16 +2,30 @@
 
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
+/**
+ * Sender
+ * This sends all of the email
+ *
+ * @DI\Service("sofachamps.email.sender")
+ */
 class Sender implements SenderInterface
 {
     protected $mailer;
     protected $templating;
     protected $logger;
 
+    /**
+     * @DI\InjectParams({
+     *      "mailer" = @DI\Inject("mailer"),
+     *      "templating" = @DI\Inject("templating"),
+     *      "logger" = @DI\Inject("logger")
+     * })
+     */
     public function __construct($mailer, EngineInterface $templating, LoggerInterface $logger)
     {
         $this->mailer = $mailer;

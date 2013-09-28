@@ -2,13 +2,26 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Twig\Extension;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Pick\PickManager;
 
+/**
+ * SuperBowlChallengeExtension
+ *
+ * @DI\Service("sofachamps.sbc.twig.app")
+ * @DI\Tag("twig.extension")
+ */
 class SuperBowlChallengeExtension extends \Twig_Extension
 {
     private $manager;
     private $year;
 
+    /**
+     * @DI\InjectParams({
+     *      "manager" = @DI\Inject("sofachamps.superbowlchallenge.pickmanager"),
+     *      "year" = @DI\Inject("config.curyear")
+     * })
+     */
     public function __construct(PickManager $manager, $year)
     {
         $this->manager = $manager;
@@ -26,13 +39,5 @@ class SuperBowlChallengeExtension extends \Twig_Extension
     public function getName()
     {
         return 'sofachamps.superbowlchallenge';
-    }
-
-    protected function getConfig()
-    {
-        return $this->container
-            ->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')
-            ->find(date('Y'));
     }
 }

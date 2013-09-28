@@ -3,15 +3,25 @@
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * @DI\FormType(alias="sbc_pick")
+ */
 class PickFormType extends AbstractType
 {
     protected $repo;
     protected $year;
 
+    /**
+     * @DI\InjectParams({
+     *      "repo" = @DI\Inject("sofachamps.superbowlchallenge.repo.question_choice"),
+     *      "year" = @DI\Inject("config.curyear")
+     * })
+     */
     public function __construct(EntityRepository $repo, $year)
     {
         $this->repo = $repo;

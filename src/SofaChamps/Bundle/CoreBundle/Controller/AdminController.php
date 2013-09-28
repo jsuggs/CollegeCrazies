@@ -2,14 +2,13 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use SofaChamps\Bundle\CoreBundle\Entity\User;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
-class AdminController extends Controller
+class AdminController extends CoreController
 {
     /**
      * @Route("/admin/user/list", name="core_admin_users")
@@ -18,9 +17,7 @@ class AdminController extends Controller
      */
     public function usersAction()
     {
-        $users = $this->get('doctrine.orm.entity_manager')
-            ->getRepository('SofaChampsCoreBundle:User')
-            ->findAll();
+        $users = $this->getRepository('SofaChampsCoreBundle:User')->findAll();
 
         return array(
             'users' => $users
@@ -29,7 +26,6 @@ class AdminController extends Controller
 
     /**
      * @Route("/admin/user/makeadmin/{userId}", name="core_admin_user_admin")
-     * @ParamConverter("user", class="SofaChampsMainBundle:User", options={"id" = "userId"})
      * @Secure(roles="ROLE_ADMIN")
      */
     public function makeAdminAction(User $user)
@@ -43,7 +39,7 @@ class AdminController extends Controller
         // Set the new roles back on the user
         $user->setRoles($roles);
 
-        $this->get('doctrine.orm.entity_manager')->flush($user);
+        $this->getEntityManager()->flush($user);
 
         return $this->redirect($this->generateURL('core_admin_users'));
     }

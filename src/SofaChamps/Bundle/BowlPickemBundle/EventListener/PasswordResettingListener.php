@@ -2,19 +2,28 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\EventListener;
 
-use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\FOSUserEvents;
+use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Listener responsible to change the redirection at the end of the password resetting
+ *
+ * @DI\Service
+ * @DI\Tag("kernel.event_subscriber")
  */
 class PasswordResettingListener implements EventSubscriberInterface
 {
     private $router;
 
+    /**
+     * @DI\InjectParams({
+     *      "router" = @DI\Inject("router")
+     * })
+     */
     public function __construct(UrlGeneratorInterface $router)
     {
         $this->router = $router;

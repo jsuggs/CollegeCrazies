@@ -1,9 +1,0 @@
-services:
-    twig.extension.sofachamps.superbowlchallenge:
-        class: SofaChamps\Bundle\SuperBowlChallengeBundle\Twig\Extension\SuperBowlChallengeExtension
-        public: false
-        arguments:
-            - @sofachamps.superbowlchallenge.pickmanager
-            - @config.curyear
-        tags:
-            - { name: twig.extension }
