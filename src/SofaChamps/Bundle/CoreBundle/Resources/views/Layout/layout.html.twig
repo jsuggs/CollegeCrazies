@@ -13,12 +13,6 @@
     {% stylesheets 'css/main.less' filter='less' output='compiled/css/main.css' %}
         <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
-    <link href="/css/cc.css" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-    <script src="/js/cc.js?v=1"> </script>
-    <script src="/js/libs/bootbox/bootbox.min.js"> </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -93,8 +87,18 @@
         </div>
     </div>
 
-    <script src="/js/libs/flot/jquery.flot.js"></script>
-    <script src="/js/libs/flot/jquery.flot.time.js"></script>
+    {% javascripts
+        'components/jquery/jquery.js'
+        'components/bootstrap/js/*'
+        'js/cc.js'
+        'js/libs/bootbox/bootbox.min.js'
+        'js/libs/flot/jquery.flot.js'
+        'js/libs/flot/jquery.flot.time.js'
+        output='compiled/js/sofachamps.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-36743769-1']);
