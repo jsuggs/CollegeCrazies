@@ -7,6 +7,7 @@
         "backbone": "latest",
         "bootbox": "latest",
         "requirejs": "latest",
+        "flot": "latest",
         "bootstrap": "3.*",
         "font-awesome": "latest"
     }
