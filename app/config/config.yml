@@ -69,7 +69,7 @@ fos_user:
        user_manager: sofachamps.user.manager
     registration:
         form:
-            type: college_crazies_user_registration
+            type: "sofachamps_user_registration"
     profile:
         form:
-            type: college_crazies_user_profile
+            type: "sofachamps_user_profile"
