@@ -1,14 +1,14 @@
 services:
     sofachamps.superbowlchallenge.repo.config:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
+        factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
             - SofaChampsSuperBowlChallengeBundle:Config
 
     sofachamps.superbowlchallenge.repo.question_choice:
         class: Doctrine\ORM\EntityRepository
-        factory_service: doctrine.orm.entity_manager
+        factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
             - SofaChampsSuperBowlChallengeBundle:QuestionChoice

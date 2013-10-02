@@ -53,7 +53,7 @@ class GameController extends BaseController
     {
         $user = $this->getUser();
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
 
         $query = $em->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g ORDER BY g.gameDate');
         $games = $query->getResult();
@@ -92,7 +92,7 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $game = $form->getData();
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             $em->persist($game);
             $em->flush();
             $this->get('session')->getFlashBag()->set('success', 'Game Created');
@@ -136,7 +136,7 @@ class GameController extends BaseController
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             $em->persist($game);
 
             // If the game is complete, then dispatch an event

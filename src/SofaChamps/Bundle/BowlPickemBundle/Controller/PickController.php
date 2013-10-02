@@ -52,7 +52,7 @@ class PickController extends BaseController
             if ($this->picksLocked()) {
                 $this->get('session')->getFlashBag()->set('warning', 'You can\' update your leagues after picks lock');
             } else {
-                $em = $this->get('doctrine.orm.entity_manager');
+                $em = $this->get('doctrine.orm.default_entity_manager');
                 $conn = $em->getConnection();
                 // Delete all of the users picksets
                 $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
@@ -100,7 +100,7 @@ class PickController extends BaseController
             $pickSet->setLeague($league);
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
         $idx = count($games);
         foreach ($games as $game) {
@@ -187,7 +187,7 @@ class PickController extends BaseController
             return $this->redirect('/');
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $projectedFinishStats = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
 
         return array(
@@ -233,7 +233,7 @@ class PickController extends BaseController
             return $this->redirect('/');
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
 
         return array(
@@ -265,7 +265,7 @@ class PickController extends BaseController
             $user = $this->getUser();
             $pickSet->setUser($user);
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
 
             $user->addPickSet($pickSet);
             $em->persist($user);
@@ -302,7 +302,7 @@ class PickController extends BaseController
         $form = $this->getPickSetForm($pickSet);
         $form->bindRequest($this->getRequest());
         if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
 
             $em->persist($pickSet);
             $em->flush();
@@ -330,7 +330,7 @@ class PickController extends BaseController
         $pickSet = $this->findPickSet($pickSetId, true);
         $league = $this->findLeague($leagueId);
 
-        $data = $this->get('doctrine.orm.entity_manager')
+        $data = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->getPickDistribution($pickSet, $league);
 
