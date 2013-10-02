@@ -31,13 +31,13 @@
                 </ul>
                 <div class="pull-right navbar-right">
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
+                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning navbar-btn">Exit impersonation</a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="btn-group">
-                            <a class="btn btn-warning btn-xs" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-                            <a class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <a class="btn btn-warning navbar-btn" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+                            <a class="btn btn-warning navbar-btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ path('core_admin_users') }}">Manage Users</a></li>
                                 <li class="divider"></li>
@@ -48,8 +48,8 @@
 
                     {% if is_granted('ROLE_USER') %}
                         {% block nav_user '' %}
-                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary btn-xs" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
-                        <a href="/logout" class="btn btn-danger btn-xs">logout</a>
+                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary navbar-btn" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
+                        <a href="/logout" class="btn btn-danger navbar-btn">logout</a>
                     {% else %}
                         <p class="navbar-text">
                             <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
