@@ -59,7 +59,7 @@
     {% if is_granted('ROLE_USER') and app.user.picksets|length %}
         <div class="navbar">
             <div class="navbar-inner">
-                <div class="container-fluid">
+                <div class="container">
                     {% if league is defined and league is not null %}
                         <a class="brand" href="{{ path('league_home', {leagueId: league.id}) }}">{{ league.name }}</a>
                         <ul class="nav">

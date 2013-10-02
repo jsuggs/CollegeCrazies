@@ -1,9 +1,9 @@
 {% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="span9">
+            <div class="col-md-9">
                 <h2>Make your picks <small><a href="{{ path('howto') }}">Need some help?</a></small></h2>
                 <p>Select the winner and drag the teams to their desired confidence</p>
 
@@ -14,7 +14,7 @@
                     </div>
                 </form>
             </div>
-            <div class="span3">
+            <div class="col-md-3">
                 <h3>Assigned Leagues</h3>
                 {% if pickSet.leagues|length %}
                     <p><small>This pickset is assigned to all of these leagues</small></p>

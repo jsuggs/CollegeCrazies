@@ -1,9 +1,9 @@
 {% extends "SofaChampsUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="span6">
+            <div class="col-md-6">
                 <h2>Login</h2>
 
                 {% if error %}
@@ -47,7 +47,7 @@
                     </fieldset>
                 </form>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 {% include 'SofaChampsUserBundle:Registration:register_content.html.twig' with {form: regForm} %}
             </div>
         </div>
