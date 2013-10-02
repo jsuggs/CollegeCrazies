@@ -23,7 +23,7 @@ class StatController extends BaseController
             return $this->redirect('/');
         }
 
-        $games = $this->get('doctrine.orm.entity_manager')
+        $games = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:Game')
             ->gamesByImportance();
 
@@ -44,7 +44,7 @@ class StatController extends BaseController
             return $this->redirect('/');
         }
 
-        $pickSets = $this->get('doctrine.orm.entity_manager')
+        $pickSets = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->findAllOrderedByPoints();
 

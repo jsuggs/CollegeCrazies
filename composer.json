@@ -6,12 +6,12 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.2",
+        "symfony/symfony": "2.2.*",
         "doctrine/orm": ">=2.2.3",
         "doctrine/doctrine-bundle": "1.*",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "twig/extensions": "1.*",
+        "twig/extensions": "*",
         "symfony/assetic-bundle": "*",
         "symfony/swiftmailer-bundle": "*",
         "symfony/monolog-bundle": "*",
@@ -21,7 +21,7 @@
         "jms/security-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "friendsofsymfony/user-bundle": "*",
-        "monolog/monolog": "~1.3",
+        "monolog/monolog": "*",
         "flot/flot": "master",
         "liip/functional-test-bundle": "dev-master"
     },

@@ -1,9 +1,9 @@
 {% extends "SofaChampsUserBundle::layout.html.twig" %}
 
 {% block fos_user_content %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="span6">
+            <div class="col-md-6">
                 <h2>Login</h2>
 
                 {% if error %}
@@ -13,23 +13,23 @@
                     </div>
                 {% endif %}
 
-                <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal">
+                <form action="{{ path("fos_user_security_check") }}" method="post" class="form" role="form">
                     <fieldset>
-                        <div class="control-group">
+                        <div class="form-group">
                             <label for="username" class="control-label">Username/Email</label>
                             <div class="controls">
                                 <input type="text" id="username" name="_username" value="{{ last_username }}" />
                             </div>
                         </div>
 
-                        <div class="control-group">
+                        <div class="form-group">
                             <label for="password" class="control-label">Password</label>
                             <div class="controls">
                                 <input type="password" id="password" name="_password" />
                             </div>
                         </div>
 
-                        <div class="control-group">
+                        <div class="form-group">
                             <div class="controls">
                                 <label for="remember_me" class="checkbox">
                                     <input type="checkbox" id="remember_me" name="_remember_me" value="on" /> Remember Me
@@ -37,17 +37,17 @@
                             </div>
                         </div>
 
-                        <div class="form-actions">
+                        <div class="form-group">
                             <input type="submit" id="_submit" name="_submit" class="btn btn-primary" value="Login" />
                         </div>
 
-                        <div class="control-group">
+                        <div class="form-group">
                             <h4>Did you forget your password? <a href="{{ path('fos_user_resetting_request') }}">Click here to reset your password</a></h4>
                         </div>
                     </fieldset>
                 </form>
             </div>
-            <div class="span6">
+            <div class="col-md-6">
                 {% include 'SofaChampsUserBundle:Registration:register_content.html.twig' with {form: regForm} %}
             </div>
         </div>

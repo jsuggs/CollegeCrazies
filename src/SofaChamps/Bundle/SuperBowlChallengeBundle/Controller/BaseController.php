@@ -39,7 +39,7 @@ class BaseController extends Controller
         $year = $year ?: date('Y');
 
         $pick = $this
-            ->get('doctrine.orm.entity_manager')
+            ->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
             ->findOneBy(array(
                 'year' => $year,
@@ -59,7 +59,7 @@ class BaseController extends Controller
         $year = $year ?: date('Y');
 
         $config = $this
-            ->get('doctrine.orm.entity_manager')
+            ->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')
             ->find($year);
 
@@ -85,7 +85,7 @@ class BaseController extends Controller
         $year = $year ?: date('Y');
 
         $result = $this
-            ->get('doctrine.orm.entity_manager')
+            ->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Result')
             ->find($year);
 

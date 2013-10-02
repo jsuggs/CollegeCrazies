@@ -21,7 +21,7 @@ class TeamController extends Controller
      */
     public function listAction()
     {
-        $teams = $this->get('doctrine.orm.entity_manager')
+        $teams = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:Team')
             ->findAll();
 
@@ -58,7 +58,7 @@ class TeamController extends Controller
 
         if ($form->isValid()) {
             $team = $form->getData();
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             $em->persist($team);
             $em->flush();
         } else {
@@ -99,7 +99,7 @@ class TeamController extends Controller
 
         if ($form->isValid()) {
             $team = $form->getData();
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             $em->persist($team);
             $em->flush();
 
@@ -119,7 +119,7 @@ class TeamController extends Controller
 
     private function findTeam($teamId)
     {
-        $team = $this->get('doctrine.orm.entity_manager')
+        $team = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:Team')
             ->find($teamId);
 

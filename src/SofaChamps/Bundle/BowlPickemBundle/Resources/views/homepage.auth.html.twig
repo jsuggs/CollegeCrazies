@@ -1,12 +1,12 @@
 {% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
 
 {% block content %}
-    <div class="hero-unit">
+    <div class="jumbotron">
         <h1>SofaChamps.com</h1>
         <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="span6">
+                <div class="col-md-6">
                     {% if user.picksets|length %}
                         <h2>My Picksets</h2>
                         <ul class="unstyled">
@@ -31,7 +31,7 @@
                         <a href="{{ path('pickset_new') }}" class="btn btn-success">Create new Pickset Now!</a>
                     {% endif %}
                 </div>
-                <div class="span6">
+                <div class="col-md-6">
                     {% if user.picksets|length %}
                         {% if user.leagues|length %}
                             <h2>My Leagues</h2>

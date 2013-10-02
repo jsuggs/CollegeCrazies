@@ -26,7 +26,7 @@ class MainController extends BaseController
      */
     public function leaderboardAction($year)
     {
-        $picks = $this->get('doctrine.orm.entity_manager')
+        $picks = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
             ->findPicksForYearOrderedByScore($year);
 

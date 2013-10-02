@@ -10,31 +10,34 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link href="/css/cc.css" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-    <script src="/js/cc.js?v=1"> </script>
-    <script src="/js/libs/bootbox/bootbox.min.js"> </script>
+    {% stylesheets 'css/main.less' filter='less' output='compiled/css/main.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <a class="brand" href="/">SofaChamps</a>
-                <ul class="nav">
+    <div class="navbar navbar-inverse navbar-fixed-top navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SofaChamps</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
                     {% block nav_primary '' %}
                 </ul>
-                <div class="pull-right navbar-text">
+                <div class="pull-right navbar-right">
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning">Exit impersonation</a>
+                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning navbar-btn">Exit impersonation</a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="btn-group">
-                            <a class="btn btn-warning" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-                            <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <a class="btn btn-warning navbar-btn" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
+                            <a class="btn btn-warning navbar-btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ path('core_admin_users') }}">Manage Users</a></li>
                                 <li class="divider"></li>
@@ -45,8 +48,8 @@
 
                     {% if is_granted('ROLE_USER') %}
                         {% block nav_user '' %}
-                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
-                        <a href="/logout" class="btn btn-danger">logout</a>
+                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary navbar-btn" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
+                        <a href="/logout" class="btn btn-danger navbar-btn">logout</a>
                     {% else %}
                         <p class="navbar-text">
                             <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
@@ -61,17 +64,17 @@
 
     {% set _sidebar = block('sidebar') %}
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row-fluid">
             {% if _sidebar is not empty %}
-                {% set contentSpanClass = 'span10' %}
-                <div class="span2">
+                {% set contentSpanClass = 'col-md-10' %}
+                <div class="col-md-2">
                     <div class="well">
                         {% block sidebar '' %}
                     </div>
                 </div>
             {% else %}
-                {% set contentSpanClass = 'span12' %}
+                {% set contentSpanClass = 'col-md-12' %}
             {% endif %}
 
             <div class="{{ contentSpanClass }}">
@@ -91,8 +94,18 @@
         </div>
     </div>
 
-    <script src="/js/libs/flot/jquery.flot.js"></script>
-    <script src="/js/libs/flot/jquery.flot.time.js"></script>
+    {% javascripts
+        'components/jquery/jquery.js'
+        'components/bootstrap/js/*'
+        'components/bootbox/bootbox.js'
+        'components/flot/jquery.flot.js'
+        'components/flot/jquery.flot.time.js'
+        'js/cc.js'
+        output='compiled/js/sofachamps.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-36743769-1']);
