@@ -51,6 +51,15 @@ _sonata_admin:
     type: sonata_admin
     prefix: /admin
 
+_security_check:
+    pattern:  /facebook_login
+
+_security_logout:
+    pattern:  /logout
+
+fos_facebook_channel:
+    resource: "@FOSFacebookBundle/Resources/config/routing.xml"
+
 # Internal routing configuration to handle ESI
 #_internal:
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

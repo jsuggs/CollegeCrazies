@@ -1,7 +1,7 @@
 {% if form is defined and form %}{% form_theme form 'SofaChampsCoreBundle::form_theme.html.twig' %}{% endif %}
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>SofaChamps{% block title '' %}</title>
     <meta name="description" content="Sofa Champs">
@@ -15,6 +15,7 @@
     {% endstylesheets %}
 </head>
 <body>
+    {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -51,6 +52,7 @@
                     <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
+                    <li>FB! {{ facebook_login_button({'autologoutlink': true}) }}</li>
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Signup</a></li>
                 {% endif %}
@@ -125,6 +127,23 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
+    </script>
+    <script>
+        function goLogIn(){
+            window.location.href = "{{ path('_security_check') }}";
+        }
+
+        function onFbInit() {
+            if (typeof(FB) != 'undefined' && FB != null ) {              
+                FB.Event.subscribe('auth.statusChange', function(response) {
+                    if (response.session || response.authResponse) {
+                        setTimeout(goLogIn, 500);
+                    } else {
+                        window.location.href = "{{ path('_security_logout') }}";
+                    }
+                });
+            }
+        }
     </script>
 </body>
 </html>
