@@ -43,7 +43,7 @@ class LeagueController extends BaseController
             )));
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $users = $em->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         $projectedFinishStats = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
@@ -70,7 +70,7 @@ class LeagueController extends BaseController
      */
     public function publicAction()
     {
-        $leagues = $this->get('doctrine.orm.entity_manager')
+        $leagues = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:League')
             ->findAllPublic();
 
@@ -93,7 +93,7 @@ class LeagueController extends BaseController
             ))
             ->getForm();
 
-        $leagues = $this->get('doctrine.orm.entity_manager')
+        $leagues = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:League')
             ->findAllPublic();
 
@@ -122,7 +122,7 @@ class LeagueController extends BaseController
             )));
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $games = $em->createQuery('SELECT g FROM SofaChampsBowlPickemBundle:Game g ORDER BY g.gameDate')->getResult();
 
         $query = $em->createQuery('SELECT u, p from SofaChampsCoreBundle:User u
@@ -213,14 +213,14 @@ class LeagueController extends BaseController
             if (count($pickSets) === 1) {
                 $pickSets[0]->addLeague($league);
             } else {
-                $this->get('doctrine.orm.entity_manager')->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 // Go to an intermediate page for assiging pickset to this league
                 return $this->redirect($this->generateUrl('league_assoc', array(
                     'leagueId' => $league->getId(),
                 )));
             }
-            $this->get('doctrine.orm.entity_manager')->flush();
+            $this->get('doctrine.orm.default_entity_manager')->flush();
 
             return $this->redirect($this->generateUrl('league_home', array(
                 'leagueId' => $league->getId(),
@@ -280,7 +280,7 @@ class LeagueController extends BaseController
             } else {
                 $pickSet = $this->findPickSet($request->request->get('pickset'));
                 $pickSet->addLeague($league);
-                $this->get('doctrine.orm.entity_manager')->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
 
                 $this->get('session')->getFlashBag()->set('success', sprintf('Welcome to %s', $league->getName()));
                 return $this->redirect($this->generateUrl('league_home', array(
@@ -314,7 +314,7 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
-        $members = $this->get('doctrine.orm.entity_manager')
+        $members = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsCoreBundle:User')
             ->findUsersInLeague($league);
 
@@ -340,7 +340,7 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $pickSet = $league->getPicksetForUser($user);
         $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->userGamesByImportance($league, $pickSet);
         $projectedFinishStats = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
@@ -369,7 +369,7 @@ class LeagueController extends BaseController
         }
 
         $request = $this->getRequest();
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         if ($request->getMethod() === 'POST') {
             $userId = $request->request->get('userId');
             $em->getConnection()->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($leagueId, $userId));
@@ -404,7 +404,7 @@ class LeagueController extends BaseController
             )));
         }
 
-        $em = $this->get('doctrine.orm.entity_manager');
+        $em = $this->get('doctrine.orm.default_entity_manager');
         $users = $em->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
 
@@ -465,7 +465,7 @@ class LeagueController extends BaseController
             if (count($pickSets) === 1) {
                 $pickSets[0]->addLeague($league);
             }
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             $em->persist($league);
             $em->flush();
         } else {
@@ -533,7 +533,7 @@ class LeagueController extends BaseController
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.entity_manager')->flush();
+            $em = $this->get('doctrine.orm.default_entity_manager')->flush();
 
             return $this->redirect($this->generateUrl('league_edit', array(
                 'leagueId' => $leagueId,
@@ -580,7 +580,7 @@ class LeagueController extends BaseController
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
             foreach ($emails as $email) {
                 $invite = new Invite($user, $email);
                 $em->persist($invite);
@@ -617,7 +617,7 @@ class LeagueController extends BaseController
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
-                $this->get('doctrine.orm.entity_manager')->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
             } else {
                 $this->get('session')->getFlashBag()->set('error', 'Error locking the league');
             }
@@ -655,7 +655,7 @@ class LeagueController extends BaseController
                 $this->get('session')->getFlashBag()->set('warning', 'What cha smokin?  Every league needs a commish...');
             } else {
                 if ($form->isValid()) {
-                    $this->get('doctrine.orm.entity_manager')->flush();
+                    $this->get('doctrine.orm.default_entity_manager')->flush();
                 } else {
                     $this->get('session')->getFlashBag()->set('error', 'Error updating the commissioners for the league');
                 }
@@ -684,7 +684,7 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
-        $users = $this->get('doctrine.orm.entity_manager')
+        $users = $this->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsCoreBundle:User')
             ->findPotentialWinersInLeague($league);
 
@@ -719,7 +719,7 @@ class LeagueController extends BaseController
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
-                $this->get('doctrine.orm.entity_manager')->flush();
+                $this->get('doctrine.orm.default_entity_manager')->flush();
             } else {
                 $this->get('session')->getFlashBag()->set('error', 'Error updating the note for the league');
             }
@@ -792,7 +792,7 @@ class LeagueController extends BaseController
             return $this->redirect('/');
         }
 
-        $users = $this->get('doctrine.orm.entity_manager')->getRepository('SofaChampsCoreBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
+        $users = $this->get('doctrine.orm.default_entity_manager')->getRepository('SofaChampsCoreBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
         $emailList = array_map(function($user) { return $user->getEmail(); }, $users);
 
         return array(
@@ -834,7 +834,7 @@ class LeagueController extends BaseController
 
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
-            $em = $this->get('doctrine.orm.entity_manager');
+            $em = $this->get('doctrine.orm.default_entity_manager');
 
             $league = $this->findLeague($request->request->get('leagueId'));
             $pickSet = $league->getPicksetForUser($user);

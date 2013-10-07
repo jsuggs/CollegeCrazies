@@ -1,13 +1,13 @@
 {% extends "SofaChampsCoreBundle::layout.html.twig" %}
 
 {% block content %}
-    <div class="hero-unit">
+    <div class="jumbotron">
         <h1>SofaChamps.com</h1>
         <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
         <hr />
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="span8">
+                <div class="col-md-8">
                     <h2><b>Active Games</b></h2>
                     <ul class="unstyled">
                         <li style="padding-left: 10px">
@@ -17,7 +17,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="span4">
+                <div class="col-md-4">
                     <h4>Upcoming Games</h4>
                     <p><a href="{{ path('bp_home') }}" class="muted">College Bowl Mania</a></p>
                 </div>

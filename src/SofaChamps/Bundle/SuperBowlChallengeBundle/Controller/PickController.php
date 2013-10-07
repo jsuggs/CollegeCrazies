@@ -37,7 +37,7 @@ class PickController extends BaseController
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $pick->setYear($year);
-                $em = $this->get('doctrine.orm.entity_manager');
+                $em = $this->get('doctrine.orm.default_entity_manager');
                 $em->persist($pick);
                 $em->flush();
 
