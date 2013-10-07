@@ -134,7 +134,7 @@
         }
 
         function onFbInit() {
-            if (typeof(FB) != 'undefined' && FB != null ) {              
+            if (typeof(FB) != 'undefined' && FB != null ) {
                 FB.Event.subscribe('auth.statusChange', function(response) {
                     if (response.session || response.authResponse) {
                         setTimeout(goLogIn, 500);

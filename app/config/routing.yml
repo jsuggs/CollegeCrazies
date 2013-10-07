@@ -23,6 +23,11 @@ sofa_champs_nfl_admin:
     type:     annotation
     prefix:   /nfl_admin
 
+sofa_champs_facebook:
+    resource: "@SofaChampsFacebookBundle/Controller/"
+    type:     annotation
+    prefix:   /facebook
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
