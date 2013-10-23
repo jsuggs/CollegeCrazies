@@ -32,17 +32,18 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                    <li><a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="text-danger">Exit impersonation</a></li>
+                    <li><a href="{{ path('core_home', {_switch_user: '_exit'}) }}"><span class="glyphicon glyphicon-ban-circle"></span> Exit impersonation</a></li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="/admin" class="text-danger">Admin</a></li>
+                    <li><a href="/admin"><span class="glyphicon glyphicon-th-list"> Admin</a></li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     {% block nav_user '' %}
-                    <li><a href="{{ path('fos_user_profile_edit') }}" class="" style="">{{ app.user }}</a></li>
+                    <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
-                    <li><a href="/login">Login</a> or <a href="/register">Signup</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Signup</a></li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->
