@@ -1,0 +1,9 @@
+services:
+    sofachamps.admin.bp.game:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\GameAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "Games" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\CoreBundle\Entity\Game
+            - 'SonataAdminBundle:CRUD'
