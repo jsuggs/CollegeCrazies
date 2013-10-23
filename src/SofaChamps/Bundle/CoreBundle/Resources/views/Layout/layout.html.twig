@@ -15,50 +15,38 @@
     {% endstylesheets %}
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-default" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">SofaChamps</a>
-            </div>
-            <div class="navbar-collapse collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    {% block nav_primary '' %}
-                </ul>
-                <div class="pull-right navbar-right">
-                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="btn btn-warning navbar-btn">Exit impersonation</a>
-                    {% endif %}
-
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <div class="btn-group">
-                            <a class="btn btn-warning navbar-btn" href="#"><i class="icon-wrench icon-white"></i> Admin</a>
-                            <a class="btn btn-warning navbar-btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ path('core_admin_users') }}">Manage Users</a></li>
-                                <li class="divider"></li>
-                                {% block nav_admin '' %}
-                            </ul>
-                        </div>
-                    {% endif %}
-
-                    {% if is_granted('ROLE_USER') %}
-                        {% block nav_user '' %}
-                        <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary navbar-btn" style="margin-left: 25px;"><i class="icon-user icon-white"></i> {{ app.user }}</a>
-                        <a href="/logout" class="btn btn-danger navbar-btn">logout</a>
-                    {% else %}
-                        <p class="navbar-text">
-                            <a href="/login" class="navbar-link">Login</a> or <a href="/register">Signup</a>
-                        </p>
-                    {% endif %}
-                </div>
-            </div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">SofaChamps</a>
         </div>
-    </div>
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                {% block nav_primary '' %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                    <li><a href="{{ path('core_home', {_switch_user: '_exit'}) }}" class="text-danger">Exit impersonation</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="/admin" class="text-danger">Admin</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    {% block nav_user '' %}
+                    <li><a href="{{ path('fos_user_profile_edit') }}" class="" style="">{{ app.user }}</a></li>
+                    <li><a href="/logout" class="text-danger">Logout</a></li>
+                {% else %}
+                    <li><a href="/login">Login</a> or <a href="/register">Signup</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
 
     {% block nav_secondary '' %}
 
@@ -97,6 +85,8 @@
     {% javascripts
         'components/jquery/jquery.js'
         'components/bootstrap/js/tooltip.js'
+        'components/bootstrap/js/dropdown.js'
+        'components/bootstrap/js/collapse.js'
         'components/bootstrap/js/alert.js'
         'components/bootstrap/js/button.js'
         'components/bootstrap/js/popover.js'
