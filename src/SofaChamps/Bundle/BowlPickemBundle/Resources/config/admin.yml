@@ -7,3 +7,12 @@ services:
             - ~
             - SofaChamps\Bundle\BowlPickemBundle\Entity\Game
             - 'SonataAdminBundle:CRUD'
+
+    sofachamps.admin.bp.league:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\LeagueAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "Leagues" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\BowlPickemBundle\Entity\League
+            - 'SonataAdminBundle:CRUD'
