@@ -57,7 +57,7 @@ _sonata_admin:
     prefix: /admin
 
 _security_check:
-    pattern:  /facebook_login
+    pattern:  /facebook/login
 
 _security_logout:
     pattern:  /logout
