@@ -3,7 +3,7 @@ sofa_champs_core:
     type:     annotation
     prefix:   /
 
-college_crazies_user:
+sofa_champs_user:
     resource: "@SofaChampsUserBundle/Controller/"
     type:     annotation
     prefix:   /
@@ -47,6 +47,13 @@ fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
+fos_facebook_channel:
+    resource: "@FOSFacebookBundle/Resources/config/routing.xml"
+
+sofa_champs_facebook:
+    resource: "@SofaChampsFacebookBundle/Resources/config/routing.yml"
+    prefix:   /facebook
+
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
@@ -55,15 +62,6 @@ _sonata_admin:
     resource: .
     type: sonata_admin
     prefix: /admin
-
-_security_check:
-    pattern:  /facebook/login
-
-_security_logout:
-    pattern:  /logout
-
-fos_facebook_channel:
-    resource: "@FOSFacebookBundle/Resources/config/routing.xml"
 
 # Internal routing configuration to handle ESI
 #_internal:

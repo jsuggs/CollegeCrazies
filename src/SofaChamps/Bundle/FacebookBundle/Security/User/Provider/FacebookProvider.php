@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\FacebookBundle\Security\User\Provider;
 use \BaseFacebook;
 use \FacebookApiException;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\FacebookBundle\User\FacebookUserManager;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -20,19 +21,22 @@ class FacebookProvider implements UserProviderInterface
     protected $facebook;
     protected $userManager;
     protected $validator;
+    protected $facebookUserManager;
 
     /**
      * @DI\InjectParams({
      *      "facebook" = @DI\Inject("fos_facebook.api"),
      *      "userManager" = @DI\Inject("fos_user.user_manager"),
      *      "validator" = @DI\Inject("validator"),
+     *      "facebookUserManager" = @DI\Inject("sofachamps.facebook.user_manager"),
      * })
      */
-    public function __construct(BaseFacebook $facebook, $userManager, $validator)
+    public function __construct(BaseFacebook $facebook, $userManager, $validator, FacebookUserManager $facebookUserManager)
     {
-        $this->facebook;
-        $this->userManager;
-        $this->validator;
+        $this->facebook = $facebook;
+        $this->userManager = $userManager;
+        $this->validator = $validator;
+        $this->facebookUserManager = $facebookUserManager;
     }
 
     public function supportsClass($class)
@@ -45,25 +49,35 @@ class FacebookProvider implements UserProviderInterface
         return $this->userManager->findUserBy(array('facebookId' => $fbId));
     }
 
+    public function findUserByEmail($email)
+    {
+        return $this->userManager->findUserBy(array('emailCanonical' => $email));
+    }
+
     public function loadUserByUsername($username)
     {
         $user = $this->findUserByFbId($username);
 
         try {
-            $fbdata = $this->facebook->api('/me');
+            $fbData = $this->facebook->api('/me');
         } catch (FacebookApiException $e) {
-            $fbdata = null;
+            $fbData = null;
         }
 
-        if (!empty($fbdata)) {
+        if (!empty($fbData)) {
+            // See if a user with this email already exists
+            if (empty($user) && isset($fbData['email'])) {
+                $user = $this->findUserByEmail($fbData['email']);
+            }
+
+            // If not found via fbId or email, then create
             if (empty($user)) {
                 $user = $this->userManager->createUser();
                 $user->setEnabled(true);
                 $user->setPassword('');
             }
 
-            // TODO use http://developers.facebook.com/docs/api/realtime
-            $user->setFBData($fbdata);
+            $this->facebookUserManager->updateUserWithFacebookData($user, $fbData);
 
             if (count($this->validator->validate($user, 'Facebook'))) {
                 // TODO: the user was found obviously, but doesnt match our expectations, do something smart

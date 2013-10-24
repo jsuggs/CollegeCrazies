@@ -17,7 +17,7 @@
 <body>
     <script>
         function goLogIn(){
-            window.location.href = "{{ path('_security_check') }}";
+            window.location.href = "{{ path('_security_check_facebook') }}";
         }
 
         function onFbInit() {
@@ -26,7 +26,7 @@
                     if (response.session || response.authResponse) {
                         setTimeout(goLogIn, 500);
                     } else {
-                        window.location.href = "{{ path('_security_logout') }}";
+                        window.location.href = "{{ path('_security_logout_facebook') }}";
                     }
                 });
             }
@@ -69,7 +69,7 @@
                     <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
-                    <li>FB! {{ facebook_login_button({'autologoutlink': true}) }}</li>
+                    <li>{{ facebook_login_button({'autologoutlink': true}) }}</li>
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Signup</a></li>
                 {% endif %}

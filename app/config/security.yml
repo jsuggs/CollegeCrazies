@@ -27,6 +27,13 @@ security:
             logout: true
             form_login:
                 provider: fos_userbundle
+
+            fos_facebook:
+                login_path: /login
+                check_path: /facebook/login
+                provider: sofachamps_facebook_provider
+                default_target_path: /
+
             switch_user: { role: ROLE_ADMIN }
 
     access_control:
