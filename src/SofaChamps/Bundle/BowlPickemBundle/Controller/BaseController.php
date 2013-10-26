@@ -83,4 +83,14 @@ class BaseController extends CoreController
     {
         return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
     }
+
+    protected function getLeagueManager()
+    {
+        return $this->get('sofachamps.bp.league_manager');
+    }
+
+    protected function getUserSorter()
+    {
+        return $this->get('sofachamps.bp.user_sorter');
+    }
 }

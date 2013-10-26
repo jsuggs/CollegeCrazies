@@ -37,7 +37,7 @@ class LeagueController extends BaseController
         if (!$pickSet) {
             $this->addMessage('warning', 'You do not have a pick set for this league');
             return $this->redirect($this->router->generateUrl('league_assoc', array(
-                'leagueId' => $leagueId,
+                'leagueId' => $league->getId(),
             )));
         }
 
@@ -101,21 +101,14 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/group-picks", name="league_group_picks")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="VIEW_PICKS")
      * @Template("SofaChampsBowlPickemBundle:League:picks.html.twig")
      */
-    public function groupPicksAction($leagueId)
+    public function groupPicksAction(League $league)
     {
-        $league = $this->findLeague($leagueId);
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
-
-        if (!$this->picksLocked()) {
-            $this->addMessage('warning', 'You cannot view the group picks until the league locks');
-
-            return $this->redirect($this->generateUrl('league_home', array(
-                'leagueId' => $leagueId,
-            )));
-        }
 
         $em = $this->getEntityManager();
         $games = $em->createQuery('SELECT g FROM SofaChampsBowlPickemBundle:Game g ORDER BY g.gameDate')->getResult();
@@ -225,22 +218,23 @@ class LeagueController extends BaseController
 
     /**
      * @Route("/{leagueId}/join", name="league_prejoin")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @Method({"GET"})
      * @Template
      */
-    public function prejoinAction($leagueId)
+    public function prejoinAction(League $league)
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
         }
 
-        $league = $this->findLeague($leagueId);
         $user = $this->getUser();
 
         if ($user && $league->isUserInLeague($user)) {
             $this->addMessage('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
-                'leagueId' => $leagueId,
+                'leagueId' => $league->getId(),
             )));
         }
 
@@ -250,7 +244,7 @@ class LeagueController extends BaseController
                 'required' => false,
             ))
             ->setData(array(
-                'id' => $leagueId,
+                'id' => $league->getId(),
             ));
 
         return array(
@@ -262,12 +256,11 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/assoc", name="league_assoc")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @Template
      */
-    public function assocAction($leagueId)
+    public function assocAction(League $league)
     {
-        $league = $this->findLeague($leagueId);
-
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
             if ($this->picksLocked()) {
@@ -279,7 +272,7 @@ class LeagueController extends BaseController
 
                 $this->addMessage('success', sprintf('Welcome to %s', $league->getName()));
                 return $this->redirect($this->generateUrl('league_home', array(
-                    'leagueId' => $leagueId,
+                    'leagueId' => $league->getId(),
                 )));
             }
         }
@@ -339,23 +332,18 @@ class LeagueController extends BaseController
     }
 
     /**
-     * @Route("/{leagueId}/members-remove", name="league_member_remove")
+     * @Route("/{leagueId}/{userId}/member-remove", name="league_member_remove")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="VIEW")
+     * @ParamConverter("user", class="SofaChampsCoreBundle:League", options={"id" = "userId"})
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:remove.html.twig")
      */
-    public function memberRemoveAction(League $league)
+    public function memberRemoveAction(League $league, User $user)
     {
-        $user = $this->getUser();
-
-        $request = $this->getRequest();
-        $em = $this->getEntityManager();
-        if ($request->getMethod() === 'POST') {
-            $userId = $request->request->get('userId');
-            $em->getConnection()->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($leagueId, $userId));
-            $em->getConnection()->executeUpdate('DELETE FROM user_league WHERE league_id = ? AND user_id = ?', array($leagueId, $userId));
-            $em->flush();
+        if ($this->getRequest()->getMethod() === 'POST') {
+            $this->getLeagueManager()->removeUserFromLeague($league, $user);
+            $this->getEntityManager()->flush();
             $this->addMessage('info', 'User Removed');
         }
 
@@ -370,23 +358,17 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function leaderboardAction($leagueId)
+    public function leaderboardAction(League $league)
     {
-        $league = $this->findLeague($leagueId);
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
 
-        if (!$user->isInTheLeague($league)) {
-            $this->addMessage('warning', 'You must be in the league to view the leaderboard');
-            return $this->redirect($this->generateUrl('league_prejoin', array(
-                'leagueId' => $leagueId,
-            )));
-        }
-
         $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
-        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
 
         return array(
             'users' => $sortedUsers,

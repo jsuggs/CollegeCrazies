@@ -32,7 +32,7 @@ class LeagueVoter implements VoterInterface
 
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, array('CREATE', 'EDIT', 'VIEW'));
+        return in_array($attribute, array('VIEW', 'VIEW_PICKS'));
     }
 
     public function supportsClass($class)
@@ -56,8 +56,8 @@ class LeagueVoter implements VoterInterface
 
             if ($attribute === 'VIEW') {
                 return $this->canUserViewLeague($user, $object);
-            } elseif ($attribute === 'EDIT') {
-                return $this->canUserEditPickSet($user, $object);
+            } elseif ($attribute === 'VIEW_PICKS') {
+                return $this->canUserViewLeaguePicks($user, $object);
             } elseif ($attribute === 'CREATE') {
                 return $this->canUserCreatePickSet();
             }
@@ -88,13 +88,9 @@ class LeagueVoter implements VoterInterface
             : VoterInterface::ACCESS_DENIED;
     }
 
-    protected function canUserEditPickSet(User $user, PickSet $pickSet)
+    protected function canUserViewLeaguePicks(User $user, League $league)
     {
-        if ($pickSet->getUser() == $user) {
-            return VoterInterface::ACCESS_DENIED;
-        }
-
-        return $pickSet->getUser() == $user
+        return $this->picksLockedManager->arePickLocked()
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
     }
