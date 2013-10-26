@@ -74,11 +74,6 @@ class BaseController extends CoreController
         $em->persist($user);
     }
 
-    protected function canUserEditLeague(User $user, League $league)
-    {
-        return $this->get('security.context')->isGranted('ROLE_ADMIN') || $league->userIsCommissioner($user);
-    }
-
     protected function picksLocked()
     {
         return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
