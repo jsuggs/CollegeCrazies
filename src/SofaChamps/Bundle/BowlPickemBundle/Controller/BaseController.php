@@ -69,36 +69,6 @@ class BaseController extends CoreController
         return $predictionSet;
     }
 
-    protected function canUserViewPickSet(User $user, PickSet $pickSet)
-    {
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        if ($pickSet->getUser() == $user) {
-            return true;
-        }
-
-        return $this->picksLocked();
-    }
-
-    protected function canUserEditPickSet(User $user, PickSet $pickSet)
-    {
-        if ($this->picksLocked()) {
-            return false;
-        }
-
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        if ($pickSet->getUser() == $user) {
-            return true;
-        }
-
-        return false;
-    }
-
     protected function addUserToLeague(League $league, User $user)
     {
         $em = $this->get('doctrine.orm.default_entity_manager');

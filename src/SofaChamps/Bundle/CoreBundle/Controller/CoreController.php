@@ -33,4 +33,9 @@ class CoreController extends Controller
     {
         return $this->getEntityManager()->getRepository($entityName);
     }
+
+    protected function getSecurityContext()
+    {
+        return $this->get('security.context');
+    }
 }
