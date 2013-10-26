@@ -19,12 +19,11 @@ class StatController extends BaseController
     public function importantGamesAction()
     {
         if (!$this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Feature not available until picks lock');
+            $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect('/');
         }
 
-        $games = $this->get('doctrine.orm.default_entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:Game')
+        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')
             ->gamesByImportance();
 
         return array(
@@ -40,18 +39,22 @@ class StatController extends BaseController
     public function leaderboardAction()
     {
         if (!$this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Feature not available until picks lock');
+            $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect('/');
         }
 
-        $pickSets = $this->get('doctrine.orm.default_entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:PickSet')
+        $pickSets = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->findAllOrderedByPoints();
 
-        $pickSets = $this->get('pickset.sorter')->sortPickSets($pickSets);
+        $pickSets = $this->getPicksetSorter()->sortPickSets($pickSets);
 
         return array(
             'pickSets' => $pickSets,
         );
+    }
+
+    protected function getPicksetSorter()
+    {
+        return $this->get('sofachamps.bp.pickset_sorter');
     }
 }

@@ -7,11 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\SecurityContext;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @Route("/admin/users-incomplete-picksets", name="admin_user_incomplete_picksets")
@@ -20,7 +19,7 @@ class UserController extends Controller
      */
     public function incompletePicksetsAction()
     {
-        $users = $this->get('doctrine.orm.default_entity_manager')->getRepository('SofaChampsCoreBundle:User')->getUsersWithIncompletePicksets();
+        $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithIncompletePicksets();
         $emailList = array_map(function($user) { return $user['email']; }, $users);
 
         return array(
@@ -36,7 +35,7 @@ class UserController extends Controller
      */
     public function noleagueAction()
     {
-        $users = $this->get('doctrine.orm.default_entity_manager')->getRepository('SofaChampsCoreBundle:User')->getUsersWithNoLeague();
+        $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithNoLeague();
         $emailList = array_map(function($user) { return $user['email']; }, $users);
 
         return array(
@@ -59,7 +58,7 @@ class UserController extends Controller
             $user = $form->getData();
             $user->setSalt(sha1(rand() . 'lets-get-random' . time()));
 
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
             $em->persist($user);
             $em->flush();
             return $this->redirect($this->generateUrl('login'));
@@ -78,7 +77,6 @@ class UserController extends Controller
     private function findUser($id)
     {
         $user = $this
-            ->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsCoreBundle:User')
             ->find($id);
 

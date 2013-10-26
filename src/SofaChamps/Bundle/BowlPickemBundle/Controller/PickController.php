@@ -3,17 +3,18 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use SofaChamps\Bundle\BowlPickemBundle\Form\PickFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\PickSetFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/pickset")
@@ -23,7 +24,7 @@ class PickController extends BaseController
     /**
      * @Route("/list", name="pickset_list")
      * @Secure(roles="ROLE_USER")
-     * @Template()
+     * @Template
      */
     public function listAction()
     {
@@ -50,9 +51,9 @@ class PickController extends BaseController
 
         if ($request->getMethod() === 'POST') {
             if ($this->picksLocked()) {
-                $this->get('session')->getFlashBag()->set('warning', 'You can\' update your leagues after picks lock');
+                $this->addMessage('warning', 'You can\' update your leagues after picks lock');
             } else {
-                $em = $this->get('doctrine.orm.default_entity_manager');
+                $em = $this->getEntityManager();
                 $conn = $em->getConnection();
                 // Delete all of the users picksets
                 $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
@@ -65,7 +66,7 @@ class PickController extends BaseController
                     $league->addPickSet($pickSet);
                 }
                 $em->flush();
-                $this->get('session')->getFlashBag()->set('success', 'Picksets have now been assigned to your Leagues');
+                $this->addMessage('success', 'Picksets have now been assigned to your Leagues');
             }
         }
 
@@ -84,7 +85,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -100,8 +101,8 @@ class PickController extends BaseController
             $pickSet->setLeague($league);
         }
 
-        $em = $this->get('doctrine.orm.default_entity_manager');
-        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
+        $em = $this->getEntityManager();
+        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
         $idx = count($games);
         foreach ($games as $game) {
             $pick = new Pick();
@@ -119,7 +120,7 @@ class PickController extends BaseController
                 $league = $this->findLeague($session->get('auto_league_assoc'));
                 $this->addUserToLeague($league, $user);
                 $league->addPickSet($pickSet);
-                $this->get('session')->getFlashBag()->set('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+                $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                 $session->remove('auto_league_assoc');
             }
@@ -143,24 +144,17 @@ class PickController extends BaseController
     /**
      * @Route("/edit/{picksetId}", name="pickset_edit")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
+     * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function editPickAction($picksetId)
+    public function editPickAction(PickSet $pickSet)
     {
-        $pickSet = $this->findPickSet($picksetId, true);
-        $user = $this->getUser();
-
-        // TODO Add checks for commish here
-        if (!$this->canUserEditPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag()->set('error', 'You cannot edit this pickset');
-            return $this->redirect('/');
-        }
-
         if ($this->get('session')->get('auto_league_create')) {
             $this->get('session')->remove('auto_league_create');
         } else {
             if (count($pickSet->getLeagues()) === 0) {
-                $this->get('session')->getFlashBag()->set('info', 'This pickset is not associated with a league');
+                $this->addMessage('info', 'This pickset is not associated with a league');
             }
         }
 
@@ -174,21 +168,14 @@ class PickController extends BaseController
     /**
      * @Route("/view/{leagueId}/{picksetId}", name="pickset_view")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
+     * @SecureParam(name="pickSet", permissions="VIEW")
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickAction($leagueId, $picksetId)
+    public function viewPickAction(League $league, PickSet $pickSet)
     {
-        $league = $this->findLeague($leagueId);
-        $pickSet = $this->findPickSet($picksetId, true, 'g.gameDate');
-        $user = $this->getUser();
-
-        if (!$this->canUserViewPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag()->set('error','You cannot view another users picks until the league is locked');
-            return $this->redirect('/');
-        }
-
-        $em = $this->get('doctrine.orm.default_entity_manager');
-        $projectedFinishStats = $em->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
+        $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
 
         return array(
             'pickSet' => $pickSet,
@@ -200,18 +187,11 @@ class PickController extends BaseController
     /**
      * @Route("/view/{picksetId}", name="pickset_view_noleague")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickNoLeagueAction($picksetId)
+    public function viewPickNoLeagueAction(PickSet $pickSet)
     {
-        $pickSet = $this->findPickSet($picksetId, true);
-        $user = $this->getUser();
-
-        if (!$this->canUserViewPickSet($user, $pickSet)) {
-            $this->get('session')->getFlashBag()->set('error','You cannot view another users picks until the league is locked');
-            return $this->redirect('/');
-        }
-
         return array(
             'pickSet' => $pickSet,
         );
@@ -219,22 +199,16 @@ class PickController extends BaseController
 
     /**
      * @Route("/compare/{picksetId1}/{picksetId2}", name="pickset_compare")
+     * @ParamConverter("pickSet1", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId1"})
+     * @ParamConverter("pickSet2", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId2"})
+     * @SecureParam(name="pickSet1", permissions="VIEW")
+     * @SecureParam(name="pickSet1", permissions="VIEW")
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:compare.html.twig")
      */
-    public function comparePickSetAction($picksetId1, $picksetId2)
+    public function comparePickSetAction(PickSet $pickSet1, PickSet $pickSet2)
     {
-        $pickSet1 = $this->findPickSet($picksetId1, true, 'g.gameDate');
-        $pickSet2 = $this->findPickSet($picksetId2, true, 'g.gameDate');
-        $user = $this->getUser();
-
-        if (!$this->canUserViewPickSet($user, $pickSet1) || !$this->canUserViewPickSet($user, $pickSet2)) {
-            $this->get('session')->getFlashBag()->set('error','You cannot compare another users picks until picks are locked');
-            return $this->redirect('/');
-        }
-
-        $em = $this->get('doctrine.orm.default_entity_manager');
-        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
+        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
 
         return array(
             'games' => $games,
@@ -252,7 +226,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -265,7 +239,7 @@ class PickController extends BaseController
             $user = $this->getUser();
             $pickSet->setUser($user);
 
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
 
             $user->addPickSet($pickSet);
             $em->persist($user);
@@ -277,7 +251,7 @@ class PickController extends BaseController
             )));
         }
 
-        $this->get('session')->getFlashBag()->set('warning', 'There was an error creating your pickset');
+        $this->addMessage('warning', 'There was an error creating your pickset');
 
         return array(
             'form' => $form->createView(),
@@ -287,30 +261,24 @@ class PickController extends BaseController
     /**
      * @Route("/update/{picksetId}", name="pickset_update")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
+     * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function updatePickAction($picksetId)
+    public function updatePickAction(PickSet $pickSet)
     {
-        $pickSet = $this->findPickSet($picksetId, true);
-
-        if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'You cannot update picks after they are locked');
-
-            return $this->redirect('/');
-        }
-
         $form = $this->getPickSetForm($pickSet);
         $form->bindRequest($this->getRequest());
         if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
 
             $em->persist($pickSet);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->set('success', 'Pickset successfully updated');
+            $this->addMessage('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'picksetId' => $picksetId,
+                'picksetId' => $pickSet->getId(),
             )));
         }
 
@@ -324,22 +292,16 @@ class PickController extends BaseController
     /**
      * @Route("/data/{leagueId}/{pickSetId}", name="pickset_data")
      * @Secure(roles="ROLE_USER")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "pickSetId"})
      */
-    public function dataAction($leagueId, $pickSetId)
+    public function dataAction(League $league, Pickset $pickSet)
     {
-        $pickSet = $this->findPickSet($pickSetId, true);
-        $league = $this->findLeague($leagueId);
 
-        $data = $this->get('doctrine.orm.default_entity_manager')
-            ->getRepository('SofaChampsBowlPickemBundle:PickSet')
+        $data = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->getPickDistribution($pickSet, $league);
 
         return new JsonResponse($data);
-    }
-
-    private function getPickForm(Pick $pick)
-    {
-        return $this->createForm(new PickFormType(), $pick);
     }
 
     private function getPickSetForm(PickSet $pickSet)

@@ -25,12 +25,10 @@ class BaseController extends CoreController
     protected function findPickSet($id, $loadPicks = false, $sort = 'p.confidence DESC')
     {
         if ($loadPicks) {
-            $pickSet = $this->get('doctrine.orm.default_entity_manager')
-                ->getRepository('SofaChampsBowlPickemBundle:PickSet')
+            $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
                 ->findPickSet($id, $sort);
         } else {
             $pickSet = $this
-                ->get('doctrine.orm.default_entity_manager')
                 ->getRepository('SofaChampsBowlPickemBundle:PickSet')
                 ->find($id);
         }
@@ -44,8 +42,7 @@ class BaseController extends CoreController
 
     protected function findGame($gameId)
     {
-        $game = $this->get('doctrine.orm.default_entity_manager')
-            ->getRepository('SofaChamps\Bundle\BowlPickemBundle\Entity\Game')
+        $game = $this->getRepository('SofaChamps\Bundle\BowlPickemBundle\Entity\Game')
             ->find($gameId);
 
         if (!$game) {
@@ -58,7 +55,6 @@ class BaseController extends CoreController
     protected function findPredictionSet($predictionSetId)
     {
         $predictionSet = $this
-            ->get('doctrine.orm.default_entity_manager')
             ->getRepository('SofaChampsBowlPickemBundle:PredictionSet')
             ->find($predictionSetId);
 
@@ -69,39 +65,9 @@ class BaseController extends CoreController
         return $predictionSet;
     }
 
-    protected function canUserViewPickSet(User $user, PickSet $pickSet)
-    {
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        if ($pickSet->getUser() == $user) {
-            return true;
-        }
-
-        return $this->picksLocked();
-    }
-
-    protected function canUserEditPickSet(User $user, PickSet $pickSet)
-    {
-        if ($this->picksLocked()) {
-            return false;
-        }
-
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
-        if ($pickSet->getUser() == $user) {
-            return true;
-        }
-
-        return false;
-    }
-
     protected function addUserToLeague(League $league, User $user)
     {
-        $em = $this->get('doctrine.orm.default_entity_manager');
+        $em = $this->getEntityManager();
         $user->addLeague($league);
 
         $em->persist($league);
@@ -116,5 +82,15 @@ class BaseController extends CoreController
     protected function picksLocked()
     {
         return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
+    }
+
+    protected function getLeagueManager()
+    {
+        return $this->get('sofachamps.bp.league_manager');
+    }
+
+    protected function getUserSorter()
+    {
+        return $this->get('sofachamps.bp.user_sorter');
     }
 }

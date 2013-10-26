@@ -30,18 +30,18 @@ class PickController extends BaseController
             $config = $this->getConfig($year);
             $now = new \DateTime();
             if ($now > $config->getCloseTime()) {
-                $this->get('session')->getFlashBag()->set('warning', 'Picks are now locked');
+                $this->addMessage('warning', 'Picks are now locked');
                 return $this->redirect($this->generateUrl('sbc_home'));
             }
 
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $pick->setYear($year);
-                $em = $this->get('doctrine.orm.default_entity_manager');
+                $em = $this->getEntityManager();
                 $em->persist($pick);
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->set('success', 'Pick Saved');
+                $this->addMessage('success', 'Pick Saved');
 
                 return $this->redirect($this->generateUrl('sbc_pick', array(
                     'year' => $year,
@@ -71,7 +71,7 @@ class PickController extends BaseController
         $manager = $this->get('sofachamps.superbowlchallenge.pickmanager');
 
         if (!$manager->picksViewable($year)) {
-            $this->get('session')->getFlashBag()->set('warning', 'Picks cannot be viewed until after picks are closed');
+            $this->addMessage('warning', 'Picks cannot be viewed until after picks are closed');
             return $this->redirect($this->generateUrl('sbc_home'));
         }
 

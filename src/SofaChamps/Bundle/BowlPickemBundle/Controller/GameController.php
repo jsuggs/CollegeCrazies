@@ -53,9 +53,7 @@ class GameController extends BaseController
     {
         $user = $this->getUser();
 
-        $em = $this->get('doctrine.orm.default_entity_manager');
-
-        $query = $em->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g ORDER BY g.gameDate');
+        $query = $this->getEntityManager()->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g ORDER BY g.gameDate');
         $games = $query->getResult();
 
         return array(
@@ -92,10 +90,10 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $game = $form->getData();
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
             $em->persist($game);
             $em->flush();
-            $this->get('session')->getFlashBag()->set('success', 'Game Created');
+            $this->addMessage('success', 'Game Created');
 
             return $this->redirect($this->generateUrl('game_edit', array(
                 'gameId' => $game->getId()
@@ -136,7 +134,7 @@ class GameController extends BaseController
         $form->bindRequest($this->getRequest());
 
         if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
             $em->persist($game);
 
             // If the game is complete, then dispatch an event
@@ -145,7 +143,7 @@ class GameController extends BaseController
             }
 
             $em->flush();
-            $this->get('session')->getFlashBag()->set('success', 'Game updated successfully');
+            $this->addMessage('success', 'Game updated successfully');
         }
 
         return $this->redirect($this->generateUrl('game_edit', array(

@@ -29,11 +29,11 @@ class AdminController extends BaseController
             if ($form->isValid()) {
                 $config = $form->getData();
 
-                $em = $this->get('doctrine.orm.default_entity_manager');
+                $em = $this->getEntityManager();
                 $em->persist($config);
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->set('success', 'Config updated');
+                $this->addMessage('success', 'Config updated');
             }
         }
 
@@ -62,11 +62,11 @@ class AdminController extends BaseController
             if ($form->isValid()) {
                 $result = $form->getData();
 
-                $em = $this->get('doctrine.orm.default_entity_manager');
+                $em = $this->getEntityManager();
                 $em->persist($result);
                 $em->flush($result);
 
-                $this->get('session')->getFlashBag()->set('success', 'Result updated');
+                $this->addMessage('success', 'Result updated');
             }
         }
 
@@ -95,9 +95,9 @@ class AdminController extends BaseController
             if ($form->isValid()) {
                 $question = $form->getData();
 
-                $this->get('doctrine.orm.default_entity_manager')->flush();
+                $this->getEntityManager()->flush();
 
-                $this->get('session')->getFlashBag()->set('success', 'Question updated');
+                $this->addMessage('success', 'Question updated');
             }
         }
 
