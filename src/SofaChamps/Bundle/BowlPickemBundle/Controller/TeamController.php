@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\BowlPickemBundle\Form\TeamFormType;
@@ -72,11 +73,11 @@ class TeamController extends Controller
     /**
      * @Route("/{teamId}/edit", name="team_edit")
      * @Secure(roles="ROLE_ADMIN")
+     * @ParamConverter("team", class="SofaChampsBowlPickemBundle:Team", options={"id" = "teamId"})
      * @Template
      */
-    public function editAction($teamId)
+    public function editAction(Team $team)
     {
-        $team = $this->findTeam($teamId);
         $form = $this->getTeamForm($team);
 
         return array(
@@ -88,11 +89,11 @@ class TeamController extends Controller
     /**
      * @Route("/{teamId}/update", name="team_update")
      * @Secure(roles="ROLE_ADMIN")
+     * @ParamConverter("team", class="SofaChampsBowlPickemBundle:Team", options={"id" = "teamId"})
      * @Template("SofaChampsBowlPickemBundle:Team:edit.html.twig")
      */
-    public function updateAction($teamId)
+    public function updateAction(Team $team)
     {
-        $team = $this->findTeam($teamId);
         $form = $this->getTeamForm($team);
         $form->bindRequest($this->getRequest());
 
@@ -114,17 +115,5 @@ class TeamController extends Controller
     private function getTeamForm(Team $team)
     {
         return $this->createForm(new TeamFormType(), $team);
-    }
-
-    private function findTeam($teamId)
-    {
-        $team = $this->getRepository('SofaChampsBowlPickemBundle:Team')
-            ->find($teamId);
-
-        if (!$team) {
-            throw new \NotFoundHttpException(sprintf('There was no team with id = %s', $teamId));
-        }
-
-        return $team;
     }
 }
