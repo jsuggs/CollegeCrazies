@@ -156,11 +156,6 @@ class League
         $this->metadata = $metadata;
     }
 
-    public function userCanView(User $user)
-    {
-        return $this->isUserInLeague($user);
-    }
-
     public function isUserInLeague(User $user)
     {
         return $this->users->contains($user);
