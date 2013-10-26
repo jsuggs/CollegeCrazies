@@ -46,10 +46,15 @@ class StatController extends BaseController
         $pickSets = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->findAllOrderedByPoints();
 
-        $pickSets = $this->get('pickset.sorter')->sortPickSets($pickSets);
+        $pickSets = $this->getPicksetSorter()->sortPickSets($pickSets);
 
         return array(
             'pickSets' => $pickSets,
         );
+    }
+
+    protected function getPicksetSorter()
+    {
+        return $this->get('sofachamps.bp.pickset_sorter');
     }
 }
