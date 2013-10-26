@@ -29,9 +29,6 @@ class GameAdmin extends Admin
             ->add('name')
             ->add('homeTeam')
             ->add('awayTeam')
-            ->add('spread')
-            ->add('overunder')
-            ->add('gameDate')
         ;
     }
 
