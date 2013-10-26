@@ -51,7 +51,7 @@ class PickController extends BaseController
 
         if ($request->getMethod() === 'POST') {
             if ($this->picksLocked()) {
-                $this->get('session')->getFlashBag()->set('warning', 'You can\' update your leagues after picks lock');
+                $this->addMessage('warning', 'You can\' update your leagues after picks lock');
             } else {
                 $em = $this->getEntityManager();
                 $conn = $em->getConnection();
@@ -66,7 +66,7 @@ class PickController extends BaseController
                     $league->addPickSet($pickSet);
                 }
                 $em->flush();
-                $this->get('session')->getFlashBag()->set('success', 'Picksets have now been assigned to your Leagues');
+                $this->addMessage('success', 'Picksets have now been assigned to your Leagues');
             }
         }
 
@@ -85,7 +85,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -120,7 +120,7 @@ class PickController extends BaseController
                 $league = $this->findLeague($session->get('auto_league_assoc'));
                 $this->addUserToLeague($league, $user);
                 $league->addPickSet($pickSet);
-                $this->get('session')->getFlashBag()->set('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+                $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                 $session->remove('auto_league_assoc');
             }
@@ -154,7 +154,7 @@ class PickController extends BaseController
             $this->get('session')->remove('auto_league_create');
         } else {
             if (count($pickSet->getLeagues()) === 0) {
-                $this->get('session')->getFlashBag()->set('info', 'This pickset is not associated with a league');
+                $this->addMessage('info', 'This pickset is not associated with a league');
             }
         }
 
@@ -226,7 +226,7 @@ class PickController extends BaseController
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
-            $this->get('session')->getFlashBag()->set('warning', 'Sorry, the fun is over...no more picksets');
+            $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect('/');
         }
 
@@ -239,7 +239,7 @@ class PickController extends BaseController
             $user = $this->getUser();
             $pickSet->setUser($user);
 
-            $em = $this->get('doctrine.orm.default_entity_manager');
+            $em = $this->getEntityManager();
 
             $user->addPickSet($pickSet);
             $em->persist($user);
@@ -251,7 +251,7 @@ class PickController extends BaseController
             )));
         }
 
-        $this->get('session')->getFlashBag()->set('warning', 'There was an error creating your pickset');
+        $this->addMessage('warning', 'There was an error creating your pickset');
 
         return array(
             'form' => $form->createView(),
@@ -275,7 +275,7 @@ class PickController extends BaseController
             $em->persist($pickSet);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->set('success', 'Pickset successfully updated');
+            $this->addMessage('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
                 'picksetId' => $pickSet->getId(),

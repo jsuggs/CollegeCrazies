@@ -38,4 +38,19 @@ class CoreController extends Controller
     {
         return $this->get('security.context');
     }
+
+    protected function getSession()
+    {
+        return $this->get('session');
+    }
+
+    protected function getFlashBag()
+    {
+        return $this->getSession()->getFlashBag();
+    }
+
+    protected function addMessage($type, $message)
+    {
+        $this->getFlashBag()->add($type, $message);
+    }
 }
