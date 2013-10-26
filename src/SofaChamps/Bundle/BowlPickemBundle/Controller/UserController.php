@@ -44,31 +44,6 @@ class UserController extends BaseController
         );
     }
 
-    /**
-     * @Route("/user/create", name="user_create")
-     * @Template("SofaChampsBowlPickemBundle:User:new.html.twig")
-     */
-    public function createAction()
-    {
-        $user = new User();
-        $form = $this->getUserForm($user);
-        $form->bindRequest($this->getRequest());
-
-        if ($form->isValid()) {
-            $user = $form->getData();
-            $user->setSalt(sha1(rand() . 'lets-get-random' . time()));
-
-            $em = $this->getEntityManager();
-            $em->persist($user);
-            $em->flush();
-            return $this->redirect($this->generateUrl('login'));
-        } else {
-            return array('form' => $form);
-        }
-
-        return $this->redirect($this->generateUrl('team_list'));
-    }
-
     private function getUserForm(User $user)
     {
         return $this->createForm(new UserFormType(), $user);
