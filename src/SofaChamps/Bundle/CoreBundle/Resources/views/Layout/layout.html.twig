@@ -30,12 +30,21 @@
             <ul class="nav navbar-nav">
                 {% block nav_primary '' %}
             </ul>
+            <ul class="nav navbar-nav">
+                {% block nav_secondary '' %}
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                     <li><a href="{{ path('core_home', {_switch_user: '_exit'}) }}"><span class="glyphicon glyphicon-ban-circle"></span> Exit impersonation</a></li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="/admin"><span class="glyphicon glyphicon-th-list"> Admin</a></li>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/admin"><span class="glyphicon glyphicon-th-list"> Dashboard</a></li>
+                            {% block nav_admin '' %}
+                        </ul>
+                    </li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     <li>{% block nav_user '' %}</li>
@@ -49,7 +58,6 @@
         </div><!-- /.navbar-collapse -->
     </nav>
 
-    {% block nav_secondary '' %}
 
     {% set _sidebar = block('sidebar') %}
 
