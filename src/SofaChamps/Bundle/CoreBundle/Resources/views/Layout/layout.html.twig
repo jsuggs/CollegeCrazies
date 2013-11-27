@@ -38,7 +38,7 @@
                     <li><a href="/admin"><span class="glyphicon glyphicon-th-list"> Admin</a></li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
-                    {% block nav_user '' %}
+                    <li>{% block nav_user '' %}</li>
                     <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
