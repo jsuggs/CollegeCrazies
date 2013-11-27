@@ -56,8 +56,8 @@
     <div class="container">
         <div class="row-fluid">
             {% if _sidebar is not empty %}
-                {% set contentSpanClass = 'col-md-10' %}
-                <div class="col-md-2">
+                {% set contentSpanClass = 'col-md-10 col-sm-pull-2 col-xs-pull-2' %}
+                <div class="col-lg-2 col-sm-push-10 col-xs-push-10 hidden-xs hidden-sm">
                     <div class="well">
                         {% block sidebar '' %}
                     </div>
