@@ -3,8 +3,8 @@
 {% for game in upcoming %}
     <dt>{{ game.name}}</dt>
     <dd>
-        {{ game.homeTeam.id}} vs. {{ game.awayTeam.id }} on <i> {{ game.network }}</i><br />
-        {{ game.gameDate|date('m/d/Y') }} <small><time>{{ game.gameDate|date('g:i a') }}</time></small>
+        {{ game.homeTeam.id}} vs. {{ game.awayTeam.id }}<br />
+        <small>{{ game.gameDate|date('m/d/y') }} <time datetime="{{ game.gameDate|date('c') }}">{{ game.gameDate|date('g:i a') }}</time></small> on <i>{{ game.network }}</i>
     </dd>
 {% endfor %}
 </dl>
