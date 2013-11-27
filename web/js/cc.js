@@ -80,9 +80,19 @@ $(document).ready(function(){
         });
     });
 
+    // Set classes when a team is chosen
     $('.makePick').change(function() {
-        var row = $(this).closest('tr').find('.confidence').removeClass('unpicked').addClass('picked');
-        row.find('.team').val($(this).val());
+        var row = $(this)
+            .closest('tr')
+            .addClass('success')
+            .removeClass('danger');
+
+        row.find('.confidence')
+            .removeClass('unpicked')
+            .addClass('picked');
+
+        row.find('.team')
+            .val($(this).val());
         checkPickStatus();
     });
     $("#pickset_tiebreakerHomeTeamScore, #pickset_tiebreakerAwayTeamScore").change(function() {

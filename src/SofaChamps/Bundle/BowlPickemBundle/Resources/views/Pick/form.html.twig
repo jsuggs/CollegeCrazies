@@ -1,9 +1,7 @@
-<div class="control-group{% if form.name.vars.errors|length %} error{% endif %}">
+<div class="form-group{% if form.name.vars.errors|length %} has-error{% endif %}">
     {{ form_label(form.name, "Pick Set Name") }}
-    <div class="controls">
-        {{ form_widget(form.name, {'attr': {'class': 'input-lg'}}) }}
-        {{ form_errors(form.name) }}
-    </div>
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.name) }}
 </div>
 
 <div id="pick-status">
@@ -12,12 +10,12 @@
 <span class="help-block">Picks lock December 15th at 12:55pm EST</span>
 <br />
 
-<table id="pick-list" class="table table-striped table-condensed">
+<table id="pick-list" class="table table-condensed">
     <thead bgcolor=#CCCCCC>
         <th>Bowl</th>
         <th>Favorite</th>
         <th>Up</th>
-        <th class="confidence">Confidence</th>
+        <th class="confidence"><abbr title="Confidence">Conf.</abbr></th>
         <th>Down</th>
         <th>Underdog</th>
         <th>Date</th>
@@ -28,7 +26,7 @@
         {% set team = pick.vars.value.team %}
         {% set favorite = game.favorite %}
         {% set underdog = game.underdog %}
-        <tr class="pick">
+        <tr class="pick{% if team.id is defined %} success{% else %} danger{% endif %}">
             <td>
                 {{ game.name }}
                 {% if game.description|length %}

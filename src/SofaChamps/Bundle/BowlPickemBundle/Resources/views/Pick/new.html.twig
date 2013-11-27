@@ -4,21 +4,28 @@
     <h2>Make your picks</h2>
     <p class="help-block">Select the winner and drag the teams to their desired confidence. Not sure how it works?  <a href="{{ path('howto') }}">Click here</a> for a rundown of the basics.</p>
 
-    <form action="{{ path('pickset_create') }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }} id="pickset-form">
+    <form action="{{ path('pickset_create') }}" method="post" class="pickForm form-stacked" {{ form_enctype(form) }} id="pickset-form" role="form">
         {% include 'SofaChampsBowlPickemBundle:Pick:form.html.twig' %}
         <div class="form-actions">
             <input type="submit" class="btn btn-primary" value="Save Picks" />
         </div>
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
     <script>
-        $("#pickset-form").submit(function(e) {
-            var $name = $(this).find('input[name="pickset[name]"]');
-            if (!$name.val()|length) {
-                $name
-                    .after('<span class="help-inline">PickSet name is required.</span>')
-                    .parents('.control-group').addClass('error');
-                e.preventDefault();
-            };
+        $(document).ready(function() {
+            $("#pickset-form").submit(function(e) {
+                var $name = $(this).find('input[name="pickset[name]"]');
+                if (!$name.val()|length) {
+                    $name
+                        .after('<span class="help-inline">PickSet name is required.</span>')
+                        .parents('.control-group').addClass('error');
+                    e.preventDefault();
+                };
+            });
         });
     </script>
 {% endblock %}
