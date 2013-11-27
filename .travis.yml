@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 5.5
+  - 5.4
+
+before_install:
+    - composer self-update
+    - psql -c "CREATE USER sofachamps_test WITH PASSWORD 'sofachamps_test';" -U postgres
+    - psql -c 'CREATE DATABASE sofachamps_test;' -U postgres
+    - psql -c 'GRANT ALL PRIVILEGES ON DATABASE sofachamps_test to sofachamps_test;' -U postgres
+
+before_script:
+    - composer install
+    - app/console doctrine:migrations:migrate --no-interaction --env=test
+
+script:
+    - phpunit -c app --exclude-group=functional
+    - phpunit -c app --group=functional
+
