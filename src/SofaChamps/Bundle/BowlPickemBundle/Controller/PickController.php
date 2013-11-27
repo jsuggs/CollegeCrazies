@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use JMS\SecurityExtraBundle\Annotation\SecureParam;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -261,6 +262,7 @@ class PickController extends BaseController
     /**
      * @Route("/update/{picksetId}", name="pickset_update")
      * @Secure(roles="ROLE_USER")
+     * @Method({"POST"})
      * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
      * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
@@ -284,7 +286,6 @@ class PickController extends BaseController
 
         return array(
             'form' => $form->createView(),
-            'league' => $league,
             'pickSet' => $pickSet,
         );
     }

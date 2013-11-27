@@ -46,6 +46,7 @@ class PickSet
 
     /**
      * @ORM\OneToMany(targetEntity="Pick", mappedBy="pickSet", cascade={"persist"}, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"confidence" = "DESC"})
      */
     protected $picks;
 
