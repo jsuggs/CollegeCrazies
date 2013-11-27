@@ -39,14 +39,14 @@
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ favorite.id }}"{% if team.id is defined and favorite.id == team.id %} checked="checked"{% endif %} />
                 {{ favorite.name }}
             </td>
-            <td><a href="#" class="btn btn-mini btn-success move-pick up"><i class="icon-chevron-up"></i></a></td>
+            <td><a href="#" class="btn btn-success move-pick up"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
             <td class="confidence{% if team.id is defined %} picked{% else %} unpicked{% endif %}">
                 <span class="confDisplay">{{ pick.vars.value.confidence }}</span>
                 {{ form_widget(pick.confidence, { 'attr': { 'class': 'hidden confidenceValue'} }) }}
                 {{ form_widget(pick.team, { 'attr': {'class': 'team' } }) }}
                 {{ form_widget(pick.game, { 'attr': {'class': 'hidden' } }) }}
             </td>
-            <td><a href="#" class="btn btn-mini btn-warning move-pick down"><i class="icon-chevron-down"></i></a></td>
+            <td><a href="#" class="btn btn-warning move-pick down"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ underdog.id }}"{% if team.id is defined and underdog.id == team.id %} checked="checked"{% endif %} />
                 {{ underdog.name }}
