@@ -12,6 +12,8 @@ doctrine:
             default:
                 logging: true
                 dbname: sofachamps_test
+                user: sofachamps_test
+                password: sofachamps_test
 
 security:
     firewalls:
