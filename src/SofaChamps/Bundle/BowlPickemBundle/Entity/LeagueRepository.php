@@ -3,6 +3,8 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 class LeagueRepository extends EntityRepository
 {
@@ -31,5 +33,12 @@ class LeagueRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery('SELECT COUNT(g.id) FROM SofaChampsBowlPickemBundle:Game g')
             ->getSingleScalarResult();
+    }
+
+    public function removeUser(League $league, User $user)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $conn->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($league->getId(), $user->getId()));
+        $conn->executeUpdate('DELETE FROM user_league WHERE league_id = ? AND user_id = ?', array($league->getId(), $user->getId()));
     }
 }

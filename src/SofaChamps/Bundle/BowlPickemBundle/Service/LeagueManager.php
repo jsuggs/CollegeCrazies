@@ -2,8 +2,10 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 /**
  * LeagueManager
@@ -12,8 +14,17 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
  */
 class LeagueManager
 {
-    public function __construct()
+    private $om;
+
+    /**
+     * @DI\InjectParams({
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "session" = @DI\Inject("session")
+     * })
+     */
+    public function __construct(ObjectManager $om)
     {
+        $this->om = $om;
     }
 
     public function addUserToLeague(League $league, User $user)
@@ -22,8 +33,11 @@ class LeagueManager
 
     public function removeUserFromLeague(League $league, User $user)
     {
-        // Move to repo methods
-        $em->getConnection()->executeUpdate('DELETE FROM pickset_leagues WHERE league_id = ? AND pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($league->getId(), $user->getId()));
-        $em->getConnection()->executeUpdate('DELETE FROM user_league WHERE league_id = ? AND user_id = ?', array($league->getId(), $user->getId()));
+        $this->getLeagueRepository()->removeUser($league, $user);
+    }
+
+    private function getLeagueRepository()
+    {
+        return $this->om->getRepository('SofaChampsBowlPickemBundle:League');
     }
 }

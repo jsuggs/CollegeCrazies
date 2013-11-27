@@ -332,27 +332,40 @@ class LeagueController extends BaseController
     }
 
     /**
-     * @Route("/{leagueId}/{userId}/member-remove", name="league_member_remove")
+     * @Route("/{leagueId}/member-remove", name="league_member_remove_list")
      * @Secure(roles="ROLE_USER")
+     * @Method({"GET"})
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @ParamConverter("user", class="SofaChampsCoreBundle:League", options={"id" = "userId"})
      * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:remove.html.twig")
      */
-    public function memberRemoveAction(League $league, User $user)
+    public function memberRemoveListAction(League $league)
     {
-        if ($this->getRequest()->getMethod() === 'POST') {
-            $this->getLeagueManager()->removeUserFromLeague($league, $user);
-            $this->getEntityManager()->flush();
-            $this->addMessage('info', 'User Removed');
-        }
-
-        $members = $em->getRepository('SofaChampsCoreBundle:User')->findUsersInLeague($league);
+        $members = $this->getEntityManager()->getRepository('SofaChampsCoreBundle:User')->findUsersInLeague($league);
 
         return array(
             'league' => $league,
             'members' => $members,
         );
+    }
+
+    /**
+     * @Route("/{leagueId}/{userId}/member-remove", name="league_member_remove")
+     * @Secure(roles="ROLE_USER")
+     * @Method({"POST"})
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @ParamConverter("user", class="SofaChampsCoreBundle:User", options={"id" = "userId"})
+     * @SecureParam(name="league", permissions="MANAGE")
+     */
+    public function memberRemoveAction(League $league, User $user)
+    {
+        $this->getLeagueManager()->removeUserFromLeague($league, $user);
+        $this->getEntityManager()->flush();
+        $this->addMessage('info', 'User Removed');
+
+        return $this->redirect($this->generateUrl('league_member_remove_list', array(
+            'leagueId' => $league->getId(),
+        )));
     }
 
     /**
