@@ -1,8 +1,8 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Util;
+namespace SofaChamps\Bundle\CoreBundle\Tests\Util;
 
-use SofaChamps\Bundle\BowlPickemBundle\Util\TextManipulator;
+use SofaChamps\Bundle\CoreBundle\Util\TextManipulator;
 
 class TextManipulatorTest extends \PHPUnit_Framework_TestCase
 {

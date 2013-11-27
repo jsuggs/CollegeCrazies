@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Controller;
 
+use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick;
@@ -9,10 +10,9 @@ use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Question;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ConfigFormType;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\QuestionFormType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BaseController extends Controller
+class BaseController extends CoreController
 {
     protected function getPickForm(Pick $pick = null)
     {
