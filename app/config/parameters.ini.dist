@@ -1,0 +1,11 @@
+[parameters]
+    database_driver   = pdo_pgsql
+    database_host     = localhost
+    database_port     =
+    database_name     = sofachamps
+    database_user     = sofachamps
+    database_password = sofachamps
+
+    mailer_transport  = localhost
+    locale            = en
+    secret            = thisisasecret
