@@ -1,10 +1,10 @@
 <h4>Upcoming Games</h4>
 <dl class="game-list">
 {% for game in upcoming %}
-    <dt>{{ game.name}}</dt>
+    <dt>{{ game.name }}</dt>
     <dd>
-        {{ game.homeTeam.id}} vs. {{ game.awayTeam.id }}<br />
-        <small>{{ game.gameDate|date('m/d/y') }} <time datetime="{{ game.gameDate|date('c') }}">{{ game.gameDate|date('g:i a') }}</time></small> on <i>{{ game.network }}</i>
+        {{ game.homeTeam.id }} vs. {{ game.awayTeam.id }}<br />
+        <small>{{ game.gameDate|date('m/d/y') }} <time datetime="{{ game.gameDate|date('c') }}">{{ game.gameDate|date('g:i a') }}</time></small> on <em>{{ game.network }}</em>
     </dd>
 {% endfor %}
 </dl>
@@ -12,15 +12,16 @@
 <h4>Completed Games</h4>
 <dl class="game-list">
 {% for game in completed %}
-    <dt>{{ game.name}}</dt>
+    <dt>{{ game.name }}</dt>
     {% if game.winner == game.homeTeam %}
         {% set homeClass = "success" %}
-        {% set awayClass = "important" %}
+        {% set awayClass = "danger" %}
     {% else %}
-        {% set homeClass = "important" %}
+        {% set homeClass = "danger" %}
         {% set awayClass = "success" %}
     {% endif %}
     <dd>
+        <small>{{ game.gameDate|date('m/d/y') }} <time datetime="{{ game.gameDate|date('c') }}">{{ game.gameDate|date('g:i a') }}</time></small><br />
 	    <span class="label label-{{ homeClass }}">{{ game.homeTeam.id }} ({{ game.homeTeamScore }})</span>
         vs
         <span class="label label-{{ awayClass }}">{{ game.awayTeam.id }} ({{ game.awayTeamScore }})</span>
