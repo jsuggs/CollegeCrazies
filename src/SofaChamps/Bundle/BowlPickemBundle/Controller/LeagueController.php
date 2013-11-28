@@ -708,10 +708,10 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/no-picks", name="league_nopicks")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:nopicks.html.twig")
      */
-    public function nopicksAction(League $league)
+    public function nopicksAction(League $league, $season)
     {
         $users = $this->getRepository('SofaChampsCoreBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
         $emailList = array_map(function($user) {
@@ -720,6 +720,7 @@ class LeagueController extends BaseController
 
         return array(
             'users' => $users,
+            'season' => $season,
             'league' => $league,
             'emailList' => $emailList,
         );
