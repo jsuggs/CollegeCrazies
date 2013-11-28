@@ -55,14 +55,14 @@ $(document).ready(function(){
 
         if (setPicks == numPicks) {
             if (homeTeamScore.length && awayTeamScore.length) {
-                $("#pick-status span").html('Complete').addClass('label-success').removeClass('label-important').removeClass('label-warning');
+                $("#pick-status span").html('Complete').addClass('label-success').removeClass('label-danger').removeClass('label-warning');
                 $("#incomplete-help").remove();
             } else {
-                $("#pick-status span").html('Tiebreakers').addClass('label-warning').removeClass('label-important');
+                $("#pick-status span").html('Tiebreakers').addClass('label-danger').removeClass('label-warning');
                 $("#incomplete-help").remove();
             }
         } else {
-            var status = $("#pick-status span").html('Incomplete').addClass('label-important');
+            var status = $("#pick-status span").html('Incomplete').addClass('label-danger');
             if (!$("#incomplete-help").length) {
                 status.after('<a id="incomplete-help" href="#" rel="popover" data-trigger="hover" title="Help" data-content="Please be sure to pick a winning team for every game and enter a tiebreaker score."> <i class="icon-question-sign"></i></a>');
             }
