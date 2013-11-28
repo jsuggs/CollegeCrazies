@@ -472,7 +472,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/edit", name="league_edit")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template
      */
     public function editAction(League $league)
@@ -490,7 +490,7 @@ class LeagueController extends BaseController
      * @Method({"POST"})
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:edit.html.twig")
      */
     public function updateAction(League $league)
@@ -560,7 +560,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/lock", name="league_lock")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:lock.html.twig")
      */
     public function lockAction(League $league)
@@ -620,7 +620,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/potential-winners", name="league_potential_winners")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:potential-winners.html.twig")
      */
     public function potentialWinnersAction(League $league)
@@ -643,7 +643,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/note", name="league_note")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:note.html.twig")
      */
     public function noteAction(League $league)
@@ -670,7 +670,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/blast", name="league_blast")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:blast.html.twig")
      */
     public function blastAction(League $league)
@@ -730,7 +730,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/settings", name="league_settings")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template
      */
     public function settingsAction(League $league)
