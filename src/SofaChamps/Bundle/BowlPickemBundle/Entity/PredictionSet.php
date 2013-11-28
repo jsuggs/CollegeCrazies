@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A set of predictions
@@ -23,6 +24,13 @@ class PredictionSet
     protected $id;
 
     /**
+     * @ORM\Column(type="integer", length=4)
+     * @Assert\Range(min=2012, max=2020)
+     * @var integer
+     */
+    protected $season;
+
+    /**
      * @ORM\OneToMany(targetEntity="Prediction", mappedBy="predictionSet")
      */
     protected $predictions;
@@ -30,6 +38,16 @@ class PredictionSet
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function getPredictions()

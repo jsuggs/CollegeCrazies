@@ -293,7 +293,6 @@ class PickController extends BaseController
      */
     public function dataAction(League $league, Pickset $pickSet, $season)
     {
-
         $data = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->getPickDistribution($pickSet, $league, $season);
 
