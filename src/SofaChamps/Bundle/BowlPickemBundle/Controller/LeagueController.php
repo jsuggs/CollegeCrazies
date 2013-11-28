@@ -114,24 +114,17 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         $em = $this->getEntityManager();
-        $games = $em->createQuery('SELECT g FROM SofaChampsBowlPickemBundle:Game g ORDER BY g.gameDate')->getResult();
+        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate('ASC');
+        $users = $em->getRepository('SofaChampsCoreBundle:User')->getUsersAndPicksetsForLeague($league, $season);
 
-        $query = $em->createQuery('SELECT u, p from SofaChampsCoreBundle:User u
-            JOIN u.pickSets p
-            JOIN u.leagues l
-            JOIN p.picks pk
-            JOIN pk.game pg
-            WHERE l.id = :leagueId
-            ORDER BY pg.id');
-        $users = $query->setParameter('leagueId', $leagueId)->getResult();
-
-        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
 
         $curUser = $this->getUser();
 
         return array(
             'games' => $games,
             'league' => $league,
+            'season' => $season,
             'users' => $sortedUsers,
             'pickSet' => $pickSet,
             'curUser' => $curUser,

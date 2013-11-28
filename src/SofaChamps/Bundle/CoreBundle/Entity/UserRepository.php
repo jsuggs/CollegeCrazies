@@ -73,6 +73,21 @@ EOF;
         });
     }
 
+    public function getUsersAndPicksetsForLeague(League $league, $season)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT u, p from SofaChampsCoreBundle:User u
+                JOIN u.pickSets p
+                JOIN u.leagues l
+                JOIN p.picks pk
+                JOIN pk.game pg
+                WHERE l.id = :leagueId
+                ORDER BY pg.id'
+            )
+            ->setParameter('leagueId', $league->getId())
+            ->getResult();
+    }
+
     public function getUsersWithIncompletePicksets()
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);

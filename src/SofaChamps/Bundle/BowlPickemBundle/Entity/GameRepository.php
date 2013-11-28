@@ -86,10 +86,10 @@ WHERE p.pickset_id = ?
 ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE abs((CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean))/lp.weightedstddev END DESC
 EOF;
 
-    public function findAllOrderedByDate()
+    public function findAllOrderedByDate($sort = 'DESC')
     {
         return $this->createQueryBuilder('g')
-            ->orderBy('g.gameDate', 'DESC')
+            ->orderBy('g.gameDate', $sort)
             ->getQuery()
             ->getResult();
     }
