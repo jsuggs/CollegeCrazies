@@ -2,20 +2,18 @@
 
 {% block nav_primary %}
     {% if pickSet is defined and pickSet is not null %}
-        <li><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">{{ truncate_text(pickSet.name, 25) }}</a></li>
+        <li><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-th-list"></span> {{ truncate_text(pickSet.name, 25) }}</a></li>
     {% endif %}
     {% if is_granted('ROLE_USER') %}
         <li class="dropdown">
             <a data-toggle="dropdown" href="#">Site Stats <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ path('site_important_games', {season: season}) }}">Most Important Games</a></li>
-                <li><a href="{{ path('site_leaderboard', {season: season}) }}">Overall Leaderboard</a></li>
+                <li><a href="{{ path('site_important_games', {season: season}) }}"><span class="glyphicon glyphicon-flash"></span> Most Important Games</a></li>
+                <li><a href="{{ path('site_leaderboard', {season: season}) }}"><span class="glyphicon glyphicon-list-alt"></span> Overall Leaderboard</a></li>
             </ul>
         </li>
     {% endif %}
-    <li><a href="{{ path('schedule') }}">Schedule</a></li>
-    <li><a href="{{ path('about') }}">About Us</a></li>
-    <li><a href="{{ path('donate') }}">Donate</a></li>
+    <li><a href="{{ path('schedule', {season: season}) }}">Bowl Schedule</a></li>
 {% endblock %}
 
 {% block nav_admin %}
@@ -24,10 +22,8 @@
 {% endblock %}
 
 {% block nav_user %}
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary navbar-btn dropdown-toggle" data-toggle="dropdown">
-            My Picksets <span class="caret"></span>
-        </button>
+    <li class="dropdown">
+        <a data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_USER') %}
                 {% for pickSet in app.user.picksets %}
@@ -52,13 +48,13 @@
                 <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
             {% endif %}
         </ul>
-    </div>
+    </li>
 {% endblock %}
 
 {% block nav_secondary %}
     {% if is_granted('ROLE_USER') and app.user.picksets|length %}
         {% if league is defined and league is not null %}
-            <a class="navbar-brand" href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a>
+            <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
         {% endif %}
         {% if league is defined and league is not null %}
             <li class="dropdown">
@@ -87,18 +83,20 @@
                 </li>
             {% endif %}
         {% elseif app.user.leagues|length %}
-            <div class="dropdown" style="padding: 10px 15px">
-                <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
                 {% for league in app.user.leagues %}
-                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></li>
+                    <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></li>
                 {% endfor %}
                 </ul>
-            </div>
+            </li>
         {% else %}
             <li><a class="btn btn-info" href="{{ path('league_find', {season: season}) }}">Find or Create a League</a></li>
         {% endif %}
     {% endif %}
+    <li><a href="{{ path('about') }}">About Us</a></li>
+    <li><a href="{{ path('donate') }}">Donate</a></li>
 {% endblock %}
 
 {% block sidebar %}

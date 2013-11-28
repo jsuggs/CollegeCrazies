@@ -41,13 +41,13 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" href="#">Admin <b class="caret"></b></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/admin"><span class="glyphicon glyphicon-th-list"> Dashboard</a></li>
+                            <li><a href="/admin"><span class="glyphicon glyphicon-th-list"></span> Dashboard</a></li>
                             {% block nav_admin '' %}
                         </ul>
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_USER') %}
-                    <li>{% block nav_user '' %}</li>
+                    {% block nav_user '' %}
                     <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
