@@ -1,8 +1,7 @@
-<div class="pick-distribution" style="width:550px;height:200px;"></div>
 <script>
     $(function () {
         $.ajax({
-            url: '{{ path('pickset_data', {leagueId: league.id, pickSetId: pickSet.id}) }}',
+            url: '{{ path('pickset_data', {leagueId: league.id, pickSetId: pickSet.id, season: season}) }}',
             success: function(data) {
                 var graphData = [];
                 var graphTicks = [];
