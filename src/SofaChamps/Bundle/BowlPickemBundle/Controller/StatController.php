@@ -39,11 +39,13 @@ class StatController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Stat:leaderboard.html.twig")
      */
-    public function leaderboardAction()
+    public function leaderboardAction($season)
     {
         if (!$this->picksLocked()) {
             $this->addMessage('warning', 'Feature not available until picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $pickSets = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')

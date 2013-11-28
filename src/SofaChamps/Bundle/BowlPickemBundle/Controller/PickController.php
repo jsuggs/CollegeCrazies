@@ -92,7 +92,9 @@ class PickController extends BaseController
         // No more picksets after picks lock
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $user = $this->getUser();
@@ -219,7 +221,9 @@ class PickController extends BaseController
         // No more picksets after picks lock
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $pickSet = new PickSet();

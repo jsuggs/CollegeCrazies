@@ -140,7 +140,9 @@ class LeagueController extends BaseController
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $request = $this->getRequest()->request->get('form');
@@ -415,7 +417,9 @@ class LeagueController extends BaseController
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $league = new League();
@@ -440,7 +444,9 @@ class LeagueController extends BaseController
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $league = new League();
