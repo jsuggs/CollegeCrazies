@@ -34,7 +34,7 @@ class PickController extends BaseController
                 return $this->redirect($this->generateUrl('sbc_home'));
             }
 
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $pick->setYear($year);
                 $em = $this->getEntityManager();

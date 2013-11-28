@@ -225,7 +225,7 @@ class PickController extends BaseController
         $pickSet = new PickSet();
         $form = $this->getPickSetForm($pickSet);
         $request = $this->getRequest();
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $user = $this->getUser();
@@ -263,7 +263,7 @@ class PickController extends BaseController
     public function updatePickAction(PickSet $pickSet, $season)
     {
         $form = $this->getPickSetForm($pickSet);
-        $form->bindRequest($this->getRequest());
+        $form->bind($this->getRequest());
         if ($form->isValid()) {
             $em = $this->getEntityManager();
 

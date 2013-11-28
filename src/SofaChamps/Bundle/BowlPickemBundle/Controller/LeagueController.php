@@ -439,7 +439,7 @@ class LeagueController extends BaseController
         $league = new League();
         $league->setSeason($season);
         $form = $this->getLeagueForm($league);
-        $form->bindRequest($this->getRequest());
+        $form->bind($this->getRequest());
 
         if ($form->isValid()) {
             $user = $this->getUser();
@@ -496,7 +496,7 @@ class LeagueController extends BaseController
     public function updateAction(League $league)
     {
         $form = $this->getLeagueForm($league);
-        $form->bindRequest($this->getRequest());
+        $form->bind($this->getRequest());
 
         if ($form->isValid()) {
             $em = $this->getEntityManager()->flush();
@@ -568,7 +568,7 @@ class LeagueController extends BaseController
         $form = $this->createForm(new LeagueLockFormType(), $league);
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
 
             if ($form->isValid()) {
                 $this->getEntityManager()->flush();
@@ -597,7 +597,7 @@ class LeagueController extends BaseController
         ));
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
             if (count($league->getCommissioners()) === 0) {
                 $this->addMessage('warning', 'What cha smokin?  Every league needs a commish...');
             } else {
@@ -651,7 +651,7 @@ class LeagueController extends BaseController
         $form = $this->createForm(new LeagueNoteFormType(), $league);
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
 
             if ($form->isValid()) {
                 $this->getEntityManager()->flush();
