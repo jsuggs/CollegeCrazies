@@ -37,6 +37,7 @@ class LeagueController extends BaseController
         if (!$pickSet) {
             $this->addMessage('warning', 'You do not have a pick set for this league');
             return $this->redirect($this->router->generateUrl('league_assoc', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
@@ -257,6 +258,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'form' => $form->getForm()->createView(),
         );
     }
@@ -291,6 +293,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'pickSets' => $pickSets,
         );
     }
@@ -786,6 +789,7 @@ class LeagueController extends BaseController
                 if (!$league->getPicksetForUser($user)) {
                     $this->addMessage('warning', 'One or more leagues do not have a pickSet');
                     return $this->redirect($this->generateUrl('league_assoc', array(
+                        'season' => $season,
                         'leagueId' => $league->getId(),
                     )));
                 }

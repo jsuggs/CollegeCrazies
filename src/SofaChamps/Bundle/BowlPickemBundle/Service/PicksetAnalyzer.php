@@ -20,9 +20,10 @@ WHERE season = :season
 EOF;
 
     const INSERT_USER_SCORE_SQL =<<<EOF
-INSERT INTO user_prediction_set_score (league_id, pickSet_id, user_id, predictionSet_id, score, finish)
+INSERT INTO user_prediction_set_score (league_id, season, pickSet_id, user_id, predictionSet_id, score, finish)
 SELECT
     pl.league_id
+  , l.season
   , ps.id
   , ps.user_id
   , pd.predictionset_id
@@ -30,11 +31,13 @@ SELECT
   , rank() OVER (PARTITION BY pl.league_id, pd.predictionset_id ORDER BY SUM(p.confidence) DESC)
 FROM picksets ps
 JOIN pickset_leagues pl on pl.pickset_id = ps.id
+JOIN leagues l on l.id = pl.league_id
 JOIN picks p ON ps.id = p.pickset_id
 JOIN predictions pd ON p.game_id = pd.game_id
 AND p.team_id = pd.winner_id
 WHERE pl.league_id = :leagueId
-GROUP BY pl.league_id, pd.predictionset_id, ps.user_id, ps.id
+AND l.season = :season
+GROUP BY pl.league_id, l.season, pd.predictionset_id, ps.user_id, ps.id
 ORDER BY predictionset_id, rank
 EOF;
 
@@ -61,7 +64,7 @@ EOF;
     {
         $this->conn->executeUpdate(self::INSERT_USER_SCORE_SQL, array(
             'leagueId' => $league->getId(),
-            //'season' => $season,
+            'season' => $season,
         ));
     }
 }

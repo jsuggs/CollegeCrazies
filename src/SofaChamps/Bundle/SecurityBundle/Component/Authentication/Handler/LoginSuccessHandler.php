@@ -70,7 +70,10 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
                             )));
                             break;
                         default:
+                            // TODO - Get current season
+                            $season = 2013;
                             $response = new RedirectResponse($this->router->generate('league_assoc', array(
+                                'season' => $season,
                                 'leagueId' => $league->getId(),
                             )));
                             break;

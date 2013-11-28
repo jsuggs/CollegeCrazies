@@ -4,7 +4,7 @@
     <h2>Associate Pickset with League</h2>
     <p>Choose a pickset for league "{{ league.name }}"</p>
 
-    <form action="{{ path('league_assoc', {leagueId: league.id}) }}" method="POST" class="form-horizontal">
+    <form action="{{ path('league_assoc', {leagueId: league.id, season: season}) }}" method="POST" class="form-horizontal">
         <table class="table table-bordered">
             <thead>
                 <tr>
