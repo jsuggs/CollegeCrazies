@@ -88,4 +88,14 @@ class BaseController extends CoreController
     {
         return $this->get('sofachamps.bp.user_sorter');
     }
+
+    protected function getSeasonManager()
+    {
+        return $this->get('sofachamps.bp.season_manager');
+    }
+
+    protected function getCurrentSeason()
+    {
+        return $this->getSeasonManager()->getCurrentSeason();
+    }
 }

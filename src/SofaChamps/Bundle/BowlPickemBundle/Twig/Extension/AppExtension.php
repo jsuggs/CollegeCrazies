@@ -40,7 +40,7 @@ class AppExtension extends \Twig_Extension
 
     public function getCurrentSeason()
     {
-        return $this->container->get('config.curyear');
+        return $this->container->get('sofachamps.bp.season_manager')->getCurrentSeason();;
     }
 
     public function getName()
