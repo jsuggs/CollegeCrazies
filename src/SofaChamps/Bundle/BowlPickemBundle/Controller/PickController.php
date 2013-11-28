@@ -291,11 +291,11 @@ class PickController extends BaseController
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "pickSetId"})
      */
-    public function dataAction(League $league, Pickset $pickSet)
+    public function dataAction(League $league, Pickset $pickSet, $season)
     {
 
         $data = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
-            ->getPickDistribution($pickSet, $league);
+            ->getPickDistribution($pickSet, $league, $season);
 
         return new JsonResponse($data);
     }
