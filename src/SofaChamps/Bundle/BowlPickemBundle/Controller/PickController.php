@@ -139,7 +139,7 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function editPickAction(PickSet $pickSet)
+    public function editPickAction(PickSet $pickSet, $season)
     {
         if ($this->get('session')->get('auto_league_create')) {
             $this->get('session')->remove('auto_league_create');
@@ -153,6 +153,7 @@ class PickController extends BaseController
         return array(
             'form' => $form->createView(),
             'pickSet' => $pickSet,
+            'season' => $season,
         );
     }
 
@@ -213,7 +214,7 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:new.html.twig")
      */
-    public function createPickAction()
+    public function createPickAction($season)
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
@@ -259,7 +260,7 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function updatePickAction(PickSet $pickSet)
+    public function updatePickAction(PickSet $pickSet, $season)
     {
         $form = $this->getPickSetForm($pickSet);
         $form->bindRequest($this->getRequest());
