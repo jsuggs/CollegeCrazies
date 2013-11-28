@@ -61,26 +61,31 @@
             <a class="navbar-brand" href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a>
         {% endif %}
         {% if league is defined and league is not null %}
-                <li><a href="{{ path('league_group_picks', {leagueId: league.id, season: season}) }}">Group Picks</a></li>
-                <li><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">Leader Board</a></li>
-                <li><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">My Stats</a></li>
-                <li><a href="{{ path('league_members', {leagueId: league.id, season: season}) }}">Members</a></li>
-                <li><a href="{{ path('league_invite', {leagueId: league.id, season: season}) }}">Invite Users</a></li>
-                <li><a href="{{ path('league_settings', {leagueId: league.id, season: season}) }}">League Settings</a></li>
-                {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
-                    <li class="dropdown pull-right">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ path('league_member_remove_list', {leagueId: league.id, season: season}) }}">Remove Members</a></li>
-                            <li><a href="{{ path('league_commissioners', {leagueId: league.id, season: season}) }}">League Commissioners</a></li>
-                            <li><a href="{{ path('league_nopicks', {leagueId: league.id, season: season}) }}">Users with incomplete PickSets</a></li>
-                            <li><a href="{{ path('league_edit', {leagueId: league.id, season: season}) }}">League Settings</a></li>
-                            <li><a href="{{ path('league_blast', {leagueId: league.id, season: season}) }}">League Email</a></li>
-                            <li><a href="{{ path('league_note', {leagueId: league.id, season: season}) }}">Commish Note</a></li>
-                            <li><a href="{{ path('league_lock', {leagueId: league.id, season: season}) }}">Lock League</a></li>
-                        </ul>
-                    </li>
-                {% endif %}
+            <li class="dropdown">
+                <a data-toggle="dropdown" href="#">League Info <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('league_group_picks', {leagueId: league.id, season: season}) }}">Group Picks</a></li>
+                    <li><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">Leader Board</a></li>
+                    <li><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">My Stats</a></li>
+                    <li><a href="{{ path('league_members', {leagueId: league.id, season: season}) }}">Members</a></li>
+                    <li><a href="{{ path('league_invite', {leagueId: league.id, season: season}) }}">Invite Users</a></li>
+                    <li><a href="{{ path('league_settings', {leagueId: league.id, season: season}) }}">League Settings</a></li>
+                </ul>
+            </li>
+            {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
+                <li class="dropdown">
+                    <a data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ path('league_member_remove_list', {leagueId: league.id, season: season}) }}">Remove Members</a></li>
+                        <li><a href="{{ path('league_commissioners', {leagueId: league.id, season: season}) }}">League Commissioners</a></li>
+                        <li><a href="{{ path('league_nopicks', {leagueId: league.id, season: season}) }}">Users with incomplete PickSets</a></li>
+                        <li><a href="{{ path('league_edit', {leagueId: league.id, season: season}) }}">League Settings</a></li>
+                        <li><a href="{{ path('league_blast', {leagueId: league.id, season: season}) }}">League Email</a></li>
+                        <li><a href="{{ path('league_note', {leagueId: league.id, season: season}) }}">Commish Note</a></li>
+                        <li><a href="{{ path('league_lock', {leagueId: league.id, season: season}) }}">Lock League</a></li>
+                    </ul>
+                </li>
+            {% endif %}
         {% elseif app.user.leagues|length %}
             <div class="dropdown" style="padding: 10px 15px">
                 <a class="dropdown-toggle navbar-link" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
