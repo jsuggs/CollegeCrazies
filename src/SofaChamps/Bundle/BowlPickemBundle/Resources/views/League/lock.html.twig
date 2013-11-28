@@ -3,7 +3,7 @@
 {% block content %}
     <h3>Lock the League - {{ league.name }}</h3>
 
-    <form action="{{ path('league_lock', {leagueId: league.id}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <form action="{{ path('league_lock', {leagueId: league.id, season: season}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
         <div class="control-group">
             {{ form_errors(form.locked) }}
             {{ form_label(form.locked, null, {label_attr: {class: 'control-label'}}) }}

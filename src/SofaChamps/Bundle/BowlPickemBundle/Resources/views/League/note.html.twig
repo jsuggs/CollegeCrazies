@@ -3,7 +3,7 @@
 {% block content %}
     <h3>League Note - {{ league.name }}</h3>
 
-    <form action="{{ path('league_note', {leagueId: league.id}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <form action="{{ path('league_note', {leagueId: league.id, season: season}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
         <div class="control-group">
             {{ form_errors(form.note) }}
             {{ form_label(form.note, null, {label_attr: {class: 'control-label'}}) }}
