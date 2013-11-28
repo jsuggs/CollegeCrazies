@@ -425,6 +425,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
         );
     }
 
@@ -463,6 +464,7 @@ class LeagueController extends BaseController
         } else {
             return array(
                 'form' => $form->createView(),
+                'season' => $season,
             );
         }
 
