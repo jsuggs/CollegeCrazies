@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Route("/pickset")
+ * @Route("/{season}/pickset")
  */
 class PickController extends BaseController
 {
@@ -27,9 +27,10 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function listAction()
+    public function listAction($season)
     {
         return array(
+            'season' => $season,
             'pickSets' => $this->getUser()->getPickSets(),
         );
     }
@@ -39,13 +40,15 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function manageAction()
+    public function manageAction($season)
     {
         $user = $this->getUser();
         $pickSets = $user->getPickSets();
 
         if (count($pickSets) === 0) {
-            return $this->redirect($this->generateUrl('pickset_new'));
+            return $this->redirect($this->generateUrl('pickset_new', array(
+                'season' => $season,
+            )));
         }
 
         $request = $this->getRequest();
@@ -57,6 +60,7 @@ class PickController extends BaseController
                 $em = $this->getEntityManager();
                 $conn = $em->getConnection();
                 // Delete all of the users picksets
+                // TODO - Move to repo and only delete for the season
                 $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
 
                 // This is a semi-hack, not using the form framework
@@ -74,6 +78,7 @@ class PickController extends BaseController
         return array(
             'pickSets' => $pickSets,
             'leagues' => $user->getLeagues(),
+            'season' => $season,
         );
     }
 
@@ -82,7 +87,7 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:new.html.twig")
      */
-    public function newPickAction()
+    public function newPickAction($season)
     {
         // No more picksets after picks lock
         if ($this->picksLocked()) {
@@ -91,28 +96,11 @@ class PickController extends BaseController
         }
 
         $user = $this->getUser();
+        $league = $this->getRequest()->query->has('leagueId')
+            ? $this->findLeague($this->getRequest()->get('leagueId'))
+            : null;
 
-        $pickSet = new PickSet();
-        $pickSet->setUser($user);
-        $defaultPickSetName = substr(sprintf('%s - %s', $user->getUsername(), count($user->getPicksets()) == 0 ? 'Default Pickset' : sprintf('Pickset #%d', count($user->getPicksets()) + 1)), 0, 40);
-        $pickSet->setName($defaultPickSetName);
-
-        if ($this->getRequest()->query->has('leagueId')) {
-            $league = $this->findLeague($this->getRequest()->get('leagueId'));
-            $pickSet->setLeague($league);
-        }
-
-        $em = $this->getEntityManager();
-        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
-        $idx = count($games);
-        foreach ($games as $game) {
-            $pick = new Pick();
-            $pick->setGame($game);
-            $pick->setConfidence($idx);
-
-            $pickSet->addPick($pick);
-            $idx--;
-        }
+        $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
 
         // If the user does not have a pickset already, auto-save
         if (count($user->getPicksets()) == 0) {
@@ -130,6 +118,7 @@ class PickController extends BaseController
             $session->set('auto_league_create', true);
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
+                'season' => $season,
                 'picksetId' => $pickSet->getId(),
             )));
         }
@@ -137,6 +126,7 @@ class PickController extends BaseController
         $form = $this->getPickSetForm($pickSet);
 
         return array(
+            'season' => $season,
             'form' => $form->createView(),
             'league' => isset($league) ? $league : null,
         );
@@ -248,6 +238,7 @@ class PickController extends BaseController
             $em->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
+                'season' => $season,
                 'picksetId' => $pickSet->getId(),
             )));
         }
@@ -256,6 +247,7 @@ class PickController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
         );
     }
 
@@ -280,6 +272,7 @@ class PickController extends BaseController
             $this->addMessage('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
+                'season' => $season,
                 'picksetId' => $pickSet->getId(),
             )));
         }
@@ -287,6 +280,7 @@ class PickController extends BaseController
         return array(
             'form' => $form->createView(),
             'pickSet' => $pickSet,
+            'season' => $season,
         );
     }
 
@@ -308,5 +302,10 @@ class PickController extends BaseController
     private function getPickSetForm(PickSet $pickSet)
     {
         return $this->createForm(new PickSetFormType(), $pickSet);
+    }
+
+    protected function getPicksetManager()
+    {
+        return $this->container->get('sofachamps.bp.pickset_manager');
     }
 }

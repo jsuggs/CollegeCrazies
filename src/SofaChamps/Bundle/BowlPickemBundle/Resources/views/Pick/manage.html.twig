@@ -3,13 +3,13 @@
 {% block content %}
     <h2>Manage Picksets</h2>
     <p>Choose the pickset you want to use for the league</p>
-    <form action="{{ path('pickset_manage') }}" method="POST" id="pickset-update">
+    <form action="{{ path('pickset_manage', {season: season}) }}" method="POST" id="pickset-update">
         <table class="table table-bordered table-hover">
             <thead>
                 <th style="width: 60px">Commish</th>
                 <th>League</th>
                 {% for pickSet in pickSets %}
-                    <th><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a></th>
+                    <th><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a></th>
                 {% endfor %}
             </thead>
             <tbody>
@@ -17,7 +17,7 @@
                 {% set leaguePickSet = league.getPickSetForUser(app.user) %}
                 <tr>
                     <td>{{ league.userIsCommissioner(app.user) ? '<i class="icon-certificate" title="You are the commissioner for this league"></i>' : '' }}</td>
-                    <td><a href="{{ path('league_home', {leagueId: league.id}) }}"><i class="icon-home"></i> {{ league.name }}</a></td>
+                    <td><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><i class="icon-home"></i> {{ league.name }}</a></td>
                     {% for pickSet in pickSets %}
                         <td><input type="radio" name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
                     {% endfor %}
@@ -42,11 +42,11 @@
 
     <div class="row-fluid">
         <h4>Looking for some more action?</h4>
-        <a href="{{ path('league_find') }}" class="btn btn-info">Find another League to Join</a>
+        <a href="{{ path('league_find', {season: season}) }}" class="btn btn-info">Find another League to Join</a>
     </div>
 
     <div class="row-fluid">
         <h4>Need to leave a League?</h4>
-        <a href="{{ path('league_leave') }}" class="btn btn-warning">Leave a League</a>
+        <a href="{{ path('league_leave', {season: season}) }}" class="btn btn-warning">Leave a League</a>
     </div>
 {% endblock %}

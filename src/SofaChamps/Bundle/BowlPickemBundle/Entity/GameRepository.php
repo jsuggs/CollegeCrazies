@@ -23,6 +23,7 @@ SELECT
 FROM games g
 INNER JOIN picks p on g.id = p.game_id
 WHERE p.team_id IS NOT NULL
+AND g.season = :season
 GROUP BY g.id
 ORDER BY weightedstddev DESC
 EOF;
@@ -48,11 +49,11 @@ AND p.pickset_id IN (
     SELECT id
     FROM picksets ps
     INNER JOIN pickset_leagues pl on ps.id = pl.pickset_id
-    AND pl.league_id = ?
+    AND pl.league_id = :leagueId
 )
 GROUP BY g.id
 ORDER BY weightedstddev DESC
-LIMIT ?
+LIMIT :limit
 EOF;
 
     const USER_IMPORTANCE_SQL = <<<EOF
@@ -93,9 +94,11 @@ EOF;
             ->getResult();
     }
 
-    public function gamesByImportance()
+    public function gamesByImportance($season)
     {
-        return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL);
+        return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL, array(
+            'season' => $season,
+        ));
     }
 
     public function gamesByImportanceForLeague(League $league, $limit = 10)

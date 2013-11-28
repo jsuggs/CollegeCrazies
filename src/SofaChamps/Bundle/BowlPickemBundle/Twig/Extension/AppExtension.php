@@ -29,12 +29,18 @@ class AppExtension extends \Twig_Extension
     {
         return array(
             'picks_locked' => $this->picksLocked(),
+            'current_season' => $this->getCurrentSeason(),
         );
     }
 
     public function picksLocked()
     {
         return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
+    }
+
+    public function getCurrentSeason()
+    {
+        return $this->container->get('config.curyear');
     }
 
     public function getName()

@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h2><b>Active Games</b></h2>
+                    <h2>Active Games</h2>
                     <ul class="unstyled">
                         <li style="padding-left: 10px">
                             <h3><a href="{{ path('sbc_home') }}" class="text-success">SuperBowl Challenge</a></h3>
@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>Upcoming Games</h4>
-                    <p><a href="{{ path('bp_home') }}" class="muted">College Bowl Mania</a></p>
+                    <p><a href="{{ path('bp_home', {season: current_season}) }}" class="muted">College Bowl Mania</a></p>
                 </div>
             </div>
         </div>

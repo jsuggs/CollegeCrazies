@@ -9,9 +9,9 @@ use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
 class HomePageController extends BaseController
 {
     /**
-     * @Route("/", name="bp_home")
+     * @Route("/{season}", name="bp_home")
      */
-    public function homepageAction()
+    public function homepageAction($season)
     {
         $user = $this->getUser();
 
@@ -22,7 +22,8 @@ class HomePageController extends BaseController
         $form = $this->createForm(new UserFormType());
         return $this->render($template , array(
             'form' => $form->createView(),
-            'user' => $user
+            'season' => $season,
+            'user' => $user,
         ));
     }
 
