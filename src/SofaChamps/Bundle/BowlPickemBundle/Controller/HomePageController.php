@@ -72,7 +72,7 @@ class HomePageController extends BaseController
     }
 
     /**
-     * @Route("/bowl-schedule", name="schedule")
+     * @Route("/{season}/bowl-schedule", requirements={"season" = "\d+"}, name="schedule")
      * @Template("SofaChampsBowlPickemBundle::schedule.html.twig")
      */
     public function scheduleAction($season)
