@@ -587,10 +587,10 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/commissioners", name="league_commissioners")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:commissioners.html.twig")
      */
-    public function commissionersAction(League $league)
+    public function commissionersAction(League $league, $season)
     {
         $form = $this->createForm(new LeagueCommissionersFormType(), $league, array(
             'league' => $league,
@@ -611,6 +611,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
