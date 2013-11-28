@@ -67,10 +67,10 @@ class HomePageController extends BaseController
      * @Route("/bowl-schedule", name="schedule")
      * @Template("SofaChampsBowlPickemBundle::schedule.html.twig")
      */
-    public function scheduleAction()
+    public function scheduleAction($season)
     {
         return array(
-            'games' => array_reverse($this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate()),
+            'games' => array_reverse($this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season)),
         );
     }
 

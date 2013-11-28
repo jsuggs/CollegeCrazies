@@ -198,9 +198,9 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:compare.html.twig")
      */
-    public function comparePickSetAction(PickSet $pickSet1, PickSet $pickSet2)
+    public function comparePickSetAction(PickSet $pickSet1, PickSet $pickSet2, $season)
     {
-        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate();
+        $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season);
 
         return array(
             'games' => $games,

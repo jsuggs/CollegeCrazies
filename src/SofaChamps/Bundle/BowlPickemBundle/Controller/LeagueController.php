@@ -115,7 +115,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         $em = $this->getEntityManager();
-        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate('ASC');
+        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season, 'ASC');
         $users = $em->getRepository('SofaChampsCoreBundle:User')->getUsersAndPicksetsForLeague($league, $season);
 
         list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
