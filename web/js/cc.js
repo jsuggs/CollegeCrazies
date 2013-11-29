@@ -70,8 +70,19 @@ $(document).ready(function(){
     }
 
     // Check the status only if the pick form is valid
+    var pickFormState = null;
     if ($('.pickForm').length) {
         checkPickStatus();
+
+        // Save a snapshot of the form
+        pickFormState = $('.pickForm').serialize();
+
+        // Set a listener for checking if picks haven't been saved
+        window.onbeforeunload = function alertUnsavedPicks() {
+            if (pickFormState != $('.pickForm').serialize()) {
+                return 'It looks like you have been editing your picks -- if you leave without submitting, your changes will be lost.';
+            }
+        };
     }
 
     $('.pickForm').submit(function() {
