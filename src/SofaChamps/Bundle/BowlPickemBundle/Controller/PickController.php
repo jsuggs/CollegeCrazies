@@ -184,9 +184,10 @@ class PickController extends BaseController
      * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickNoLeagueAction(PickSet $pickSet)
+    public function viewPickNoLeagueAction(PickSet $pickSet, $season)
     {
         return array(
+            'season' => $season,
             'pickSet' => $pickSet,
         );
     }

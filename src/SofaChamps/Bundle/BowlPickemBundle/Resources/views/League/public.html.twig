@@ -18,7 +18,7 @@
                 <td>{{ league.motto }}</td>
                 <td>{{ league.users|length }}</td>
                 <td>
-                {% if league.isUserInLeague(app.user) %}
+                {% if is_granted('ROLE_USER') and league.isUserInLeague(app.user) %}
                     (Already in this league)
                 {% else %}
                     <form action="{{ path('league_join', {season: season}) }}" method="post">
