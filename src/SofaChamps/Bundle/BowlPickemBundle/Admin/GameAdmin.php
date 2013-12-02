@@ -13,7 +13,9 @@ class GameAdmin extends Admin
     {
         $formMapper
             ->add('id')
+            ->add('season')
             ->add('name')
+            ->add('shortName')
             ->add('homeTeam')
             ->add('awayTeam')
             ->add('spread')
@@ -21,6 +23,7 @@ class GameAdmin extends Admin
             ->add('gameDate')
             ->add('homeTeamScore')
             ->add('awayTeamScore')
+            ->add('tiebreakerPriority')
         ;
     }
 
@@ -28,6 +31,7 @@ class GameAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
+            ->add('season')
             ->add('name')
             ->add('homeTeam')
             ->add('awayTeam')
@@ -38,6 +42,7 @@ class GameAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
+            ->addIdentifier('season')
             ->add('name')
             ->add('homeTeam')
             ->add('awayTeam')

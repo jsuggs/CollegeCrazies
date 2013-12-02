@@ -46,7 +46,7 @@ class Game
      * The short name of the bowl game
      *
      * @ORM\Column(type="string", length=12)
-     * @Assert\Length(min=12)
+     * @Assert\Length(max=12)
      * @var string
      */
     protected $shortName;
@@ -154,6 +154,16 @@ class Game
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function setHomeTeam(Team $team)
