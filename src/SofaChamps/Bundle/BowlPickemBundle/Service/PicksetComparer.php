@@ -2,8 +2,10 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 
 /**
  * PicksetComparer
@@ -12,6 +14,19 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
  */
 class PicksetComparer
 {
+    private $om;
+    private $tiebreakerGames = array();
+
+    /**
+     * @DI\InjectParams({
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     * })
+     */
+    public function __construct(ObjectManager $om)
+    {
+        $this->om = $om;
+    }
+
     /**
      * Return 1 if $a has more points, -1 if b has more points, 0 if they are exactly equal
      *
@@ -24,20 +39,54 @@ class PicksetComparer
     {
         $aPoints = $a->getPoints();
         $bPoints = $b->getPoints();
+        //var_dump($aPoints, $bPoints);
+        //die();
 
         // If same points, fall back first to points possible
         if ($aPoints === $bPoints) {
             $aPointsPossible = $a->getPointsPossible();
             $bPointsPossible = $b->getPointsPossible();
 
+            // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {
-                // TODO - Check the tiebreaker
-                return 0;
+                $tieBreakerGames = $this->getTiebreakerGamesForSeason($a->getSeason());
+                // TODO, we are currently only using one game for a tiebreaker
+                $tieBreakerGame = $tieBreakerGames->first();
+
+                $aTiebreakerPoints =
+                    SigmaUtils::summation($a->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
+                    +
+                    SigmaUtils::summation($a->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
+
+                $bTiebreakerPoints =
+                    SigmaUtils::summation($b->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
+                    +
+                    SigmaUtils::summation($b->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
+
+                if ($aTiebreakerPoints === $bTiebreakerPoints) {
+                    return 0;
+                } else {
+                    return $aTiebreakerPoints > $bTiebreakerPoints ? -1 : 1;
+                }
             }
 
-            return $aPointsPossible >= $bPointsPossible ? -1 : 1;
+            return $aPointsPossible > $bPointsPossible ? -1 : 1;
         }
 
-        return $aPoints >= $bPoints ? -1 : 1;
+        return $aPoints > $bPoints ? 1 : -1;
+    }
+
+    protected function getTiebreakerGamesForSeason($season)
+    {
+        if (!array_key_exists($season, $this->tiebreakerGames)) {
+            $this->tiebreakerGames[$season] = $this->fetchTiebreakerGamesForSeason($season);
+        }
+
+        return $this->tiebreakerGames[$season];
+    }
+
+    private function fetchTiebreakerGamesForSeason($season)
+    {
+        return $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findTiebreakerGamesForSeason($season);
     }
 }
