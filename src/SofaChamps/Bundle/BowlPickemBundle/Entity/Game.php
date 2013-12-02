@@ -11,7 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="GameRepository")
  * @ORM\Table(
- *      name="games"
+ *      name="games",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_games_season_tiebreaker_priority", columns={"season", "tiebreakerPriority"})}
  * )
  */
 class Game
@@ -136,6 +137,14 @@ class Game
      * @var string
      */
     protected $location;
+
+    /**
+     * The tiebreaker priority
+     *
+     * @ORM\Column(type="smallint")
+     * @var int
+     */
+    protected $tiebreakerPriority;
 
     public function getId()
     {
@@ -279,6 +288,16 @@ class Game
     public function getLocation()
     {
         return $this->location;
+    }
+
+    public function setTiebreakerPriority($tiebreakerPriority)
+    {
+        $this->tiebreakerPriority = $tiebreakerPriority;
+    }
+
+    public function getTiebreakerPriority()
+    {
+        return $this->tiebreakerPriority;
     }
 
     /**
