@@ -6,7 +6,7 @@
 
     <p class="text-warning">Are you sure you want to join this league?</p>
 
-    <form action="{{ path('league_join') }}" method="post" class="pickForm form-horizontal" {{ form_enctype(form) }}>
+    <form action="{{ path('league_join', {season: season}) }}" method="post" class="pickForm form-horizontal" {{ form_enctype(form) }}>
         <div class="errors">
             {{ form_errors(form) }}
         </div>

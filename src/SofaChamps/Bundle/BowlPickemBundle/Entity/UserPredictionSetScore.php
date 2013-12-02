@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The score for a user against a prediction set
@@ -27,6 +28,12 @@ class UserPredictionSetScore
     protected $league;
 
     /**
+     * @ORM\Column(type="integer", length=4)
+     * @Assert\Range(min=2012, max=2020)
+     */
+    protected $season;
+
+    /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="PredictionSet")
      */
@@ -48,9 +55,11 @@ class UserPredictionSetScore
      */
     protected $finish;
 
-    public function __construct(User $user, PredictionSet $predictionSet, PickSet $pickSet)
+    public function __construct(User $user, League $league, $season, PredictionSet $predictionSet, PickSet $pickSet)
     {
         $this->user = $user;
+        $this->league = $league;
+        $this->season = $season;
         $this->predictionSet = $predictionSet;
         $this->pickSet = $pickSet;
     }

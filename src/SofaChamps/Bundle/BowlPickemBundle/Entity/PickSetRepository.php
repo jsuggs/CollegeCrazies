@@ -9,8 +9,9 @@ class PickSetRepository extends EntityRepository
     const DISTRIBUTION_SQL =<<<EOF
 SELECT finish, COUNT(finish) AS distribution, (CAST(COUNT(finish) AS numeric) / (SELECT COUNT(*) FROM prediction_sets)) * 100 as percentage
 FROM user_prediction_set_score
-WHERE league_id = ?
-AND user_id = ?
+WHERE league_id = :leagueId
+AND user_id = :userId
+AND season = :season
 GROUP BY finish
 EOF;
 
@@ -54,11 +55,12 @@ WHERE ps.id = :id
 ORDER BY %s
 EOF;
 
-    public function getPickDistribution(PickSet $pickSet, League $league)
+    public function getPickDistribution(PickSet $pickSet, League $league, $season)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::DISTRIBUTION_SQL, array(
-            $league->getId(),
-            $pickSet->getUser()->getId(),
+            'season' => $season,
+            'leagueId' => $league->getId(),
+            'userId' => $pickSet->getUser()->getId(),
         ));
     }
 
@@ -82,12 +84,15 @@ EOF;
         ));
     }
 
-    public function findAllOrderedByPoints($limit = 10)
+    public function findAllOrderedByPoints($season, $limit = 10)
     {
-        return $this->getEntityManager()->createQuery('SELECT p, u, pk, pg from SofaChampsBowlPickemBundle:PickSet p
-            JOIN p.user u
-            JOIN p.picks pk
-            JOIN pk.game pg')
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->innerJoin('p.picks', 'pk')
+            ->innerJoin('pk.game', 'pg')
+            ->where('pg.season = ?1')
+            ->setParameter(1, $season)
+            ->getQuery()
             ->getResult();
     }
 

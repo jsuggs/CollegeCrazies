@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A League
@@ -23,6 +24,15 @@ class League
      * @ORM\SequenceGenerator(sequenceName="seq_league", initialValue=1, allocationSize=1)
      */
     protected $id;
+
+    /**
+     * The bowl season for this league
+     *
+     * @ORM\Column(type="integer", length=4)
+     * @Assert\Range(min=2012, max=2020)
+     * @var integer
+     */
+    protected $season;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -87,6 +97,16 @@ class League
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function setName($name)

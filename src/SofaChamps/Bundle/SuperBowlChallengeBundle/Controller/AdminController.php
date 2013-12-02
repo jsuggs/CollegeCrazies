@@ -25,7 +25,7 @@ class AdminController extends BaseController
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $config = $form->getData();
 
@@ -58,7 +58,7 @@ class AdminController extends BaseController
         $config = $this->getConfig($year);
 
         if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $result = $form->getData();
 
@@ -91,7 +91,7 @@ class AdminController extends BaseController
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $question = $form->getData();
 

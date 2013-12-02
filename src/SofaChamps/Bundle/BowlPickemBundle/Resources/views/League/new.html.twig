@@ -3,7 +3,7 @@
 {% block content %}
     <h3>Create a new League</h3>
 
-    <form action="{{ path('league_create') }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <form action="{{ path('league_create', {season: season}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
         {% include 'SofaChampsBowlPickemBundle:League:form.html.twig' %}
 
         <div class="control-group">
@@ -12,4 +12,39 @@
             </div>
         </div>
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            // The radio button
+            var pubprirdo = $('input:radio[name="league[public]"]');
+            var passwdContainer = $('.password-container');
+
+            // Run this on load to pre-set the public checkbox.  Kinda a hack, but the public value is just a dummy on the form
+            if ($('input[name="league[password]"]').val().length) {
+                pubprirdo.filter('[value=0]').attr('checked', true);
+            } else {
+                pubprirdo.filter('[value=1]').attr('checked', true);
+            }
+
+            // If public, then clear and hide the password
+            var pubpri = function() {
+                if (pubprirdo.filter(':checked').val() == 1) {
+                    passwdContainer.hide();
+                    passwdContainer.find('input').val('');
+                } else {
+                    passwdContainer.show();
+                }
+            }
+
+            // Run when changed
+            pubprirdo.click(pubpri);
+
+            // Run on load
+            pubpri();
+        });
+    </script>
 {% endblock %}

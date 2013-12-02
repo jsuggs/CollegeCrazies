@@ -45,7 +45,10 @@ class RegistrationListener implements EventSubscriberInterface
             return null;
         }
 
-        $url = $this->router->generate('pickset_new');
+        // TODO - Get the right season
+        $url = $this->router->generate('pickset_new', array(
+            'season' => '2013',
+        ));
         $event->setResponse(new RedirectResponse($url));
     }
 }

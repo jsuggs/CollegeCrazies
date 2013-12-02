@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/stats")
+ * @Route("/{season}/stats")
  */
 class StatController extends BaseController
 {
@@ -16,18 +16,21 @@ class StatController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Stat:importance.html.twig")
      */
-    public function importantGamesAction()
+    public function importantGamesAction($season)
     {
         if (!$this->picksLocked()) {
             $this->addMessage('warning', 'Feature not available until picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')
-            ->gamesByImportance();
+            ->gamesByImportance($season);
 
         return array(
             'games' => $games,
+            'season' => $season,
         );
     }
 
@@ -36,20 +39,23 @@ class StatController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Stat:leaderboard.html.twig")
      */
-    public function leaderboardAction()
+    public function leaderboardAction($season)
     {
         if (!$this->picksLocked()) {
             $this->addMessage('warning', 'Feature not available until picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $pickSets = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
-            ->findAllOrderedByPoints();
+            ->findAllOrderedByPoints($season);
 
         $pickSets = $this->getPicksetSorter()->sortPickSets($pickSets);
 
         return array(
             'pickSets' => $pickSets,
+            'season' => $season,
         );
     }
 

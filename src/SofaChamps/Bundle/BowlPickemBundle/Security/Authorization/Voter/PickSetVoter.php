@@ -90,7 +90,7 @@ class PickSetVoter implements VoterInterface
     protected function canUserEditPickSet(User $user, PickSet $pickSet)
     {
         if ($pickSet->getUser() == $user) {
-            return VoterInterface::ACCESS_DENIED;
+            return VoterInterface::ACCESS_GRANTED;
         }
 
         return $pickSet->getUser() == $user

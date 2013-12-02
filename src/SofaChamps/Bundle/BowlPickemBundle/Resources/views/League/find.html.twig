@@ -6,7 +6,7 @@
         <div class="span6">
             <h3>KNOW the league you'd like to join?</h3>
             <p>Enter the league id and password below</p>
-            <form action="{{ path('league_join') }}" method="post" class="form-horizontal">
+            <form action="{{ path('league_join', {season: season}) }}" method="post" class="form-horizontal">
                 <div class="control-group">
                     {{ form_label(form.id, 'League ID', {label_attr: {class: 'control-label'}}) }}
                     <div class="controls">
@@ -28,10 +28,10 @@
         </div>
         <div class="span6">
             <h3>BROWSE Public Leagues</h3>
-            <a href="{{ path('league_public') }}" class="btn">Browse Public Leagues</a>
+            <a href="{{ path('league_public', {season: season}) }}" class="btn">Browse Public Leagues</a>
 
             <h3 style="padding-top: 25px">CREATE a League</h3>
-            <a href="{{ path('league_new') }}" class="btn">Create a League</a>
+            <a href="{{ path('league_new', {season: season}) }}" class="btn">Create a League</a>
         </div>
     </div>
 {% endblock %}

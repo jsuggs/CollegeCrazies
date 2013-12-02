@@ -23,6 +23,7 @@ SELECT
 FROM games g
 INNER JOIN picks p on g.id = p.game_id
 WHERE p.team_id IS NOT NULL
+AND g.season = :season
 GROUP BY g.id
 ORDER BY weightedstddev DESC
 EOF;
@@ -48,11 +49,11 @@ AND p.pickset_id IN (
     SELECT id
     FROM picksets ps
     INNER JOIN pickset_leagues pl on ps.id = pl.pickset_id
-    AND pl.league_id = ?
+    AND pl.league_id = :leagueId
 )
 GROUP BY g.id
 ORDER BY weightedstddev DESC
-LIMIT ?
+LIMIT :limit
 EOF;
 
     const USER_IMPORTANCE_SQL = <<<EOF
@@ -85,17 +86,21 @@ WHERE p.pickset_id = ?
 ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE abs((CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean))/lp.weightedstddev END DESC
 EOF;
 
-    public function findAllOrderedByDate()
+    public function findAllOrderedByDate($season, $sort = 'DESC')
     {
         return $this->createQueryBuilder('g')
-            ->orderBy('g.gameDate', 'DESC')
+            ->where('g.season = :season')
+            ->orderBy('g.gameDate', $sort)
+            ->setParameter('season', $season)
             ->getQuery()
             ->getResult();
     }
 
-    public function gamesByImportance()
+    public function gamesByImportance($season)
     {
-        return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL);
+        return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL, array(
+            'season' => $season,
+        ));
     }
 
     public function gamesByImportanceForLeague(League $league, $limit = 10)

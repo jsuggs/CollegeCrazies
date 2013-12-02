@@ -18,7 +18,7 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * @Route("/league")
+ * @Route("{season}/league")
  */
 class LeagueController extends BaseController
 {
@@ -29,7 +29,7 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function homeAction(League $league)
+    public function homeAction(League $league, $season)
     {
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
@@ -37,6 +37,7 @@ class LeagueController extends BaseController
         if (!$pickSet) {
             $this->addMessage('warning', 'You do not have a pick set for this league');
             return $this->redirect($this->router->generateUrl('league_assoc', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
@@ -44,7 +45,7 @@ class LeagueController extends BaseController
         $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
-        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
         $importantGames = $this->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
 
         // Only show the top 10 users
@@ -52,6 +53,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'users' => $sortedUsers,
             'pickSet' => $pickSet,
             'rank' => $rank,
@@ -65,13 +67,14 @@ class LeagueController extends BaseController
      * @Route("/public", name="league_public")
      * @Template
      */
-    public function publicAction()
+    public function publicAction($season)
     {
         $leagues = $this->getRepository('SofaChampsBowlPickemBundle:League')
-            ->findAllPublic();
+            ->findAllPublic($season);
 
         return array(
             'leagues' => $leagues,
+            'season' => $season,
         );
     }
 
@@ -80,7 +83,7 @@ class LeagueController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function findAction()
+    public function findAction($season)
     {
         $form = $this->createFormBuilder()
             ->add('id', 'integer')
@@ -90,11 +93,12 @@ class LeagueController extends BaseController
             ->getForm();
 
         $leagues = $this->getRepository('SofaChampsBowlPickemBundle:League')
-            ->findAllPublic();
+            ->findAllPublic($season);
 
         return array(
             'leagues' => $leagues,
             'form' => $form->createView(),
+            'season' => $season,
         );
     }
 
@@ -105,30 +109,23 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW_PICKS")
      * @Template("SofaChampsBowlPickemBundle:League:picks.html.twig")
      */
-    public function groupPicksAction(League $league)
+    public function groupPicksAction(League $league, $season)
     {
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
 
         $em = $this->getEntityManager();
-        $games = $em->createQuery('SELECT g FROM SofaChampsBowlPickemBundle:Game g ORDER BY g.gameDate')->getResult();
+        $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season, 'ASC');
+        $users = $em->getRepository('SofaChampsCoreBundle:User')->getUsersAndPicksetsForLeague($league, $season);
 
-        $query = $em->createQuery('SELECT u, p from SofaChampsCoreBundle:User u
-            JOIN u.pickSets p
-            JOIN u.leagues l
-            JOIN p.picks pk
-            JOIN pk.game pg
-            WHERE l.id = :leagueId
-            ORDER BY pg.id');
-        $users = $query->setParameter('leagueId', $leagueId)->getResult();
-
-        list($rank, $sortedUsers) = $this->get('sofachamps.bp.user_sorter')->sortUsersByPoints($users, $user, $league);
+        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
 
         $curUser = $this->getUser();
 
         return array(
             'games' => $games,
             'league' => $league,
+            'season' => $season,
             'users' => $sortedUsers,
             'pickSet' => $pickSet,
             'curUser' => $curUser,
@@ -139,11 +136,13 @@ class LeagueController extends BaseController
      * @Route("/join", name="league_join")
      * @Method({"POST"})
      */
-    public function joinAction()
+    public function joinAction($season)
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $request = $this->getRequest()->request->get('form');
@@ -151,7 +150,9 @@ class LeagueController extends BaseController
 
         if (!is_numeric($leagueId)) {
             $this->addMessage('warning', 'When searching for a league, use the League Id (ex 12) not the name');
-            return $this->redirect($this->generateUrl('league_find'));
+            return $this->redirect($this->generateUrl('league_find', array(
+                'season' => $season,
+            )));
         }
 
         $league = $this->findLeague($leagueId);
@@ -162,6 +163,7 @@ class LeagueController extends BaseController
                 $this->addMessage('error', 'The password was not correct');
 
                 return $this->redirect($this->generateUrl('league_prejoin', array(
+                    'season' => $season,
                     'leagueId' => $league->getId(),
                 )));
             }
@@ -172,13 +174,16 @@ class LeagueController extends BaseController
 
         if (count($pickSets) === 0) {
             $this->addMessage('info', 'You cannot join a league without first creating a pickset.');
-            return $this->redirect($this->generateUrl('pickset_new'));
+            return $this->redirect($this->generateUrl('pickset_new', array(
+                'season' => $season,
+            )));
         }
 
         if (!$league->isPublic()) {
             if ($request['password'] !== $league->getPassword()) {
                 $this->addMessage('error', 'The password was not correct');
                 return $this->redirect($this->generateUrl('league_prejoin', array(
+                    'season' => $season,
                     'leagueId' => $league->getId(),
                 )));
             }
@@ -187,11 +192,14 @@ class LeagueController extends BaseController
         if ($league->isUserInLeague($user)) {
             $this->addMessage('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         } elseif ($league->isLocked()) {
             $this->addMessage('error', 'This league has been locked by the commissioner');
-            return $this->redirect($this->generateUrl('league_find'));
+            return $this->redirect($this->generateUrl('league_find', array(
+                'season' => $season,
+            )));
         } else {
             $this->addMessage('success', sprintf('Welcome to %s', $league->getName()));
 
@@ -205,12 +213,14 @@ class LeagueController extends BaseController
 
                 // Go to an intermediate page for assiging pickset to this league
                 return $this->redirect($this->generateUrl('league_assoc', array(
+                    'season' => $season,
                     'leagueId' => $league->getId(),
                 )));
             }
             $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('league_home', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
@@ -223,7 +233,7 @@ class LeagueController extends BaseController
      * @Method({"GET"})
      * @Template
      */
-    public function prejoinAction(League $league)
+    public function prejoinAction(League $league, $season)
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
@@ -234,6 +244,7 @@ class LeagueController extends BaseController
         if ($user && $league->isUserInLeague($user)) {
             $this->addMessage('info', 'You are already in this league');
             return $this->redirect($this->generateUrl('league_home', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
@@ -249,6 +260,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'form' => $form->getForm()->createView(),
         );
     }
@@ -259,7 +271,7 @@ class LeagueController extends BaseController
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @Template
      */
-    public function assocAction(League $league)
+    public function assocAction(League $league, $season)
     {
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
@@ -272,6 +284,7 @@ class LeagueController extends BaseController
 
                 $this->addMessage('success', sprintf('Welcome to %s', $league->getName()));
                 return $this->redirect($this->generateUrl('league_home', array(
+                    'season' => $season,
                     'leagueId' => $league->getId(),
                 )));
             }
@@ -282,6 +295,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'pickSets' => $pickSets,
         );
     }
@@ -293,7 +307,7 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function membersAction(League $league)
+    public function membersAction(League $league, $season)
     {
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
@@ -303,6 +317,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'members' => $members,
             'pickSet' => $pickSet,
         );
@@ -315,7 +330,7 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function statsAction(League $league)
+    public function statsAction(League $league, $season)
     {
         $user = $this->getUser();
 
@@ -325,6 +340,7 @@ class LeagueController extends BaseController
 
         return array(
             'league' => $league,
+            'season' => $season,
             'pickSet' => $pickSet,
             'games' => $games,
             'projectedFinishStats' => $projectedFinishStats,
@@ -339,12 +355,13 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:remove.html.twig")
      */
-    public function memberRemoveListAction(League $league)
+    public function memberRemoveListAction(League $league, $season)
     {
         $members = $this->getEntityManager()->getRepository('SofaChampsCoreBundle:User')->findUsersInLeague($league);
 
         return array(
             'league' => $league,
+            'season' => $season,
             'members' => $members,
         );
     }
@@ -357,13 +374,14 @@ class LeagueController extends BaseController
      * @ParamConverter("user", class="SofaChampsCoreBundle:User", options={"id" = "userId"})
      * @SecureParam(name="league", permissions="MANAGE")
      */
-    public function memberRemoveAction(League $league, User $user)
+    public function memberRemoveAction(League $league, User $user, $season)
     {
         $this->getLeagueManager()->removeUserFromLeague($league, $user);
         $this->getEntityManager()->flush();
         $this->addMessage('info', 'User Removed');
 
         return $this->redirect($this->generateUrl('league_member_remove_list', array(
+            'season' => $season,
             'leagueId' => $league->getId(),
         )));
     }
@@ -375,7 +393,7 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function leaderboardAction(League $league)
+    public function leaderboardAction(League $league, $season)
     {
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
@@ -385,6 +403,7 @@ class LeagueController extends BaseController
 
         return array(
             'users' => $sortedUsers,
+            'season' => $season,
             'league' => $league,
             'pickSet' => $pickSet,
         );
@@ -395,20 +414,24 @@ class LeagueController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function newAction()
+    public function newAction($season)
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $league = new League();
+        $league->setSeason($season);
         $league->addUser($this->getUser());
         $league->addCommissioner($this->getUser());
         $form = $this->getLeagueForm($league);
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
         );
     }
 
@@ -418,16 +441,19 @@ class LeagueController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function createAction()
+    public function createAction($season)
     {
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
-            return $this->redirect('/');
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season,
+            )));
         }
 
         $league = new League();
+        $league->setSeason($season);
         $form = $this->getLeagueForm($league);
-        $form->bindRequest($this->getRequest());
+        $form->bind($this->getRequest());
 
         if ($form->isValid()) {
             $user = $this->getUser();
@@ -446,10 +472,12 @@ class LeagueController extends BaseController
         } else {
             return array(
                 'form' => $form->createView(),
+                'season' => $season,
             );
         }
 
         return $this->redirect($this->generateUrl('league_home', array(
+            'season' => $season,
             'leagueId' => $league->getId(),
         )));
     }
@@ -458,15 +486,16 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/edit", name="league_edit")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template
      */
-    public function editAction(League $league)
+    public function editAction(League $league, $season)
     {
         $form = $this->getLeagueForm($league);
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
@@ -476,18 +505,19 @@ class LeagueController extends BaseController
      * @Method({"POST"})
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:edit.html.twig")
      */
-    public function updateAction(League $league)
+    public function updateAction(League $league, $season)
     {
         $form = $this->getLeagueForm($league);
-        $form->bindRequest($this->getRequest());
+        $form->bind($this->getRequest());
 
         if ($form->isValid()) {
             $em = $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('league_edit', array(
+                'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
@@ -496,6 +526,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
@@ -507,7 +538,7 @@ class LeagueController extends BaseController
      * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function inviteAction(League $league)
+    public function inviteAction(League $league, $season)
     {
         $user = $this->getUser();
 
@@ -524,6 +555,7 @@ class LeagueController extends BaseController
             $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
+                'season' => $season,
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
@@ -534,11 +566,12 @@ class LeagueController extends BaseController
             }
             $em->flush();
 
-            $this->addMessage('note', sprintf('Your invitation(s) were sent to %d people', count($emails)));
+            $this->addMessage('info', sprintf('Your invitation(s) were sent to %d people', count($emails)));
         }
 
         return array(
             'league' => $league,
+            'season' => $season,
         );
     }
 
@@ -546,17 +579,18 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/lock", name="league_lock")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:lock.html.twig")
      */
-    public function lockAction(League $league)
+    public function lockAction(League $league, $season)
     {
         $form = $this->createForm(new LeagueLockFormType(), $league);
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
 
             if ($form->isValid()) {
+                $this->addMessage('success', 'League Lock updated');
                 $this->getEntityManager()->flush();
             } else {
                 $this->addMessage('error', 'Error locking the league');
@@ -565,6 +599,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
@@ -573,17 +608,17 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/commissioners", name="league_commissioners")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:commissioners.html.twig")
      */
-    public function commissionersAction(League $league)
+    public function commissionersAction(League $league, $season)
     {
         $form = $this->createForm(new LeagueCommissionersFormType(), $league, array(
             'league' => $league,
         ));
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
             if (count($league->getCommissioners()) === 0) {
                 $this->addMessage('warning', 'What cha smokin?  Every league needs a commish...');
             } else {
@@ -597,6 +632,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
@@ -605,7 +641,7 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/potential-winners", name="league_potential_winners")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:potential-winners.html.twig")
      */
     public function potentialWinnersAction(League $league)
@@ -628,18 +664,19 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/note", name="league_note")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:note.html.twig")
      */
-    public function noteAction(League $league)
+    public function noteAction(League $league, $season)
     {
         $form = $this->createForm(new LeagueNoteFormType(), $league);
 
         if ($this->getRequest()->getMethod() === 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->bind($this->getRequest());
 
             if ($form->isValid()) {
                 $this->getEntityManager()->flush();
+                $this->addMessage('success', 'League note updated');
             } else {
                 $this->addMessage('error', 'Error updating the note for the league');
             }
@@ -647,6 +684,7 @@ class LeagueController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'season' => $season,
             'league' => $league,
         );
     }
@@ -655,10 +693,10 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/blast", name="league_blast")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:blast.html.twig")
      */
-    public function blastAction(League $league)
+    public function blastAction(League $league, $season)
     {
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
@@ -672,6 +710,7 @@ class LeagueController extends BaseController
 
             $subjectLine = sprintf('League: "%s" - Commissioner Note - SofaChamps', $league->getName());
 
+            $user = $this->getUser();
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
             $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
@@ -681,11 +720,12 @@ class LeagueController extends BaseController
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
-            $this->addMessage('note', 'League message sent');
+            $this->addMessage('info', 'League message sent');
         }
 
         return array(
             'league' => $league,
+            'season' => $season,
         );
     }
 
@@ -693,10 +733,10 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/no-picks", name="league_nopicks")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="MANAGE")
      * @Template("SofaChampsBowlPickemBundle:League:nopicks.html.twig")
      */
-    public function nopicksAction(League $league)
+    public function nopicksAction(League $league, $season)
     {
         $users = $this->getRepository('SofaChampsCoreBundle:User')->findUsersInLeagueWithIncompletePicksets($league);
         $emailList = array_map(function($user) {
@@ -705,6 +745,7 @@ class LeagueController extends BaseController
 
         return array(
             'users' => $users,
+            'season' => $season,
             'league' => $league,
             'emailList' => $emailList,
         );
@@ -714,16 +755,17 @@ class LeagueController extends BaseController
      * @Route("/{leagueId}/settings", name="league_settings")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="EDIT")
+     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
-    public function settingsAction(League $league)
+    public function settingsAction(League $league, $season)
     {
         $user = $this->getUser();
         $pickSet = $league->getPicksetForUser($user);
 
         return array(
             'league' => $league,
+            'season' => $season,
             'pickSet' => $pickSet,
         );
     }
@@ -754,6 +796,7 @@ class LeagueController extends BaseController
                 if (!$league->getPicksetForUser($user)) {
                     $this->addMessage('warning', 'One or more leagues do not have a pickSet');
                     return $this->redirect($this->generateUrl('league_assoc', array(
+                        'season' => $season,
                         'leagueId' => $league->getId(),
                     )));
                 }

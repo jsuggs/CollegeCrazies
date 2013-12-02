@@ -2,8 +2,8 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +23,15 @@ class Game
      * @ORM\SequenceGenerator(sequenceName="seq_game", initialValue=1, allocationSize=1)
      */
     protected $id;
+
+    /**
+     * The bowl season for this game
+     *
+     * @ORM\Column(type="integer", length=4)
+     * @Assert\Range(min=2012, max=2020)
+     * @var integer
+     */
+    protected $season;
 
     /**
      * The Bowl Game Name

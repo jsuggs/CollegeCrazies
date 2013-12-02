@@ -9,9 +9,9 @@ use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
 class HomePageController extends BaseController
 {
     /**
-     * @Route("/", name="bp_home")
+     * @Route("/{season}", requirements={"season" = "\d+"},  name="bp_home")
      */
-    public function homepageAction()
+    public function homepageAction($season)
     {
         $user = $this->getUser();
 
@@ -22,7 +22,8 @@ class HomePageController extends BaseController
         $form = $this->createForm(new UserFormType());
         return $this->render($template , array(
             'form' => $form->createView(),
-            'user' => $user
+            'season' => $season,
+            'user' => $user,
         ));
     }
 
@@ -32,7 +33,9 @@ class HomePageController extends BaseController
      */
     public function howtoAction()
     {
-        return array();
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
     }
 
     /**
@@ -41,7 +44,9 @@ class HomePageController extends BaseController
      */
     public function aboutAction()
     {
-        return array();
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
     }
 
     /**
@@ -50,7 +55,9 @@ class HomePageController extends BaseController
      */
     public function donateAction()
     {
-        return array();
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
     }
 
     /**
@@ -59,17 +66,20 @@ class HomePageController extends BaseController
      */
     public function donateThanksAction()
     {
-        return array();
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
     }
 
     /**
-     * @Route("/bowl-schedule", name="schedule")
+     * @Route("/{season}/bowl-schedule", requirements={"season" = "\d+"}, name="schedule")
      * @Template("SofaChampsBowlPickemBundle::schedule.html.twig")
      */
-    public function scheduleAction()
+    public function scheduleAction($season)
     {
         return array(
-            'games' => array_reverse($this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate()),
+            'games' => $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season, 'ASC'),
+            'season' => $season,
         );
     }
 
@@ -79,6 +89,8 @@ class HomePageController extends BaseController
      */
     public function predictionInfoAction()
     {
-        return array();
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
     }
 }

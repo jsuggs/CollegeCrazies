@@ -2,11 +2,11 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -30,7 +30,7 @@ class PickSet
     /**
      * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank()
-     * @Assert\Length(min=40)
+     * @Assert\Length(max=40)
      */
     protected $name;
 
@@ -68,6 +68,7 @@ class PickSet
     public function __construct()
     {
         $this->leagues = new ArrayCollection();
+        $this->picks = new ArrayCollection();
     }
 
     public function getId()
@@ -88,6 +89,22 @@ class PickSet
     public function getPicks()
     {
         return $this->picks;
+    }
+
+    public function getPicksByDate()
+    {
+        $picks = $this->getPicks()->toArray();
+
+        usort($picks, function (Pick $a, Pick $b) {
+            $gameA = $a->getGame();
+            $gameB = $b->getGame();
+
+            return $gameA->getGameDate() > $gameB->getGameDate()
+                ? 1
+                : -1;
+        });
+
+        return $picks;
     }
 
     public function addPick(Pick $pick)

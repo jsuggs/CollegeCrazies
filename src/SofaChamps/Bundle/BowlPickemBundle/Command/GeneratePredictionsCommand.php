@@ -11,13 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GeneratePredictionsCommand extends ContainerAwareCommand
 {
     protected $generator;
-    protected $numPredictions;
 
     protected function configure()
     {
-        $this->setName('college-crazies:generate-predictions')
+        $this->setName('bowl-pickem:generate-predictions')
             ->setDescription('Generate a set of predictions for doing statistical analysis')
             ->addArgument('predictions', InputArgument::REQUIRED, 'The number of predictions to create')
+            ->addArgument('season', InputArgument::REQUIRED, 'The season to create predictions for')
             ->addOption('truncate', null, InputOption::VALUE_NONE, "Truncate the prediction tables")
         ;
     }
@@ -25,11 +25,10 @@ class GeneratePredictionsCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->generator = $this->getContainer()->get('sofachamps.bp.prediction_generator');
-        $this->numPredictions = $input->getArgument('predictions');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->generator->createPredictions($this->numPredictions, $input->getOption('truncate'));
+        $this->generator->createPredictions($input->getArgument('predictions'), $input->getArgument('season'), $input->getOption('truncate'));
     }
 }

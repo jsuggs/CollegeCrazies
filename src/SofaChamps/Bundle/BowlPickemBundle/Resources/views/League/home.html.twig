@@ -51,7 +51,7 @@
 
         {% if picks_locked %}
             <div class="row">
-                <h3><a href="{{ path('league_stats', {leagueId: league.id}) }}">League Top 5 Games</a></h3>
+                <h3><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">League Top 5 Games</a></h3>
 
                 {% include 'SofaChampsBowlPickemBundle:Game:_important_games.html.twig' with {games: importantGames} %}
             </div>

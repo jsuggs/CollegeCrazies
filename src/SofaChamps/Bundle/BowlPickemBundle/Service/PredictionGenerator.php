@@ -28,11 +28,11 @@ class PredictionGenerator
         $this->om = $om;
     }
 
-    public function createPredictions($numPredictions, $truncate = true)
+    public function createPredictions($numPredictions, $season, $truncate = true)
     {
         // Clear out the old predictions
         if ($truncate) {
-            $this->truncatePredictionTables();
+            $this->truncatePredictionTables($season);
         }
 
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAll();
@@ -46,6 +46,7 @@ class PredictionGenerator
 
         for ($x = 0; $x < $numPredictions; $x++) {
             $set = new PredictionSet();
+            $set->setSeason($season);
             $this->om->persist($set);
 
             $predictions = array();
@@ -126,11 +127,13 @@ class PredictionGenerator
         return $prediction;
     }
 
-    protected function truncatePredictionTables()
+    protected function truncatePredictionTables($season)
     {
         $conn = $this->om->getConnection();
         $conn->beginTransaction();
-        $conn->executeUpdate('TRUNCATE prediction_sets CASCADE');
+        $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
+            'season' => $season,
+        ));
         $conn->commit();
     }
 }

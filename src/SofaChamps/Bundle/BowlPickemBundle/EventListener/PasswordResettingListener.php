@@ -45,7 +45,10 @@ class PasswordResettingListener implements EventSubscriberInterface
             return null;
         }
 
-        $url = $this->router->generate('pickset_manage');
+        // TODO - get right season
+        $url = $this->router->generate('pickset_manage', array(
+            'season' => $season,
+        ));
         $event->setResponse(new RedirectResponse($url));
     }
 }
