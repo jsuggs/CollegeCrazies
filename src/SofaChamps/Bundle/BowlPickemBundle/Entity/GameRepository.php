@@ -129,4 +129,14 @@ EOF;
             $pickSet->getId(),
         ));
     }
+
+    public function getFirstGameDateForSeason($season)
+    {
+        return $this->createQueryBuilder('g')
+            ->select('min(g.gameDate)')
+            ->where('g.season = :season')
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

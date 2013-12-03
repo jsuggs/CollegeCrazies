@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Service;
+namespace SofaChamps\Bundle\BowlPickemBundle\Season;
 
 use JMS\DiExtraBundle\Annotation as DI;
 
