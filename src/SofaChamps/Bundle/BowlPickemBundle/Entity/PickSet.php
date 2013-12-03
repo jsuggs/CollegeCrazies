@@ -244,4 +244,9 @@ class PickSet
             }
         }
     }
+
+    public function getSeason()
+    {
+        return $this->leagues->first()->getSeason();
+    }
 }

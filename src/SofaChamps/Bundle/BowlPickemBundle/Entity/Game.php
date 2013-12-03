@@ -11,7 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="GameRepository")
  * @ORM\Table(
- *      name="games"
+ *      name="games",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_games_season_tiebreaker_priority", columns={"season", "tiebreakerPriority"})}
  * )
  */
 class Game
@@ -45,7 +46,7 @@ class Game
      * The short name of the bowl game
      *
      * @ORM\Column(type="string", length=12)
-     * @Assert\Length(min=12)
+     * @Assert\Length(max=12)
      * @var string
      */
     protected $shortName;
@@ -137,6 +138,14 @@ class Game
      */
     protected $location;
 
+    /**
+     * The tiebreaker priority
+     *
+     * @ORM\Column(type="smallint")
+     * @var int
+     */
+    protected $tiebreakerPriority;
+
     public function getId()
     {
         return $this->id;
@@ -145,6 +154,16 @@ class Game
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function setHomeTeam(Team $team)
@@ -279,6 +298,16 @@ class Game
     public function getLocation()
     {
         return $this->location;
+    }
+
+    public function setTiebreakerPriority($tiebreakerPriority)
+    {
+        $this->tiebreakerPriority = $tiebreakerPriority;
+    }
+
+    public function getTiebreakerPriority()
+    {
+        return $this->tiebreakerPriority;
     }
 
     /**

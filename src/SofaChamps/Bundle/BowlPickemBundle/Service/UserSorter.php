@@ -25,26 +25,35 @@ class UserSorter
         $this->pickSetSorter = $pickSetSorter;
     }
 
-    public function sortUsersByPoints($users, User $userToRank, League $league)
+    /**
+     * Sort the users by their points according to the pickSetSorter algorithm for the specififed league
+     *
+     * @param array $users
+     * @param User $userToRank
+     * @param League $league
+     * @return void
+     */
+    public function sortUsersByPoints(array $users, League $league)
     {
-        $pickSets = array_map(function ($user) use ($league) {
-            return $league->getPicksetForUser($user);
-        }, $users);
+        $validPickSets = $this->getValidPickSetsForLeague($league, $users);
+        $sortedPickSets = $this->pickSetSorter->sortPickSets($validPickSets, $league->getSeason());
 
-        $pickSets = $this->pickSetSorter->sortPickSets($pickSets);
-
-        $sortedUsers = array();
-        $rank = 1;
-        $userRank = 0;
-        foreach ($pickSets as $pickSet) {
-            $pickSetUser = $pickSet->getUser();
-            if ($userToRank == $pickSetUser) {
-                $userRank = $rank;
-            }
-            $sortedUsers[] = $pickSetUser;
-            $rank++;
-        }
+        return array_map(function ($pickSet) {
+            return $pickSet->getUser();
+        }, $sortedPickSets);
 
         return array($userRank, $sortedUsers);
+    }
+
+    public function getUserRank(User $user, array $sortedUsers)
+    {
+        return array_search($user, $sortedUsers);
+    }
+
+    protected function getValidPickSetsForLeague(League $league, $users)
+    {
+        return array_map(function ($user) use ($league) {
+            return $league->getPicksetForUser($user);
+        }, $users);
     }
 }

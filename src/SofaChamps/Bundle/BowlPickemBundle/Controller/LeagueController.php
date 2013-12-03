@@ -45,7 +45,8 @@ class LeagueController extends BaseController
         $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         $projectedBestFinish = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedBestFinish($pickSet, $league);
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
-        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
+        $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
+        $rank = $this->getUserSorter()->getUserRank($user, $sortedUsers);
         $importantGames = $this->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
 
         // Only show the top 10 users
@@ -118,7 +119,7 @@ class LeagueController extends BaseController
         $games = $em->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season, 'ASC');
         $users = $em->getRepository('SofaChampsCoreBundle:User')->getUsersAndPicksetsForLeague($league, $season);
 
-        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
+        $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
 
         $curUser = $this->getUser();
 
@@ -399,7 +400,7 @@ class LeagueController extends BaseController
         $pickSet = $league->getPicksetForUser($user);
 
         $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
-        list($rank, $sortedUsers) = $this->getUserSorter()->sortUsersByPoints($users, $user, $league);
+        $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
 
         return array(
             'users' => $sortedUsers,

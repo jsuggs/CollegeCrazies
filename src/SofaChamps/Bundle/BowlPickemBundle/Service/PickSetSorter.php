@@ -12,31 +12,32 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
  */
 class PickSetSorter
 {
-    public function sortPickSets($pickSets, $tieBreakerHomeScore = null, $tieBreakerAwayScore = null)
+    private $pickSetComparer;
+
+    /**
+     * @DI\InjectParams({
+     *      "pickSetComparer" = @DI\Inject("sofachamps.bp.pickset_comparer"),
+     * })
+     */
+    public function __construct(PicksetComparer $pickSetComparer)
+    {
+        $this->pickSetComparer = $pickSetComparer;
+    }
+
+    public function sortPickSets($pickSets, $season, $reverseSort = true)
     {
         $pickSets = array_filter($pickSets, function($pickSet) {
             return isset($pickSet);
         });
 
-        usort($pickSets, function(PickSet $a, PickSet $b) {
-            $aPoints = $a->getPoints();
-            $bPoints = $b->getPoints();
-
-            // If same points, fall back first to points possible
-            if ($aPoints === $bPoints) {
-                $aPointsPossible = $a->getPointsPossible();
-                $bPointsPossible = $b->getPointsPossible();
-
-                if ($aPointsPossible === $bPointsPossible) {
-                    // TODO - Check the tiebreaker
-                    return 0;
-                }
-
-                return $aPointsPossible >= $bPointsPossible ? -1 : 1;
-            }
-
-            return $aPoints >= $bPoints ? -1 : 1;
+        $comparer = $this->pickSetComparer;
+        usort($pickSets, function(PickSet $a, PickSet $b) use ($comparer, $season) {
+            return $comparer->comparePicksets($a, $b);
         });
+
+        if ($reverseSort) {
+            array_reverse($pickSets);
+        }
 
         return $pickSets;
     }

@@ -96,6 +96,17 @@ EOF;
             ->getResult();
     }
 
+    public function findTiebreakerGamesForSeason($season)
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.season = :season')
+            ->andWhere('g.tiebreakerGames IS NOT NULL')
+            ->orderBy('g.tiebreakerGames', 'ASC')
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function gamesByImportance($season)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL, array(
