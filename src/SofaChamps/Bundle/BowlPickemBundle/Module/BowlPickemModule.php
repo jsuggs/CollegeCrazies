@@ -9,12 +9,12 @@ class BowlPickemModule implements ModuleInterface
 {
     const MODULE_ID = 'bowlpickem';
 
-    protected $year;
+    protected $season;
     protected $picksLockedManager;
 
-    public function __construct($year, PicksLockedManager $picksLockedManager)
+    public function __construct($season, PicksLockedManager $picksLockedManager)
     {
-        $this->year = $year;
+        $this->season = $season;
         $this->picksLockedManager = $picksLockedManager;
     }
 
@@ -25,7 +25,7 @@ class BowlPickemModule implements ModuleInterface
 
     public function getActiveConfigId()
     {
-        return $this->year;
+        return $this->season;
     }
 
     public function getStartTime()
@@ -36,6 +36,6 @@ class BowlPickemModule implements ModuleInterface
 
     public function getEndTime()
     {
-        return $this->picksLockedManager->getLockTime($this->year);
+        return $this->picksLockedManager->getLockTime($this->season);
     }
 }
