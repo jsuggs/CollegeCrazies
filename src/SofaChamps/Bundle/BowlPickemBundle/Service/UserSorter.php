@@ -36,7 +36,7 @@ class UserSorter
     public function sortUsersByPoints(array $users, League $league)
     {
         $validPickSets = $this->getValidPickSetsForLeague($league, $users);
-        $sortedPickSets = $this->pickSetSorter->sortPickSets($validPickSets);
+        $sortedPickSets = $this->pickSetSorter->sortPickSets($validPickSets, $league->getSeason());
 
         return array_map(function ($pickSet) {
             return $pickSet->getUser();

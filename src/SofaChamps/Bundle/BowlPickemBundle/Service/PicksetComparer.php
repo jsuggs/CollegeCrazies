@@ -35,12 +35,10 @@ class PicksetComparer
      *
      * @return int
      */
-    public function comparePicksets(PickSet $a, PickSet $b)
+    public function comparePicksets(PickSet $a, PickSet $b, $season = null)
     {
         $aPoints = $a->getPoints();
         $bPoints = $b->getPoints();
-        //var_dump($aPoints, $bPoints);
-        //die();
 
         // If same points, fall back first to points possible
         if ($aPoints === $bPoints) {
@@ -49,7 +47,9 @@ class PicksetComparer
 
             // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {
-                $tieBreakerGames = $this->getTiebreakerGamesForSeason($a->getSeason());
+                $compareSeason = $season ?: $a->getSeason();
+
+                $tieBreakerGames = $this->getTiebreakerGamesForSeason($compareSeason);
                 // TODO, we are currently only using one game for a tiebreaker
                 $tieBreakerGame = $tieBreakerGames->first();
 
@@ -70,7 +70,7 @@ class PicksetComparer
                 }
             }
 
-            return $aPointsPossible > $bPointsPossible ? -1 : 1;
+            return $aPointsPossible > $bPointsPossible ? 1 : -1;
         }
 
         return $aPoints > $bPoints ? 1 : -1;

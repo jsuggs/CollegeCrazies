@@ -24,14 +24,14 @@ class PickSetSorter
         $this->pickSetComparer = $pickSetComparer;
     }
 
-    public function sortPickSets($pickSets, $tieBreakerHomeScore = null, $tieBreakerAwayScore = null, $reverseSort = true)
+    public function sortPickSets($pickSets, $season, $reverseSort = true)
     {
         $pickSets = array_filter($pickSets, function($pickSet) {
             return isset($pickSet);
         });
 
         $comparer = $this->pickSetComparer;
-        usort($pickSets, function(PickSet $a, PickSet $b) use ($comparer) {
+        usort($pickSets, function(PickSet $a, PickSet $b) use ($comparer, $season) {
             return $comparer->comparePicksets($a, $b);
         });
 
