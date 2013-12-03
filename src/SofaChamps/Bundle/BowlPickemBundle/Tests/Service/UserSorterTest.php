@@ -2,80 +2,64 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Service;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
-use SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter;
 use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
 
-class UserSorterTest extends \PHPUnit_Framework_TestCase
+class UserSorterTest extends SofaChampsTest
 {
+    protected $pickSetSorter;
     protected $userSorter;
 
     protected function setUp()
     {
-        $this->userSorter = new UserSorter(new PickSetSorter());
+        $this->pickSetSorter = $this->buildMock('SofaChamps\Bundle\BowlPickemBundle\Service\PickSetSorter');
+        $this->userSorter = new UserSorter($this->pickSetSorter);
     }
 
     public function testSortUsersByPoints()
     {
         $users = array();
-        $users[] = $user1 = new User();
-        $users[] = $user2 = new User();
-        $users[] = $user3 = new User();
-
-        $game1Winner = new Team();
-        $game1Winner->setId(1);
-        $game1Loser = new Team();
-        $game1Loser->setId(2);
-
-        $game1 = new Game();
-        $game1->setHomeTeam($game1Winner);
-        $game1->setAwayTeam($game1Loser);
-        $game1->setHomeTeamScore(21);
-        $game1->setAwayTeamScore(14);
+        $pickSets = array();
 
         $league = new League();
-        $league->addUser($user1);
+        $users[] = $user3 = $this->newUser(3, $league);
+        $users[] = $user1 = $this->newUser(1, $league);
+        $users[] = $user2 = $this->newUser(2, $league);
 
-        $pick1 = new Pick();
-        $pick1->setGame($game1);
-        $pick1->setTeam($game1Winner);
-        $pick1->setConfidence(3);
-        $user1PickSet = new PickSet();
-        $user1PickSet->setUser($user1);
-        $user1PickSet->addPick($pick1);
-        $user1PickSet->addLeague($league);
+        $pickSets[] = $user1PickSet = $this->newPickSet($league, $user1);
+        $pickSets[] = $user2PickSet = $this->newPickSet($league, $user2);
+        $pickSets[] = $user3PickSet = $this->newPickSet($league, $user3);
 
-        $pick2 = new Pick();
-        $pick2->setGame($game1);
-        $pick2->setTeam($game1Winner);
-        $pick2->setConfidence(2);
-        $user2PickSet = new PickSet();
-        $user2PickSet->setUser($user2);
-        $user2PickSet->addPick($pick2);
-        $user2PickSet->addLeague($league);
+        $validPickSets = array($user3PickSet, $user1PickSet, $user2PickSet);
+        $sortedPickSets = array($user1PickSet, $user2PickSet, $user3PickSet);
 
-        $pick3 = new Pick();
-        $pick3->setGame($game1);
-        $pick3->setTeam($game1Loser);
-        $pick3->setConfidence(3);
-        $user3PickSet = new PickSet();
-        $user3PickSet->setUser($user3);
-        $user3PickSet->addPick($pick3);
-        $user3PickSet->addLeague($league);
+        $this->pickSetSorter->expects($this->any())
+            ->method('sortPickSets')
+            ->with($validPickSets)
+            ->will($this->returnValue($sortedPickSets));
 
-        list($user1Rank, $x) = $this->userSorter->sortUsersByPoints($users, $user1, $league);
-        $this->assertEquals(1, $user1Rank);
+        $sortedUsers = $this->userSorter->sortUsersByPoints($users, $league);
+    }
 
-        list($user2Rank, $x) = $this->userSorter->sortUsersByPoints($users, $user2, $league);
-        $this->assertEquals(2, $user2Rank);
+    protected function newUser($id, League $league)
+    {
+        $user = new User();
+        $user->setId($id);
+        $league->addUser($user);
 
-        list($user3Rank, $x) = $this->userSorter->sortUsersByPoints($users, $user3, $league);
-        $this->assertEquals(3, $user3Rank);
+        return $user;
+    }
+
+    protected function newPickSet(League $league, User $user)
+    {
+        $pickSet = new PickSet();
+        $pickSet->setUser($user);
+        $pickSet->addLeague($league);
+
+        return $pickSet;
     }
 }
 
