@@ -4,18 +4,28 @@
             <tr>
                 <th>Team</th>
                 <th>Favorite</th>
-                <th>Expert Pick</th>
+                {% if game.expertPicks|length %}
+                    <th>Expert Pick</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><img src='{{ favorite.thumbnail }}' alt='{{ favorite.name }}' width='20' height='20' /> {{ favorite.name }}</td>
                 <td>{{ game.spread == 0 ? '0' : '-'~ game.spread|abs }}</td>
-                <td>--</td>
+                {% if game.expertPicks|length %}
+                    <td rowspan=2>
+                        <dl>
+                            {% for pick in game.expertPicks %}
+                                <dt>{{ pick.expert.name }}</dt>
+                                <dd>{{ pick.team.id }}</dd>
+                            {% endfor %}
+                        </dl>
+                    </td>
+                {% endif %}
             </tr>
             <tr>
                 <td><img src='{{ underdog.thumbnail }}' alt='{{ underdog.name }}' width='20' height='20' /> {{ underdog.name }}</td>
-                <td>--</td>
                 <td>--</td>
             </tr>
         </tbody>
