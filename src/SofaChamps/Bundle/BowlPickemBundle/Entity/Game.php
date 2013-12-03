@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -145,6 +146,18 @@ class Game
      * @var int
      */
     protected $tiebreakerPriority;
+
+    /**
+     * Expert Picks for the game
+     *
+     * @ORM\OneToMany(targetEntity="ExpertPick", mappedBy="game", fetch="EXTRA_LAZY")
+     */
+    protected $expertPicks;
+
+    public function __construct()
+    {
+        $this->expertPicks = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -310,6 +323,16 @@ class Game
         return $this->tiebreakerPriority;
     }
 
+    public function addExpertPick(ExpertPick $expertPick)
+    {
+        $this->expertPicks->add($expertPick);
+    }
+
+    public function getExpertPicks()
+    {
+        return $this->expertPicks;
+    }
+
     /**
      * getFavorite
      *
@@ -331,6 +354,6 @@ class Game
 
     public function __toString()
     {
-        return $this->name;
+        return sprintf('%d - %s', $this->season, $this->name);
     }
 }
