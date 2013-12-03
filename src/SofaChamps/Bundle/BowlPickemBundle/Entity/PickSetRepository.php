@@ -90,6 +90,7 @@ EOF;
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.picks', 'pk')
             ->innerJoin('pk.game', 'pg')
+            ->innerJoin('p.leagues', 'l')
             ->where('pg.season = ?1')
             ->setParameter(1, $season)
             ->getQuery()

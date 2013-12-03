@@ -53,6 +53,9 @@ class StatController extends BaseController
 
         $pickSets = $this->getPicksetSorter()->sortPickSets($pickSets, $season);
 
+        // Prefetch some data
+        $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season);
+
         return array(
             'pickSets' => $pickSets,
             'season' => $season,
