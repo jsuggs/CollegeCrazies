@@ -25,3 +25,21 @@ services:
             - ~
             - SofaChamps\Bundle\BowlPickemBundle\Entity\Team
             - 'SonataAdminBundle:CRUD'
+
+    sofachamps.admin.bp.expert:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\ExpertAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "Experts" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\BowlPickemBundle\Entity\Expert
+            - 'SonataAdminBundle:CRUD'
+
+    sofachamps.admin.bp.expert_pick:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\ExpertPickAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "Expert Picks" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\BowlPickemBundle\Entity\ExpertPick
+            - 'SonataAdminBundle:CRUD'
