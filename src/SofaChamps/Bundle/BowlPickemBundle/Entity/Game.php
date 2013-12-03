@@ -159,6 +159,11 @@ class Game
         $this->expertPicks = new ArrayCollection();
     }
 
+    public function __clone()
+    {
+        $this->id = null;
+    }
+
     public function getId()
     {
         return $this->id;
