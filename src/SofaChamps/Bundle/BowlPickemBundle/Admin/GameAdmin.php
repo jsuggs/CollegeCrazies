@@ -15,6 +15,7 @@ class GameAdmin extends Admin
             ->add('id')
             ->add('season')
             ->add('name')
+            ->add('description')
             ->add('shortName')
             ->add('homeTeam')
             ->add('awayTeam')
@@ -23,7 +24,7 @@ class GameAdmin extends Admin
             ->add('gameDate')
             ->add('homeTeamScore')
             ->add('awayTeamScore')
-            ->add('tiebreakerPriority')
+            ->add('tiebreakerPriority', null, array('required' => false))
         ;
     }
 
