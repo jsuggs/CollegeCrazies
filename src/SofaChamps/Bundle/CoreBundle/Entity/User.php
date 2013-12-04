@@ -103,7 +103,7 @@ class User extends BaseUser
     public function getPickSetsForSeason($season)
     {
         return $this->pickSets->filter(function($pickSet) use ($season) {
-            $pickSet->getSeason() == $season;
+            return $pickSet->getSeason() == $season;
         });
     }
 
