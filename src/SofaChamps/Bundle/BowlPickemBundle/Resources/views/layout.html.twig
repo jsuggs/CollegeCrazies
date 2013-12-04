@@ -26,7 +26,7 @@
         <a data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_USER') %}
-                {% for pickSet in app.user.picksets %}
+                {% for pickSet in app.user.picksetsForSeason(season) %}
                     <li>
                         <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
                         {% if pickSet.leagues %}
@@ -43,7 +43,7 @@
             {% endif %}
             <li class="divider"></li>
             <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
-            {% if app.user.picksets|length %}
+            {% if app.user.picksetsForSeason(season)|length %}
                 <li class="divider"></li>
                 <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
             {% endif %}
@@ -52,7 +52,7 @@
 {% endblock %}
 
 {% block nav_secondary %}
-    {% if is_granted('ROLE_USER') and app.user.picksets|length %}
+    {% if is_granted('ROLE_USER') and app.user.picksetsForSeason(season)|length %}
         {% if league is defined and league is not null %}
             <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
         {% endif %}
@@ -82,11 +82,11 @@
                     </ul>
                 </li>
             {% endif %}
-        {% elseif app.user.leagues|length %}
+        {% elseif app.user.leaguesForSeason(season)|length %}
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Leagues <b class="caret"></b></a>
                 <ul class="dropdown-menu" role="menu">
-                {% for league in app.user.leagues %}
+                {% for league in app.user.leaguesForSeason(season) %}
                     <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></li>
                 {% endfor %}
                 </ul>
