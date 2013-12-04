@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\EventListener;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -21,12 +22,14 @@ class RegistrationListener implements EventSubscriberInterface
 
     /**
      * @DI\InjectParams({
-     *      "router" = @DI\Inject("router")
+     *      "router" = @DI\Inject("router"),
+     *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
      * })
      */
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(UrlGeneratorInterface $router, SeasonManager $seasonManager)
     {
         $this->router = $router;
+        $this->seasonManager = $seasonManager;
     }
 
     /**
@@ -41,14 +44,11 @@ class RegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationSuccess(FormEvent $event)
     {
-        if (strpos($event->getRequest()->headers->get('referer'), 'bowl-pickem') === false) {
-            return null;
-        }
-
-        // TODO - Get the right season
+        // TODO - Make this conditional
         $url = $this->router->generate('pickset_new', array(
-            'season' => '2013',
+            'season' => $this->seasonManager->getCurrentSeason(),
         ));
+
         $event->setResponse(new RedirectResponse($url));
     }
 }

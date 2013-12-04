@@ -10,4 +10,9 @@ class SofaChampsTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
     }
+
+    public function getContainer()
+    {
+        return $this->getKernel()->getContainer();
+    }
 }

@@ -25,7 +25,8 @@
         "friendsofsymfony/user-bundle": "*",
         "monolog/monolog": "*",
         "flot/flot": "master",
-        "liip/functional-test-bundle": "dev-master"
+        "liip/functional-test-bundle": "dev-master",
+        "fzaninotto/faker": "~1.2"
     },
     "config": {
         "bin-dir": "bin"
