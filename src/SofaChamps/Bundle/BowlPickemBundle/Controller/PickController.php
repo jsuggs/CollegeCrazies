@@ -216,6 +216,7 @@ class PickController extends BaseController
     /**
      * @Route("/create", name="pickset_create")
      * @Secure(roles="ROLE_USER")
+     * @Method({"POST"})
      * @Template("SofaChampsBowlPickemBundle:Pick:new.html.twig")
      */
     public function createPickAction($season)
@@ -228,19 +229,18 @@ class PickController extends BaseController
             )));
         }
 
-        $pickSet = new PickSet();
+        $user = $this->getUser();
+        $league = $this->getRequest()->query->has('leagueId')
+            ? $this->findLeague($this->getRequest()->get('leagueId'))
+            : null;
+
+        $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
         $form = $this->getPickSetForm($pickSet);
         $request = $this->getRequest();
         $form->bind($request);
 
         if ($form->isValid()) {
-            $user = $this->getUser();
-            $pickSet->setUser($user);
-
             $em = $this->getEntityManager();
-
-            $user->addPickSet($pickSet);
-            $em->persist($user);
             $em->persist($pickSet);
             $em->flush();
 

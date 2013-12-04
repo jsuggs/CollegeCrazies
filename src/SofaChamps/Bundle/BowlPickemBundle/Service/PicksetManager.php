@@ -34,6 +34,7 @@ class PicksetManager
         $pickSet->setUser($user);
         $pickSetName = $this->createPicksetName($user);
         $pickSet->setName($pickSetName);
+        $pickSet->setSeason($season);
 
         if ($league) {
             $pickSet->setLeague($league);
@@ -49,6 +50,8 @@ class PicksetManager
             $pickSet->addPick($pick);
             $idx--;
         }
+
+        $user->addPickSet($pickSet);
 
         return $pickSet;
     }

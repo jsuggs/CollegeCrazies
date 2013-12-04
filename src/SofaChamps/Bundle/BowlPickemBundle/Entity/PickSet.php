@@ -28,6 +28,13 @@ class PickSet
     protected $id;
 
     /**
+     * @ORM\Column(type="integer", length=4)
+     * @Assert\Range(min=2012, max=2020)
+     * @var integer
+     */
+    protected $season;
+
+    /**
      * @ORM\Column(type="string", length=40)
      * @Assert\NotBlank()
      * @Assert\Length(max=40)
@@ -74,6 +81,16 @@ class PickSet
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function getName()
@@ -243,10 +260,5 @@ class PickSet
                 return $predictionScore;
             }
         }
-    }
-
-    public function getSeason()
-    {
-        return $this->leagues->first()->getSeason();
     }
 }
