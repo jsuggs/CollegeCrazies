@@ -7,6 +7,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
@@ -19,15 +20,18 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class LeagueVoter implements VoterInterface
 {
     private $picksLockedManager;
+    private $session;
 
     /**
      * @DI\InjectParams({
      *      "picksLockedManager" = @DI\Inject("sofachamps.bp.picks_locked_manager"),
+     *      "session" = @DI\Inject("session"),
      * })
      */
-    public function __construct(PicksLockedManager $picksLockedManager)
+    public function __construct(PicksLockedManager $picksLockedManager, Session $session)
     {
         $this->picksLockedManager = $picksLockedManager;
+        $this->session = $session;
     }
 
     public function supportsAttribute($attribute)
@@ -85,9 +89,12 @@ class LeagueVoter implements VoterInterface
             return VoterInterface::ACCESS_GRANTED;
         }
 
-        return $league->isUserInLeague($user)
-            ? VoterInterface::ACCESS_GRANTED
-            : VoterInterface::ACCESS_DENIED;
+        if (!$league->isUserInLeague($user)) {
+            $this->addMessage('danger', 'This is a private league, please enter password below');
+            return VoterInterface::ACCESS_DENIED;
+        }
+
+        return VoterInterface::ACCESS_GRANTED;
     }
 
     protected function canUserManageLeague(User $user, League $league)
@@ -102,5 +109,10 @@ class LeagueVoter implements VoterInterface
         return $this->picksLockedManager->arePickLocked()
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
+    }
+
+    protected function addMessage($type, $message)
+    {
+        $this->session->getFlashBag()->add($type, $message);
     }
 }
