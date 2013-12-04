@@ -43,7 +43,7 @@ class PickController extends BaseController
     public function manageAction($season)
     {
         $user = $this->getUser();
-        $pickSets = $user->getPickSets();
+        $pickSets = $user->getPickSetsForSeason($season);
 
         if (count($pickSets) === 0) {
             return $this->redirect($this->generateUrl('pickset_new', array(
