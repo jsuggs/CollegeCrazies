@@ -115,6 +115,7 @@ class PickController extends BaseController
 
                 $session->remove('auto_league_assoc');
             }
+            $em = $this->getEntityManager();
             $em->persist($pickSet);
             $em->flush();
             $session->set('auto_league_create', true);
