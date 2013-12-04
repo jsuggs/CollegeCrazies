@@ -12,11 +12,11 @@
                         <ul class="unstyled">
                         {% for pickset in user.picksetsForSeason(season) %}
                             <li>
-                                <i class="icon-list"></i> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
+                                <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
                                 {% if pickset.leagues %}
                                     <ul class="unstyled" style="padding-left: 15px;">
                                     {% for league in pickset.leagues %}
-                                        <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                                        <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                                     {% endfor %}
                                     </ul>
                                 {% endif %}
@@ -37,7 +37,7 @@
                             <h2>My Leagues</h2>
                             <ul class="unstyled">
                             {% for league in user.leagues %}
-                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                             {% endfor %}
                             </ul>
                         {% else %}

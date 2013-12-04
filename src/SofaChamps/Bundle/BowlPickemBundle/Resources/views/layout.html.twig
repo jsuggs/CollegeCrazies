@@ -30,11 +30,11 @@
             {% if is_granted('ROLE_USER') %}
                 {% for pickSet in app.user.pickSetsForSeason(season) if pickSet.id|length %}
                     <li>
-                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
+                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list"></span> {{ pickSet.name }}</a>
                         {% if pickSet.leagues %}
                             <ul>
                             {% for league in pickSet.leagues %}
-                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
+                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                             {% endfor %}
                             </ul>
                         {% endif %}
