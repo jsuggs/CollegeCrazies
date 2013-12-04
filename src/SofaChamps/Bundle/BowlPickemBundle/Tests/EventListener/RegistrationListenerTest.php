@@ -16,6 +16,8 @@ class RegistrationListenerTest extends SofaChampsTest
 
     protected function setUp()
     {
+        parent::setUp();
+
         $this->router = $this->buildMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
         $this->seasonManager = $this->buildMock('SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager');
         $this->listener = new RegistrationListener($this->router, $this->seasonManager);
@@ -25,6 +27,10 @@ class RegistrationListenerTest extends SofaChampsTest
     {
         $form = $this->buildMock('Symfony\Component\Form\Form');
         $request = $this->buildMock('Symfony\Component\HttpFoundation\Request');
+
+        $this->router->expects($this->any())
+            ->method('generate')
+            ->will($this->returnValue($this->getFaker()->url()));
 
         $event = new FormEvent($form, $request);
         $this->listener->onRegistrationSuccess($event);
