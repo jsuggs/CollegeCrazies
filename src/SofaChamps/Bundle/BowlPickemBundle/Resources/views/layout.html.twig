@@ -100,5 +100,5 @@
 {% endblock %}
 
 {% block sidebar %}
-    {% render url('_bp_game_sidebar') %}
+    {% render url('_bp_game_sidebar', {season: current_season}) %}
 {% endblock %}

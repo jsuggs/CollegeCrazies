@@ -244,7 +244,7 @@ class Game
         return $this->network;
     }
 
-    public function setHomeTeamScore($score)
+    public function setHomeTeamScore($score = null)
     {
         $this->homeTeamScore = $score;
     }
@@ -254,7 +254,7 @@ class Game
         return $this->homeTeamScore;
     }
 
-    public function setAwayTeamScore($score)
+    public function setAwayTeamScore($score = null)
     {
         $this->awayTeamScore = $score;
     }

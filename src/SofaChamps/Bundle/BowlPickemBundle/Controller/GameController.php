@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/game")
+ * @Route("{season}/game")
  */
 class GameController extends BaseController
 {
@@ -16,19 +16,21 @@ class GameController extends BaseController
      * @Template("SofaChampsBowlPickemBundle:Game:list.html.twig")
      * @Cache(expires="+5 minutes")
      */
-    public function listAction()
+    public function listAction($season)
     {
         $em = $this->getEntityManager();
 
         //TODO - Move to repo methods
         $upcomingQuery = $em->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g
             WHERE g.homeTeamScore is null
-            ORDER BY g.gameDate')->setMaxResults(5);
+            AND g.season = :season
+            ORDER BY g.gameDate')->setParameter('season', $season)->setMaxResults(5);
         $upcoming = $upcomingQuery->getResult();
 
         $completedQuery = $em->createQuery('SELECT g FROM SofaChamps\Bundle\BowlPickemBundle\Entity\Game g
             WHERE g.homeTeamScore is not null
-            ORDER BY g.gameDate desc');
+            AND g.season = :season
+            ORDER BY g.gameDate desc')->setParameter('season', $season);
         $completed = $completedQuery->getResult();
 
         return array(

@@ -33,6 +33,8 @@ class SeasonCopier
         foreach ($games as $game) {
             $newGame = clone $game;
             $newGame->setSeason($toSeason);
+            $newGame->setHomeTeamScore(null);
+            $newGame->setAwayTeamScore(null);
 
             $gameDate = $newGame->getGameDate();
             $yearDiff = $toSeason - $gameDate->format('Y');
