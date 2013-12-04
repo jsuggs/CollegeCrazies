@@ -14,7 +14,7 @@
                             <li>
                                 <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
                                 {% if pickset.leagues %}
-                                    <ul class="unstyled" style="padding-left: 15px;">
+                                    <ul class="unstyled">
                                     {% for league in pickset.leagues %}
                                         <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                                     {% endfor %}
