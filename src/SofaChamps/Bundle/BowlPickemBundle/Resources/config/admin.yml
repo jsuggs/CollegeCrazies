@@ -26,6 +26,15 @@ services:
             - SofaChamps\Bundle\BowlPickemBundle\Entity\Team
             - 'SonataAdminBundle:CRUD'
 
+    sofachamps.admin.bp.picksets:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\PickSetAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "User PickSets" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet
+            - 'SonataAdminBundle:CRUD'
+
     sofachamps.admin.bp.expert:
         class: SofaChamps\Bundle\BowlPickemBundle\Admin\ExpertAdmin
         tags:

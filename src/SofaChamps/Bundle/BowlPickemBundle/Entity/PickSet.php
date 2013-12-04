@@ -261,4 +261,11 @@ class PickSet
             }
         }
     }
+
+    public function __toString()
+    {
+        return $this->id
+            ? sprintf('%s - %s', $this->season, $this->name)
+            : 'New PickSet';
+    }
 }
