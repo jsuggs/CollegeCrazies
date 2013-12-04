@@ -292,7 +292,7 @@ class LeagueController extends BaseController
         }
 
         $user = $this->getUser();
-        $pickSets = $user->getPickSets();
+        $pickSets = $user->getPickSetsForSeason($season);
 
         return array(
             'league' => $league,
