@@ -13,6 +13,7 @@ class LeagueAdmin extends Admin
     {
         $formMapper
             ->add('id')
+            ->add('season')
             ->add('name')
             ->add('motto')
             ->add('password')
@@ -24,6 +25,7 @@ class LeagueAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
+            ->add('season')
             ->add('name')
             ->add('motto')
             ->add('password')
@@ -35,6 +37,7 @@ class LeagueAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
+            ->add('season')
             ->add('name')
         ;
     }
