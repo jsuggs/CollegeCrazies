@@ -77,7 +77,7 @@ class PickController extends BaseController
 
         return array(
             'pickSets' => $pickSets,
-            'leagues' => $user->getLeagues(),
+            'leagues' => $user->getLeaguesForSeason($season),
             'season' => $season,
         );
     }

@@ -71,6 +71,8 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->sbcPicks = new ArrayCollection();
+        $this->pickSets = new ArrayCollection();
+        $this->leagues = new ArrayCollection();
     }
 
     public function getId()
@@ -98,6 +100,13 @@ class User extends BaseUser
         $this->pickSets = $pickSets;
     }
 
+    public function getPickSetsForSeason($season)
+    {
+        return $this->pickSets->filter(function($pickSet) use ($season) {
+            $pickSet->getSeason() === $season;
+        });
+    }
+
     public function isInTheLeague(League $league)
     {
         return $this->leagues->contains($league);
@@ -120,6 +129,13 @@ class User extends BaseUser
             $this->leagues->removeElement($league);
             $league->removeUser($this);
         }
+    }
+
+    public function getLeaguesForSeason($season)
+    {
+        return $this->leagues->filter(function($league) use ($season) {
+            return $league->getSeason() === $season;
+        });
     }
 
     public function setEmailVisible($emailVisible)

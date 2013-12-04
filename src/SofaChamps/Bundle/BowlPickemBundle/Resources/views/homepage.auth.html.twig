@@ -10,7 +10,7 @@
                     {% if user.picksets|length %}
                         <h2>My Picksets</h2>
                         <ul class="unstyled">
-                        {% for pickset in user.picksets %}
+                        {% for pickset in user.picksetsForSeason(season) %}
                             <li>
                                 <i class="icon-list"></i> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
                                 {% if pickset.leagues %}
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-6">
                     {% if user.picksets|length %}
-                        {% if user.leagues|length %}
+                        {% if user.leaguesForSeason(season)|length %}
                             <h2>My Leagues</h2>
                             <ul class="unstyled">
                             {% for league in user.leagues %}
