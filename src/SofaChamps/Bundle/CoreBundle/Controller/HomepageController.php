@@ -2,16 +2,19 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class HomepageController extends Controller
+class HomepageController extends CoreController
 {
     /**
      * @Route("/", name="core_home")
      */
     public function homepageAction()
     {
+        // This is temporary
+        return $this->redirect($this->generateUrl('bp_home', array(
+            'season' => $this->getCurrentBowlPickemSeason(),
+        )));
         $user = $this->getUser();
 
         $template = $this->get('security.context')->isGranted('ROLE_USER')
@@ -22,5 +25,10 @@ class HomepageController extends Controller
             'user' => $user,
             'year' => $this->get('config.curyear'),
         ));
+    }
+
+    private function getCurrentBowlPickemSeason()
+    {
+        return $this->get('sofachamps.bp.season_manager')->getCurrentSeason();
     }
 }
