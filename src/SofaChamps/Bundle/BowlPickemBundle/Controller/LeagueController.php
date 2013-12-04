@@ -36,7 +36,7 @@ class LeagueController extends BaseController
 
         if (!$pickSet) {
             $this->addMessage('warning', 'You do not have a pick set for this league');
-            return $this->redirect($this->router->generateUrl('league_assoc', array(
+            return $this->redirect($this->generateUrl('league_assoc', array(
                 'season' => $season,
                 'leagueId' => $league->getId(),
             )));
