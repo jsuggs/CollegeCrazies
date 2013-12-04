@@ -100,8 +100,8 @@ EOF;
     {
         return $this->createQueryBuilder('g')
             ->where('g.season = :season')
-            ->andWhere('g.tiebreakerGames IS NOT NULL')
-            ->orderBy('g.tiebreakerGames', 'ASC')
+            ->andWhere('g.tiebreakerPriority IS NOT NULL')
+            ->orderBy('g.tiebreakerPriority', 'ASC')
             ->setParameter('season', $season)
             ->getQuery()
             ->getResult();
