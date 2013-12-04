@@ -35,7 +35,7 @@ class PicksetComparer
      *
      * @return int
      */
-    public function comparePicksets(PickSet $a, PickSet $b, $season = null)
+    public function comparePicksets(PickSet $a, PickSet $b, $season)
     {
         $aPoints = $a->getPoints();
         $bPoints = $b->getPoints();
@@ -47,11 +47,9 @@ class PicksetComparer
 
             // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {
-                $compareSeason = $season ?: $a->getSeason();
-
-                $tieBreakerGames = $this->getTiebreakerGamesForSeason($compareSeason);
+                $tieBreakerGames = $this->getTiebreakerGamesForSeason($season);
                 // TODO, we are currently only using one game for a tiebreaker
-                $tieBreakerGame = $tieBreakerGames->first();
+                $tieBreakerGame = $tieBreakerGames[0];
 
                 $aTiebreakerPoints =
                     SigmaUtils::summation($a->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())

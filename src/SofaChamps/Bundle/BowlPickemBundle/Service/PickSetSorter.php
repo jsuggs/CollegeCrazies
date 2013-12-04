@@ -32,7 +32,7 @@ class PickSetSorter
 
         $comparer = $this->pickSetComparer;
         usort($pickSets, function(PickSet $a, PickSet $b) use ($comparer, $season) {
-            return $comparer->comparePicksets($a, $b);
+            return $comparer->comparePicksets($a, $b, $season);
         });
 
         if ($reverseSort) {

@@ -42,13 +42,14 @@ class PickSetComparerTest extends SofaChampsTest
     /**
      * @dataProvider getPickSets
      */
-    public function testComparePicksets($a, $b, $expectedWinner)
+    public function testComparePicksets($a, $b, $expectedWinner, $season)
     {
-        $this->assertEquals($expectedWinner, $this->pickSetComparer->comparePicksets($a, $b));
+        $this->assertEquals($expectedWinner, $this->pickSetComparer->comparePicksets($a, $b, $season));
     }
 
     public function getPickSets()
     {
+        $season = rand(2000, 2020);
         $users = array();
         $users[] = $user1 = new User();
         $users[] = $user2 = new User();
@@ -79,7 +80,7 @@ class PickSetComparerTest extends SofaChampsTest
         $league->addUser($user2);
         $league->addUser($user3);
         $league->addUser($user4);
-        $league->setSeason(2013);
+        $league->setSeason($season);
 
         $pickWinner3Conf = new Pick();
         $pickWinner3Conf->setGame($game1);
@@ -131,11 +132,11 @@ class PickSetComparerTest extends SofaChampsTest
         $user5PickSet->setTiebreakerAwayTeamScore(28);
 
         return array(
-            array($user1PickSet, $user2PickSet, 1),
-            array($user2PickSet, $user1PickSet, -1),
-            array($user1PickSet, $user4PickSet, 1),
-            array($user5PickSet, $user6PickSet, 1),
-            array($user6PickSet, $user5PickSet, -1),
+            array($user1PickSet, $user2PickSet, 1,  $season),
+            array($user2PickSet, $user1PickSet, -1, $season),
+            array($user1PickSet, $user4PickSet, 1,  $season),
+            array($user5PickSet, $user6PickSet, 1,  $season),
+            array($user6PickSet, $user5PickSet, -1, $season),
         );
     }
 }
