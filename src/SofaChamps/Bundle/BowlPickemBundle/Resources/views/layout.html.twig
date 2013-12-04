@@ -28,11 +28,11 @@
         <a data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
         <ul class="dropdown-menu" role="menu">
             {% if is_granted('ROLE_USER') %}
-                {% for pickSet in app.user.picksetsForSeason(season) %}
+                {% for pickSet in app.user.pickSetsForSeason(season) if pickSet.id|length %}
                     <li>
                         <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><i class="icon-list"></i> {{ pickSet.name }}</a>
                         {% if pickSet.leagues %}
-                            <ul class="unstyled" style="margin-left: 15px">
+                            <ul>
                             {% for league in pickSet.leagues %}
                                 <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><i class="icon-home"></i> {{ league.name }}</a></li>
                             {% endfor %}
@@ -94,7 +94,7 @@
                 </ul>
             </li>
         {% else %}
-            <li><a class="btn btn-info" href="{{ path('league_find', {season: season}) }}">Find or Create a League</a></li>
+            <li><a href="{{ path('league_find', {season: season}) }}">Find or Create a League</a></li>
         {% endif %}
     {% endif %}
     <li><a href="{{ path('about') }}">About Us</a></li>
