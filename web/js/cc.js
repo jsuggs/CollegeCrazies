@@ -139,3 +139,7 @@ $(document).ready(function(){
 
     $('a[rel="tooltip"]').tooltip();
 });
+
+$(window).on('load resize', function() {
+    $('body').css({"padding-top": $(".navbar").height() + 30 + "px"});
+});
