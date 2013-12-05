@@ -71,15 +71,19 @@ $(document).ready(function(){
 
     // Check the status only if the pick form is valid
     var pickFormState = null;
+    var picksSubmitted = false;
     if ($('.pickForm').length) {
         checkPickStatus();
 
         // Save a snapshot of the form
         pickFormState = $('.pickForm').serialize();
+        $('.pickForm').submit(function() {
+            picksSubmitted = true;
+        });
 
         // Set a listener for checking if picks haven't been saved
         window.onbeforeunload = function alertUnsavedPicks() {
-            if (pickFormState != $('.pickForm').serialize()) {
+            if (!picksSubmitted && pickFormState != $('.pickForm').serialize()) {
                 return 'It looks like you have been editing your picks -- if you leave without submitting, your changes will be lost.';
             }
         };
