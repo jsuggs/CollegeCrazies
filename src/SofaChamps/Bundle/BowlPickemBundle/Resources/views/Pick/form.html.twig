@@ -7,7 +7,7 @@
 <div id="pick-status">
     Status: <span class="label">checking...</span>
 </div>
-<span class="help-block">Picks lock December 15th at 12:55pm EST</span>
+<span class="help-block">Picks lock <time datetime="{{ picks_lock_time(season)|date('c') }}">{{ picks_lock_time(season)|date("l F jS \\a\\t g:ia T") }}<time></span>
 <br />
 
 <table id="pick-list" class="table table-condensed table-hover">

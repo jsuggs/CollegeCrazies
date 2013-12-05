@@ -33,6 +33,13 @@ class AppExtension extends \Twig_Extension
         );
     }
 
+    public function getFunctions()
+    {
+        return array(
+            'picks_lock_time' => new \Twig_Function_Method($this, 'getLockTime'),
+        );
+    }
+
     public function picksLocked()
     {
         return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
@@ -41,6 +48,11 @@ class AppExtension extends \Twig_Extension
     public function getCurrentSeason()
     {
         return $this->container->get('sofachamps.bp.season_manager')->getCurrentSeason();;
+    }
+
+    public function getLockTime($season)
+    {
+        return $this->container->get('sofachamps.bp.picks_locked_manager')->getLockTime($season);
     }
 
     public function getName()
