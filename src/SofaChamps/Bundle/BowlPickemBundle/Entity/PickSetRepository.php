@@ -64,6 +64,19 @@ EOF;
         ));
     }
 
+    public function getPopulatedPickSet(PickSet $pickSet)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.user', 'u')
+            ->innerJoin('p.picks', 'pk')
+            ->innerJoin('pk.game', 'pg')
+            ->innerJoin('pk.team', 'pt')
+            ->where('p.id = :pickSetId')
+            ->setParameter('pickSetId', $pickSet->getId())
+            ->getQuery()
+            ->getSingleResult();
+    }
+
     public function getProjectedBestFinish(PickSet $pickSet, League $league)
     {
         $result = $this->getEntityManager()->getConnection()->fetchAll(self::BEST_PROJECTED_FINISH_SQL, array(

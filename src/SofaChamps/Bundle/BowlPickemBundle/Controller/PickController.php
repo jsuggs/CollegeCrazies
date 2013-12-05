@@ -152,6 +152,8 @@ class PickController extends BaseController
             }
         }
 
+        $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
+
         $form = $this->getPickSetForm($pickSet);
         return array(
             'form' => $form->createView(),
