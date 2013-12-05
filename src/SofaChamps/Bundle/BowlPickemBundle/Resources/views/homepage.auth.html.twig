@@ -36,7 +36,7 @@
                         {% if user.leaguesForSeason(season)|length %}
                             <h2>My Leagues</h2>
                             <ul class="unstyled">
-                            {% for league in user.leagues %}
+                            {% for league in user.leaguesForSeason(season) %}
                                 <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                             {% endfor %}
                             </ul>
