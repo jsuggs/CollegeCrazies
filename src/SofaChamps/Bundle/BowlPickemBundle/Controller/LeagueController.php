@@ -24,15 +24,29 @@ class LeagueController extends BaseController
 {
     /**
      * @Route("/{leagueId}/home", name="league_home")
-     * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
     public function homeAction(League $league, $season)
     {
         $user = $this->getUser();
-        $pickSet = $league->getPicksetForUser($user);
+        if (!$user || !($pickSet = $league->getPicksetForUser($user))) {
+            // If the league is private redirect to the join page, but with the league info defaulted
+            if (!$league->isPublic()) {
+                $this->addMessage('danger', 'This is a private league.  Enter password below to join');
+
+                return $this->redirect($this->generateUrl('league_find', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            }
+
+            // Send to the guest version of the league
+            return $this->redirect($this->generateUrl('league_guest', array(
+                'season' => $season,
+                'leagueId' => $league->getId(),
+            )));
+        }
 
         if (!$pickSet) {
             $this->addMessage('warning', 'You do not have a pick set for this league');
@@ -65,6 +79,29 @@ class LeagueController extends BaseController
     }
 
     /**
+     * @Route("/{leagueId}/guest", name="league_guest")
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @Template
+     */
+    public function guestAction(League $league, $season)
+    {
+        $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
+        $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
+        $importantGames = $this->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
+
+        // Only show the top 10 users
+        $sortedUsers = array_slice($sortedUsers, 0, 10);
+
+        return array(
+            'league' => $league,
+            'season' => $season,
+            'users' => $sortedUsers,
+            'importantGames' => $importantGames,
+        );
+    }
+
+
+    /**
      * @Route("/public", name="league_public")
      * @Template
      */
@@ -81,13 +118,15 @@ class LeagueController extends BaseController
 
     /**
      * @Route("/find", name="league_find")
-     * @Secure(roles="ROLE_USER")
+     * Secure(roles="ROLE_USER")
      * @Template
      */
     public function findAction($season)
     {
         $form = $this->createFormBuilder()
-            ->add('id', 'integer')
+            ->add('id', 'integer', array(
+                'data' => $this->getRequest()->query->get('leagueId'),
+            ))
             ->add('password', 'password', array(
                 'required' => false,
             ))
@@ -389,15 +428,27 @@ class LeagueController extends BaseController
 
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
-     * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
     public function leaderboardAction(League $league, $season)
     {
         $user = $this->getUser();
-        $pickSet = $league->getPicksetForUser($user);
+        $pickSet = $user
+            ? $league->getPicksetForUser($user)
+            : null;
+
+        if (!$pickSet) {
+            // If the league is private redirect to the join page, but with the league info defaulted
+            if (!$league->isPublic()) {
+                $this->addMessage('danger', 'This is a private league.  Enter password below to join');
+
+                return $this->redirect($this->generateUrl('league_find', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            }
+        }
 
         $users = $this->getRepository('SofaChampsBowlPickemBundle:League')->getUsersAndPoints($league);
         $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);

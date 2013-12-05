@@ -1,0 +1,30 @@
+{% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>{{ league.name }} (id: {{ league.id }})</h2>
+    <p><small>"{{ league.motto }}"</small></p>
+    <div class="container">
+        {% if league.note %}
+            <div class="row well">
+                <div class="col-md-12">
+                    <h4>Commissioner's Note</h4>
+                    <p>{{ league.note }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <h3>League Top 10 Standings <small><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">View Full Leaderboard</a></small></h3>
+
+            {% include 'SofaChampsBowlPickemBundle:League:_leaderboard.html.twig' %}
+        </div>
+
+        {% if picks_locked %}
+            <div class="row">
+                <h3><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">League Top 5 Games</a></h3>
+
+                {% include 'SofaChampsBowlPickemBundle:Game:_important_games.html.twig' with {games: importantGames} %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
