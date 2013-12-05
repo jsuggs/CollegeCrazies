@@ -22,7 +22,7 @@ class RegistrationWebTest extends SofaChampsWebTest
         $crawler = $client->click($link);
         $crawler = $client->followRedirect();
 
-        $form = $crawler->filter('form[action*="/register/"][method="POST"] input[type="submit"]')->form();
+        $form = $crawler->filter('form[action*="/register/"][method="POST"] button[type="submit"]')->form();
         $password = uniqid();
         $form['fos_user_registration_form[username]'] = uniqid();
         $form['fos_user_registration_form[email]'] = $this->getFaker()->email();
