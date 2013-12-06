@@ -13,6 +13,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueCommissionersFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueNoteFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLogoFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLockFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -62,6 +63,7 @@ class LeagueController extends BaseController
         $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
         $rank = $this->getUserSorter()->getUserRank($user, $sortedUsers);
         $importantGames = $this->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
+        $logoUploadForm = $this->getLogoUploadForm($league);
 
         // Only show the top 10 users
         $sortedUsers = array_slice($sortedUsers, 0, 10);
@@ -75,6 +77,7 @@ class LeagueController extends BaseController
             'projectedBestFinish' => $projectedBestFinish,
             'projectedFinishStats' => $projectedFinishStats,
             'importantGames' => $importantGames,
+            'logoUploadForm' => $logoUploadForm->createView(),
         );
     }
 
@@ -421,6 +424,30 @@ class LeagueController extends BaseController
         $this->addMessage('info', 'User Removed');
 
         return $this->redirect($this->generateUrl('league_member_remove_list', array(
+            'season' => $season,
+            'leagueId' => $league->getId(),
+        )));
+    }
+
+    /**
+     * @Route("/{leagueId}/logo-upload", name="league_logo_upload")
+     * @Secure(roles="ROLE_USER")
+     * @Method({"POST"})
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="MANAGE")
+     */
+    public function logoUpload(League $league, $season)
+    {
+        $form = $this->getLogoUploadForm($league);
+        $form->bind($this->getRequest());
+
+        if ($form->isValid()) {
+            var_dump($league->getLogo());
+            die('valid');
+        }
+        die('here');
+
+        return $this->redirect($this->generateUrl('league_home', array(
             'season' => $season,
             'leagueId' => $league->getId(),
         )));
@@ -864,5 +891,13 @@ class LeagueController extends BaseController
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);
+    }
+
+    private function getLogoUploadForm(League $league)
+    {
+        return $this->createForm(new LeagueLogoFormType(), $league);
+        return $this->createFormBuilder($league)
+            ->add('logo', 'vlabs_file')
+            ->getForm();
     }
 }

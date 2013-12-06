@@ -4,8 +4,10 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\Image;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vlabs\MediaBundle\Annotation\Vlabs;
 
 /**
  * A League
@@ -43,6 +45,13 @@ class League
      * @ORM\Column(type="text", nullable=true)
      */
     protected $motto;
+
+    /**
+     * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\Image", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Vlabs\Media(identifier="image_entity", upload_dir="files/images")
+     * @Assert\Valid
+     */
+    protected $logo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -127,6 +136,20 @@ class League
     public function getMotto()
     {
         return $this->motto;
+    }
+
+    public function setLogo(Image $logo)
+    {
+        var_dump($logo);
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getLogo()
+    {
+        return $this->logo;
     }
 
     public function setPassword($password)

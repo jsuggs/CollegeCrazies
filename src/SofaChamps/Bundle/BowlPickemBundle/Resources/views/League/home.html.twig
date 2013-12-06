@@ -3,6 +3,13 @@
 {% block content %}
     <h2>{{ league.name }} (id: {{ league.id }})</h2>
     <p><small>"{{ league.motto }}"</small></p>
+    {% if is_granted('MANAGE', league) %}
+        <h1>Update Logo</h1>
+        <form action="{{ path('league_logo_upload', {season: season, leagueId: league.id}) }}" method="post" {{ form_enctype(logoUploadForm) }}>
+            {{ form_widget(logoUploadForm) }}
+            <button>Upload Logo</button>
+        </form>
+    {% endif %}
     <div class="container">
         <div class="row well">
             <div class="col-md-6">
