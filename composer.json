@@ -20,13 +20,15 @@
         "sensio/generator-bundle": "*",
         "sonata-project/admin-bundle": "*",
         "sonata-project/doctrine-orm-admin-bundle": "*",
+        "sonata-project/core-bundle": "*",
         "jms/security-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "friendsofsymfony/user-bundle": "*",
         "monolog/monolog": "*",
         "flot/flot": "master",
         "liip/functional-test-bundle": "dev-master",
-        "fzaninotto/faker": "~1.2"
+        "fzaninotto/faker": "~1.2",
+        "vlabs/media-bundle": "dev-symfony2.3"
     },
     "config": {
         "bin-dir": "bin"
@@ -48,6 +50,10 @@
                     "reference": "master"
                 }
             }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/jsuggs/VlabsMediaBundle.git"
         }
     ]
 }

@@ -84,3 +84,10 @@ fos_user:
     profile:
         form:
             type: "sofachamps_user_profile"
+
+vlabs_media:
+    image_cache:
+        cache_dir: files/cache
+    mapping:
+        image_entity:
+            class: SofaChamps\Bundle\CoreBundle\Entity\Image
