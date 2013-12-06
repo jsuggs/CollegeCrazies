@@ -430,27 +430,36 @@ class LeagueController extends BaseController
     }
 
     /**
-     * @Route("/{leagueId}/logo-upload", name="league_logo_upload")
+     * @Route("/{leagueId}/logo", name="league_logo")
      * @Secure(roles="ROLE_USER")
-     * @Method({"POST"})
+     * @Method({"POST", "GET"})
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @SecureParam(name="league", permissions="MANAGE")
+     * @Template
      */
-    public function logoUpload(League $league, $season)
+    public function logoAction(League $league, $season)
     {
         $form = $this->getLogoUploadForm($league);
-        $form->bind($this->getRequest());
 
-        if ($form->isValid()) {
-            var_dump($league->getLogo());
-            die('valid');
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+                $this->addMessage('success', 'Logo Updated');
+
+                return $this->redirect($this->generateUrl('league_home', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            }
         }
-        die('here');
 
-        return $this->redirect($this->generateUrl('league_home', array(
+        return array(
             'season' => $season,
-            'leagueId' => $league->getId(),
-        )));
+            'league' => $league,
+            'form' => $form->createView(),
+        );
     }
 
     /**
@@ -896,8 +905,5 @@ class LeagueController extends BaseController
     private function getLogoUploadForm(League $league)
     {
         return $this->createForm(new LeagueLogoFormType(), $league);
-        return $this->createFormBuilder($league)
-            ->add('logo', 'vlabs_file')
-            ->getForm();
     }
 }

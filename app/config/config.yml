@@ -87,7 +87,7 @@ fos_user:
 
 vlabs_media:
     image_cache:
-        cache_dir: files/cache
+        cache_dir: "uploads/bp/cache"
     mapping:
         image_entity:
             class: SofaChamps\Bundle\CoreBundle\Entity\Image

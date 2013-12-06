@@ -60,7 +60,7 @@
                     <li><a href="{{ path('league_settings', {leagueId: league.id, season: season}) }}">League Settings</a></li>
                 </ul>
             </li>
-            {% if is_granted('ROLE_ADMIN') or league.userIsCommissioner(app.user) %}
+            {% if is_granted('MANAGE', league) %}
                 <li class="dropdown">
                     <a data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">

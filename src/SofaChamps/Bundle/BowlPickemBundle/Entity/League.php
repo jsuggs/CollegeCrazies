@@ -48,7 +48,7 @@ class League
 
     /**
      * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\Image", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @Vlabs\Media(identifier="image_entity", upload_dir="files/images")
+     * @Vlabs\Media(identifier="image_entity", upload_dir="uploads/bp/logo")
      * @Assert\Valid
      */
     protected $logo;
