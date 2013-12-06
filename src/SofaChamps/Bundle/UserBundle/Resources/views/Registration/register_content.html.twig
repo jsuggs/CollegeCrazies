@@ -3,21 +3,27 @@
 <h2>Sign Up</h2>
 
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form" role="form">
-    <fieldset>
-        <legend>Required Fields</legend>
+    <div class="row">
+        <div class="col-md-8">
+            <fieldset>
+                <legend>Required Fields</legend>
 
-        {{ form_row(form.username) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.plainPassword.first) }}
-        {{ form_row(form.plainPassword.second) }}
-    </fieldset>
+                {{ form_row(form.username) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+            </fieldset>
+        </div>
 
-    <fieldset>
-        <legend>Optional Fields</legend>
+        <div class="col-md-4">
+            <fieldset>
+                <legend>Optional Fields</legend>
 
-        {{ form_row(form.firstName) }}
-        {{ form_row(form.lastName) }}
-    </fieldset>
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.lastName) }}
+            </fieldset>
+        </div>
+    </div>
 
     <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
     {{ form_rest(form) }}
