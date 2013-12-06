@@ -89,6 +89,9 @@ EOF;
     public function findAllOrderedByDate($season, $sort = 'DESC')
     {
         return $this->createQueryBuilder('g')
+            ->select('g, home, away')
+            ->leftJoin('g.homeTeam', 'home')
+            ->leftJoin('g.awayTeam', 'away')
             ->where('g.season = :season')
             ->orderBy('g.gameDate', $sort)
             ->setParameter('season', $season)
