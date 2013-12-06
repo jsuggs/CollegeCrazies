@@ -2,14 +2,18 @@
 
 {% block content %}
     <div class="jumbotron">
-        <h1>SofaChamps.com</h1>
-        <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
+        <h1>SofaChamps</h1>
+        <h2>
+            Dominate without breaking a sweat<br />
+            <small>or even getting off the couch</small>
+        </h2>
 
-        <p style="padding-left: 15px";><small>The next generation in the ever popular college bowl mania pick’em game. This year we’ve taken it to the next level.</small></p>
-        <p style="padding-left: 15px";><small>Here you will find best-in-class user interface, great new features not found anywhere else (group picks, drag-n-drop picks, etc), and advanced statistics, all for your enjoyment!</small></p>
-        <p>So go ahead, create a league, invite your friends, and enjoy another crazy season of Bowl Mania!</p>
-        <p>Read more about who we are and why we did this <a href="{{ path('about') }}">here</a></p>
-
-        <p>{% if not picks_locked %}<a href="/register" class="btn btn-info">Sign up now!</a> or {% endif %}<a href="/login" class="btn btn-success">Login</a></p>
+        <div class="hidden-md hidden-sm hidden-xs">
+            <p><small>The next generation in the ever popular college bowl mania pick’em game. This year we’ve taken it to the next level.</small></p>
+            <p><small>Here you will find best-in-class user interface, great new features not found anywhere else (group picks, drag-n-drop picks, etc), and advanced statistics, all for your enjoyment!</small></p>
+            <p>So go ahead, create a league, invite your friends, and enjoy another crazy season of Bowl Mania!</p>
+            <p>Read more about who we are and why we did this <a href="{{ path('about') }}">here</a></p>
+        </div>
     </div>
+    <p>{% if not picks_locked %}<a href="/register" class="btn btn-info">Sign up now!</a> or {% endif %}<a href="/login" class="btn btn-success">Login</a></p>
 {% endblock %}
