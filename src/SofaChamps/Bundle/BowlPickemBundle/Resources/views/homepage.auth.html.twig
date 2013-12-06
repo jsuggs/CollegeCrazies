@@ -4,49 +4,53 @@
     <div class="jumbotron">
         <h1>SofaChamps.com</h1>
         <h2>Dominate without breaking a sweat <small>...or even getting off the couch</small></h2>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    {% if user.picksets|length %}
-                        <h2>My Picksets</h2>
-                        <ul class="unstyled">
-                        {% for pickset in user.picksetsForSeason(season) %}
-                            <li>
-                                <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
-                                {% if pickset.leagues %}
-                                    <ul class="unstyled">
-                                    {% for league in pickset.leagues %}
-                                        <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
-                                    {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                        </ul>
-                        <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-primary">Manage Picksets</a>
-                        or
-                        <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
-                    {% else %}
-                        <h2>You don't have any picksets</h2>
-                        <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Pickset Now!</a>
-                    {% endif %}
-                </div>
-                <div class="col-md-6">
-                    {% if user.picksets|length %}
-                        {% if user.leaguesForSeason(season)|length %}
-                            <h2>My Leagues</h2>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {% if user.picksetsForSeason(season)|length %}
+                <h2>My Picksets</h2>
+                <ul class="unstyled">
+                {% for pickset in user.picksetsForSeason(season) %}
+                    <li>
+                        <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
+                        {% if pickset.leagues %}
                             <ul class="unstyled">
-                            {% for league in user.leaguesForSeason(season) %}
+                            {% for league in pickset.leagues %}
                                 <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                             {% endfor %}
                             </ul>
-                        {% else %}
-                            <h2>You aren't in any leagues, join the fun</h2>
                         {% endif %}
-                        <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Join or create a league</a>
-                    {% endif %}
-                </div>
-            </div>
+                    </li>
+                {% endfor %}
+                </ul>
+                <hr />
+                <p>
+                    <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-primary">Manage Picksets</a>
+                    or
+                    <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
+                </p>
+            {% else %}
+                <h2>You don't have any picksets <small>what a shame</small></h2>
+                <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Pickset Now!</a>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            {% if user.picksets|length %}
+                {% if user.leaguesForSeason(season)|length %}
+                    <h2>My Leagues</h2>
+                    <ul class="unstyled">
+                    {% for league in user.leaguesForSeason(season) %}
+                        <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <h2>You aren't in any leagues, join the fun</h2>
+                {% endif %}
+                <hr />
+                <p>
+                    <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Join or create a league</a>
+                </p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
