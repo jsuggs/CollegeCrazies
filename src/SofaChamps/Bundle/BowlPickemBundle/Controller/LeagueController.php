@@ -63,7 +63,6 @@ class LeagueController extends BaseController
         $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
         $rank = $this->getUserSorter()->getUserRank($user, $sortedUsers);
         $importantGames = $this->getRepository('SofaChampsBowlPickemBundle:Game')->gamesByImportanceForLeague($league, 5);
-        $logoUploadForm = $this->getLogoUploadForm($league);
 
         // Only show the top 10 users
         $sortedUsers = array_slice($sortedUsers, 0, 10);
@@ -77,7 +76,6 @@ class LeagueController extends BaseController
             'projectedBestFinish' => $projectedBestFinish,
             'projectedFinishStats' => $projectedFinishStats,
             'importantGames' => $importantGames,
-            'logoUploadForm' => $logoUploadForm->createView(),
         );
     }
 

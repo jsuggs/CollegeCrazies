@@ -15,7 +15,7 @@ CREATE TABLE core_images (
   , created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
   , content_type VARCHAR(50) DEFAULT NULL
   , path VARCHAR(255) NOT NULL
-, PRIMARY KEY(id)
+  , PRIMARY KEY(id)
 )
 SQL;
 

@@ -140,13 +140,9 @@ class League
 
     public function setLogo(Image $logo)
     {
-        var_dump($logo);
         $this->logo = $logo;
     }
 
-    /**
-     * @return UploadedFile
-     */
     public function getLogo()
     {
         return $this->logo;
