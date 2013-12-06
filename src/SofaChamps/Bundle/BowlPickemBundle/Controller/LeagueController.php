@@ -13,6 +13,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueCommissionersFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueNoteFormType;
+use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLogoFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\LeagueLockFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -424,6 +425,39 @@ class LeagueController extends BaseController
             'season' => $season,
             'leagueId' => $league->getId(),
         )));
+    }
+
+    /**
+     * @Route("/{leagueId}/logo", name="league_logo")
+     * @Secure(roles="ROLE_USER")
+     * @Method({"POST", "GET"})
+     * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="MANAGE")
+     * @Template
+     */
+    public function logoAction(League $league, $season)
+    {
+        $form = $this->getLogoUploadForm($league);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+                $this->addMessage('success', 'Logo Updated');
+
+                return $this->redirect($this->generateUrl('league_home', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            }
+        }
+
+        return array(
+            'season' => $season,
+            'league' => $league,
+            'form' => $form->createView(),
+        );
     }
 
     /**
@@ -864,5 +898,10 @@ class LeagueController extends BaseController
     private function getLeagueForm(League $league)
     {
         return $this->createForm(new LeagueFormType(), $league);
+    }
+
+    private function getLogoUploadForm(League $league)
+    {
+        return $this->createForm(new LeagueLogoFormType(), $league);
     }
 }

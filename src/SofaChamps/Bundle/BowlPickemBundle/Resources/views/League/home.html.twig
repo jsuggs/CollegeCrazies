@@ -1,8 +1,19 @@
 {% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ league.name }} (id: {{ league.id }})</h2>
-    <p><small>"{{ league.motto }}"</small></p>
+    <h2>
+        {{ league.name }} (id: {{ league.id }})
+        {% if league.logo %}
+            {% set logoEditText = 'Edit league logo' %}
+            {{ league.logo|vlabs_filter('resize', { 'width' : 100, 'height' : 100 })|vlabs_media('image') }}
+        {% else %}
+            {% set logoEditText = 'Add league logo' %}
+        {% endif %}
+        {% if is_granted('MANAGE', league) %}
+            <small><a href="{{ path('league_logo', {season: season, leagueId: league.id}) }}">{{ logoEditText }}</a></small>
+        {% endif %}
+    </h2>
+    <h4>"{{ league.motto }}"</h4>
     <div class="container">
         <div class="row well">
             <div class="col-md-6">
