@@ -786,9 +786,13 @@ class LeagueController extends BaseController
     {
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
+            $eligibleUsers = $league->getUsers()->filter(function (User $user) {
+                return $user->getEmailFromCommish();
+            });
+
             $emails = array_map(function (User $user) {
                 return $user->getEmail();
-            }, iterator_to_array($league->getUsers()));
+            }, $eligibleUsers->toArray());
 
             $emails = array_filter($emails, function ($email) {
                 return filter_var($email, FILTER_VALIDATE_EMAIL);
