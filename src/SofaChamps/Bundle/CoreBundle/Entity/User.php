@@ -72,12 +72,24 @@ class User extends BaseUser
      */
     protected $sbcPicks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="referrals")
+     * @ORM\JoinColumn(name="referrer_id", referencedColumnName="id")
+     **/
+    protected $referrer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="referrer")
+     **/
+    protected $referrals;
+
     public function __construct()
     {
         parent::__construct();
         $this->sbcPicks = new ArrayCollection();
         $this->pickSets = new ArrayCollection();
         $this->leagues = new ArrayCollection();
+        $this->referrals = new ArrayCollection();
     }
 
     public function getId()
@@ -201,6 +213,22 @@ class User extends BaseUser
         return $this->sbcPicks->filter(function($pick) use ($year) {
             return $pick->getYear() == $year;
         })->first();
+    }
+
+
+    public function setReferrer(User $user)
+    {
+        $this->referrer = $user;
+    }
+
+    public function getReferrer()
+    {
+        return $this->referrer;
+    }
+
+    public function getReferrals()
+    {
+        return $this->referrals;
     }
 
     public function __toString()
