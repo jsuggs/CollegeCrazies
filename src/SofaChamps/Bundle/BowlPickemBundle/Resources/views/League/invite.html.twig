@@ -2,20 +2,24 @@
 
 {% block content %}
     <h2>Invite Users</h2>
-    <p>The more the merrier, send some invitations to join the league<p>
+    <p class="lead">The more the merrier, send some invitations to join the league<p>
 
     <form action="{{ path('league_invite', {leagueId: league.id, season: season}) }}" method="POST">
-        <div class="control-group">
-            <p class="help-block">You can enter multiple addresses, comma separated.  We'll send them a link with the league information (id, password, etc).  Nothing more, nothing less.</p>
-            <p class="help-block">Alternatively you can just send out this link: <em class="text-info">{{ url('league_prejoin', {leagueId: league.id, season: season}) }}</em></p>
-            <div class="controls">
-                <textarea name="emails" class="input-block-level"></textarea>
-                <pre>Example: "test1@test.com, test2@test.com"</pre>
-            </div>
+        <p class="help-block">
+            You can enter multiple addresses, comma separated.
+            We'll send them a link with the league information (id, password, etc).
+            Nothing more, nothing less.<br />
+            Alternatively you can just send out the link below<br />
+            <h4 class="text-info">{{ url('league_prejoin', {leagueId: league.id, season: season, rid: app.user.id}) }}</h4>
+            Note: the <b class="text-success">?rid={{ app.user.id }}</b> at the end of the link.
+            That is your personal referral code.
+            You can add that to the end of any sofachamps link and we'll track all of the users you sign up.
+        </p>
+        <div class="form-group">
+            <textarea name="emails" class="form-control"></textarea>
+            <pre>Example: "test1@test.com, test2@test.com"</pre>
         </div>
 
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Invite Users" />
-        </div>
+        <button type="submit" class="btn btn-primary">Invite Users</button>
     </form>
 {% endblock %}
