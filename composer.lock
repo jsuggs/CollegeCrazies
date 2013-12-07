@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "31487e19d2b6124b1c178e5dbfd4e1f0",
+    "hash": "2de887693f7d43e1d8104190d13dfbc8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -354,12 +354,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "8b28a9a1d1dfafb7cb973bb0bacf057d097885aa"
+                "reference": "f3f6b7ddb7d6af6c3fa42882bc0e2e6715c873fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/8b28a9a1d1dfafb7cb973bb0bacf057d097885aa",
-                "reference": "8b28a9a1d1dfafb7cb973bb0bacf057d097885aa",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/f3f6b7ddb7d6af6c3fa42882bc0e2e6715c873fd",
+                "reference": "f3f6b7ddb7d6af6c3fa42882bc0e2e6715c873fd",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-11-28 01:19:42"
+            "time": "2013-12-06 11:52:45"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -868,6 +868,52 @@
             "time": "2013-12-02 15:00:40"
         },
         {
+            "name": "facebook/php-sdk",
+            "version": "v3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/facebook/facebook-php-sdk.git",
+                "reference": "6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/facebook/facebook-php-sdk/zipball/6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb",
+                "reference": "6714042fa2f5979d4c64c7d11fb4bcab16bdf6cb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Facebook",
+                    "homepage": "https://github.com/facebook/facebook-php-sdk/contributors"
+                }
+            ],
+            "description": "Facebook PHP SDK",
+            "homepage": "https://github.com/facebook/facebook-php-sdk",
+            "keywords": [
+                "facebook",
+                "sdk"
+            ],
+            "time": "2013-11-19 23:11:14"
+        },
+        {
             "name": "flot/flot",
             "version": "master",
             "source": {
@@ -877,6 +923,66 @@
             },
             "type": "library",
             "time": "2013-09-23 13:50:33"
+        },
+        {
+            "name": "friendsofsymfony/facebook-bundle",
+            "version": "dev-master",
+            "target-dir": "FOS/FacebookBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony/FOSFacebookBundle.git",
+                "reference": "61514072d6de586322cc06601b03012c4e995195"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/61514072d6de586322cc06601b03012c4e995195",
+                "reference": "61514072d6de586322cc06601b03012c4e995195",
+                "shasum": ""
+            },
+            "require": {
+                "facebook/php-sdk": "3.2.*",
+                "php": ">=5.3.2",
+                "symfony/http-foundation": "~2.2",
+                "symfony/security": "~2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/framework-bundle": "~2.2",
+                "symfony/security-bundle": "~2.2",
+                "symfony/twig-bundle": "~2.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "FOS\\FacebookBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                },
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/friendsofsymfony/FOSFacebookBundle/contributors"
+                }
+            ],
+            "description": "Integrate the Facebook Platform into your Symfony2 application.",
+            "homepage": "http://friendsofsymfony.github.com",
+            "keywords": [
+                "facebook"
+            ],
+            "time": "2013-12-04 11:14:08"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -953,12 +1059,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "fa21a4ca903957b1bdf03cb3a4e677f39a052a19"
+                "reference": "ca91fd3cce983578a7acceb8dec7131c3ba63a67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fa21a4ca903957b1bdf03cb3a4e677f39a052a19",
-                "reference": "fa21a4ca903957b1bdf03cb3a4e677f39a052a19",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ca91fd3cce983578a7acceb8dec7131c3ba63a67",
+                "reference": "ca91fd3cce983578a7acceb8dec7131c3ba63a67",
                 "shasum": ""
             },
             "require": {
@@ -991,7 +1097,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-12-03 16:06:23"
+            "time": "2013-12-06 12:38:25"
         },
         {
             "name": "imagine/imagine",
@@ -1346,12 +1452,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "7bed6210da5a81d8270fea081b4550695e80a0b6"
+                "reference": "4e8a823093cf63fc21f57169d1b485c31bf5c798"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/7bed6210da5a81d8270fea081b4550695e80a0b6",
-                "reference": "7bed6210da5a81d8270fea081b4550695e80a0b6",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/4e8a823093cf63fc21f57169d1b485c31bf5c798",
+                "reference": "4e8a823093cf63fc21f57169d1b485c31bf5c798",
                 "shasum": ""
             },
             "require": {
@@ -1408,7 +1514,7 @@
                 "secure",
                 "security"
             ],
-            "time": "2013-12-03 17:14:15"
+            "time": "2013-12-06 16:24:35"
         },
         {
             "name": "knplabs/gaufrette",
@@ -2101,12 +2207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "9b8c990652388850a6d9cfb25405761f89d8f210"
+                "reference": "db85522c3c8aa3c6753d1ccf418e1e0dff0ea2d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/9b8c990652388850a6d9cfb25405761f89d8f210",
-                "reference": "9b8c990652388850a6d9cfb25405761f89d8f210",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/db85522c3c8aa3c6753d1ccf418e1e0dff0ea2d9",
+                "reference": "db85522c3c8aa3c6753d1ccf418e1e0dff0ea2d9",
                 "shasum": ""
             },
             "require": {
@@ -2172,7 +2278,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2013-12-05 18:40:02"
+            "time": "2013-12-06 09:47:00"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -2181,12 +2287,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataBlockBundle.git",
-                "reference": "6d1fa2640a5d3c5fb4c345ebcca298940c01bab4"
+                "reference": "e4c00ed729a8396bdf0945f41cdaffe2d4cdf8d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/6d1fa2640a5d3c5fb4c345ebcca298940c01bab4",
-                "reference": "6d1fa2640a5d3c5fb4c345ebcca298940c01bab4",
+                "url": "https://api.github.com/repos/sonata-project/SonataBlockBundle/zipball/e4c00ed729a8396bdf0945f41cdaffe2d4cdf8d7",
+                "reference": "e4c00ed729a8396bdf0945f41cdaffe2d4cdf8d7",
                 "shasum": ""
             },
             "require": {
@@ -2235,7 +2341,7 @@
                 "block",
                 "sonata"
             ],
-            "time": "2013-11-28 16:17:38"
+            "time": "2013-12-06 13:52:12"
         },
         {
             "name": "sonata-project/core-bundle",
@@ -2828,12 +2934,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "fcecb284f0c3d8f04ea282b70363a2a2023570d9"
+                "reference": "d5984bbb0592f9cda85e95f3f57a196d301a39d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/fcecb284f0c3d8f04ea282b70363a2a2023570d9",
-                "reference": "fcecb284f0c3d8f04ea282b70363a2a2023570d9",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/d5984bbb0592f9cda85e95f3f57a196d301a39d2",
+                "reference": "d5984bbb0592f9cda85e95f3f57a196d301a39d2",
                 "shasum": ""
             },
             "require": {
@@ -2869,7 +2975,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-12-03 14:16:16"
+            "time": "2013-12-06 15:28:39"
         },
         {
             "name": "vlabs/media-bundle",

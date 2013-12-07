@@ -1,0 +1,5 @@
+_security_check_facebook:
+    pattern:  /login
+
+_security_logout_facebook:
+    pattern:  /logout

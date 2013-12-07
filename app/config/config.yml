@@ -91,3 +91,10 @@ vlabs_media:
     mapping:
         image_entity:
             class: SofaChamps\Bundle\CoreBundle\Entity\Image
+
+fos_facebook:
+    alias:  facebook
+    app_id: %facebook.app_id%
+    secret: %facebook.secret%
+    cookie: true
+    permissions: [email]

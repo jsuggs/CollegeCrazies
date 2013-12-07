@@ -28,6 +28,11 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(name="facebookId", type="string", length=255, nullable=true)
+     */
+    protected $facebookId;
+
+    /**
      * @ORM\ManyToMany(targetEntity="SofaChamps\Bundle\BowlPickemBundle\Entity\League", mappedBy="users", fetch="EXTRA_LAZY")
      */
     protected $leagues;
@@ -83,6 +88,19 @@ class User extends BaseUser
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+        if (!$this->username) {
+            $this->setUsername($facebookId);
+        }
+    }
+
+    public function getFacebookId()
+    {
+        return $this->facebookId;
     }
 
     public function getPickSets()

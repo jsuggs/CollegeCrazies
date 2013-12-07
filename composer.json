@@ -24,6 +24,7 @@
         "jms/security-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
         "friendsofsymfony/user-bundle": "*",
+        "friendsofsymfony/facebook-bundle": "1.2.*",
         "monolog/monolog": "*",
         "flot/flot": "master",
         "liip/functional-test-bundle": "dev-master",
