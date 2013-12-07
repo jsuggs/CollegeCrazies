@@ -50,17 +50,6 @@ class HomePageController extends BaseController
     }
 
     /**
-     * @Route("/donate", name="donate")
-     * @Template("SofaChampsBowlPickemBundle::donate.html.twig")
-     */
-    public function donateAction()
-    {
-        return array(
-            'season' => $this->getCurrentSeason(),
-        );
-    }
-
-    /**
      * @Route("/donate-thanks", name="donate_thanks")
      * @Template("SofaChampsBowlPickemBundle::donate-thanks.html.twig")
      */
