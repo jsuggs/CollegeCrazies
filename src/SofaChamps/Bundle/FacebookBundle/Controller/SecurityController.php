@@ -10,9 +10,5 @@ class SecurityController extends Controller
     /**
      * @Route("/login")
      */
-    public function facebookLoginAction()
-    {
-        var_dump($this->getRequest());
-        die();
-    }
+    public function facebookLoginAction() {}
 }

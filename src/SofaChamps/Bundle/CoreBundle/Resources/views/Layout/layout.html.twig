@@ -69,14 +69,12 @@
                     <li><a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-user"></span> {{ app.user }}</a></li>
                     <li><a href="/logout" class="text-danger">Logout</a></li>
                 {% else %}
-                    <li>{{ facebook_login_button({'autologoutlink': true}) }}</li>
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Signup</a></li>
                 {% endif %}
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
-
 
     {% set _sidebar = block('sidebar') %}
 
