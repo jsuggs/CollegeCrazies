@@ -269,7 +269,6 @@ class LeagueController extends BaseController
 
     /**
      * @Route("/{leagueId}/join", name="league_prejoin")
-     * @Secure(roles="ROLE_USER")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @Method({"GET"})
      * @Template
