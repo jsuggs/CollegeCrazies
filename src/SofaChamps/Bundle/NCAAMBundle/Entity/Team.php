@@ -6,6 +6,11 @@ use SofaChamps\Bundle\BasketballBundle\Entity\BasketballTeam;
 
 /**
  * A basketball team
+ *
+ * @ORM\Entity
+ * @ORM\Table(
+ *      name="ncaam_teams",
+ * )
  */
 class Team extends BasketballTeam
 {
