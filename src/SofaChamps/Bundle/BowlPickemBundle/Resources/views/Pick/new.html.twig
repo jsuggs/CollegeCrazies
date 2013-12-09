@@ -19,7 +19,7 @@
         $(document).ready(function() {
             $("#pickset-form").submit(function(e) {
                 var $name = $(this).find('input[name="pickset[name]"]');
-                if (!$name.val()|length) {
+                if (!$name.val()) {
                     $name
                         .after('<span class="help-inline">PickSet name is required.</span>')
                         .parents('.control-group').addClass('error');
