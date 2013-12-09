@@ -8,4 +8,5 @@ services:
             - SofaChamps\Bundle\CoreBundle\Entity\User
             - 'SonataAdminBundle:CRUD'
         calls:
+            - [ setUserManager, [@fos_user.user_manager]]
             - ["setTemplate", ["list", "SofaChampsCoreBundle:Admin:User\list.html.twig"]]

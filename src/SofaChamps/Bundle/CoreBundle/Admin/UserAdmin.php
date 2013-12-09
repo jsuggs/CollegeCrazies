@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Admin;
 
+use FOS\UserBundle\Model\UserManagerInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -59,5 +60,21 @@ class UserAdmin extends Admin
                 'label' => 'Impersonate',
             ))
         ;
+    }
+
+    public function preUpdate($user)
+    {
+        $this->getUserManager()->updateCanonicalFields($user);
+        $this->getUserManager()->updatePassword($user);
+    }
+
+    public function setUserManager(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
+    public function getUserManager()
+    {
+        return $this->userManager;
     }
 }
