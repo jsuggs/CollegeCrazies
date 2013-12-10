@@ -16,8 +16,8 @@ class LeagueAdmin extends Admin
             ->add('season')
             ->add('name')
             ->add('motto')
-            ->add('password')
-            ->add('locked')
+            ->add('password', null, array('required' => false))
+            ->add('locked', null, array('required' => false))
         ;
     }
 
