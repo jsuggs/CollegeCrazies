@@ -10,6 +10,21 @@
 <span class="help-block">Picks lock <time datetime="{{ picks_lock_time(season)|date('c') }}">{{ picks_lock_time(season)|date("l F jS \\a\\t g:ia T") }}<time></span>
 <br />
 
+{% if pickSet is defined %}
+    <h3>Assigned Leagues</h3>
+    {% if pickSet.leagues|length %}
+        <p><small>This pickset is assigned to all of these leagues</small></p>
+        <ul class="unstyled">
+        {% for league in pickSet.leagues %}
+            <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p><small>This pickset is not assigned to any leagues</small></p>
+        <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Find or Create a League</a>
+    {% endif %}
+{% endif %}
+
 <table id="pick-list" class="table table-condensed table-hover">
     <thead>
         <th>Bowl</th>
