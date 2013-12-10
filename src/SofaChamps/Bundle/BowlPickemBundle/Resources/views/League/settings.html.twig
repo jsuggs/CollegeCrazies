@@ -17,6 +17,6 @@
         <dd>{{ league.public ? 'Not Required' : league.password }}</dd>
 
         <dt>Picks Lock</dt>
-        <dd>{{ app.session.get('picks_locked')|date("F jS \\a\\t g:ia") }}</dd>
+        <dd>{{ picks_lock_time(season)|date("F jS \\a\\t g:ia") }}</dd>
     </dl>
 {% endblock %}
