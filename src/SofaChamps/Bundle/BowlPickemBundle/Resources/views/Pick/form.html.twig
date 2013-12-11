@@ -44,9 +44,7 @@
         <tr class="pick{% if team.id is defined %} success{% else %} danger{% endif %}">
             <td>
                 {{ game.name }}
-                {% if game.description|length %}
-                    (<a href="#" rel="popover" data-content="{% include 'SofaChampsBowlPickemBundle:Game:_preview.html.twig'|escape %}" title="{{ favorite.id }} vs {{ underdog.id }} Preview">?</a>)
-                {% endif %}
+                (<a href="#" rel="popover" data-content="{% include 'SofaChampsBowlPickemBundle:Game:_preview.html.twig'|escape %}" title="{{ favorite.id }} vs {{ underdog.id }} Preview">?</a>)
             </td>
             <td>
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ favorite.id }}"{% if team.id is defined and favorite.id == team.id %} checked="checked"{% endif %} />
