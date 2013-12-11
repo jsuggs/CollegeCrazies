@@ -21,17 +21,20 @@ class PicksetManager
 {
     private $om;
     private $dispatcher;
+    private $leagueManager;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      *      "dispatcher" = @DI\Inject("event_dispatcher"),
+     *      "leagueManager" = @DI\Inject("sofachamps.bp.league_manager"),
      * })
      */
-    public function __construct(ObjectManager $om, EventDispatcherInterface $dispatcher)
+    public function __construct(ObjectManager $om, EventDispatcherInterface $dispatcher, LeagueManager $leagueManager)
     {
         $this->om = $om;
         $this->dispatcher = $dispatcher;
+        $this->leagueManager = $leagueManager;
     }
 
     public function createUserPickset(User $user, $season, League $league = null)
@@ -44,6 +47,7 @@ class PicksetManager
 
         if ($league) {
             $pickSet->addLeague($league);
+            $this->leagueManager->addUserToLeague($league, $user);
         }
 
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season);

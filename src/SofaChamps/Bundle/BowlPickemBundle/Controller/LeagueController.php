@@ -215,8 +215,11 @@ class LeagueController extends BaseController
 
         if (count($pickSets) === 0) {
             $this->addMessage('info', 'You cannot join a league without first creating a pickset.');
+            $this->getSession()->set('auto_league_assoc', $league->getId());
+
             return $this->redirect($this->generateUrl('pickset_new', array(
                 'season' => $season,
+                'leagueId' => $league->getId(),
             )));
         }
 
