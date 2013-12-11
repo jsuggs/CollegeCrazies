@@ -1,6 +1,6 @@
 <h2>Update your profile</h2>
 
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form form-stacked">
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form" role="form">
     {{ form_row(form.username) }}
     {{ form_row(form.email) }}
     {{ form_row(form.firstName) }}
