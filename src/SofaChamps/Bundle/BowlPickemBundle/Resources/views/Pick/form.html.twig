@@ -72,7 +72,8 @@
 <hr />
 
 <div class="tiebreaker">
-    <h4>Tiebreaker</h4>
+    <h3>Tiebreaker:</h3>
+    <p class="help-block">Enter your predicted final score</p>
     {{ form_label(form.tiebreakerHomeTeamScore, 'FSU Score') }}
     {{ form_widget(form.tiebreakerHomeTeamScore) }}
 
@@ -81,5 +82,7 @@
     {{ form_label(form.tiebreakerAwayTeamScore, 'Auburn Score') }}
     {{ form_widget(form.tiebreakerAwayTeamScore) }}
 </div>
+
+<hr />
 
 {{ form_widget(form._token) }}
