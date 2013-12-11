@@ -68,10 +68,15 @@
     </tbody>
 </table>
 
+<hr />
+
 <div class="tiebreaker">
-    <p>Tiebreaker</p>
-    <label>FSU Score</label> {{ form_widget(form.tiebreakerHomeTeamScore) }}
-    <label>Auburn Score</label> {{ form_widget(form.tiebreakerAwayTeamScore) }}
+    <h4>Tiebreaker</h4>
+    {{ form_label(form.tiebreakerHomeTeamScore, 'FSU Score') }}
+    {{ form_widget(form.tiebreakerHomeTeamScore) }}
+
+    {{ form_label(form.tiebreakerAwayTeamScore, 'Auburn Score') }}
+    {{ form_widget(form.tiebreakerAwayTeamScore) }}
 </div>
 
 {{ form_widget(form._token) }}
