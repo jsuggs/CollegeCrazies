@@ -1,10 +1,12 @@
-<div class="form-group{% if form.name.vars.errors|length %} has-error{% endif %}">
-    {{ form_label(form.name, "Pick Set Name") }}
-    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-    {{ form_errors(form.name) }}
+<div class="row{% if form.name.vars.errors|length %} has-error{% endif %}">
+    <div class="col-lg-6">
+        {{ form_widget(form.name, {'attr': {'class': 'form-control', placeholder: 'Pick Set Name'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="col-lg-6">&nbsp;</div>
 </div>
 
-<div id="pick-status">
+<div id="pick-status clearfix">
     Status: <span class="label">checking...</span>
 </div>
 <span class="help-block">Picks lock <time datetime="{{ picks_lock_time(season)|date('c') }}">{{ picks_lock_time(season)|date("l F jS \\a\\t g:ia T") }}<time></span>
