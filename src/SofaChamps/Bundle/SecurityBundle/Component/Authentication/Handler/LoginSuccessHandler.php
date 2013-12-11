@@ -60,8 +60,9 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
                     $this->session->setFlash('error', 'You are already in the league');
                 } else {
                     $user->addLeague($league);
+                    $season = $this->seasonManager->getCurrentSeason();
 
-                    $pickSets = $user->getPicksets();
+                    $pickSets = $user->getPickSetsForSeason($season);
 
                     switch (count($pickSets)) {
                         case 0:
@@ -73,13 +74,13 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
                             $this->session->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                             $response = new RedirectResponse($this->router->generate('league_home', array(
-                                'season' => $this->seasonManager->getCurrentSeason(),
+                                'season' => $season,
                                 'leagueId' => $league->getId(),
                             )));
                             break;
                         default:
                             $response = new RedirectResponse($this->router->generate('league_assoc', array(
-                                'season' => $this->seasonManager->getCurrentSeason(),
+                                'season' => $season,
                                 'leagueId' => $league->getId(),
                             )));
                             break;
