@@ -33,12 +33,14 @@ class LeagueController extends BaseController
         $user = $this->getUser();
         if (!$user || !($pickSet = $league->getPicksetForUser($user))) {
             // If the user is in the league, but doesn't have a pickset make them assoc
-            if ($league->isUserInLeague($user)) {
-                $this->addMessage('warning', 'You do not have a pick set for this league');
-                return $this->redirect($this->generateUrl('league_assoc', array(
-                    'season' => $season,
-                    'leagueId' => $league->getId(),
-                )));
+            if ($user) {
+                if ($league->isUserInLeague($user)) {
+                    $this->addMessage('warning', 'You do not have a pick set for this league');
+                    return $this->redirect($this->generateUrl('league_assoc', array(
+                        'season' => $season,
+                        'leagueId' => $league->getId(),
+                    )));
+                }
             }
 
             // If the league is private redirect to the join page, but with the league info defaulted
@@ -467,6 +469,7 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="MEMBER")
      * @Template
      */
     public function leaderboardAction(League $league, $season)
