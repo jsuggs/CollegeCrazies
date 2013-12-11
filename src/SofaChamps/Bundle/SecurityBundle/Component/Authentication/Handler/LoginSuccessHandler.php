@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SecurityBundle\Component\Authentication\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -24,6 +25,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     protected $security;
     protected $session;
     protected $om;
+    protected $seasonManager;
 
     /**
      * @DI\InjectParams({
@@ -31,16 +33,21 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
      *      "security" = @DI\Inject("security.context"),
      *      "session" = @DI\Inject("session"),
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
      * })
      */
-    public function __construct(Router $router, SecurityContext $security, Session $session, ObjectManager $om)
+    public function __construct(Router $router, SecurityContext $security, Session $session, ObjectManager $om, SeasonManager $seasonManager)
     {
         $this->router = $router;
         $this->security = $security;
         $this->session = $session;
         $this->om = $om;
+        $this->seasonManager = $seasonManager;
     }
 
+    /**
+     * DI\Observe("security.interactive_login")
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         if ($this->session->has('auto_league_assoc')) {
@@ -66,14 +73,13 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
                             $this->session->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                             $response = new RedirectResponse($this->router->generate('league_home', array(
+                                'season' => $this->seasonManager->getCurrentSeason(),
                                 'leagueId' => $league->getId(),
                             )));
                             break;
                         default:
-                            // TODO - Get current season
-                            $season = 2013;
                             $response = new RedirectResponse($this->router->generate('league_assoc', array(
-                                'season' => $season,
+                                'season' => $this->seasonManager->getCurrentSeason(),
                                 'leagueId' => $league->getId(),
                             )));
                             break;
