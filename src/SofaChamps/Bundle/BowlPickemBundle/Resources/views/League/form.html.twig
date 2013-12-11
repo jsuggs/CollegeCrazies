@@ -2,36 +2,14 @@
     {{ form_errors(form) }}
 </div>
 
-<div class="control-group">
-    {{ form_errors(form.name) }}
-    {{ form_label(form.name, 'Name', {label_attr: {class: 'control-label'}}) }}
-    <div class="controls">
-        {{ form_widget(form.name) }}
-    </div>
-</div>
+    {{ form_row(form.name) }}
+    {{ form_row(form.motto) }}
+    {{ form_row(form.public) }}
 
-<div class="control-group">
-    {{ form_errors(form.motto) }}
-    {{ form_label(form.motto, 'Motto', {label_attr: {class: 'control-label'}}) }}
-    <div class="controls">
-        {{ form_widget(form.motto) }}
-    </div>
-</div>
-
-<div class="control-group">
-    {{ form_errors(form.public) }}
-    {{ form_label(form.public, 'Public', {label_attr: {class: 'control-label'}}) }}
-    <div class="controls">
-        {{ form_widget(form.public) }}
-    </div>
-</div>
-
-<div class="control-group password-container">
+<div class="form-group password-container">
     {{ form_errors(form.password) }}
     {{ form_label(form.password, 'Password', {label_attr: {class: 'control-label'}}) }}
-    <div class="controls">
-        {{ form_widget(form.password) }}
-    </div>
+    {{ form_widget(form.password) }}
 </div>
 
 {{ form_widget(form._token) }}

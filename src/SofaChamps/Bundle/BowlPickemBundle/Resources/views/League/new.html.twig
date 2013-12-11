@@ -3,14 +3,10 @@
 {% block content %}
     <h3>Create a new League</h3>
 
-    <form action="{{ path('league_create', {season: season}) }}" method="post" class="form-horizontal" {{ form_enctype(form) }}>
+    <form action="{{ path('league_create', {season: season}) }}" method="post" class="form form-horizontal" {{ form_enctype(form) }} role="form">
         {% include 'SofaChampsBowlPickemBundle:League:form.html.twig' %}
 
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary" value="Create League" />
-            </div>
-        </div>
+        <button type="submit" class="btn btn-primary">Create League</button>
     </form>
 {% endblock %}
 
