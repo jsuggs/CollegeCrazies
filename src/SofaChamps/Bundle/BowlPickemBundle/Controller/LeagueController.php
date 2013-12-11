@@ -85,6 +85,7 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/guest", name="league_guest")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
+     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
     public function guestAction(League $league, $season)

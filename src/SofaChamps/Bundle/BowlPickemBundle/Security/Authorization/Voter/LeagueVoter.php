@@ -57,6 +57,9 @@ class LeagueVoter implements VoterInterface
             }
 
             $user = $token->getUser();
+            if (!$user instanceof User) {
+                $user = null;
+            }
 
             if ($attribute === 'VIEW') {
                 return $this->canUserViewLeague($user, $object);
@@ -85,14 +88,14 @@ class LeagueVoter implements VoterInterface
             : VoterInterface::ACCESS_GRANTED;
     }
 
-    protected function canUserViewLeague(User $user, League $league)
+    protected function canUserViewLeague(User $user = null, League $league)
     {
         if ($league->isPublic()) {
             return VoterInterface::ACCESS_GRANTED;
         }
 
-        if (!$league->isUserInLeague($user)) {
-            $this->addMessage('danger', 'This is a private league, please enter password below');
+        if (!$user || !$league->isUserInLeague($user)) {
+            $this->addMessage('danger', 'This is a private league');
             return VoterInterface::ACCESS_DENIED;
         }
 
