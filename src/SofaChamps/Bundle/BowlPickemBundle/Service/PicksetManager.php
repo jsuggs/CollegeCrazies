@@ -56,6 +56,11 @@ class PicksetManager
         return $pickSet;
     }
 
+    public function addPickSetToLeague(League $league, PickSet $pickSet)
+    {
+        $pickSet->addLeague($league);
+    }
+
     protected function createPicksetName(User $user)
     {
         $pickSetName = sprintf(

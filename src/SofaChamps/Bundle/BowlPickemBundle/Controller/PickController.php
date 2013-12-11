@@ -31,7 +31,7 @@ class PickController extends BaseController
     {
         return array(
             'season' => $season,
-            'pickSets' => $this->getUser()->getPickSets(),
+            'pickSets' => $this->getUser()->getPickSetsForSeason($season),
         );
     }
 
@@ -105,7 +105,7 @@ class PickController extends BaseController
         $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
 
         // If the user does not have a pickset already, auto-save
-        if (count($user->getPicksets()) == 0) {
+        if (count($user->getPicksetsForSeason($season)) == 0) {
             $session = $this->container->get('session');
             if ($session->has('auto_league_assoc')) {
                 $league = $this->findLeague($session->get('auto_league_assoc'));

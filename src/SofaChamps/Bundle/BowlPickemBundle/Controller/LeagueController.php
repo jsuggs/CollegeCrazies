@@ -211,7 +211,7 @@ class LeagueController extends BaseController
             $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
             throw new AccessDeniedException('Must be logged in to join league');
         }
-        $pickSets = $user->getPickSets();
+        $pickSets = $user->getPickSetsForSeason($season);
 
         if (count($pickSets) === 0) {
             $this->addMessage('info', 'You cannot join a league without first creating a pickset.');
@@ -535,25 +535,36 @@ class LeagueController extends BaseController
             )));
         }
 
-        $league = new League();
-        $league->setSeason($season);
+        $user = $this->getUser();
+        $leagueManager = $this->getLeagueManager();
+
+        $league = $leagueManager->createLeague($season);
+        $leagueManager->addCommissionerToLeague($league, $user);
+
         $form = $this->getLeagueForm($league);
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
-            $user = $this->getUser();
-            $pickSets = $user->getPickSets();
+            $pickSets = $user->getPickSetsForSeason($season);
 
-            $league = $form->getData();
-            $league->addUser($user);
-
-            $league->addCommissioner($this->getUser());
             if (count($pickSets) === 1) {
-                $pickSets[0]->addLeague($league);
+                $pickSet = $pickSets->first();
+                $this->getPicksetManager()->addPickSetToLeague($league, $pickSet);
+
+                $return = $this->redirect($this->generateUrl('league_home', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            } else {
+                $return = $this->redirect($this->generateUrl('league_assoc', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
             }
-            $em = $this->getEntityManager();
-            $em->persist($league);
-            $em->flush();
+
+            $this->addMessage('success', 'League Created');
+
+            $this->getEntityManager()->flush();
         } else {
             return array(
                 'form' => $form->createView(),
@@ -561,10 +572,7 @@ class LeagueController extends BaseController
             );
         }
 
-        return $this->redirect($this->generateUrl('league_home', array(
-            'season' => $season,
-            'leagueId' => $league->getId(),
-        )));
+        return $return;
     }
 
     /**
