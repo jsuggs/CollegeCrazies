@@ -32,6 +32,15 @@ class LeagueController extends BaseController
     {
         $user = $this->getUser();
         if (!$user || !($pickSet = $league->getPicksetForUser($user))) {
+            // If the user is in the league, but doesn't have a pickset make them assoc
+            if ($league->isUserInLeague($user)) {
+                $this->addMessage('warning', 'You do not have a pick set for this league');
+                return $this->redirect($this->generateUrl('league_assoc', array(
+                    'season' => $season,
+                    'leagueId' => $league->getId(),
+                )));
+            }
+
             // If the league is private redirect to the join page, but with the league info defaulted
             if (!$league->isPublic()) {
                 $this->addMessage('danger', 'This is a private league.  Enter password below to join');
@@ -44,14 +53,6 @@ class LeagueController extends BaseController
 
             // Send to the guest version of the league
             return $this->redirect($this->generateUrl('league_guest', array(
-                'season' => $season,
-                'leagueId' => $league->getId(),
-            )));
-        }
-
-        if (!$pickSet) {
-            $this->addMessage('warning', 'You do not have a pick set for this league');
-            return $this->redirect($this->generateUrl('league_assoc', array(
                 'season' => $season,
                 'leagueId' => $league->getId(),
             )));
