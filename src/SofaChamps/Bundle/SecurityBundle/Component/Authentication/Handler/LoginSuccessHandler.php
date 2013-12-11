@@ -66,7 +66,9 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 
                     switch (count($pickSets)) {
                         case 0:
-                            $response = new RedirectResponse($this->router->generate('pickset_new'));
+                            $response = new RedirectResponse($this->router->generate('pickset_new', array(
+                                'season' => $season,
+                            )));
                             break;
                         case 1:
                             $pickSet = $pickSets[0];
