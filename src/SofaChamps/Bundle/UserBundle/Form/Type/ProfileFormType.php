@@ -35,6 +35,10 @@ class ProfileFormType extends BaseType
                 'required' => false,
                 'label' => 'Last Name',
             ))
+            ->add('emailFromCommish', 'checkbox', array(
+                'required' => false,
+                'label' => 'Receive Email From League Commissioner',
+            ))
         ;
     }
 
