@@ -7,6 +7,6 @@
     <form action="{{ path('pickset_update', {picksetId: pickSet.id, season: season }) }}" class="pickForm" method="post" {{ form_enctype(form) }} role="form">
         {% include 'SofaChampsBowlPickemBundle:Pick:form.html.twig' %}
 
-        <button type="submit" class="btn btn-primary">Save Picks</button>
+        <button type="submit" class="btn btn-primary btn-lg">Save Picks</button>
     </form>
 {% endblock %}
