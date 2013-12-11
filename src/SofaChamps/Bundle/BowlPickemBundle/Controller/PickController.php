@@ -107,6 +107,7 @@ class PickController extends BaseController
 
         if ($league) {
             $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+            $this->getSession()->remove('auto_league_assoc');
             $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
@@ -299,10 +300,5 @@ class PickController extends BaseController
     private function getPickSetForm(PickSet $pickSet)
     {
         return $this->createForm(new PickSetFormType(), $pickSet);
-    }
-
-    protected function getPicksetManager()
-    {
-        return $this->container->get('sofachamps.bp.pickset_manager');
     }
 }

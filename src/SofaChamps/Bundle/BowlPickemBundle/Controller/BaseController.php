@@ -94,6 +94,11 @@ class BaseController extends CoreController
         return $this->get('sofachamps.bp.season_manager');
     }
 
+    protected function getPicksetManager()
+    {
+        return $this->container->get('sofachamps.bp.pickset_manager');
+    }
+
     protected function getCurrentSeason()
     {
         return $this->getSeasonManager()->getCurrentSeason();
