@@ -7,7 +7,10 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvent;
+use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvents;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * PicksetManager
@@ -17,15 +20,18 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
 class PicksetManager
 {
     private $om;
+    private $dispatcher;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "dispatcher" = @DI\Inject("event_dispatcher"),
      * })
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, EventDispatcherInterface $dispatcher)
     {
         $this->om = $om;
+        $this->dispatcher = $dispatcher;
     }
 
     public function createUserPickset(User $user, $season, League $league = null)
@@ -37,7 +43,7 @@ class PicksetManager
         $pickSet->setSeason($season);
 
         if ($league) {
-            $pickSet->setLeague($league);
+            $pickSet->addLeague($league);
         }
 
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season);
@@ -53,12 +59,21 @@ class PicksetManager
 
         $user->addPickSet($pickSet);
 
+        $this->dispatchPickSetCreated($pickSet);
+
+        $this->om->persist($pickSet);
+
         return $pickSet;
     }
 
     public function addPickSetToLeague(League $league, PickSet $pickSet)
     {
         $pickSet->addLeague($league);
+    }
+
+    protected function dispatchPickSetCreated(PickSet $pickSet)
+    {
+        $this->dispatcher->dispatch(PickSetEvents::PICKSET_CREATED, new PickSetEvent($pickSet));
     }
 
     protected function createPicksetName(User $user)

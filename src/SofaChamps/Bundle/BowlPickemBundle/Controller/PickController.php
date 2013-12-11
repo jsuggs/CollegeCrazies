@@ -60,8 +60,8 @@ class PickController extends BaseController
                 $em = $this->getEntityManager();
                 $conn = $em->getConnection();
                 // Delete all of the users picksets
-                // TODO - Move to repo and only delete for the season
-                $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ?)', array($user->getId()));
+                // TODO - Move to repo
+                $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ? AND season = ?)', array($user->getId(), $season));
 
                 // This is a semi-hack, not using the form framework
                 foreach ($request->request->get('league_pickset') as $leagueId => $pickSetId) {
@@ -98,27 +98,16 @@ class PickController extends BaseController
         }
 
         $user = $this->getUser();
-        $league = $this->getRequest()->query->has('leagueId')
-            ? $this->findLeague($this->getRequest()->get('leagueId'))
+        $leagueId = $this->getSession()->get('auto_league_assoc') ?: $this->getRequest()->get('leagueId');
+        $league = $leagueId
+            ? $this->findLeague($leagueId)
             : null;
 
         $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
 
-        // If the user does not have a pickset already, auto-save
-        if (count($user->getPicksetsForSeason($season)) == 0) {
-            $session = $this->container->get('session');
-            if ($session->has('auto_league_assoc')) {
-                $league = $this->findLeague($session->get('auto_league_assoc'));
-                $this->addUserToLeague($league, $user);
-                $league->addPickSet($pickSet);
-                $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
-
-                $session->remove('auto_league_assoc');
-            }
-            $em = $this->getEntityManager();
-            $em->persist($pickSet);
-            $em->flush();
-            $session->set('auto_league_create', true);
+        if ($league) {
+            $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+            $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
                 'season' => $season,

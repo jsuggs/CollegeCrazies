@@ -253,6 +253,7 @@ class LeagueController extends BaseController
                 $this->getEntityManager()->flush();
 
                 // Go to an intermediate page for assiging pickset to this league
+                $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
                 return $this->redirect($this->generateUrl('league_assoc', array(
                     'season' => $season,
                     'leagueId' => $league->getId(),
@@ -556,6 +557,8 @@ class LeagueController extends BaseController
                     'leagueId' => $league->getId(),
                 )));
             } else {
+                $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
+
                 $return = $this->redirect($this->generateUrl('league_assoc', array(
                     'season' => $season,
                     'leagueId' => $league->getId(),

@@ -53,4 +53,9 @@ class CoreController extends Controller
     {
         $this->getFlashBag()->add($type, $message);
     }
+
+    protected function getEventDispatcher()
+    {
+        return $this->get('event_dispatcher');
+    }
 }
