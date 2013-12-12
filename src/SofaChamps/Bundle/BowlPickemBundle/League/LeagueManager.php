@@ -1,12 +1,14 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Service;
+namespace SofaChamps\Bundle\BowlPickemBundle\League;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
+use SofaChamps\Bundle\BowlPickemBundle\Event\LeagueEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\LeagueEvents;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * LeagueManager
@@ -16,16 +18,19 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
 class LeagueManager
 {
     private $om;
+    private $dispatcher;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
-     *      "session" = @DI\Inject("session")
+     *      "dispatcher" = @DI\Inject("event_dispatcher"),
+     *      "session" = @DI\Inject("session"),
      * })
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, EventDispatcherInterface $dispatcher)
     {
         $this->om = $om;
+        $this->dispatcher = $dispatcher;
     }
 
     public function createLeague($season)
@@ -34,6 +39,8 @@ class LeagueManager
         $league->setSeason($season);
 
         $this->om->persist($league);
+
+        $this->dispatcher->dispatch(LeagueEvents::LEAGUE_CREATED, new LeagueEvent($league));
 
         return $league;
     }

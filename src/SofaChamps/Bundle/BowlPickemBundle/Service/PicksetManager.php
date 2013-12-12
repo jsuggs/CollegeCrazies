@@ -9,6 +9,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvents;
+use SofaChamps\Bundle\BowlPickemBundle\League\LeagueManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
