@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
  *
  * @DI\Service("sofachamps.email.sender")
  */
-class Sender implements SenderInterface
+class EmailSender implements EmailSenderInterface
 {
     protected $mailer;
     protected $templating;
@@ -26,7 +26,7 @@ class Sender implements SenderInterface
      *      "logger" = @DI\Inject("logger")
      * })
      */
-    public function __construct($mailer, EngineInterface $templating, LoggerInterface $logger)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
@@ -54,6 +54,10 @@ class Sender implements SenderInterface
 
     public function sendToEmail($email, $templateName, $subjectLine, array $data = array())
     {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+
         // Make the email being sent to available to the templates
         $data['emailTo'] = $email;
 
