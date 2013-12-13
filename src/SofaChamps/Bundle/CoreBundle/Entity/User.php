@@ -90,6 +90,7 @@ class User extends BaseUser
         $this->pickSets = new ArrayCollection();
         $this->leagues = new ArrayCollection();
         $this->referrals = new ArrayCollection();
+        $this->commissionerLeagues = new ArrayCollection();
     }
 
     public function getId()
@@ -215,6 +216,22 @@ class User extends BaseUser
         })->first();
     }
 
+    public function isBowlPickemCommissionerForSeason($season)
+    {
+        return $this->getCommissionerLeaguesForSeason($season)->count() > 0;
+    }
+
+    public function getCommissionerLeagues()
+    {
+        return $this->commissionerLeagues;
+    }
+
+    public function getCommissionerLeaguesForSeason($season)
+    {
+        return $this->getCommissionerLeagues()->filter(function(League $league) use ($season) {
+            return $season = $league->getSeason();
+        });
+    }
 
     public function setReferrer(User $user)
     {

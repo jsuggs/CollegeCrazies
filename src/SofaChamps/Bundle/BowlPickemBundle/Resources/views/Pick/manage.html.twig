@@ -1,4 +1,5 @@
 {% extends "SofaChampsBowlPickemBundle::layout.html.twig" %}
+{% set isCommish = app.user.isBowlPickemCommissionerForSeason(season) %}
 
 {% block content %}
     <h2>Manage Picksets</h2>
@@ -6,7 +7,9 @@
     <form action="{{ path('pickset_manage', {season: season}) }}" method="POST" id="pickset-update">
         <table class="table table-bordered table-hover">
             <thead>
-                <th style="width: 60px">Commish</th>
+                {% if isCommish %}
+                    <th style="width: 60px">Commish</th>
+                {% endif %}
                 <th>League</th>
                 {% for pickSet in pickSets %}
                     <th><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list-alt"></span> {{ pickSet.name }}</a></th>
@@ -16,7 +19,9 @@
             {% for league in leagues %}
                 {% set leaguePickSet = league.getPickSetForUser(app.user) %}
                 <tr>
-                    <td>{{ league.userIsCommissioner(app.user) ? '<span class="glyphicon glyphicon-certificate" title="You are the commissioner for this league"></span>' : '' }}</td>
+                    {% if isCommish %}
+                        <td>{{ league.userIsCommissioner(app.user) ? '<span class="glyphicon glyphicon-certificate" title="You are the commissioner for this league"></span>' : '' }}</td>
+                    {% endif %}
                     <td><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></td>
                     {% for pickSet in pickSets %}
                         <td><input type="radio" name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
