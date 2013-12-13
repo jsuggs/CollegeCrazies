@@ -53,7 +53,7 @@
                     {% if is_granted('VIEW_PICKS', league) %}
                         <li><a href="{{ path('league_group_picks', {leagueId: league.id, season: season}) }}">Group Picks</a></li>
                     {% endif %}
-                    <li><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">Leader Board</a></li>
+                    <li><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">Leaderboard</a></li>
                     <li><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">My Stats</a></li>
                     <li><a href="{{ path('league_members', {leagueId: league.id, season: season}) }}">Members</a></li>
                     <li><a href="{{ path('league_invite', {leagueId: league.id, season: season}) }}">Invite Users</a></li>
