@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block nav_admin %}
-    <li><a href="{{ path('admin_user_incomplete_picksets') }}">Users with Incomplete Picksets</a></li>
-    <li><a href="{{ path('admin_user_noleague') }}">Users with No League</a></li>
+    <li><a href="{{ path('admin_user_incomplete_picksets', {season: season}) }}">Users with Incomplete Picksets</a></li>
+    <li><a href="{{ path('admin_user_noleague', {season: season}) }}">Users with No League</a></li>
 {% endblock %}
 
 {% block nav_user %}

@@ -13,14 +13,17 @@ FROM picks p
 INNER JOIN picksets ps ON p.pickset_id = ps.id
 INNER JOIN users u on ps.user_id = u.id
 WHERE team_id IS NULL
+AND ps.season = :season
 EOF;
 
     const USERS_NOLEAGUE_SQL = <<<EOF
 SELECT DISTINCT u.username, u.email
 FROM users u
 WHERE u.id NOT IN (
-  SELECT user_id
-  FROM user_league
+  SELECT ul.user_id
+  FROM user_league ul
+  JOIN leagues l ON ul.league_id = l.id
+  WHERE l.season = :season
 )
 EOF;
 
@@ -88,14 +91,18 @@ EOF;
             ->getResult();
     }
 
-    public function getUsersWithIncompletePicksets()
+    public function getUsersWithIncompletePicksets($season)
     {
-        return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
+        return $this->getEntityManager()
+            ->getConnection()
+            ->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL, array('season' => $season));
     }
 
-    public function getUsersWithNoLeague()
+    public function getUsersWithNoLeague($season)
     {
-        return $this->getEntityManager()->getConnection()->fetchAll(self::USERS_INCOMPLETE_PICKSETS_SQL);
+        return $this->getEntityManager()
+            ->getConnection()
+            ->fetchAll(self::USERS_NOLEAGUE_SQL, array('season' => $season));
     }
 
     public function findPotentialWinersInLeague(League $league)
