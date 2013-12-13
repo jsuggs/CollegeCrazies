@@ -4,7 +4,7 @@
     <h2>Make your picks <small><a href="{{ path('howto') }}">Need some help?</a></small></h2>
     <p>Select the winner and drag the teams to their desired confidence</p>
 
-    <form action="{{ path('pickset_update', {picksetId: pickSet.id, season: season }) }}" class="pickForm" method="post" {{ form_enctype(form) }} role="form">
+    <form action="{{ path('pickset_update', {picksetId: pickSet.id, season: season }) }}" class="pickForm form-horizontal" method="post" {{ form_enctype(form) }} role="form">
         {% include 'SofaChampsBowlPickemBundle:Pick:form.html.twig' %}
 
         <button type="submit" class="btn btn-primary btn-lg">Save Picks</button>
