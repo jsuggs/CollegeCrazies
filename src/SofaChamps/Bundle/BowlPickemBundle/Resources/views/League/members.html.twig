@@ -3,6 +3,9 @@
 {% block content %}
     <h2>League Members</h2>
     <table class="table">
+        {% if not picks_locked %}
+            <legend>You can't view other users picks until {{ picks_lock_time(season)|date("l F jS \\a\\t g:ia T") }}.</legend>
+        {% endif %}
         <thead>
             <tr>
                 <th>PickSet Name</th>
@@ -17,7 +20,11 @@
             {% set pickSet = league.getPickSetForUser(member) %}
             <tr>
                 {% if pickSet is not null %}
-                    <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id, season: season}) }}">{{ pickSet.name }}</a></td>
+                    {% if picks_locked %}
+                        <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id, season: season}) }}">{{ pickSet.name }}</a></td>
+                    {% else %}
+                        <td>{{ pickSet.name }}</td>
+                    {% endif %}
                 {% else %}
                     <td>--</td>
                 {% endif %}

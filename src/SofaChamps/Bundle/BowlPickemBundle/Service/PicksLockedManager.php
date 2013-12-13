@@ -37,7 +37,7 @@ class PicksLockedManager
 
     public function arePickLocked()
     {
-        if (true || !$this->session->has(self::PICKS_LOCK_SESSION_KEY)) {
+        if (!$this->session->has(self::PICKS_LOCK_SESSION_KEY)) {
             $season = $this->seasonManager->getCurrentSeason();
             $lockTime = $this->getLockTime($season);
             $this->session->set(self::PICKS_LOCK_SESSION_KEY, $lockTime < new \DateTime());
