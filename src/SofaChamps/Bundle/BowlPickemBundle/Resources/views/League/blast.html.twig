@@ -4,16 +4,15 @@
     <h2>League Email</h2>
     <p class="text-warning">This is a great responsibility.  Please don't spam your league members.<p>
 
-    <form action="{{ path('league_blast', {leagueId: league.id, season: season}) }}" method="POST">
-        <div class="control-group">
-            <label class="control-label" for="blast-message">Message</label>
-            <div class="controls">
-                <textarea name="message" id="blast-message" class="input-block-level"></textarea>
-            </div>
+    <form action="{{ path('league_blast', {leagueId: league.id, season: season}) }}" method="POST" class="form" role="form">
+        <div class="form-group">
+            {{ form_label(form.message) }}
+            {{ form_errors(form.message) }}
+            {{ form_widget(form.message, {attr: {class: "form-control"}}) }}
         </div>
 
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Send Email" />
-        </div>
+        <button type="submit" class="btn btn-primary">Send League Email</button>
+
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

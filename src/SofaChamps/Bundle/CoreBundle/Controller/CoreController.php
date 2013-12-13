@@ -58,4 +58,8 @@ class CoreController extends Controller
     {
         return $this->get('event_dispatcher');
     }
+
+    protected function getEmailSender() {
+        return $this->get('sofachamps.email.sender');
+    }
 }

@@ -656,7 +656,7 @@ class LeagueController extends BaseController
 
             $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:invite', $subjectLine, array(
+            $this->getEmailSender()->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
                 'season' => $season,
@@ -803,35 +803,40 @@ class LeagueController extends BaseController
     public function blastAction(League $league, $season)
     {
         $request = $this->getRequest();
+        $form = $this->getBlastForm();
+
         if ($request->getMethod() === 'POST') {
-            $eligibleUsers = $league->getUsers()->filter(function (User $user) {
-                return $user->getEmailFromCommish();
-            });
+            $form->bind($request);
 
-            $emails = array_map(function (User $user) {
-                return $user->getEmail();
-            }, $eligibleUsers->toArray());
+            if ($form->isValid()) {
+                $eligibleUsers = $league->getUsers()->filter(function (User $user) {
+                    return $user->getEmailFromCommish();
+                });
 
-            $emails = array_filter($emails, function ($email) {
-                return filter_var($email, FILTER_VALIDATE_EMAIL);
-            });
+                $emails = array_map(function (User $user) {
+                    return $user->getEmail();
+                }, $eligibleUsers->toArray());
 
-            $subjectLine = sprintf('League: "%s" - Commissioner Note - SofaChamps', $league->getName());
+                $subjectLine = sprintf('League: "%s" - Commissioner Note - SofaChamps', $league->getName());
 
-            $user = $this->getUser();
-            $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
+                $user = $this->getUser();
+                $fromName = trim(sprintf('%s %s', $user->getFirstName(), $user->getLastName()));
 
-            $this->get('sofachamps.email.sender')->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
-                'user' => $user,
-                'league' => $league,
-                'message' => $request->get('message'),
-                'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
-            ));
+                $this->getEmailSender()->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
+                    'user' => $user,
+                    'league' => $league,
+                    'message' => $request->get('message'),
+                    'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
+                ));
 
-            $this->addMessage('info', 'League message sent');
+                $this->addMessage('info', 'League message sent');
+            } else {
+                $this->addMessage('warning', 'There was an issue sending your message');
+            }
         }
 
         return array(
+            'form' => $form->createView(),
             'league' => $league,
             'season' => $season,
         );
@@ -925,5 +930,12 @@ class LeagueController extends BaseController
     private function getLogoUploadForm(League $league)
     {
         return $this->createForm(new LeagueLogoFormType(), $league);
+    }
+
+    private function getBlastForm()
+    {
+        return $this->createFormBuilder()
+            ->add('message', 'textarea')
+            ->getForm();
     }
 }
