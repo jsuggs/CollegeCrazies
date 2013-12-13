@@ -12,12 +12,18 @@ class LeagueAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
-            ->add('season')
-            ->add('name')
-            ->add('motto')
-            ->add('password', null, array('required' => false))
-            ->add('locked', null, array('required' => false))
+            ->with('General')
+                ->add('id')
+                ->add('season')
+                ->add('name')
+                ->add('motto')
+                ->add('password', null, array('required' => false))
+                ->add('locked', null, array('required' => false))
+            ->end()
+            ->with('Members')
+                ->add('users')
+                ->add('commissioners')
+            ->end()
         ;
     }
 
