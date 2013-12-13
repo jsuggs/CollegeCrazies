@@ -160,11 +160,12 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="VIEW")
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickAction(League $league, PickSet $pickSet)
+    public function viewPickAction(League $league, PickSet $pickSet, $season)
     {
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
 
         return array(
+            'season' => $season,
             'pickSet' => $pickSet,
             'league' => $league,
             'projectedFinishStats' => $projectedFinishStats,
