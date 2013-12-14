@@ -10,7 +10,9 @@
             {% if is_granted('ROLE_USER') %}
                 {% for pickSet in app.user.pickSetsForSeason(season) if pickSet.id|length %}
                     <li{% if pickSet == currentPickSet %} class="active"{% endif %}>
-                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list"></span> {{ pickSet.name }}</a>
+                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">
+                            <span class="glyphicon glyphicon-list"></span> {{ pickSet.name }}
+                        </a>
                         {% if pickSet.leagues %}
                             <ul>
                             {% for league in pickSet.leagues %}
@@ -26,20 +28,20 @@
                             </ul>
                         {% endif %}
                     </li>
-                {% else %}
-                    {% if not picks_locked %}
-                        <li><a href="{{ path('pickset_new', {season: season}) }}">Create a Pickset</a></li>
-                    {% endif %}
                 {% endfor %}
+                {% if not picks_locked %}
+                    <li class="divider"></li>
+                    <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
+
+                    <li class="divider"></li>
+                {% endif %}
             {% endif %}
-            <li class="divider"></li>
-            <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
-            {% if app.user.picksetsForSeason(season)|length and not picks_locked %}
-                <li class="divider"></li>
+            {% if not picks_locked %}
                 <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
+
+                <li class="divider"></li>
+                <li><a href="{{ path('league_new', {season: season}) }}">Create a new League</a></li>
             {% endif %}
-            <li class="divider"></li>
-            <li><a href="{{ path('league_new', {season: season}) }}">Create a New League</a></li>
         </ul>
     </li>
     {% if currentLeague is not null %}
