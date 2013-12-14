@@ -21,16 +21,22 @@ class AdminVoter implements VoterInterface
 
     public function supportsAttribute($attribute)
     {
-        return true;
+        return !in_array($attribute, array('ROLE_PREVIOUS_ADMIN'));
     }
 
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
 
-        foreach ($token->getRoles() as $role) {
-            if ($role->getRole() == 'ROLE_ADMIN') {
-                return VoterInterface::ACCESS_GRANTED;
+        foreach ($attributes as $attribute) {
+            if (!$this->supportsAttribute($attribute)) {
+                continue;
+            }
+
+            foreach ($token->getRoles() as $role) {
+                if ($role->getRole() == 'ROLE_ADMIN') {
+                    return VoterInterface::ACCESS_GRANTED;
+                }
             }
         }
 
