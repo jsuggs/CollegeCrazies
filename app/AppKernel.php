@@ -41,7 +41,7 @@ class AppKernel extends Kernel
             new SofaChamps\Bundle\SquaresBundle\SofaChampsSquaresBundle(),
             new SofaChamps\Bundle\BracketBundle\SofaChampsBracketBundle(),
             new SofaChamps\Bundle\MarchMadnessBundle\SofaChampsMarchMadnessBundle(),
-            new SofaChamps\Bundle\NCAAMBundle\SofaChampsNCAAMBundle(),
+            new SofaChamps\Bundle\NCAABundle\SofaChampsNCAABundle(),
             new SofaChamps\Bundle\BasketballBundle\SofaChampsBasketballBundle(),
         );
 

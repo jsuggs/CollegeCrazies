@@ -6,11 +6,11 @@
 
     <!--
     <parameters>
-        <parameter key="sofa_champs_ncaam.example.class">SofaChamps\Bundle\NCAAMBundle\Example</parameter>
+        <parameter key="sofa_champs_ncaa.example.class">SofaChamps\Bundle\NCAABundle\Example</parameter>
     </parameters>
 
     <services>
-        <service id="sofa_champs_ncaam.example" class="%sofa_champs_ncaam.example.class%">
+        <service id="sofa_champs_ncaa.example" class="%sofa_champs_ncaa.example.class%">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>

@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\NCAAMBundle\DataFixtures\ORM\Test;
+namespace SofaChamps\Bundle\NCAABundle\DataFixtures\ORM\Test;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
