@@ -17,7 +17,7 @@ class Version20130211203847 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_831D42D1E48FD905 ON mm_picks (game_id)');
         $this->addSql('ALTER TABLE mm_user_brackets ADD CONSTRAINT FK_4DA3E3FFA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D16E8D78 FOREIGN KEY (bracket_id) REFERENCES mm_user_brackets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D1E48FD905 FOREIGN KEY (game_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        //$this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D1E48FD905 FOREIGN KEY (game_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema)
