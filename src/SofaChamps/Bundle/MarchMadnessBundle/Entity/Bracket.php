@@ -39,6 +39,6 @@ class Bracket extends AbstractBracket
 
     public function __toString()
     {
-        return $this->year ?: 'New Bracket';
+        return (string) $this->year ?: 'New Bracket';
     }
 }
