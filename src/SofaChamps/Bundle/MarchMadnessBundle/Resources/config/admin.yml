@@ -1,0 +1,9 @@
+services:
+    sofachamps.admin.mm.bracket:
+        class: SofaChamps\Bundle\MarchMadnessBundle\Admin\BracketAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "March Madness", label: "Brackets" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket
+            - 'SonataAdminBundle:CRUD'

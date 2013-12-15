@@ -10,6 +10,7 @@ class Version20130202200905 extends AbstractMigration
     const CREATE_MM_GAMES_SQL =<<<EOF
 CREATE TABLE mm_games (
     id INT NOT NULL
+  , year INT DEFAULT NULL
   , bracket_id INT DEFAULT NULL
   , parent_id INT DEFAULT NULL
   , child_id INT DEFAULT NULL
