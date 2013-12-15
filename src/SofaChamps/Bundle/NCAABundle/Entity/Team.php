@@ -13,7 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="ncaa_teams"
  * )
- * @ORM\MappedSuperclass
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *      "bp" = "SofaChamps\Bundle\BowlPickemBundle\Entity\Team",
+ *      "mm" = "SofaChamps\Bundle\MarchMadnessBundle\Entity\Team"
+ * })
  */
 class Team extends AbstractTeam
 {

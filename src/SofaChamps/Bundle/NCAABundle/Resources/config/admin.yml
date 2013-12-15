@@ -1,0 +1,9 @@
+services:
+    sofachamps.admin.ncaa.team:
+        class: SofaChamps\Bundle\NCAABundle\Admin\TeamAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "NCAA", label: "Teams" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\NCAABundle\Entity\Team
+            - 'SonataAdminBundle:CRUD'

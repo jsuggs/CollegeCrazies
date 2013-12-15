@@ -929,17 +929,17 @@
         },
         {
             "name": "friendsofsymfony/facebook-bundle",
-            "version": "dev-master",
+            "version": "1.2.x-dev",
             "target-dir": "FOS/FacebookBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSFacebookBundle.git",
-                "reference": "f5755c63d09819f15570109dbf4c533b61804e7c"
+                "reference": "61514072d6de586322cc06601b03012c4e995195"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/f5755c63d09819f15570109dbf4c533b61804e7c",
-                "reference": "f5755c63d09819f15570109dbf4c533b61804e7c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSFacebookBundle/zipball/61514072d6de586322cc06601b03012c4e995195",
+                "reference": "61514072d6de586322cc06601b03012c4e995195",
                 "shasum": ""
             },
             "require": {
@@ -950,9 +950,6 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "3.7.*",
-                "symfony/browser-kit": "~2.2",
-                "symfony/finder": "~2.2",
-                "symfony/form": "~2.2",
                 "symfony/framework-bundle": "~2.2",
                 "symfony/security-bundle": "~2.2",
                 "symfony/twig-bundle": "~2.2"
@@ -960,7 +957,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -988,7 +985,7 @@
             "keywords": [
                 "facebook"
             ],
-            "time": "2014-01-06 11:57:03"
+            "time": "2013-12-04 11:14:08"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1667,23 +1664,23 @@
         },
         {
             "name": "knplabs/knp-menu",
-            "version": "1.1.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "f8e867268f63f561c1adadd6cbb5d8524f921873"
+                "reference": "52c8ffd7eba8028f93ef9eece98f74b2f11c1c1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/f8e867268f63f561c1adadd6cbb5d8524f921873",
-                "reference": "f8e867268f63f561c1adadd6cbb5d8524f921873",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/52c8ffd7eba8028f93ef9eece98f74b2f11c1c1f",
+                "reference": "52c8ffd7eba8028f93ef9eece98f74b2f11c1c1f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "pimple/pimple": "*",
+                "pimple/pimple": "1.0.*",
                 "silex/silex": "1.0.*",
                 "twig/twig": ">=1.2,<2.0-dev"
             },
@@ -1695,7 +1692,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -1713,7 +1710,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1727,28 +1724,33 @@
                 "menu",
                 "tree"
             ],
-            "time": "2012-06-10 16:20:40"
+            "time": "2013-09-16 09:46:19"
         },
         {
             "name": "knplabs/knp-menu-bundle",
-            "version": "1.1.x-dev",
+            "version": "dev-master",
             "target-dir": "Knp/Bundle/MenuBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
-                "reference": "2fecac02614e5a006f674dd5dd754eeaeca060b9"
+                "reference": "838c4a0f9b0631b37d699d9a7ebd695707298678"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/2fecac02614e5a006f674dd5dd754eeaeca060b9",
-                "reference": "2fecac02614e5a006f674dd5dd754eeaeca060b9",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/838c4a0f9b0631b37d699d9a7ebd695707298678",
+                "reference": "838c4a0f9b0631b37d699d9a7ebd695707298678",
                 "shasum": ""
             },
             "require": {
-                "knplabs/knp-menu": "~1.1",
+                "knplabs/knp-menu": "~2.0, >=2.0.0-beta1",
                 "symfony/framework-bundle": "~2.0"
             },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Knp\\Bundle\\MenuBundle": ""
@@ -1776,7 +1778,7 @@
             "keywords": [
                 "menu"
             ],
-            "time": "2013-05-25 10:20:03"
+            "time": "2013-12-03 00:27:28"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1912,12 +1914,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "296095fe2ee052161f8226d55df775103bb6c259"
+                "reference": "01a01a4841ea749426834d127c897f4dc9d62611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/296095fe2ee052161f8226d55df775103bb6c259",
-                "reference": "296095fe2ee052161f8226d55df775103bb6c259",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/01a01a4841ea749426834d127c897f4dc9d62611",
+                "reference": "01a01a4841ea749426834d127c897f4dc9d62611",
                 "shasum": ""
             },
             "require": {
@@ -1971,7 +1973,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-01-14 13:24:06"
+            "time": "2014-01-15 09:37:32"
         },
         {
             "name": "phpoption/phpoption",
@@ -2213,12 +2215,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "8226eba7804b952d5f8d060885f5a657e69b29bb"
+                "reference": "74e5ebed99517c2d78bb3fd714cfa26e390c91bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/8226eba7804b952d5f8d060885f5a657e69b29bb",
-                "reference": "8226eba7804b952d5f8d060885f5a657e69b29bb",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/74e5ebed99517c2d78bb3fd714cfa26e390c91bf",
+                "reference": "74e5ebed99517c2d78bb3fd714cfa26e390c91bf",
                 "shasum": ""
             },
             "require": {
@@ -2285,7 +2287,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-01-14 18:36:22"
+            "time": "2014-01-15 17:37:31"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -2359,12 +2361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataCoreBundle.git",
-                "reference": "b51c19fc5acb4087b97754fcb779973c7d608803"
+                "reference": "991143570bf19ddd37f5bfb8af7382c4aa90de24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/b51c19fc5acb4087b97754fcb779973c7d608803",
-                "reference": "b51c19fc5acb4087b97754fcb779973c7d608803",
+                "url": "https://api.github.com/repos/sonata-project/SonataCoreBundle/zipball/991143570bf19ddd37f5bfb8af7382c4aa90de24",
+                "reference": "991143570bf19ddd37f5bfb8af7382c4aa90de24",
                 "shasum": ""
             },
             "require": {
@@ -2408,7 +2410,7 @@
             "keywords": [
                 "sonata"
             ],
-            "time": "2014-01-14 11:46:04"
+            "time": "2014-01-15 14:43:01"
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
@@ -2417,12 +2419,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "bcbcfaf6c18f76b460c9f011809904611a8a618a"
+                "reference": "0b5552f60698ac7cc24833d1789182f23797fd85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/bcbcfaf6c18f76b460c9f011809904611a8a618a",
-                "reference": "bcbcfaf6c18f76b460c9f011809904611a8a618a",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/0b5552f60698ac7cc24833d1789182f23797fd85",
+                "reference": "0b5552f60698ac7cc24833d1789182f23797fd85",
                 "shasum": ""
             },
             "require": {
@@ -2466,7 +2468,7 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2014-01-07 13:42:26"
+            "time": "2014-01-15 17:24:02"
         },
         {
             "name": "sonata-project/exporter",
