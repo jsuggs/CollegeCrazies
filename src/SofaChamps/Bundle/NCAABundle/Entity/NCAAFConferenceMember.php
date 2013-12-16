@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="ncaa_conference_members"
+ *      name="ncaaf_conference_members"
  * )
  */
 class NCAAFConferenceMember extends AbstractConferenceMember
