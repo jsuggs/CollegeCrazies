@@ -64,4 +64,9 @@ abstract class AbstractConference implements ConferenceInterface
             return $season == $membership->getSeason();
         });
     }
+
+    public function __toString()
+    {
+        return $this->abbr ?: 'New Conference';
+    }
 }

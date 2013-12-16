@@ -7,3 +7,12 @@ services:
             - ~
             - SofaChamps\Bundle\NCAABundle\Entity\Team
             - 'SonataAdminBundle:CRUD'
+
+    sofachamps.admin.ncaa.conference:
+        class: SofaChamps\Bundle\NCAABundle\Admin\ConferenceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "NCAA", label: "Conferences" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\NCAABundle\Entity\Conference
+            - 'SonataAdminBundle:CRUD'
