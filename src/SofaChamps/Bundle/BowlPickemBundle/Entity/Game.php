@@ -4,8 +4,8 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use SofaChamps\Bundle\CoreBundle\Entity\AbstractGame;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,12 +41,12 @@ class Game extends AbstractGame
     protected $season;
 
     /**
-     * @ORM\OneToOne(targetEntity="Team")
+     * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
     protected $homeTeam;
 
     /**
-     * @ORM\OneToOne(targetEntity="Team")
+     * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
     protected $awayTeam;
 

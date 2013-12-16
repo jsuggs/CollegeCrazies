@@ -3,7 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Service;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 class GameTest extends \PHPUnit_Framework_TestCase
 {

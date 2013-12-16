@@ -18,14 +18,14 @@ class NCAAFConferenceMember extends AbstractConferenceMember
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\NCAAFConference", inversedBy="conferenceMemberships")
+     * @ORM\ManyToOne(targetEntity="NCAAFConference", inversedBy="conferenceMemberships")
      * @ORM\JoinColumn(name="conference", referencedColumnName="abbr")
      */
     protected $conference;
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\NCAAFTeam", inversedBy="conferenceMemberships")
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="conferenceMemberships")
      * @ORM\JoinColumn(name="team", referencedColumnName="id")
      */
     protected $team;

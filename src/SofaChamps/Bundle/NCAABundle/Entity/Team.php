@@ -15,13 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="ncaa_teams"
  * )
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *      "bp" = "SofaChamps\Bundle\BowlPickemBundle\Entity\Team",
- *      "mm" = "SofaChamps\Bundle\MarchMadnessBundle\Entity\Team",
- *      "ncaaf" = "SofaChamps\Bundle\NCAABundle\Entity\NCAAFTeam",
- * })
  */
 class Team extends AbstractTeam implements ConferenceTeamInterface
 {
@@ -36,6 +29,18 @@ class Team extends AbstractTeam implements ConferenceTeamInterface
      * @Assert\NotBlank()
      */
     protected $thumbnail;
+
+    /**
+     * Predictions
+     *
+     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner", fetch="EXTRA_LAZY")
+     */
+    protected $predictions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="NCAAFConferenceMember", mappedBy="team")
+     */
+    protected $conferenceMemberships;
 
     public function setThumbnail($thumbnail)
     {

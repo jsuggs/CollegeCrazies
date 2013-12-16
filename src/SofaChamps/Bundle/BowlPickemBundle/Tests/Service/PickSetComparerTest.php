@@ -7,11 +7,11 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetComparer;
 use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 class PickSetComparerTest extends SofaChampsTest
 {

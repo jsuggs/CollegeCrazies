@@ -3,8 +3,8 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Functional;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsWebTest;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 /**
  * @group functional
