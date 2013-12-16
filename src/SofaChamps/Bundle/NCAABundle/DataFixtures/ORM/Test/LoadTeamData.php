@@ -4,7 +4,7 @@ namespace SofaChamps\Bundle\NCAABundle\DataFixtures\ORM\Test;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SofaChamps\Bundle\NCAABundle\Entity\NCAAFConference;
+use SofaChamps\Bundle\NCAABundle\Entity\Conference;
 use SofaChamps\Bundle\NCAABundle\Entity\NCAAFConferenceMember;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -30,7 +30,7 @@ class LoadTeamData implements FixtureInterface, ContainerAwareInterface
         $manager->persist($alabama);
 
         // Conferences
-        $sec = new NCAAFConference();
+        $sec = new Conference();
         $sec->setAbbr('SEC');
         $sec->setName('South Eastern Conference');
 

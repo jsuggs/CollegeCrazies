@@ -11,7 +11,6 @@ class Version20131215204839 extends AbstractMigration
 CREATE TABLE ncaa_conferences (
     abbr VARCHAR(5) NOT NULL
   , name VARCHAR(255) NOT NULL
-  , type VARCHAR(255) NOT NULL
   , PRIMARY KEY(abbr)
 )
 SQL;
@@ -37,6 +36,7 @@ SQL;
 
     public function down(Schema $schema)
     {
+        $this->addSql("ALTER TABLE ncaaf_conference_members DROP CONSTRAINT fk_ncaa_conference_members_ref_ncaa_conferences_conference");
         $this->addSql("DROP TABLE ncaaf_conference_members");
         $this->addSql("DROP TABLE ncaa_conferences");
     }

@@ -7,9 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 abstract class AbstractConference implements ConferenceInterface
 {
-    // Note: the conferenceMemberships must be mapped
-    protected $conferenceMemberships;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=5)
@@ -20,11 +17,6 @@ abstract class AbstractConference implements ConferenceInterface
      * @ORM\Column(type="string")
      */
     protected $name;
-
-    public function __construct()
-    {
-        $this->conferenceMemberships = new ArrayCollection();
-    }
 
     public function setAbbr($abbr)
     {
@@ -44,25 +36,6 @@ abstract class AbstractConference implements ConferenceInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    public function addMember(ConferenceMemberInterface $member)
-    {
-        if (!$this->conferenceMemberships->contains($member)) {
-            $this->conferenceMemberships->add($member);
-        }
-    }
-
-    public function removeMember(ConferenceMemberInterface $member)
-    {
-        $this->conferenceMemberships->removeElement($member);
-    }
-
-    public function getMembers($season)
-    {
-        return $this->conferenceMemberships->filter(function($membership) use ($season) {
-            return $season == $membership->getSeason();
-        });
     }
 
     public function __toString()
