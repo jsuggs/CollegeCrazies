@@ -3,7 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use SofaChamps\Bundle\NCAABundle\Entity\Team as BaseTeam;
+use SofaChamps\Bundle\NCAABundle\Entity\NCAAFTeam as BaseTeam;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
