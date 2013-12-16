@@ -13,11 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="ncaa_conferences"
  * )
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *      "ncaaf" = "SofaChamps\Bundle\NCAABundle\Entity\NCAAFConference",
+ * })
  */
 class Conference extends AbstractConference
 {
-    /**
-     * @ORM\OneToMany(targetEntity="ConferenceMember", mappedBy="conference")
-     */
-    protected $conferenceMemberships;
 }

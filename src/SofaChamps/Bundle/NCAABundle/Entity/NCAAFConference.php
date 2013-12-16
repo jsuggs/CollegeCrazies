@@ -3,18 +3,18 @@
 namespace SofaChamps\Bundle\NCAABundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
+use SofaChamps\Bundle\CoreBundle\Entity\AbstractConference;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A ncaa mens football team
+ * A ncaa football conference
  *
  * @ORM\Entity
  */
-class NCAAFTeam extends Team
+class NCAAFConference extends Conference
 {
     /**
-     * @ORM\OneToMany(targetEntity="NCAAFConferenceMember", mappedBy="team")
+     * @ORM\OneToMany(targetEntity="NCAAFConferenceMember", mappedBy="conference")
      */
     protected $conferenceMemberships;
 }

@@ -14,11 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      name="ncaa_conference_members"
  * )
  */
-class ConferenceMember extends AbstractConferenceMember
+class NCAAFConferenceMember extends AbstractConferenceMember
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Conference", inversedBy="conferenceMemberships")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\NCAAFConference", inversedBy="conferenceMemberships")
      * @ORM\JoinColumn(name="conference", referencedColumnName="abbr")
      */
     protected $conference;

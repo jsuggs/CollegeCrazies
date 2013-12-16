@@ -37,11 +37,6 @@ class Team extends AbstractTeam implements ConferenceTeamInterface
      */
     protected $thumbnail;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ConferenceMember", mappedBy="team")
-     */
-    protected $conferenceMemberships;
-
     public function setThumbnail($thumbnail)
     {
         $this->thumbnail = $thumbnail;
