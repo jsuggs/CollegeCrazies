@@ -33,7 +33,7 @@ class Team extends AbstractTeam implements ConferenceTeamInterface
     /**
      * Predictions
      *
-     * @ORM\OneToMany(targetEntity="Prediction", mappedBy="winner", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\BowlPickemBundle\Entity\Prediction", mappedBy="winner", fetch="EXTRA_LAZY")
      */
     protected $predictions;
 

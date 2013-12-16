@@ -12,7 +12,6 @@ CREATE TABLE ncaa_teams (
     id VARCHAR(5) NOT NULL
   , thumbnail VARCHAR(255) NOT NULL
   , name VARCHAR(255) NOT NULL
-  , type VARCHAR(255) NOT NULL
   , PRIMARY KEY(id)
 )
 SQL;
@@ -23,7 +22,6 @@ SELECT
     id
   , thumbnail
   , name
-  , 'bp'
 FROM teams
 SQL;
 
