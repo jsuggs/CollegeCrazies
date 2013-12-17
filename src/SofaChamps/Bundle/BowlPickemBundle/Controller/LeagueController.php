@@ -297,6 +297,8 @@ class LeagueController extends BaseController
             )));
         }
 
+        $this->getSession()->set('auto_league_assoc', $league->getId());
+
         $form = $this->createFormBuilder()
             ->add('id', 'hidden')
             ->add('password', 'text', array(

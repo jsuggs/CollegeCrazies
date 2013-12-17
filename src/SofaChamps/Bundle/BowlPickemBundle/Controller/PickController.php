@@ -223,8 +223,9 @@ class PickController extends BaseController
         }
 
         $user = $this->getUser();
-        $league = $this->getRequest()->query->has('leagueId')
-            ? $this->findLeague($this->getRequest()->get('leagueId'))
+        $leagueId = $this->getSession()->get('auto_league_assoc') ?: $this->getRequest()->get('leagueId');
+        $league = $leagueId
+            ? $this->findLeague($leagueId)
             : null;
 
         $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
