@@ -45,12 +45,20 @@ class LeagueController extends BaseController
 
             // If the league is private redirect to the join page, but with the league info defaulted
             if (!$league->isPublic()) {
-                $this->addMessage('danger', 'This is a private league.  Enter password below to join');
+                if ($this->picksLocked($season)) {
+                    $this->addMessage('danger', 'This is a private league and closed after picks lock');
 
-                return $this->redirect($this->generateUrl('league_find', array(
-                    'season' => $season,
-                    'leagueId' => $league->getId(),
-                )));
+                    return $this->redirect($this->generateUrl('bp_home', array(
+                        'season' => $season,
+                    )));
+                } else {
+                    $this->addMessage('danger', 'This is a private league.  Enter password below to join');
+
+                    return $this->redirect($this->generateUrl('league_find', array(
+                        'season' => $season,
+                        'leagueId' => $league->getId(),
+                    )));
+                }
             }
 
             // Send to the guest version of the league
@@ -104,7 +112,6 @@ class LeagueController extends BaseController
             'importantGames' => $importantGames,
         );
     }
-
 
     /**
      * @Route("/public", name="league_public")
