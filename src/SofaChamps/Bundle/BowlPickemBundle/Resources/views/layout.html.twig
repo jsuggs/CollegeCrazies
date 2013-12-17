@@ -58,7 +58,9 @@
                     <li><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">Leaderboard</a></li>
                     <li><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">My Stats</a></li>
                     <li><a href="{{ path('league_members', {leagueId: league.id, season: season}) }}">Members</a></li>
-                    <li><a href="{{ path('league_invite', {leagueId: league.id, season: season}) }}">Invite Users</a></li>
+                    {% if not picks_locked %}
+                        <li><a href="{{ path('league_invite', {leagueId: league.id, season: season}) }}">Invite Users</a></li>
+                    {% endif %}
                     <li><a href="{{ path('league_settings', {leagueId: league.id, season: season}) }}">League Settings</a></li>
                 </ul>
             </li>
