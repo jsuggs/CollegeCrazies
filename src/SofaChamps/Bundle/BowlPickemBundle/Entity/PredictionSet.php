@@ -10,7 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="prediction_sets"
+ *      name="prediction_sets",
+ *      indexes={@ORM\Index(name="IDX_PREDICTION_SETS_SEASON", columns={"season"})}
  * )
  */
 class PredictionSet
