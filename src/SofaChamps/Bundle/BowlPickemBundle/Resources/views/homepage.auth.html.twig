@@ -38,9 +38,6 @@
                 {% if not picks_locked %}
                     <h2>You don't have any picksets <small>what a shame</small></h2>
                     <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Pickset Now!</a>
-                {% else %}
-                    <h2>Picks are locked, sorry you missed out.</h2>
-                    <p>But if you want, checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch the action</p>
                 {% endif %}
             {% endif %}
         </div>
@@ -67,4 +64,10 @@
             {% endif %}
         </div>
     </div>
+    {% if picks_locked %}
+        <div>
+            <h2>Picks are locked, sorry you missed out.</h2>
+            <p>But if you want, checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch the action</p>
+        </div>
+    {% endif %}
 {% endblock %}
