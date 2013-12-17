@@ -20,8 +20,12 @@
             <td>{{ game.avghomeconfidence|number_format(1) }}</td>
             <td>
                 <div class="progress" style="width: 300px;">
-                    <div class="bar bar-success" style="width: {{ (game.hometeamvotes / totalVotes) * 100 }}%"></div>
-                    <div class="bar bar-warning" style="width: {{ (game.awayteamvotes / totalVotes) * 100 }}%"></div>
+                    <div class="progress-bar progress-bar-success" style="width: {{ (game.hometeamvotes / totalVotes) * 100 }}%">
+                        <span class="sr-only">{{ (game.hometeamvotes / totalVotes) * 100 }}% {{ game.hometeam_id }}</span>
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: {{ (game.awayteamvotes / totalVotes) * 100 }}%">
+                        <span class="sr-only">{{ (game.hometeamvotes / totalVotes) * 100 }}% {{ game.awayteam_id }}</span>
+                    </div>
                 </div>
             </td>
             <td>{{ game.avgawayconfidence|number_format(1) }}</td>
