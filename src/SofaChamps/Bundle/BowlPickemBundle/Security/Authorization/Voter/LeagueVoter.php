@@ -36,7 +36,7 @@ class LeagueVoter implements VoterInterface
 
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, array('VIEW', 'VIEW_PICKS', 'MANAGE', 'MEMBER', 'JOIN', 'LEAVE'));
+        return in_array($attribute, array('VIEW', 'VIEW_PICKS', 'MANAGE', 'MEMBER', 'JOIN', 'LEAVE', 'STATS'));
     }
 
     public function supportsClass($class)
@@ -75,6 +75,8 @@ class LeagueVoter implements VoterInterface
                 return $this->canUserJoinLeague($user, $object);
             } elseif ($attribute === 'LEAVE') {
                 return $this->canUserLeaveLeague($user, $object);
+            } elseif ($attribute === 'STATS') {
+                return $this->canUserViewStats($user, $object);
             }
 
             if ($object->getUser() == $user) {
@@ -95,6 +97,13 @@ class LeagueVoter implements VoterInterface
     protected function canUserJoinLeague(User $user, League $league = null)
     {
         return $this->canUserCreatePickSet();
+    }
+
+    protected function canUserViewStats(User $user, League $league)
+    {
+        return $user->isInTheLeague($league)
+            ? VoterInterface::ACCESS_GRANTED
+            : VoterInterface::ACCESS_DENIED;
     }
 
     protected function canUserLeaveLeague(User $user, League $league = null)
