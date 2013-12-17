@@ -4,7 +4,7 @@
 {% block content %}
     <h2>Manage Picksets</h2>
     <p>Choose the pickset you want to use for the league</p>
-    <form action="{{ path('pickset_manage', {season: season}) }}" method="POST" id="pickset-update">
+    <form action="{{ path('pickset_manage', {season: season}) }}" method="POST" id="pickset-update" role="form">
         <table class="table table-bordered table-hover">
             <thead>
                 {% if isCommish %}
@@ -24,12 +24,14 @@
                     {% endif %}
                     <td><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></td>
                     {% for pickSet in pickSets %}
-                        <td><input type="radio" name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
+                        <td><input type="radio"{% if picks_locked %} disabled{% endif %} name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
                     {% endfor %}
                 </tr>
             {% endfor %}
         </table>
-        <button type="submit" class="btn btn-success">Update Picksets</button>
+        {% if not picks_locked %}
+            <button type="submit" class="btn btn-success">Update Picksets</button>
+        {% endif %}
     </form>
     <script>
         $(document).ready(function() {
