@@ -83,8 +83,8 @@ class PickSetVoter implements VoterInterface
         }
 
         return $this->picksLockedManager->arePickLocked()
-            ? VoterInterface::ACCESS_DENIED
-            : VoterInterface::ACCESS_GRANTED;
+            ? VoterInterface::ACCESS_GRANTED
+            : VoterInterface::ACCESS_DENIED;
     }
 
     protected function canUserEditPickSet(User $user, PickSet $pickSet)
