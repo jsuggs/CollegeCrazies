@@ -201,6 +201,7 @@ class PickController extends BaseController
 
         return array(
             'games' => $games,
+            'season' => $season,
             'pickSet1' => $pickSet1,
             'pickSet2' => $pickSet2,
         );
