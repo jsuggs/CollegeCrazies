@@ -29,8 +29,10 @@
                 <hr />
                 <p>
                     <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-primary">Manage Picksets</a>
-                    or
-                    <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
+                    {% if not picks_locked %}
+                        or
+                        <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
+                    {% endif %}
                 </p>
             {% else %}
                 <h2>You don't have any picksets <small>what a shame</small></h2>
