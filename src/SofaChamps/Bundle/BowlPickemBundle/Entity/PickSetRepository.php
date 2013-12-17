@@ -70,7 +70,7 @@ EOF;
             ->select('p, pk, pg, pt, home, away')
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.picks', 'pk')
-            ->innerJoin('pk.game', 'pg')
+            ->leftJoin('pk.game', 'pg')
             ->leftJoin('pk.team', 'pt')
             ->leftJoin('pg.homeTeam', 'home')
             ->leftJoin('pg.awayTeam', 'away')
