@@ -28,7 +28,9 @@
                         {% endif %}
                     </li>
                 {% else %}
-                    <li><a href="{{ path('pickset_new', {season: season}) }}">Create a Pickset</a></li>
+                    {% if not picks_locked %}
+                        <li><a href="{{ path('pickset_new', {season: season}) }}">Create a Pickset</a></li>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
             <li class="divider"></li>
@@ -81,11 +83,13 @@
                     {% for league in app.user.leaguesForSeason(season) %}
                         <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></li>
                     {% endfor %}
-                    <li class="divider"></li>
-                    <li><a href="{{ path('league_new', {season: season}) }}">Create a New League</a></li>
+                    {% if not picks_locked %}
+                        <li class="divider"></li>
+                        <li><a href="{{ path('league_new', {season: season}) }}">Create a New League</a></li>
+                    {% endif %}
                 </ul>
             </li>
-        {% else %}
+        {% elseif not picks_locked %}
             <li><a href="{{ path('league_find', {season: season}) }}">Find or Create a League</a></li>
         {% endif %}
     {% endif %}
