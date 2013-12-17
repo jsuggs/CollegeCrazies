@@ -99,8 +99,12 @@ class LeagueVoter implements VoterInterface
         return $this->canUserCreatePickSet();
     }
 
-    protected function canUserViewStats(User $user, League $league)
+    protected function canUserViewStats(User $user = null, League $league)
     {
+        if (!$user) {
+            return VoterInterface::ACCESS_DENIED;
+        }
+
         return $user->isInTheLeague($league)
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;

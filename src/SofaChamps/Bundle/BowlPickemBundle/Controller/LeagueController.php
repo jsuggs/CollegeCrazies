@@ -290,21 +290,27 @@ class LeagueController extends BaseController
      */
     public function prejoinAction(League $league, $season)
     {
+        $returnToLeagueHome = false;
+        $this->getSession()->set('auto_league_assoc', $league->getId());
+
         if ($this->picksLocked()) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
+            $returnToLeagueHome = true;
         }
 
         $user = $this->getUser();
 
         if ($user && $league->isUserInLeague($user)) {
             $this->addMessage('info', 'You are already in this league');
+            $returnToLeagueHome = true;
+        }
+
+        if ($returnToLeagueHome) {
             return $this->redirect($this->generateUrl('league_home', array(
                 'season' => $season,
                 'leagueId' => $league->getId(),
             )));
         }
-
-        $this->getSession()->set('auto_league_assoc', $league->getId());
 
         $form = $this->createFormBuilder()
             ->add('id', 'hidden')
