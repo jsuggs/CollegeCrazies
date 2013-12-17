@@ -180,6 +180,8 @@ class PickController extends BaseController
      */
     public function viewPickNoLeagueAction(PickSet $pickSet, $season)
     {
+        $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
+
         return array(
             'season' => $season,
             'pickSet' => $pickSet,
