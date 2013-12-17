@@ -479,7 +479,7 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="MEMBER")
+     * @SecureParam(name="league", permissions="VIEW_PICKS")
      * @Template
      */
     public function leaderboardAction(League $league, $season)
