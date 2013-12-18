@@ -54,7 +54,7 @@
     </div>
 
     <div class="row">
-        <h3>League Top 10 Standings</h3>
+        <h3>League Top 10 Standings <small><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">View Full Leaderboard</a></small></h3>
 
         {% include 'SofaChampsBowlPickemBundle:League:_leaderboard.html.twig' %}
     </div>
