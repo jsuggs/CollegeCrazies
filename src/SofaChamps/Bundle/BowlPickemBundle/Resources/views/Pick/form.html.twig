@@ -23,6 +23,7 @@
     {% else %}
         <p><small>This pickset is not assigned to any leagues</small></p>
         <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Find or Create a League</a>
+        <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-info">Manage your picksets</a>
     {% endif %}
 {% endif %}
 
