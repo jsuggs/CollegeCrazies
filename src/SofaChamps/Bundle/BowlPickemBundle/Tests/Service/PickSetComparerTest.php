@@ -132,11 +132,11 @@ class PickSetComparerTest extends SofaChampsTest
         $user5PickSet->setTiebreakerAwayTeamScore(28);
 
         return array(
-            array($user1PickSet, $user2PickSet, 1,  $season),
-            array($user2PickSet, $user1PickSet, -1, $season),
-            array($user1PickSet, $user4PickSet, 1,  $season),
-            array($user5PickSet, $user6PickSet, 1,  $season),
-            array($user6PickSet, $user5PickSet, -1, $season),
+            array($user1PickSet, $user2PickSet, -1,  $season),
+            array($user2PickSet, $user1PickSet, 1, $season),
+            array($user1PickSet, $user4PickSet, -1,  $season),
+            array($user5PickSet, $user6PickSet, -1,  $season),
+            array($user6PickSet, $user5PickSet, 1, $season),
         );
     }
 }

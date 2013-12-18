@@ -28,7 +28,7 @@ class PicksetComparer
     }
 
     /**
-     * Return 1 if $a has more points, -1 if b has more points, 0 if they are exactly equal
+     * Return -1 if $a has more points, 1 if b has more points, 0 if they are exactly equal
      *
      * @param PickSet $a The first PickSet to compare
      * @param PickSet $b The second PickSet to compare
@@ -64,14 +64,14 @@ class PicksetComparer
                 if ($aTiebreakerPoints === $bTiebreakerPoints) {
                     return 0;
                 } else {
-                    return $aTiebreakerPoints > $bTiebreakerPoints ? -1 : 1;
+                    return $aTiebreakerPoints > $bTiebreakerPoints ? 1 : -1;
                 }
             }
 
-            return $aPointsPossible > $bPointsPossible ? 1 : -1;
+            return $aPointsPossible > $bPointsPossible ? -1 : 1;
         }
 
-        return $aPoints > $bPoints ? 1 : -1;
+        return $aPoints > $bPoints ? -1 : 1;
     }
 
     protected function getTiebreakerGamesForSeason($season)
