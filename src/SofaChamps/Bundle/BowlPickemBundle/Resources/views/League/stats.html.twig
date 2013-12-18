@@ -37,7 +37,7 @@
                 {% for game in games %}
                     <tr>
                         <td>{{ game.name }}</td>
-                        <td>{{ game.gamedate|date }}</td>
+                        <td>{{ game.gamedate|date("F jS \\a\\t g:ia") }}</td>
                         <td>{{ game.confidence }}</td>
                         <td{% if game.winner is not null %} class="{% if game.winner == game.team_id %}correct{% else %}incorrect{% endif %}"{% endif %}>{{ game.team_id }}</td>
                     </tr>
