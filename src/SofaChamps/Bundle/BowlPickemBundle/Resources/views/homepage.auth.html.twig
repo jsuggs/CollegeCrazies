@@ -66,8 +66,13 @@
     </div>
     {% if picks_locked %}
         <div>
-            <h2>Picks are locked, sorry you missed out.</h2>
-            <p>But if you want, checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch the action</p>
+            {% if user.leaguesForSeason(season)|length %}
+                <h2>Picks are locked</h2>
+                <p>Checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch more of the action</p>
+            {% else %}
+                <h2>Picks are locked, sorry you missed out.</h2>
+                <p>But if you want, checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch the action</p>
+            {% endif %}
         </div>
     {% endif %}
 {% endblock %}
