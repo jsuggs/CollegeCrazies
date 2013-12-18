@@ -47,13 +47,15 @@
         });
     </script>
 
-    <div class="row-fluid">
-        <h4>Looking for some more action?</h4>
-        <a href="{{ path('league_find', {season: season}) }}" class="btn btn-info">Find another League to Join</a>
-    </div>
+    {% if not picks_locked %}
+        <div class="row-fluid">
+            <h4>Looking for some more action?</h4>
+            <a href="{{ path('league_find', {season: season}) }}" class="btn btn-info">Find another League to Join</a>
+        </div>
 
-    <div class="row-fluid">
-        <h4>Need to leave a League?</h4>
-        <a href="{{ path('league_leave', {season: season}) }}" class="btn btn-warning">Leave a League</a>
-    </div>
+        <div class="row-fluid">
+            <h4>Need to leave a League?</h4>
+            <a href="{{ path('league_leave', {season: season}) }}" class="btn btn-warning">Leave a League</a>
+        </div>
+    {% endif %}
 {% endblock %}
