@@ -64,7 +64,7 @@
                 <input type="radio" class="makePick" name="makePick{{ loop.index }}" value="{{ underdog.id }}"{% if team.id is defined and underdog.id == team.id %} checked="checked"{% endif %} />
                 {{ underdog.name }}
             </td>
-            <td>{{ pick.vars.value.game.gameDate|date('m/d/Y g:i a') }}</td>
+            <td style="white-space:nowrap;">{{ pick.vars.value.game.gameDate|date('m/d/Y g:i a') }}</td>
         </tr>
     {% endfor %}
     </tbody>
