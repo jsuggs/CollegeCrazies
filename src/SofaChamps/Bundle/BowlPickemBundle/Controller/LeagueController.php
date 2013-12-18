@@ -262,7 +262,8 @@ class LeagueController extends BaseController
 
             // If the user has one pickset, then auto-assign the pickset to that league
             if (count($pickSets) === 1) {
-                $pickSets[0]->addLeague($league);
+                $pickSet = $pickSets->first();
+                $this->getPicksetManager()->addPickSetToLeague($league, $pickSet);
             } else {
                 $this->getEntityManager()->flush();
 

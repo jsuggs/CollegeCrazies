@@ -74,6 +74,9 @@ class PicksetManager
     public function addPickSetToLeague(League $league, PickSet $pickSet)
     {
         $pickSet->addLeague($league);
+
+        $user = $pickSet->getUser();
+        $this->leagueManager->addUserToLeague($league, $user);
     }
 
     protected function dispatchPickSetCreated(PickSet $pickSet)

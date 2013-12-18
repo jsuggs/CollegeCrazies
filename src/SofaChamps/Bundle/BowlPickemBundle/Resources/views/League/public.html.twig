@@ -24,9 +24,9 @@
                         {% if is_granted('ROLE_USER') and league.isUserInLeague(app.user) %}
                             (Already in this league)
                         {% else %}
-                            <form action="{{ path('league_join', {season: season}) }}" method="post">
+                            <form action="{{ path('league_join', { season: season}) }}" method="post">
                                 <input type="hidden" name="form[id]" value="{{ league.id }}" />
-                                <button type="submit" href="{{ path('league_join', {season: season}) }}" class="btn btn-success">Join this league</button>
+                                <button type="submit" class="btn btn-success">Join this league</button>
                             </form>
                         {% endif %}
                     {% endif %}
