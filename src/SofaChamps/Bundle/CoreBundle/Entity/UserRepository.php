@@ -25,6 +25,11 @@ WHERE u.id NOT IN (
   JOIN leagues l ON ul.league_id = l.id
   WHERE l.season = :season
 )
+AND u.id IN (
+  SELECT p.user_id
+  FROM picksets p
+  WHERE p.season = :season
+)
 EOF;
 
     const LEAGUE_POTENTIAL_WINNERS_SQL = <<<EOF
