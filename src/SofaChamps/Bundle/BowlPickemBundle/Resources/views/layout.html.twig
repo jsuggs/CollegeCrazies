@@ -35,7 +35,7 @@
             {% endif %}
             <li class="divider"></li>
             <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
-            {% if app.user.picksetsForSeason(season)|length %}
+            {% if app.user.picksetsForSeason(season)|length and not picks_locked %}
                 <li class="divider"></li>
                 <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
             {% endif %}
