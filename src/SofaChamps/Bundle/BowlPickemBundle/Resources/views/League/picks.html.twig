@@ -55,10 +55,10 @@
                         {% endif %}
 
                         {% if user == curUser %}
-                            <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('DERP') }} ({{ pick.confidence }})</td>
+                            <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                         {% else %}
                             {% set samePick = (league.getPicksetForUser(curUser).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
-                            <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('DERP') }} ({{ pick.confidence }})</td>
+                            <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                         {% endif %}
                     {% endfor %}
                     <td>{{ userPickSet.points }}</td>
