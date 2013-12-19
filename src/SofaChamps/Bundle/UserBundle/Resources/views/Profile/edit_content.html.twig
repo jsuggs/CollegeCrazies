@@ -1,18 +1,27 @@
 <h2>Update your profile</h2>
 
 <form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form" role="form">
-    {{ form_row(form.username) }}
-    {{ form_row(form.email) }}
-    {{ form_row(form.firstName) }}
-    {{ form_row(form.lastName) }}
-    {{ form_row(form.emailFromCommish) }}
-    <fieldset>
-        {{ form_row(form.current_password) }}
-        <p class="help-text">Enter your current password to save</p>
-        {{ form_rest(form) }}
-    </fieldset>
-
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Update Profile" />
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.username) }}
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.emailFromCommish) }}
+        </div>
     </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <p class="help-text">Enter your current password to save your profile information</p>
+            {{ form_row(form.current_password) }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+    {{ form_rest(form) }}
 </form>
