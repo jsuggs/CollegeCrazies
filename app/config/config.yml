@@ -100,3 +100,18 @@ fos_facebook:
     secret: %facebook.secret%
     cookie: true
     permissions: [email]
+
+liip_doctrine_cache:
+    namespaces:
+        gearman:
+            type: file_system
+
+gearman:
+    bundles:
+        SofaChampsEmailBundle:
+            name: SofaChampsEmailBundle
+            active: true
+    servers:
+        localhost:
+            host: 127.0.0.1
+            port: 4730

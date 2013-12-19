@@ -6,29 +6,29 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Mmoreram\GearmanBundle\Driver\Gearman;
 
 /**
- * Sender
- * This sends all of the email
+ * This queues up all of the emails to be sent
  *
  * @DI\Service("sofachamps.email.sender")
  */
 class EmailSender implements EmailSenderInterface
 {
-    protected $mailer;
+    protected $gearman;
     protected $templating;
     protected $logger;
 
     /**
      * @DI\InjectParams({
-     *      "mailer" = @DI\Inject("mailer"),
+     *      "gearman" = @DI\Inject("gearman"),
      *      "templating" = @DI\Inject("templating"),
      *      "logger" = @DI\Inject("logger")
      * })
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, LoggerInterface $logger)
+    public function __construct($gearman, EngineInterface $templating, LoggerInterface $logger)
     {
-        $this->mailer = $mailer;
+        $this->gearman = $gearman;
         $this->templating = $templating;
         $this->logger = $logger;
     }
@@ -52,6 +52,11 @@ class EmailSender implements EmailSenderInterface
         }
     }
 
+    /**
+     * @Gearman\Job(
+     *      name = "sendEmail",
+     * )
+     */
     public function sendToEmail($email, $templateName, $subjectLine, array $data = array())
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -75,7 +80,9 @@ class EmailSender implements EmailSenderInterface
             ->setBody($html, 'text/html')
             ->addPart($text, 'text/plain');
 
-        $response = $this->mailer->send($message);
+
+        $this->gearman->doJob('sendEmail');
+        //$response = $this->gearman->send($message);
 
         $this->logger->info(sprintf('Sent "%s" template "%s"', $email, $templateName));
     }
