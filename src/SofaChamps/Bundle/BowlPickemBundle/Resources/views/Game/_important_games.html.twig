@@ -15,7 +15,7 @@
         {% set totalVotes = game.hometeamvotes + game.awayteamvotes %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>{{ game.name }}<br /><small>{{ game.gamedate|date }}</small></td>
+            <td>{{ game.name }}<br /><small>{{ game.gamedate|date("F jS \\a\\t g:ia") }}</small></td>
             <td>{{ game.hometeam_id }}</td>
             <td>{{ game.avghomeconfidence|number_format(1) }}</td>
             <td>
