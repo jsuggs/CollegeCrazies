@@ -12,6 +12,7 @@ class RegistrationListenerTest extends SofaChampsTest
 {
     protected $router;
     protected $seasonManager;
+    protected $picksLockedManager;
     protected $listener;
 
     protected function setUp()
@@ -20,7 +21,9 @@ class RegistrationListenerTest extends SofaChampsTest
 
         $this->router = $this->buildMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
         $this->seasonManager = $this->buildMock('SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager');
-        $this->listener = new RegistrationListener($this->router, $this->seasonManager);
+        $this->picksLockedManager = $this->buildMock('SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager');
+
+        $this->listener = new RegistrationListener($this->router, $this->seasonManager, $this->picksLockedManager);
     }
 
     public function testOnRegistrationSuccess()
@@ -32,7 +35,25 @@ class RegistrationListenerTest extends SofaChampsTest
             ->method('generate')
             ->will($this->returnValue($this->getFaker()->url()));
 
+        $this->picksLockedManager->expects($this->any())
+            ->method('arePickLocked')
+            ->will($this->returnValue(false));
+
         $event = new FormEvent($form, $request);
+        $this->listener->onRegistrationSuccess($event);
+    }
+
+    public function testOnRegistrationSuccessAfterPicksLockedDoesNotRedirect()
+    {
+        $this->picksLockedManager->expects($this->any())
+            ->method('arePickLocked')
+            ->will($this->returnValue(true));
+
+        $event = $this->buildMock('FOS\UserBundle\Event\FormEvent');
+
+        $event->expects($this->never())
+            ->method('setResponse');
+
         $this->listener->onRegistrationSuccess($event);
     }
 }
