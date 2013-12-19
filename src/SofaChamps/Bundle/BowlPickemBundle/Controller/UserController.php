@@ -49,6 +49,23 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * @Route("/admin/users-league-pickset", name="admin_user_league_pickset")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template("SofaChampsBowlPickemBundle:Admin:users-league.html.twig")
+     */
+    public function userLeagueAction($season)
+    {
+        $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithAPickSetAndALeagueButNoPickSetAssociated($season);
+        $emailList = array_map(function($user) { return $user['email']; }, $users);
+
+        return array(
+            'season' => $season,
+            'users' => $users,
+            'emailList' => $emailList,
+        );
+    }
+
     private function getUserForm(User $user)
     {
         return $this->createForm(new UserFormType(), $user);

@@ -32,6 +32,28 @@ AND u.id IN (
 )
 EOF;
 
+    const USERS_LEAGUE_PICKSET_NOT_ASSOC_SQL = <<<EOF
+SELECT DISTINCT u.username, u.email
+FROM users u
+WHERE u.id IN (
+  SELECT ul.user_id
+  FROM user_league ul
+  JOIN leagues l ON ul.league_id = l.id
+  WHERE l.season = :season
+)
+AND u.id IN (
+  SELECT p.user_id
+  FROM picksets p
+  WHERE p.season = :season
+)
+AND u.id NOT IN (
+  SELECT p.user_id
+  FROM pickset_leagues pl
+  INNER JOIN picksets p on pl.pickset_id = p.id
+  WHERE p.season = :season
+)
+EOF;
+
     const LEAGUE_POTENTIAL_WINNERS_SQL = <<<EOF
 SELECT DISTINCT u.id, u.username, u.email
 FROM user_prediction_set_score s
@@ -108,6 +130,13 @@ EOF;
         return $this->getEntityManager()
             ->getConnection()
             ->fetchAll(self::USERS_NOLEAGUE_SQL, array('season' => $season));
+    }
+
+    public function getUsersWithAPickSetAndALeagueButNoPickSetAssociated($season)
+    {
+        return $this->getEntityManager()
+            ->getConnection()
+            ->fetchAll(self::USERS_LEAGUE_PICKSET_NOT_ASSOC_SQL, array('season' => $season));
     }
 
     public function findPotentialWinersInLeague(League $league)
