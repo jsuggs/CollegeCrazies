@@ -20,6 +20,8 @@
                 {% set pickCorrect = pickMade ? (gameWinner == pick.team) : false %}
                 {% set homeTeamScore = prediction is defined ? prediction.homeTeamScore : pick.game.homeTeamScore %}
                 {% set awayTeamScore = prediction is defined ? prediction.awayTeamScore : pick.game.awayTeamScore %}
+            {% else %}
+                {% set gameWinner = false %}
             {% endif %}
             <tr class="{% if not pickMade %}danger{% elseif gameWinner %}success{% endif %}">
                 <td>{{ pick.game.name }}</td>
