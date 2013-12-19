@@ -79,7 +79,7 @@
                         <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %} checked="checked"{% endif %} />
                     {% endif %}
                 </td>
-                <td>{{ pick.game.gameDate|date('m/d/Y g:i a') }}</td>
+                <td style="white-space:nowrap;">{{ pick.game.gameDate|date('m/d/Y g:i a') }}</td>
             </tr>
         {% endfor %}
         </tbody>
