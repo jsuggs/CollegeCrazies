@@ -6,6 +6,7 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
+use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,17 +20,21 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RegistrationListener implements EventSubscriberInterface
 {
     private $router;
+    private $seasonManager;
+    private $picksLockedManager;
 
     /**
      * @DI\InjectParams({
      *      "router" = @DI\Inject("router"),
      *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
+     *      "picksLockedManager" = @DI\Inject("sofachamps.bp.picks_locked_manager"),
      * })
      */
-    public function __construct(UrlGeneratorInterface $router, SeasonManager $seasonManager)
+    public function __construct(UrlGeneratorInterface $router, SeasonManager $seasonManager, PicksLockedManager $picksLockedManager)
     {
         $this->router = $router;
         $this->seasonManager = $seasonManager;
+        $this->picksLockedManager = $picksLockedManager;
     }
 
     /**
@@ -44,11 +49,13 @@ class RegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationSuccess(FormEvent $event)
     {
-        // TODO - Make this conditional
-        $url = $this->router->generate('pickset_new', array(
-            'season' => $this->seasonManager->getCurrentSeason(),
-        ));
+        // TODO - This is better, but as we add more overlapping games, this may not be sufficient
+        if (!$this->picksLockedManager->arePickLocked()) {
+            $url = $this->router->generate('pickset_new', array(
+                'season' => $this->seasonManager->getCurrentSeason(),
+            ));
 
-        $event->setResponse(new RedirectResponse($url));
+            $event->setResponse(new RedirectResponse($url));
+        }
     }
 }
