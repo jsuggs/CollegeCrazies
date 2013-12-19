@@ -1,6 +1,5 @@
 /web/bundles/
 /web/compiled/
-/web/components/
 /web/uploads/
 /app/bootstrap*
 /app/cache/*
