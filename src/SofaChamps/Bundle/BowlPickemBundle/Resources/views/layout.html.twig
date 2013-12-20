@@ -30,8 +30,13 @@
                     </li>
                 {% endfor %}
 
-                <li class="divider"></li>
-                <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
+                {% if app.user.pickSetsForSeason(season) or app.user.leaguesForSeason(season) %}
+                    <li class="divider"></li>
+                    <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
+                {% elseif picks_locked %}
+                    <li class="divider"></li>
+                    <li><a href="{{ path('league_public', {season: season}) }}">Public Leagues</a></li>
+                {% endif %}
 
                 {% if not picks_locked %}
                     <li class="divider"></li>
@@ -70,8 +75,6 @@
                     <li><a href="{{ path('league_lock', {leagueId: league.id, season: season}) }}">Lock League</a></li>
                 </ul>
             </li>
-        {% elseif not picks_locked %}
-            <li><a href="{{ path('league_find', {season: season}) }}">Find or Create a League</a></li>
         {% endif %}
     {% endif %}
 {% endblock %}
