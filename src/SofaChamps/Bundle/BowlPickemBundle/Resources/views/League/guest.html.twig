@@ -2,7 +2,9 @@
 
 {% block content %}
     <h2>{{ league.name }} (id: {{ league.id }})</h2>
-    <p><small>"{{ league.motto }}"</small></p>
+    {% if league.motto %}
+        <p><small>"{{ league.motto }}"</small></p>
+    {% endif %}
     {% if league.note %}
         <div class="row well">
             <div class="col-md-12">

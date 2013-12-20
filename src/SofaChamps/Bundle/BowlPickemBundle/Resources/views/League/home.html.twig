@@ -13,7 +13,9 @@
             <small><a href="{{ path('league_logo', {season: season, leagueId: league.id}) }}">{{ logoEditText }}</a></small>
         {% endif %}
     </h2>
-    <h4>"{{ league.motto }}"</h4>
+    {% if league.motto %}
+        <h4>"{{ league.motto }}"</h4>
+    {% endif %}
     <div class="row well">
         <div class="col-md-6">
             <h3>{{ pickSet.name }}</h3>
