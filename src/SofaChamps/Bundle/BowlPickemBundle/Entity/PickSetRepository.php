@@ -67,7 +67,7 @@ EOF;
     public function getPopulatedPickSet(PickSet $pickSet)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, pk, pg, pt, home, away')
+            ->select('p, u, pk, pg, pt, home, away')
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.picks', 'pk')
             ->leftJoin('pk.game', 'pg')
@@ -106,11 +106,15 @@ EOF;
     public function findAllOrderedByPoints($season, $limit = 10)
     {
         return $this->createQueryBuilder('p')
+            ->select('p, u, pk, pg, pt, home, away')
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.picks', 'pk')
             ->innerJoin('pk.game', 'pg')
+            ->innerJoin('pk.team', 'pt')
+            ->innerJoin('pg.homeTeam', 'home')
+            ->innerJoin('pg.awayTeam', 'away')
             ->innerJoin('p.leagues', 'l')
-            ->where('pg.season = ?1')
+            ->where('p.season = ?1')
             ->setParameter(1, $season)
             ->getQuery()
             ->getResult();
