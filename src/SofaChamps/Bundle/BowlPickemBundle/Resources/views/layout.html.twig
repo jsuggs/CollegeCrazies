@@ -29,13 +29,12 @@
                         {% endif %}
                     </li>
                 {% endfor %}
-                {% if not picks_locked %}
-                    <li class="divider"></li>
-                    <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
 
-                    <li class="divider"></li>
-                {% endif %}
+                <li class="divider"></li>
+                <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
+
                 {% if not picks_locked %}
+                    <li class="divider"></li>
                     <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
 
                     <li class="divider"></li>
