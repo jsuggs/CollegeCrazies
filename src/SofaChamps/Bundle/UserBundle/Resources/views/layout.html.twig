@@ -1,5 +1,9 @@
 {% extends "SofaChampsCoreBundle:Layout:layout.html.twig" %}
 
+{% block nav_primary %}
+    <li><a href="{{ path('bp_home', {season: current_season}) }}">Return to Bowl Pickem</a></li>
+{% endblock %}
+
 {% block content %}
     {% block fos_user_content %}{% endblock %}
 {% endblock %}
