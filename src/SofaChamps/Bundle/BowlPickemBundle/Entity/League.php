@@ -187,6 +187,11 @@ class League
         return (bool) !($this->password && strlen($this->password) > 0);
     }
 
+    public function setPublic($public)
+    {
+        //noop
+    }
+
     public function getMetadata()
     {
         return $this->metadata;

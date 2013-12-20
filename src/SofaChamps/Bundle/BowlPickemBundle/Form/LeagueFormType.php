@@ -12,7 +12,9 @@ class LeagueFormType extends AbstractType
     {
         $builder
             ->add('name', 'text')
-            ->add('motto', 'textarea')
+            ->add('motto', 'textarea', array(
+                'required' => false,
+            ))
             ->add('password', 'text', array(
                 'required' => false,
             ))
@@ -22,7 +24,6 @@ class LeagueFormType extends AbstractType
                     true => 'Public',
                     false => 'Private',
                 ),
-                'mapped' => false,
             ))
         ;
     }
