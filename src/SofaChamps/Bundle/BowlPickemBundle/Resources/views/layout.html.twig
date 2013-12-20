@@ -4,10 +4,10 @@
     {% set currentLeague = league is defined and league is not null ? league : null %}
     {% set currentPickSet = pickSet is defined and pickSet is not null ? pickSet : null %}
 
-    <li class="dropdown">
-        <a data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
-        <ul class="dropdown-menu" role="menu">
-            {% if is_granted('ROLE_USER') %}
+    {% if is_granted('ROLE_USER') %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#">My Picksets <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu">
                 {% for pickSet in app.user.pickSetsForSeason(season) if pickSet.id|length %}
                     <li{% if pickSet == currentPickSet %} class="active"{% endif %}>
                         <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">
@@ -35,15 +35,15 @@
 
                     <li class="divider"></li>
                 {% endif %}
-            {% endif %}
-            {% if not picks_locked %}
-                <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
+                {% if not picks_locked %}
+                    <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
 
-                <li class="divider"></li>
-                <li><a href="{{ path('league_new', {season: season}) }}">Create a new League</a></li>
-            {% endif %}
-        </ul>
-    </li>
+                    <li class="divider"></li>
+                    <li><a href="{{ path('league_new', {season: season}) }}">Create a new League</a></li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
     {% if currentLeague is not null %}
         <li class="dropdown">
             <a data-toggle="dropdown" href="#">League Info <b class="caret"></b></a>
