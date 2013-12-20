@@ -61,14 +61,14 @@
         {% if is_granted('MANAGE', currentLeague) %}
             <li class="dropdown">
                 <a data-toggle="dropdown" href="#">Commish Tools <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                    {% for league in app.user.leaguesForSeason(season) %}
-                        <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></li>
-                    {% endfor %}
-                    {% if not picks_locked %}
-                        <li class="divider"></li>
-                        <li><a href="{{ path('league_new', {season: season}) }}">Create a New League</a></li>
-                    {% endif %}
+                 <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('league_member_remove_list', {leagueId: league.id, season: season}) }}">Remove Members</a></li>
+                    <li><a href="{{ path('league_commissioners', {leagueId: league.id, season: season}) }}">League Commissioners</a></li>
+                    <li><a href="{{ path('league_nopicks', {leagueId: league.id, season: season}) }}">Users with incomplete PickSets</a></li>
+                    <li><a href="{{ path('league_edit', {leagueId: league.id, season: season}) }}">League Settings</a></li>
+                    <li><a href="{{ path('league_blast', {leagueId: league.id, season: season}) }}">League Email</a></li>
+                    <li><a href="{{ path('league_note', {leagueId: league.id, season: season}) }}">Commish Note</a></li>
+                    <li><a href="{{ path('league_lock', {leagueId: league.id, season: season}) }}">Lock League</a></li>
                 </ul>
             </li>
         {% elseif not picks_locked %}
