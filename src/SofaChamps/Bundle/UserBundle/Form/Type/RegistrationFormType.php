@@ -39,6 +39,10 @@ class RegistrationFormType extends BaseType
                 'required' => false,
                 'label' => 'Receive Email From League Commissioner',
             ))
+            ->add('emailVisible', 'checkbox', array(
+                'required' => false,
+                'label' => 'Email Visible in Leagues',
+            ))
         ;
     }
 
