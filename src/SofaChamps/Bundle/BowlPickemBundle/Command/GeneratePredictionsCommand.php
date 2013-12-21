@@ -16,8 +16,8 @@ class GeneratePredictionsCommand extends ContainerAwareCommand
     {
         $this->setName('bowl-pickem:generate-predictions')
             ->setDescription('Generate a set of predictions for doing statistical analysis')
-            ->addArgument('predictions', InputArgument::REQUIRED, 'The number of predictions to create')
             ->addArgument('season', InputArgument::REQUIRED, 'The season to create predictions for')
+            ->addArgument('predictions', InputArgument::OPTIONAL, 'The number of predictions to create')
             ->addOption('truncate', null, InputOption::VALUE_NONE, "Truncate the prediction tables")
         ;
     }
@@ -29,6 +29,10 @@ class GeneratePredictionsCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->generator->createPredictions($input->getArgument('predictions'), $input->getArgument('season'), $input->getOption('truncate'));
+        if ($input->getOption('truncate')) {
+            $this->generator->truncatePredictionTables($input->getArgument('season'));
+        } else {
+            $this->generator->createPredictions($input->getArgument('predictions'), $input->getArgument('season'));
+        }
     }
 }

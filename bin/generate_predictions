@@ -1,8 +1,8 @@
 #!/bin/bash
 
-app/console college-crazies:generate-predictions --env=prod --no-debug --truncate 10
-for i in {1..499}
+app/console bowl-pickem:generate-predictions 2013 --truncate "$@"
+for i in {1..500}
 do
-   app/console college-crazies:generate-predictions --env=prod --no-debug 10
+   app/console bowl-pickem:generate-predictions 2013 10 "$@"
 done
-app/console college-crazies:analyze-picksets --env=prod --no-debug
+app/console bowl-pickem:analyze-picksets 2013 "$@"

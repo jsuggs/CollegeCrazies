@@ -28,13 +28,8 @@ class PredictionGenerator
         $this->om = $om;
     }
 
-    public function createPredictions($numPredictions, $season, $truncate = true)
+    public function createPredictions($numPredictions, $season)
     {
-        // Clear out the old predictions
-        if ($truncate) {
-            $this->truncatePredictionTables($season);
-        }
-
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAll();
         $completedGames = array_filter($games, function ($game) {
             return $game->isComplete();
@@ -97,6 +92,16 @@ class PredictionGenerator
         }
     }
 
+    public function truncatePredictionTables($season)
+    {
+        $conn = $this->om->getConnection();
+        $conn->beginTransaction();
+        $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
+            'season' => $season,
+        ));
+        $conn->commit();
+    }
+
     public function getHomeTeamWinPercentage($spread) {
         // If no spread, its 50/50
         if ($spread === 0) {
@@ -125,15 +130,5 @@ class PredictionGenerator
         $this->om->persist($prediction);
 
         return $prediction;
-    }
-
-    protected function truncatePredictionTables($season)
-    {
-        $conn = $this->om->getConnection();
-        $conn->beginTransaction();
-        $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
-            'season' => $season,
-        ));
-        $conn->commit();
     }
 }
