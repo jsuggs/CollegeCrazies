@@ -96,6 +96,9 @@ class PredictionGenerator
     {
         $conn = $this->om->getConnection();
         $conn->beginTransaction();
+        $conn->executeUpdate('DELETE FROM user_prediction_set_score WHERE season = :season', array(
+            'season' => $season,
+        ));
         $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
             'season' => $season,
         ));
