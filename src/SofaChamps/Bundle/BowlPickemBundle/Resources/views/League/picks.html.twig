@@ -41,7 +41,15 @@
             {% for user in users %}
                 {% set userPickSet = league.getPicksetForUser(user) %}
                 <tr>
-                    <td class="first-col pickname"><a href="{{ path('pickset_view', {'picksetId': userPickSet.id, leagueId: league.id, season: season}) }}">{{ userPickSet.name }}</a></td>
+                    <td class="first-col pickname">
+                        <a href="{{ path('pickset_view', {'picksetId': userPickSet.id, leagueId: league.id, season: season}) }}">
+                            {% if user == curUser %}
+                                <b>{{ userPickSet.name }}</b>
+                            {% else %}
+                                {{ userPickSet.name }}
+                            {% endif %}
+                        </a>
+                    </td>
                     {% for game in games %}
                         {% set pick = userPickSet.findPickByGame(game) %}
                         {% if pick.game.complete %}
