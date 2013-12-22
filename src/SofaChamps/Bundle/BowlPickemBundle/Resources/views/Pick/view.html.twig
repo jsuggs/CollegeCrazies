@@ -8,7 +8,7 @@
             <h3>Projected Finish Distributions</h3>
             <p class="text-info">Based on our predicted games, this is your percentage chance of finishing in each place.</p>
 
-            {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_finish_distribution.html.twig' %}
+            <div class="pick-distribution" style="width:550px;height:200px;"></div>
         </div>
         <div class="row well">
             <h3>Projected Stats</h3>
@@ -26,4 +26,9 @@
         <p>FSU Score: {{ pickSet.tiebreakerHomeTeamScore }}</p>
         <p>Auburn Score: {{ pickSet.tiebreakerAwayTeamScore }}</p>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_finish_distribution.html.twig' %}
 {% endblock %}
