@@ -163,6 +163,7 @@ class PickController extends BaseController
     public function viewPickAction(League $league, PickSet $pickSet, $season)
     {
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
+        $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
 
         return array(
             'season' => $season,
