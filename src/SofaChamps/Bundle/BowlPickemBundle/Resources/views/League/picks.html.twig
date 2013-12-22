@@ -18,10 +18,10 @@
                 <tr>
                     <td>Favorite</td>
                     {% for game in games %}
-                        {% if game.winner == game.homeTeam %}
-                            <th class="correct"><b>{{ game.homeTeam.id }}</b></th>
+                        {% if game.winner == game.favorite %}
+                            <th class="correct"><b>{{ game.favorite.id }}</b></th>
                         {% else %}
-                            <th>{{ game.homeTeam.id }}</th>
+                            <th>{{ game.favorite.id }}</th>
                         {% endif %}
                     {% endfor %}
                     <td>-</td>
@@ -30,10 +30,10 @@
                 <tr>
                     <td>Underdog</td>
                     {% for game in games %}
-                        {% if game.winner == game.awayTeam %}
-                            <th class="correct"><b>{{ game.awayTeam.id }}</b></th>
+                        {% if game.winner == game.underdog %}
+                            <th class="correct"><b>{{ game.underdog.id }}</b></th>
                         {% else %}
-                            <th>{{ game.awayTeam.id }}</th>
+                            <th>{{ game.underdog.id }}</th>
                         {% endif %}
                     {% endfor %}
                     <td>-</td>
