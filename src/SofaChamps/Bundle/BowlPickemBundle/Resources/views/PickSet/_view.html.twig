@@ -20,6 +20,8 @@
                 {% set pickCorrect = pickMade ? (gameWinner == pick.team) : false %}
                 {% set homeTeamScore = prediction is defined ? prediction.homeTeamScore : pick.game.homeTeamScore %}
                 {% set awayTeamScore = prediction is defined ? prediction.awayTeamScore : pick.game.awayTeamScore %}
+                {% set favTeamScore = pick.game.favorite == pick.game.homeTeam ? homeTeamScore : awayTeamScore %}
+                {% set undTeamScore = pick.game.favorite != pick.game.homeTeam ? homeTeamScore : awayTeamScore %}
             {% else %}
                 {% set gameWinner = false %}
                 {% set pickCorrect = false %}
@@ -30,15 +32,15 @@
                     <td>{{ pick.team.name }}</td>
                 {% endif %}
                 <td>
-                    {%if gameComplete and gameWinner == pick.game.homeTeam  %}
-                        <strong>{{ pick.game.homeTeam.name}}</strong>
+                    {% if gameComplete and gameWinner == pick.game.favorite  %}
+                        <strong>{{ pick.game.favorite.name}}</strong>
                     {% else %}
-                        {{ pick.game.homeTeam.name }}
+                        {{ pick.game.favorite.name }}
                     {% endif %}
 
                     {% if gameComplete %}
-                        ({{ homeTeamScore }})
-                        {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %}
+                        ({{ favTeamScore }})
+                        {% if pick.team.id is defined and pick.game.favorite.id == pick.team.id %}
                             {% if pickCorrect %}
                                 <img src="/img/greencheck.png" height="16" width="16" />
                             {% else %}
@@ -46,7 +48,7 @@
                             {% endif %}
                         {% endif %}
                     {% else %}
-                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.homeTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.favorite.id == pick.team.id %} checked="checked"{% endif %} />
                     {% endif %}
                 </td>
                 <td class="confidence">
@@ -61,15 +63,15 @@
                     {% endif %}
                 </td>
                 <td>
-                    {%if gameComplete and gameWinner == pick.game.awayTeam  %}
-                        <strong>{{ pick.game.awayTeam.name}}</strong>
+                    {% if gameComplete and gameWinner == pick.game.underdog  %}
+                        <strong>{{ pick.game.underdog.name}}</strong>
                     {% else %}
-                        {{ pick.game.awayTeam.name }}
+                        {{ pick.game.underdog.name }}
                     {% endif %}
 
                     {% if gameComplete %}
-                        ({{ awayTeamScore }})
-                        {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %}
+                        ({{ undTeamScore }})
+                        {% if pick.team.id is defined and pick.game.underdog.id == pick.team.id %}
                             {% if pickCorrect %}
                                 <img src="/img/greencheck.png" height="16" width="16" />
                             {% else %}
@@ -77,7 +79,7 @@
                             {% endif %}
                         {% endif %}
                     {% else %}
-                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.awayTeam.id == pick.team.id %} checked="checked"{% endif %} />
+                        <input type="radio" disabled="disabled" {% if pick.team.id is defined and pick.game.underdog.id == pick.team.id %} checked="checked"{% endif %} />
                     {% endif %}
                 </td>
                 <td style="white-space:nowrap;">{{ pick.game.gameDate|date('m/d/Y g:i a') }}</td>
