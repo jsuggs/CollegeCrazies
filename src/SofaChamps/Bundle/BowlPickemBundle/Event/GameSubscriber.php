@@ -38,6 +38,9 @@ class GameSubscriber implements EventSubscriberInterface
                 array('analyizePickSets', 0),
                 array('updatePredictions', 10),
             ),
+            GameEvents::GAME_UPDATED => array(
+                array('clearQueryCache', 0),
+            ),
         );
     }
 
@@ -60,5 +63,11 @@ class GameSubscriber implements EventSubscriberInterface
         foreach ($leagues as $league) {
             $this->analyzer->analyizeLeaguePickSets($league);
         }
+    }
+
+    public function clearQueryCache(GameEvent $event)
+    {
+        $resultCache = $this->om->getConfiguration()->getResultCacheImpl();
+        $resultCache->deleteAll();
     }
 }

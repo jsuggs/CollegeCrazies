@@ -96,7 +96,7 @@ EOF;
             ->orderBy('g.gameDate', $sort)
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, $season)
+            ->useResultCache(true, 3600, sprintf('game.all-by-date-%', $season))
             ->getResult();
     }
 
@@ -108,7 +108,7 @@ EOF;
             ->orderBy('g.tiebreakerPriority', 'ASC')
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, $season)
+            ->useResultCache(true, 3600, sprintf('game.tiebreakers-%s', $season))
             ->getResult();
     }
 
@@ -142,7 +142,7 @@ EOF;
             ->where('g.season = :season')
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, $season)
+            ->useResultCache(true, 3600, sprintf('game.first-game-date-%s', $season))
             ->getSingleScalarResult();
     }
 }

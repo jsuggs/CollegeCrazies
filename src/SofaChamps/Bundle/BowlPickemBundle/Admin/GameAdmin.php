@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Admin;
 
+use SofaChamps\Bundle\BowlPickemBundle\Game\GameManager;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -9,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class GameAdmin extends Admin
 {
+    protected $gameManager;
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -51,5 +54,20 @@ class GameAdmin extends Admin
             ->add('overunder')
             ->add('gameDate')
         ;
+    }
+
+    public function preUpdate($game)
+    {
+        $this->getGameManager()->updateGame($game);
+    }
+
+    public function setGameManager(GameManager $gameManager)
+    {
+        $this->gameManager = $gameManager;
+    }
+
+    public function getGameManager()
+    {
+        return $this->gameManager;
     }
 }

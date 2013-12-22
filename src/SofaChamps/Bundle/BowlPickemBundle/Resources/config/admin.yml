@@ -7,6 +7,8 @@ services:
             - ~
             - SofaChamps\Bundle\BowlPickemBundle\Entity\Game
             - 'SonataAdminBundle:CRUD'
+        calls:
+            - [ setGameManager, [@sofachamps.bp.game_manager]]
 
     sofachamps.admin.bp.league:
         class: SofaChamps\Bundle\BowlPickemBundle\Admin\LeagueAdmin
