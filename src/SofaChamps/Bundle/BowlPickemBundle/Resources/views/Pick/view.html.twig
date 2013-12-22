@@ -30,5 +30,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_finish_distribution.html.twig' %}
+    {% if league is defined %}
+        {% include 'SofaChampsBowlPickemBundle:PickSet:_projected_finish_distribution.html.twig' %}
+    {% endif %}
 {% endblock %}
