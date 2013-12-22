@@ -23,6 +23,8 @@ class PredictionController extends BaseController
      */
     public function outcomeAction(PickSet $pickSet, PredictionSet $predictionSet, $season)
     {
+        $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
+
         return array(
             'season' => $season,
             'pickSet' => $pickSet,
