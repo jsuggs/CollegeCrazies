@@ -26,7 +26,7 @@
                 {% set gameWinner = false %}
                 {% set pickCorrect = false %}
             {% endif %}
-            <tr class="{% if not pickMade %}danger{% elseif pickCorrect %}success{% elseif gameComplete %}warning{% endif %}">
+            <tr class="{% if not pickMade %}warning{% elseif pickCorrect %}success{% elseif gameComplete %}danger{% endif %}">
                 <td>{{ pick.game.name }}</td>
                 {% if predictionSet is defined %}
                     <td>{{ pick.team.name }}</td>
