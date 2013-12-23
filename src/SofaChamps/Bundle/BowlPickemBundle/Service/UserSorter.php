@@ -47,7 +47,8 @@ class UserSorter
 
     public function getUserRank(User $user, array $sortedUsers)
     {
-        return array_search($user, $sortedUsers);
+        // array_search returns a 0 based index
+        return array_search($user, $sortedUsers) + 1;
     }
 
     protected function getValidPickSetsForLeague(League $league, $users)
