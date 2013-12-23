@@ -3,7 +3,7 @@
 {% block sidebar '' %}
 
 {% block content %}
-    <h1>{{ season }} - {{ season + 1 }} Bowl Schedule</h1>
+    <h1>{{ season }} - {{ season + 1 }} Bowl Schedule <small>Times shown in {{ "now"|user_date('T') }}</small></h1>
 
     <table class="table table-bordered table-striped table-hover">
         <thead>
@@ -20,8 +20,8 @@
         {% for game in games %}
             <tr>
                 <td>{{ game.name }}</td>
-                <td>{{ game.gameDate|date("F jS \\a\\t g:ia") }}</td>
-                <td><abbr title="{{ game.homeTeam.name }}">{{ game.homeTeam.id}}</abbr> vs <abbr title="{{ game.awayTeam.name }}">{{ game.awayTeam.id }}</abbr></td>
+                <td>{{ game.gameDate|user_date("F jS \\a\\t g:ia") }}</td>
+                <td><abbr title="{{ game.homeTeam.name }}">{{ game.homeTeam.id }}</abbr> vs <abbr title="{{ game.awayTeam.name }}">{{ game.awayTeam.id }}</abbr></td>
                 <td>{{ game.network }}</td>
                 <td>
                 {% if game.complete %}
