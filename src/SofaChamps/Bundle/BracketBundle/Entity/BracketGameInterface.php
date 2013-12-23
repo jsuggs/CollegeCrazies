@@ -10,4 +10,5 @@ interface BracketGameInterface
     public function getParent();
     public function setChild(BracketGameInterface $child);
     public function getChild();
+    public function getRound();
 }

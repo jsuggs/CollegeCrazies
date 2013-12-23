@@ -4,6 +4,8 @@ namespace SofaChamps\Bundle\BracketBundle\Bracket;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
+use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -11,6 +13,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class BracketManager
 {
+    private $gameClass = 'SofaChamps\Bundle\MarchMadnessBundle\Entity\Game';
+    private $bracketClass = 'SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket';
+
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
@@ -26,20 +31,50 @@ class BracketManager
     public function createBracket($rounds)
     {
         $bracket = $this->getNewBracket();
+        $bracketGames = array();
+        $currentRound = 1;
 
         // Start with the championship game
-        $game = $this->getNewBracketGame();
+        $bracketGames[0][] = $this->createBracketGame($bracket, $currentRound);
+
+        // Create the games
+        while ($currentRound <= $rounds) {
+            $parentRound = $currentRound - 1;
+            $gamesNeedingParents = $bracketGames[$parentRound];
+            foreach ($gamesNeedingParents as $parent) {
+                foreach ($this->createParentGames($bracket, $parent, $currentRound) as $game) {
+                    $bracketGames[$currentRound][] = $game;
+                }
+            }
+
+            $currentRound++;
+        }
 
         return $bracket;
     }
 
-    public function getNewBracket()
+    public function createParentGames(AbstractBracket $bracket, AbstractBracketGame $game, $round, $numGames = 2)
     {
-        return new Bracket();
+        $games = array();
+        for ($x = 0; $x < $numGames; $x++) {
+            $games[] = $this->createBracketGame($bracket, $round, $game);
+        }
+
+        return $games;
     }
 
-    public functoin getNewBracketGame()
+    public function getNewBracket()
     {
-        return new BracketGame();
+        return new $this->bracketClass();
+    }
+
+    public function createBracketGame(AbstractBracket $bracket, $round, AbstractBracketGame $parent = null)
+    {
+        $game = new $this->gameClass($bracket, $round, $parent);
+        $bracket->addGame($game);
+
+        $this->om->persist($game);
+
+        return $game;
     }
 }

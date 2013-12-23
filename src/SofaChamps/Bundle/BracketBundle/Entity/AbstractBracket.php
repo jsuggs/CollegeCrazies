@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\BracketBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,12 +13,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class AbstractBracket implements BracketInterface
 {
-    public function addGame(BracketGame $game)
+    protected $games;
+
+    public function __construct()
     {
-        $this->games[] = $game;
+        $this->games = new ArrayCollection();
     }
 
-    public function removeGame(BracketGame $game)
+    public function addGame(AbstractBracketGame $game)
+    {
+        if (!$this->games->contains($game)) {
+            $this->games->add($game);
+        }
+    }
+
+    public function removeGame(AbstractBracketGame $game)
     {
         $this->games->removeElement($game);
     }

@@ -7,7 +7,7 @@ namespace SofaChamps\Bundle\BracketBundle\Entity;
  */
 interface BracketInterface
 {
-    public function addGame(BracketGame $game);
-    public function removeGame(BracketGame $game);
+    public function addGame(AbstractBracketGame $game);
+    public function removeGame(AbstractBracketGame $game);
     public function getGames();
 }
