@@ -8,6 +8,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vlabs\MediaBundle\Annotation\Vlabs;
 
 /**
  * A User
@@ -87,6 +88,14 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="User", mappedBy="referrer")
      **/
     protected $referrals;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\JoinColumn(name="profile_img_id", referencedColumnName="id")
+     * @Vlabs\Media(identifier="image_entity", upload_dir="uploads/user/profile")
+     * @Assert\Valid
+     */
+    protected $profilePicture;
 
     public function __construct()
     {
@@ -261,6 +270,16 @@ class User extends BaseUser
     public function getReferrals()
     {
         return $this->referrals;
+    }
+
+    public function setProfilePicture(Image $profilePicture)
+    {
+        $this->profilePicture = $profilePicture;
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
     }
 
     public function __toString()
