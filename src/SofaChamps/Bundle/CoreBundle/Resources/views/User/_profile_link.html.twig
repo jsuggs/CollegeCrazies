@@ -1,1 +1,8 @@
+{% if showProfilePicture %}
+    {% if user.profilePicture %}
+        {{ user.profilePicture|vlabs_filter('resize', { 'width' : 25, 'height' : 25 })|vlabs_media('image', {attr: {style: "width: 1em;"}}) }}
+    {% else %}
+        <span class="glyphicon glyphicon-user"></span>
+    {% endif %}
+{% endif %}
 <a href="{{ path('user_profile', {username: user.username}) }}" rel="tooltip" title="{{ user.firstName}} {{ user.lastName }}">{{ user.username }}</a>
