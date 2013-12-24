@@ -42,11 +42,6 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
         return $this->round;
     }
 
-    public function setBracket(BracketInterface $bracket)
-    {
-        $this->bracket = $bracket;
-    }
-
     public function getBracket()
     {
         return $this->bracket;
@@ -62,15 +57,15 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
         return $this->parent;
     }
 
-    public function setChild(BracketGameInterface $child)
+    public function addChild(BracketGameInterface $child)
     {
         if (!$this->children->contains($child)) {
             $this->children->add($child);
         }
     }
 
-    public function getChild()
+    public function getChildren()
     {
-        return $this->child;
+        return $this->children;
     }
 }

@@ -7,34 +7,31 @@ use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
 
 class BracketGameTest extends BracketBundleTest
 {
-    public function testBracket()
+    public function testConstructor()
     {
         $bracket = new Bracket();
+        $round = rand(0, 100);
+        $parent = $this->getNewBracketGame();
 
-        $game = new BracketGame();
-        $this->assertNull($game->getBracket());
+        $game = new BracketGame($bracket, $round, $parent);
 
-        $game->setBracket($bracket);
         $this->assertEquals($bracket, $game->getBracket());
-    }
-
-    public function testParent()
-    {
-        $game = new BracketGame();
-        $this->assertNull($game->getParent());
-
-        $parent = new BracketGame();
-        $game->setParent($parent);
+        $this->assertEquals($round, $game->getRound());
         $this->assertEquals($parent, $game->getParent());
     }
 
     public function testChild()
     {
-        $game = new BracketGame();
-        $this->assertNull($game->getChild());
+        $game = $this->getNewBracketGame();
+        $this->assertEquals(0, $game->getChildren()->count());
 
-        $child = new BracketGame();
-        $game->setChild($child);
-        $this->assertEquals($child, $game->getChild());
+        $child = $this->getNewBracketGame();
+        $game->addChild($child);
+        $this->assertContains($child, $game->getChildren());
+    }
+
+    protected function getNewBracketGame()
+    {
+        return new BracketGame(new Bracket(), rand(0, 100));
     }
 }
