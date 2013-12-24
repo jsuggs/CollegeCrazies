@@ -19,7 +19,7 @@
         "sensio/framework-extra-bundle": "*",
         "sensio/generator-bundle": "*",
         "sonata-project/admin-bundle": "*",
-        "sonata-project/doctrine-orm-admin-bundle": "*",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-fix/multi-identifiers",
         "sonata-project/core-bundle": "*",
         "jms/security-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
@@ -51,6 +51,10 @@
                     "reference": "master"
                 }
             }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/jsuggs/SonataDoctrineORMAdminBundle.git"
         },
         {
             "type": "vcs",

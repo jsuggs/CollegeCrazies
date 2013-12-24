@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "0d513b492a81a8eb5065a38f7604d726",
+    "hash": "ce1c7be9257046ae4baf2f53c74d0467",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2414,17 +2414,17 @@
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
-            "version": "dev-master",
+            "version": "dev-fix/multi-identifiers",
             "target-dir": "Sonata/DoctrineORMAdminBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "0b5552f60698ac7cc24833d1789182f23797fd85"
+                "url": "https://github.com/jsuggs/SonataDoctrineORMAdminBundle.git",
+                "reference": "e08fe6dfec9a61cdac4397fa9b9ffe3f30bbf882"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/0b5552f60698ac7cc24833d1789182f23797fd85",
-                "reference": "0b5552f60698ac7cc24833d1789182f23797fd85",
+                "url": "https://api.github.com/repos/jsuggs/SonataDoctrineORMAdminBundle/zipball/e08fe6dfec9a61cdac4397fa9b9ffe3f30bbf882",
+                "reference": "e08fe6dfec9a61cdac4397fa9b9ffe3f30bbf882",
                 "shasum": ""
             },
             "require": {
@@ -2444,7 +2444,6 @@
                     "Sonata\\DoctrineORMAdminBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2468,7 +2467,10 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2014-01-15 17:24:02"
+            "support": {
+                "source": "https://github.com/jsuggs/SonataDoctrineORMAdminBundle/tree/fix/multi-identifiers"
+            },
+            "time": "2013-12-24 22:57:15"
         },
         {
             "name": "sonata-project/exporter",
@@ -3059,6 +3061,7 @@
     "stability-flags": {
         "doctrine/doctrine-migrations-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
+        "sonata-project/doctrine-orm-admin-bundle": 20,
         "liip/functional-test-bundle": 20,
         "vlabs/media-bundle": 20
     },

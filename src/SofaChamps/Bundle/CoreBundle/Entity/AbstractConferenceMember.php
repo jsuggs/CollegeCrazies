@@ -4,6 +4,9 @@ namespace SofaChamps\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\MappedSuperclass
+ */
 abstract class AbstractConferenceMember implements ConferenceMemberInterface
 {
     // Note: You must map the conference and team in the concrete class
