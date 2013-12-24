@@ -14,7 +14,8 @@ use Vlabs\MediaBundle\Annotation\Vlabs;
  *
  * @ORM\Entity(repositoryClass="LeagueRepository")
  * @ORM\Table(
- *      name="leagues"
+ *      name="leagues",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_league_logo_id", columns={"logo_id"})}
  * )
  */
 class League

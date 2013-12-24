@@ -28,6 +28,7 @@ class UserPredictionSetScore
     protected $league;
 
     /**
+     * @ORM\Id
      * @ORM\Column(type="integer", length=4)
      * @Assert\Range(min=2012, max=2020)
      */

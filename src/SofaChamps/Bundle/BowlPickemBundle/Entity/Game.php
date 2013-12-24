@@ -142,7 +142,7 @@ class Game
     /**
      * The tiebreaker priority
      *
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      * @var int
      */
     protected $tiebreakerPriority;
