@@ -43,6 +43,10 @@ class ProfileFormType extends BaseType
                 'required' => false,
                 'label' => 'Email Visible in Leagues',
             ))
+            ->add('profilePicture', 'vlabs_file', array(
+                'required' => false,
+                'label' => 'Profile Picture',
+            ))
             ->add('timezone', 'timezone', array(
                 'label' => 'Timezone',
                 'preferred_choices' => array(
