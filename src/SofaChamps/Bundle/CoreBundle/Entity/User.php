@@ -68,9 +68,9 @@ class User extends BaseUser
     protected $lastName;
 
     /**
-     * ORM\Column(type="string")
+     * @ORM\Column(type="string", length=30, options={"default": "America/Chicago"})
      */
-    protected $timezone;
+    protected $timezone = 'America/Chicago';
 
     /**
      * @ORM\OneToMany(targetEntity="\SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Pick", mappedBy="user", fetch="EXTRA_LAZY")
@@ -214,9 +214,14 @@ class User extends BaseUser
         return $this->lastName;
     }
 
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
+
     public function getTimezone()
     {
-        return 'Asia/Baku';
+        return $this->timezone;
     }
 
     public function getSuperBowlChallengePickForYear($year)
