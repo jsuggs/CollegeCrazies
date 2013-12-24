@@ -1,0 +1,2 @@
+{% set attr = options.attr is defined ? options.attr : {} %}
+<img src="{{ asset(media.path) }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}/>
