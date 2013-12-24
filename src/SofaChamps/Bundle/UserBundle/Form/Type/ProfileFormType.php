@@ -25,7 +25,7 @@ class ProfileFormType extends BaseType
     {
         parent::buildForm($builder, $options);
 
-        // Additional Fields 
+        // Additional Fields
         $builder
             ->add('firstName', 'text', array(
                 'required' => false,
