@@ -30,6 +30,7 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
     public function __construct(AbstractBracket $bracket, $round, BracketGameInterface $parent = null)
     {
         $this->bracket = $bracket;
+        $bracket->addGame($this);
         $this->round = $round;
         if ($parent) {
             $this->parent = $parent;
