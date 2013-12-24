@@ -43,6 +43,16 @@ class ProfileFormType extends BaseType
                 'required' => false,
                 'label' => 'Email Visible in Leagues',
             ))
+            ->add('timezone', 'timezone', array(
+                'label' => 'Timezone',
+                'preferred_choices' => array(
+                    'America/Chicago',
+                    'America/New_York',
+                    'America/Los_Angeles',
+                    'America/Louisville',
+                    'America/Boise',
+                ),
+            ))
         ;
     }
 
