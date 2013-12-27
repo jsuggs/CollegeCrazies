@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ImportDataCommand extends ContainerAwareCommand
 {
+    protected $conn;
     protected $dataDirectory;
 
     protected function configure()
@@ -20,6 +21,7 @@ class ImportDataCommand extends ContainerAwareCommand
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        $this->conn = $this->getContainer()->get('doctrine.dbal.super_connection');
         $this->dataDirectory = $this->getContainer()->getParameter('kernel.root_dir') . '/data/ncaa';
     }
 
@@ -30,6 +32,9 @@ class ImportDataCommand extends ContainerAwareCommand
 
     protected function importTeams(OutputInterface $output)
     {
-        $output->writeln(sprintf('psql -U %s'));
+        $output->writeln('Creating temporary table');
+        $this->conn->exec('create temporary table _ncaa_teams (like ncaa_teams)');
+        $teamDataFile = $this->dataDirectory . '/teams.csv';
+        $this->conn->exec(sprintf("copy _ncaa_teams from '%s' CSV HEADER", $teamDataFile));
     }
 }
