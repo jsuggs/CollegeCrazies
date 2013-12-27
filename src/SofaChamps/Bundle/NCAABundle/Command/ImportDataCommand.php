@@ -33,8 +33,14 @@ class ImportDataCommand extends ContainerAwareCommand
     protected function importTeams(OutputInterface $output)
     {
         $output->writeln('Creating temporary table');
-        $this->conn->exec('create temporary table _ncaa_teams (like ncaa_teams)');
+        $this->conn->exec('CREATE TEMPORARY TABLE _ncaa_teams (LIKE ncaa_teams)');
         $teamDataFile = $this->dataDirectory . '/teams.csv';
-        $this->conn->exec(sprintf("copy _ncaa_teams from '%s' CSV HEADER", $teamDataFile));
+        $this->conn->exec(sprintf("COPY _ncaa_teams FROM '%s' CSV HEADER", $teamDataFile));
+        $output->writeln('New data loaded into temporary table');
+        $this->conn->beginTransaction();
+        $this->conn->exec('LOCK TABLE ncaa_teams IN EXCLUSIVE MODE');
+        $this->conn->exec('UPDATE ncaa_teams SET name = _t.name, thumbnail = _t.thumbnail FROM _ncaa_teams _t WHERE ncaa_teams.id = _t.id');
+        $this->conn->exec('INSERT INTO ncaa_teams SELECT _t.id, _t.name, _t.thumbnail FROM _ncaa_teams _t LEFT OUTER JOIN ncaa_teams t ON t.id = _t.id WHERE t.id IS NULL');
+        $this->conn->commit();
     }
 }
