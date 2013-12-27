@@ -26,7 +26,7 @@ class Game extends AbstractBracketGame
 
     /**
      * @ORM\ManyToOne(targetEntity="Bracket", inversedBy="games")
-     * @ORM\JoinColumn(name="year", referencedColumnName="year")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $bracket;
 
@@ -38,7 +38,7 @@ class Game extends AbstractBracketGame
     /**
      * @ORM\OneToOne(targetEntity="Game")
      */
-    protected $child;
+    protected $children;
 
     /**
      * @ORM\OneToMany(targetEntity="BracketPick", mappedBy="game", fetch="EXTRA_LAZY")

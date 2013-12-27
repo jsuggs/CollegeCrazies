@@ -32,6 +32,11 @@ class Game extends AbstractGame
     protected $id;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $name;
+
+    /**
      * The bowl season for this game
      *
      * @ORM\Column(type="integer", length=4)
@@ -137,6 +142,16 @@ class Game extends AbstractGame
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function setSeason($season)

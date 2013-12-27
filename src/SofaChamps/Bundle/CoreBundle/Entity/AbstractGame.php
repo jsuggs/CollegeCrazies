@@ -15,11 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractGame implements GameInterface
 {
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $name;
-
-    /**
      * homeTeamScore
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -59,16 +54,6 @@ abstract class AbstractGame implements GameInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
     }
 
     public function setHomeTeam(TeamInterface $team)

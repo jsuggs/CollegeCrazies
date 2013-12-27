@@ -8,14 +8,8 @@ use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @DI\Service("sofachamps.bracket.bracket_manager")
- */
-class BracketManager
+abstract class AbstractBracketManager
 {
-    private $gameClass = 'SofaChamps\Bundle\MarchMadnessBundle\Entity\Game';
-    private $bracketClass = 'SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket';
-
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
@@ -28,9 +22,8 @@ class BracketManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createBracket($rounds)
+    public function createBracketGames(AbstractBracket $bracket, $rounds)
     {
-        $bracket = $this->getNewBracket();
         $bracketGames = array();
         $currentRound = 1;
 
@@ -63,18 +56,18 @@ class BracketManager
         return $games;
     }
 
-    public function getNewBracket()
-    {
-        return new $this->bracketClass();
-    }
-
     public function createBracketGame(AbstractBracket $bracket, $round, AbstractBracketGame $parent = null)
     {
-        $game = new $this->gameClass($bracket, $round, $parent);
+        $gameClass = $this->getGameClass();
+        $game = new $gameClass($bracket, $round, $parent);
+        $game->setGameDate(new \DateTime());
+        $game->setLocation('TBD');
         $bracket->addGame($game);
 
         $this->om->persist($game);
 
         return $game;
     }
+
+    abstract protected function getGameClass();
 }

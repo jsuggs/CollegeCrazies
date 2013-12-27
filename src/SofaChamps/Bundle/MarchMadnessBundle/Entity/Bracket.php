@@ -20,25 +20,27 @@ class Bracket extends AbstractBracket
      * @ORM\Id
      * @ORM\Column(type="integer")
      */
-    protected $year;
+    protected $season;
 
     /**
      * @ORM\OneToMany(targetEntity="Game", mappedBy="bracket")
      */
     protected $games;
 
-    public function setYear($year)
+    public function __construct($season)
     {
-        $this->year = (int)$year;
+        parent::__construct();
+
+        $this->season = $season;
     }
 
-    public function getYear()
+    public function getSeason()
     {
-        return $this->year;
+        return $this->season;
     }
 
     public function __toString()
     {
-        return (string) $this->year ?: 'New Bracket';
+        return (string) $this->season ?: 'New Bracket';
     }
 }

@@ -9,22 +9,21 @@ class Version20130202200905 extends AbstractMigration
 {
     const CREATE_MM_GAMES_SQL =<<<EOF
 CREATE TABLE mm_games (
-    year INT DEFAULT NULL
-  , bracket_id INT DEFAULT NULL
+    id INT NOT NULL
+  , season INT DEFAULT NULL
   , parent_id INT DEFAULT NULL
-  , child_id INT DEFAULT NULL
   , homeTeamScore INT DEFAULT NULL
   , awayTeamScore INT DEFAULT NULL
   , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
   , location VARCHAR(255) NOT NULL
-  , PRIMARY KEY(year)
+  , PRIMARY KEY(id)
 );
 EOF;
 
     const CREATE_MM_BRACKETS_SQL =<<<EOF
 CREATE TABLE mm_brackets (
-    year INT NOT NULL
-  , PRIMARY KEY(year)
+    season INT NOT NULL
+  , PRIMARY KEY(season)
 );
 EOF;
 
@@ -34,7 +33,7 @@ EOF;
         $this->addSql('CREATE SEQUENCE seq_mm_brackets INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(self::CREATE_MM_GAMES_SQL);
         $this->addSql(self::CREATE_MM_BRACKETS_SQL);
-        $this->addSql('CREATE INDEX IDX_7421286E8D78 ON mm_games (bracket_id)');
+        //$this->addSql('CREATE INDEX IDX_7421286E8D78 ON mm_games (bracket_id)');
         //$this->addSql('CREATE UNIQUE INDEX UNIQ_742128727ACA70 ON mm_games (parent_id)');
         //$this->addSql('CREATE UNIQUE INDEX UNIQ_742128DD62C21B ON mm_games (child_id)');
         //$this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_7421286E8D78 FOREIGN KEY (bracket_id) REFERENCES mm_brackets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');

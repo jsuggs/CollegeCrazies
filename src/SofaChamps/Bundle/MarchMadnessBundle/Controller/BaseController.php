@@ -2,9 +2,9 @@
 
 namespace SofaChamps\Bundle\MarchMadnessBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 
-class BaseController extends Controller
+class BaseController extends CoreController
 {
     public function getGames()
     {
