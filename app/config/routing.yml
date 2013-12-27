@@ -23,6 +23,11 @@ sofa_champs_march_madness:
     type:     annotation
     prefix:   /march-madness
 
+sofa_champs_ncaa:
+    resource: "@SofaChampsNCAABundle/Controller/"
+    type:     annotation
+    prefix:   /ncaa
+
 sofa_champs_nfl_admin:
     resource: "@SofaChampsNFLBundle/Controller/"
     type:     annotation

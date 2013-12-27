@@ -1,0 +1,12 @@
+{% extends "SofaChampsNCAABundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>{{ conference.name }}</h1>
+
+    <p>Conference members for {{ season }}</p>
+    <ul>
+        {% for member in conference.members(season) %}
+            <li>{{ member.team.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
