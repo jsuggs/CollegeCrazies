@@ -28,6 +28,8 @@ class ImportDataCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->importTeams($output);
+        $this->importConferences($output);
+        $this->importConferenceMembers($output);
     }
 
     protected function importTeams(OutputInterface $output)
@@ -55,6 +57,18 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->conn->exec('LOCK TABLE ncaa_conferences IN EXCLUSIVE MODE');
         $this->conn->exec('UPDATE ncaa_conferences SET name = _t.name FROM _ncaa_conferences _t WHERE ncaa_conferences.abbr = _t.abbr');
         $this->conn->exec('INSERT INTO ncaa_conferences SELECT _t.abbr, _t.name FROM _ncaa_conferences _t LEFT OUTER JOIN ncaa_conferences t ON t.abbr = _t.abbr WHERE t.abbr IS NULL');
+        $this->conn->commit();
+    }
+
+    protected function importConferenceMembers(OutputInterface $output)
+    {
+        $output->writeln('Creating temporary table');
+        $membershipDataFiles = glob(sprintf('%s/conference_membership/*/*.csv', $this->dataDirectory));
+        $this->conn->beginTransaction();
+        $this->conn->exec('TRUNCATE ncaaf_conference_members');
+        foreach ($membershipDataFiles as $dataFile) {
+            $this->conn->exec(sprintf("COPY ncaaf_conference_members FROM '%s' CSV HEADER", $dataFile));
+        }
         $this->conn->commit();
     }
 }
