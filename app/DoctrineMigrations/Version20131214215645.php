@@ -10,8 +10,8 @@ class Version20131214215645 extends AbstractMigration
     const NCAA_TEAMS_SQL =<<<SQL
 CREATE TABLE ncaa_teams (
     id VARCHAR(5) NOT NULL
-  , thumbnail VARCHAR(255) NOT NULL
   , name VARCHAR(255) NOT NULL
+  , thumbnail VARCHAR(255) NOT NULL
   , PRIMARY KEY(id)
 )
 SQL;
@@ -20,8 +20,8 @@ SQL;
 INSERT INTO ncaa_teams
 SELECT
     id
-  , thumbnail
   , name
+  , thumbnail
 FROM teams
 SQL;
 
@@ -29,8 +29,8 @@ SQL;
 INSERT INTO teams
 SELECT
     id
-  , thumbnail
   , name
+  , thumbnail
 FROM ncaa_teams
 SQL;
 
