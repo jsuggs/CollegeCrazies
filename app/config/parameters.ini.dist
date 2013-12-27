@@ -7,7 +7,7 @@
     database_password = sofachamps
 
     database_super_user    = sofachamps_super
-    database_suer_password = sofachamps_super
+    database_super_password = sofachamps_super
 
     mailer_transport  = localhost
     mailer_user       = root
