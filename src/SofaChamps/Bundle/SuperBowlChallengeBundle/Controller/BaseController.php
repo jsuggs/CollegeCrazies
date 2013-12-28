@@ -61,8 +61,8 @@ class BaseController extends CoreController
             $config->setStartTime(new \DateTime());
             $config->setCloseTime(new \DateTime());
 
-            // Default the 4 bonus questions
-            for ($index = 4; $index >= 1; $index--) {
+            // Default the 8 bonus questions
+            for ($index = 8; $index >= 1; $index--) {
                 $question = new Question();
                 $question->setYear($year);
                 $question->setIndex($index);

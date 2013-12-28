@@ -56,7 +56,7 @@ class PickController extends BaseController
             )));
         }
 
-        $form->bind($request);
+        $form->bind($this->getRequest());
         if ($form->isValid()) {
             $em = $this->getEntityManager();
             $em->persist($pick);
