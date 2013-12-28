@@ -19,21 +19,31 @@ class SuperBowlChallengeExtension extends \Twig_Extension
     /**
      * @DI\InjectParams({
      *      "manager" = @DI\Inject("sofachamps.superbowlchallenge.pickmanager"),
-     *      "year" = @DI\Inject("config.curyear")
      * })
      */
-    public function __construct(PickManager $manager, $year)
+    public function __construct(PickManager $manager)
     {
         $this->manager = $manager;
-        $this->year = $year;
     }
 
-    public function getGlobals()
+    public function getFunctions()
     {
+        $manager = $this->manager;
+
         return array(
-            'sbc_picks_open' => $this->manager->picksOpen($this->year),
-            'sbc_game_available' => $this->manager->gameAvailable($this->year),
+            'sbc_picks_open' => new \Twig_Function_Method($this, 'arePicksOpen'),
+            'sbc_game_available' => new \Twig_Function_Method($this, 'isGameAvailable'),
         );
+    }
+
+    public function arePicksOpen($year)
+    {
+        return $this->manager->picksOpen($year);
+    }
+
+    public function isGameAvailable($year)
+    {
+        return $this->manager->gameAvailable($year);
     }
 
     public function getName()
