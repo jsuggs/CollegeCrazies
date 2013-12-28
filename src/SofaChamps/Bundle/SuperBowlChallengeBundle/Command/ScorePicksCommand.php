@@ -14,20 +14,19 @@ class ScorePicksCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $this->setName('sofachamps:superbowlchallenge:score-picks')
-            ->addArgument('year', InputArgument::OPTIONAL, 'The year to calculat the scores for')
+        $this->setName('superbowlchallenge:score-picks')
+            ->addArgument('year', InputArgument::REQUIRED, 'The year to calculat the scores for')
             ->setDescription('Score all of the picks')
         ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        $this->year = (int) $input->getArgument('year') ?: $this->getContainer()->get('config.curyear');
         $this->manager = $this->getContainer()->get('sofachamps.superbowlchallenge.pickmanager');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->manager->scorePicks($this->year);
+        $this->manager->scorePicks($input->getArgument('year'));
     }
 }
