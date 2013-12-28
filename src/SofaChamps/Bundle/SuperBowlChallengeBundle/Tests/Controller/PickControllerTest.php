@@ -14,7 +14,7 @@ class PickControllerTest extends WebTestCase
         $client = static::createClient();
         $this->loadFixtures(array());
 
-        $crawler = $client->request('GET', '/superbowl-challenge/pick/2013/pick');
+        $crawler = $client->request('GET', '/superbowl-challenge/2014/pick');
 
         $response = $client->getResponse();
         $this->assertEquals('Symfony\Component\HttpFoundation\RedirectResponse', get_class($response));
@@ -31,7 +31,7 @@ class PickControllerTest extends WebTestCase
             'PHP_AUTH_PW'   => 'userpass',
         ));
 
-        $crawler = $client->request('GET', '/superbowl-challenge/pick/2013/pick');
+        $crawler = $client->request('GET', '/superbowl-challenge/2014/pick');
 
         $response = $client->getResponse();
         $this->assertEquals('Symfony\Component\HttpFoundation\Response', get_class($response));
