@@ -61,6 +61,8 @@ class BaseController extends CoreController
 
         if (!$config) {
             $config = new Config($year);
+            $config->setStartTime(new \DateTime());
+            $config->setCloseTime(new \DateTime());
 
             // Default the 4 bonus questions
             for ($index = 4; $index >= 1; $index--) {
