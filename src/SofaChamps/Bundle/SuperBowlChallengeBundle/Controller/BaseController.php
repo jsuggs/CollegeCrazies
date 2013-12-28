@@ -10,7 +10,6 @@ use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Question;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ConfigFormType;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\QuestionFormType;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BaseController extends CoreController
 {
@@ -34,10 +33,8 @@ class BaseController extends CoreController
         return $this->createForm(new QuestionFormType(), $question);
     }
 
-    protected function getUserPick(User $user, $year = null)
+    protected function getUserPick(User $user, $year)
     {
-        $year = $year ?: date('Y');
-
         $pick = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
             ->findOneBy(array(
@@ -78,14 +75,17 @@ class BaseController extends CoreController
         return $config;
     }
 
-    protected function getResult($year = null)
+    protected function getResult($year)
     {
-        $year = $year ?: date('Y');
-
         $result = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Result')
             ->find($year);
 
         return $result ?: new Result($year);
+    }
+
+    protected function getPickManager()
+    {
+        return $this->get('sofachamps.superbowlchallenge.pickmanager');
     }
 }

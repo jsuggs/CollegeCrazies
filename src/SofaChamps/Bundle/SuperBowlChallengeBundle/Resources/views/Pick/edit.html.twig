@@ -12,7 +12,7 @@
 {% block content %}
     <h2>Superbowl Challenge</h2>
 
-    <form action="{{ path('sbc_pick', {year: year}) }}" method="post" class="form" {{ form_enctype(form) }}>
+    <form action="{{ path('sbc_pick_update', {year: year}) }}" method="post" class="form" {{ form_enctype(form) }}>
         <fieldset>
             <legend>Final Scores</legend>
             <table class="table table-bordered">
@@ -83,6 +83,7 @@
                     {{ config.questionIndex(4).text }}
                     {{ form_widget(form.bonusQuestion4) }}
                 </li>
+                {#
                 <li>
                     {{ config.questionIndex(5).text }}
                     {{ form_widget(form.bonusQuestion5) }}
@@ -99,6 +100,7 @@
                     {{ config.questionIndex(8).text }}
                     {{ form_widget(form.bonusQuestion8) }}
                 </li>
+                #}
             </ol>
         </fieldset>
 
