@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SuperBowlChallengeBundle\Form;
 
 use Doctrine\ORM\EntityRepository;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\SuperBowlChallengeBundle\Pick\PickManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,13 +20,13 @@ class ResultFormType extends AbstractType
     /**
      * @DI\InjectParams({
      *      "repo" = @DI\Inject("sofachamps.superbowlchallenge.repo.question_choice"),
-     *      "year" = @DI\Inject("config.curyear")
+     *      "manager" = @DI\Inject("sofachamps.superbowlchallenge.pickmanager"),
      * })
      */
-    public function __construct(EntityRepository $repo, $year)
+    public function __construct(EntityRepository $repo, PickManager $manager)
     {
         $this->repo = $repo;
-        $this->year = $year;
+        $this->year = $manager->getCurrentYear();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
