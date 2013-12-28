@@ -58,10 +58,12 @@ class GameSubscriber implements EventSubscriberInterface
 
     public function analyizePickSets(GameEvent $event)
     {
-        $this->analyzer->deleteAnalysis();
-        $leagues = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->findAll();
+        $game = $event->getGame();
+        $season = $game->getSeason();
+        $this->analyzer->deleteAnalysis($season);
+        $leagues = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->findBySeason($season);
         foreach ($leagues as $league) {
-            $this->analyzer->analyizeLeaguePickSets($league);
+            $this->analyzer->analyizeLeaguePickSets($league, $season);
         }
     }
 

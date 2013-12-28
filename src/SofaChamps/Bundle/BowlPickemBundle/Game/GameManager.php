@@ -46,5 +46,8 @@ class GameManager
     public function updateGame(Game $game)
     {
         $this->dispatcher->dispatch(GameEvents::GAME_UPDATED, new GameEvent($game));
+        if ($game->isComplete()) {
+            $this->dispatcher->dispatch(GameEvents::GAME_COMPLETE, new GameEvent($game));
+        }
     }
 }
