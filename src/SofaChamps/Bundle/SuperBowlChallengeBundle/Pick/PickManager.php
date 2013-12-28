@@ -95,6 +95,12 @@ class PickManager
         return $now < $config->getCloseTime()->modify('+30 days');
     }
 
+    public function getCurrentYear()
+    {
+        // TODO
+        return 2014;
+    }
+
     protected function getConfig($year)
     {
         return $this->em->getRepository('SofaChampsSuperBowlChallengeBundle:Config')->find($year);

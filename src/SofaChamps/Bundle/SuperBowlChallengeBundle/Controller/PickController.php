@@ -31,7 +31,9 @@ class PickController extends BaseController
             $now = new \DateTime();
             if ($now > $config->getCloseTime()) {
                 $this->addMessage('warning', 'Picks are now locked');
-                return $this->redirect($this->generateUrl('sbc_home'));
+                return $this->redirect($this->generateUrl('sbc_home', array(
+                    'year' => $year,
+                )));
             }
 
             $form->bind($request);
@@ -72,7 +74,9 @@ class PickController extends BaseController
 
         if (!$manager->picksViewable($year)) {
             $this->addMessage('warning', 'Picks cannot be viewed until after picks are closed');
-            return $this->redirect($this->generateUrl('sbc_home'));
+            return $this->redirect($this->generateUrl('sbc_home', array(
+                'year' => $year,
+            )));
         }
 
         $config = $this->getConfig($year);

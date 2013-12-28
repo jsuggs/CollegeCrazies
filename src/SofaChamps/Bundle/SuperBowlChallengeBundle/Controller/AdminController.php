@@ -9,12 +9,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/admin")
+ * @Route("{year}/admin")
  */
 class AdminController extends BaseController
 {
     /**
-     * @Route("/config/{year}", name="sbc_admin_config")
+     * @Route("/config", name="sbc_admin_config")
      * @Secure(roles="ROLE_ADMIN")
      * @Template
      */
@@ -46,7 +46,7 @@ class AdminController extends BaseController
     }
 
     /**
-     * @Route("/result/{year}", name="sbc_admin_result")
+     * @Route("/result", name="sbc_admin_result")
      * @Secure(roles="ROLE_ADMIN")
      * @Template
      */
@@ -85,7 +85,7 @@ class AdminController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @Template
      */
-    public function questionAction(Question $question)
+    public function questionAction(Question $question, $year)
     {
         $form = $this->getQuestionForm($question);
         $request = $this->getRequest();
@@ -103,7 +103,7 @@ class AdminController extends BaseController
 
         return array(
             'question' => $question,
-            'year' => $this->get('config.curyear'),
+            'year' => $year,
             'form' => $form->createView(),
             'user' => $this->getUser(),
         );

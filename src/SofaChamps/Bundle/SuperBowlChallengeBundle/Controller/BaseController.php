@@ -53,10 +53,8 @@ class BaseController extends CoreController
         return $pick;
     }
 
-    protected function getConfig($year = null)
+    protected function getConfig($year)
     {
-        $year = $year ?: date('Y');
-
         $config = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')
             ->find($year);
