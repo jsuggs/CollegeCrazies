@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A ncaa conference
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="NCAAFConferenceMemberRepository")
  * @ORM\Table(
  *      name="ncaaf_conference_members"
  * )

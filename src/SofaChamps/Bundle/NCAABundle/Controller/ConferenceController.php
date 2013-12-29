@@ -19,9 +19,12 @@ class ConferenceController extends BaseController
      */
     public function conferenceMembersAction(Conference $conference, $season)
     {
+        $members = $this->getRepository('SofaChampsNCAABundle:NCAAFConferenceMember')->findConferenceMembers($conference, $season);
+
         return array(
             'conference' => $conference,
             'season' => $season,
+            'members' => $members,
         );
     }
 }

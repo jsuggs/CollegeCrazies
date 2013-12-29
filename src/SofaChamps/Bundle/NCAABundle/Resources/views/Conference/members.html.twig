@@ -5,7 +5,7 @@
 
     <p>Conference members for {{ season }}</p>
     <ul>
-        {% for member in conference.members(season) %}
+        {% for member in members %}
             <li>{{ member.team.name }}</li>
         {% endfor %}
     </ul>
