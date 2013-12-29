@@ -29,6 +29,7 @@ class ImportDataCommand extends ContainerAwareCommand
     {
         $this->importTeams($output);
         $this->importConferences($output);
+        $this->importConferenceDivisions($output);
         $this->importConferenceMembers($output);
     }
 
@@ -60,9 +61,18 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->conn->commit();
     }
 
+    protected function importConferenceDivisions(OutputInterface $output)
+    {
+        $conferenceDivisionDataFile = $this->dataDirectory . '/conference_divisions.csv';
+        $this->conn->beginTransaction();
+        $this->conn->exec('LOCK TABLE ncaa_conference_divisions IN EXCLUSIVE MODE');
+        $this->conn->exec('TRUNCATE ncaa_conference_divisions');
+        $this->conn->exec(sprintf("COPY ncaa_conference_divisions FROM '%s' CSV HEADER", $conferenceDivisionDataFile));
+        $this->conn->commit();
+    }
+
     protected function importConferenceMembers(OutputInterface $output)
     {
-        $output->writeln('Creating temporary table');
         $membershipDataFiles = glob(sprintf('%s/conference_membership/*/*.csv', $this->dataDirectory));
         $this->conn->beginTransaction();
         $this->conn->exec('TRUNCATE ncaaf_conference_members');
