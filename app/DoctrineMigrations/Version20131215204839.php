@@ -20,6 +20,7 @@ CREATE TABLE ncaaf_conference_members (
     conference VARCHAR(5) NOT NULL
   , team VARCHAR(5) NOT NULL
   , season INT NOT NULL
+  , division VARCHAR(5) DEFAULT NULL
   , PRIMARY KEY(conference, team, season)
 )
 SQL;
@@ -32,10 +33,14 @@ SQL;
         $this->addSql(self::NCAA_CONFERENCES);
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_CONFERENCES_CONFERENCE FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) ON DELETE CASCADE");
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_TEAMS_TEAM FOREIGN KEY (team) REFERENCES ncaa_teams (id) ON DELETE CASCADE");
+        $this->addSql('CREATE TABLE ncaa_conference_divisions (abbr VARCHAR(5) NOT NULL, conference VARCHAR(5) DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(abbr))');
+        $this->addSql('CREATE INDEX IDX_5D00B5F3911533C8 ON ncaa_conference_divisions (conference)');
+        $this->addSql('ALTER TABLE ncaa_conference_divisions ADD CONSTRAINT FK_5D00B5F3911533C8 FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema)
     {
+        $this->addSql('DROP TABLE ncaa_conference_divisions');
         $this->addSql("ALTER TABLE ncaaf_conference_members DROP CONSTRAINT fk_ncaa_conference_members_ref_ncaa_conferences_conference");
         $this->addSql("DROP TABLE ncaaf_conference_members");
         $this->addSql("DROP TABLE ncaa_conferences");

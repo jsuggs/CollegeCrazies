@@ -29,4 +29,10 @@ class NCAAFConferenceMember extends AbstractConferenceMember
      * @ORM\JoinColumn(name="team", referencedColumnName="id")
      */
     protected $team;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ConferenceDivision", inversedBy="conferenceMemberships")
+     * @ORM\JoinColumn(name="division", referencedColumnName="abbr")
+     */
+    protected $conferenceDivision;
 }

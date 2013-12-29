@@ -9,7 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class AbstractConferenceMember implements ConferenceMemberInterface
 {
-    // Note: You must map the conference and team in the concrete class
+    // Note: You must map the conference, team, and confernce division in the concrete class
+    protected $conference;
+    protected $team;
+    protected $conferenceDivision;
 
     /**
      * @ORM\Id
@@ -45,5 +48,15 @@ abstract class AbstractConferenceMember implements ConferenceMemberInterface
     public function getSeason()
     {
         return $this->season;
+    }
+
+    public function setConferenceDivision(ConferenceDivisionInterface $conferenceDivision)
+    {
+        $this->conferenceDivision = $conferenceDivision;
+    }
+
+    public function getConferenceDivision()
+    {
+        return $this->conferenceDivision;
     }
 }

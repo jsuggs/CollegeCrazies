@@ -23,8 +23,15 @@ class Conference extends AbstractConference
      */
     protected $conferenceMemberships;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ConferenceDivision", mappedBy="conference")
+     */
+    protected $divisions;
+
     public function __construct()
     {
+        parent::construct();
+
         $this->conferenceMemberships = new ArrayCollection();
     }
 

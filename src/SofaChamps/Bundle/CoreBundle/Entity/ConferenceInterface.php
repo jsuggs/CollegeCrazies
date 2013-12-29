@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\CoreBundle\Entity;
 interface ConferenceInterface
 {
     public function setAbbr($abbr);
+    public function getAbbr();
     public function setName($name);
     public function getName();
     public function addMember(ConferenceMemberInterface $member);
