@@ -2,12 +2,13 @@
 
 namespace SofaChamps\Bundle\BracketBundle\Tests\Bracket;
 
-use SofaChamps\Bundle\BracketBundle\Bracket\BracketManager;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
-use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
+use SofaChamps\Bundle\BracketBundle\Tests\Bracket;
+use SofaChamps\Bundle\BracketBundle\Tests\BracketBundleTest;
+use SofaChamps\Bundle\BracketBundle\Tests\BracketManager;
 
-class BracketManagerTest extends SofaChampsTest
+class BracketManagerTest extends BracketBundleTest
 {
     protected $om;
     protected $dispatcher;
@@ -25,7 +26,8 @@ class BracketManagerTest extends SofaChampsTest
 
     public function testCreateBracket()
     {
-        $bracket = $this->bracketManager->createBracket(5);
+        $bracket = new Bracket();
+        $this->bracketManager->createBracketGames($bracket, 5);
 
         $this->assertEquals(63, count($bracket->getGames()));
     }

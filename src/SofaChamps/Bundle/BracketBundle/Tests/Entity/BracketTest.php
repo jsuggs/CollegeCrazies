@@ -2,8 +2,9 @@
 
 namespace SofaChamps\Bundle\BracketBundle\Tests\Entity;
 
-use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
-use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
+use SofaChamps\Bundle\BracketBundle\Tests\Bracket;
+use SofaChamps\Bundle\BracketBundle\Tests\BracketGame;
+use SofaChamps\Bundle\BracketBundle\Tests\BracketBundleTest;
 
 class BracketTest extends BracketBundleTest
 {
