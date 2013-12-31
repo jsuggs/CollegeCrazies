@@ -49,6 +49,8 @@ class EmailWorker
             ->setBody($html, 'text/html')
             ->addPart($text, 'text/plain');
 
+        $this->mailer->send($message);
+
         return true;
     }
 }
