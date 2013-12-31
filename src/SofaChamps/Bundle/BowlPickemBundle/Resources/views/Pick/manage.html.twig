@@ -12,7 +12,7 @@
                 {% endif %}
                 <th>League</th>
                 {% for pickSet in pickSets %}
-                    <th><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list-alt"></span> {{ pickSet.name }}</a></th>
+                    <th><a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list-alt"></span> {{ pickSet.name }}</a></th>
                 {% endfor %}
             </thead>
             <tbody>
@@ -24,12 +24,12 @@
                     {% endif %}
                     <td><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></td>
                     {% for pickSet in pickSets %}
-                        <td><input type="radio"{% if picks_locked %} disabled{% endif %} name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
+                        <td><input type="radio"{% if picks_locked(season) %} disabled{% endif %} name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
                     {% endfor %}
                 </tr>
             {% endfor %}
         </table>
-        {% if not picks_locked %}
+        {% if not picks_locked(season) %}
             <button type="submit" class="btn btn-success">Update Picksets</button>
         {% endif %}
     </form>
@@ -47,7 +47,7 @@
         });
     </script>
 
-    {% if not picks_locked %}
+    {% if not picks_locked(season) %}
         <div class="row-fluid">
             <h4>Looking for some more action?</h4>
             <a href="{{ path('league_find', {season: season}) }}" class="btn btn-info">Find another League to Join</a>

@@ -18,7 +18,7 @@
     {% endif %}
     <div class="row well">
         <div class="col-md-6">
-            <h3><a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">{{ pickSet.name }}</a></h3>
+            <h3><a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">{{ pickSet.name }}</a></h3>
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -30,14 +30,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ picks_locked ? rank : '--' }}</td>
+                        <td>{{ picks_locked(season) ? rank : '--' }}</td>
                         <td>{{ pickSet.points }}</td>
                         <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
                         <td>{{ pickSet.getPointsPossible() }}</td>
                     </tr>
                 </tbody>
             </table>
-            {% if picks_locked %}
+            {% if picks_locked(season) %}
                 {% if projectedBestFinish is not null %}
                     <h3><a href="{{ path('prediction_view', {season: season, pickSetId: pickSet.id, predictionSetId: projectedBestFinish.predictionset_id}) }}">Projected Best Finish: {{ projectedBestFinish.finish }}</a></h3>
                 {% endif %}
@@ -61,7 +61,7 @@
         {% include 'SofaChampsBowlPickemBundle:League:_leaderboard.html.twig' %}
     </div>
 
-    {% if picks_locked %}
+    {% if picks_locked(season) %}
         <div class="row">
             <h3><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">League Top 5 Games</a></h3>
 

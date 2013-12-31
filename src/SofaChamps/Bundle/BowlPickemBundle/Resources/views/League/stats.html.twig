@@ -3,7 +3,7 @@
 {% block content %}
     <h2>My Stats</h2>
 
-    {% if picks_locked %}
+    {% if picks_locked(season) %}
         <div class="row">
             <div class="col-xs-12">
                 <h3>Projected Finish Distributions</h3>

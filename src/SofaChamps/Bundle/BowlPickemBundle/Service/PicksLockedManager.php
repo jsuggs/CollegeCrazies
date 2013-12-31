@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class PicksLockedManager
 {
-    const PICKS_LOCK_SESSION_KEY = 'picks_locked';
-
     private $om;
     private $seasonManager;
     private $session;
@@ -35,15 +33,9 @@ class PicksLockedManager
         $this->session = $session;
     }
 
-    public function arePickLocked()
+    public function arePickLocked($season)
     {
-        if (!$this->session->has(self::PICKS_LOCK_SESSION_KEY)) {
-            $season = $this->seasonManager->getCurrentSeason();
-            $lockTime = $this->getLockTime($season);
-            $this->session->set(self::PICKS_LOCK_SESSION_KEY, $lockTime < new \DateTime());
-        }
-
-        return $this->session->get(self::PICKS_LOCK_SESSION_KEY);
+        return $this->getLockTime($season) > new \DateTime();
     }
 
     public function getLockTime($season)
