@@ -12,7 +12,7 @@ before_install:
     - psql -c 'GRANT ALL PRIVILEGES ON DATABASE sofachamps_test to sofachamps_test;' -U postgres
 
 install:
-    - apt-get install gearman-job-server libgearman-dev
+    - sudo apt-get install gearman-job-server libgearman-dev
     - pecl install gearman
 
 before_script:
