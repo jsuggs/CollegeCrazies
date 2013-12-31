@@ -111,6 +111,11 @@ gearman:
         email:
             name: SofaChampsEmailBundle
             active: true
+        bowl-picket:
+            name: SofaChampsBowlPickemBundle
+            active: true
+            include:
+                - Event
     servers:
         localhost:
             host: 127.0.0.1
