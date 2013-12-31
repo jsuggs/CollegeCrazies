@@ -50,9 +50,11 @@ class RegistrationListener implements EventSubscriberInterface
     public function onRegistrationSuccess(FormEvent $event)
     {
         // TODO - This is better, but as we add more overlapping games, this may not be sufficient
-        if (!$this->picksLockedManager->arePickLocked()) {
+        // TODO - We also need a check that the user is actually registering for bowl pickem
+        $season = $this->seasonManager->getCurrentSeason();
+        if (!$this->picksLockedManager->arePickLocked($season)) {
             $url = $this->router->generate('pickset_new', array(
-                'season' => $this->seasonManager->getCurrentSeason(),
+                'season' => $season,
             ));
 
             $event->setResponse(new RedirectResponse($url));

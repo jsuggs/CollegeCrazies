@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Mmoreram\GearmanBundle\Driver\Gearman;
+use Mmoreram\GearmanBundle\Service\GearmanClient;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
@@ -12,7 +13,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
  *
  * @Gearman\Work(
  *      name = "EmailSender",
- *      description = "Main email worker.  Will handle all sending of email.",
+ *      description = "Main email interface.  Will handle all proxying of email to the queue",
  *      defaultMethod = "doBackground",
  *      service = "sofachamps.email.worker",
  * )
@@ -29,7 +30,7 @@ class EmailSender implements EmailSenderInterface
      *      "logger" = @DI\Inject("logger"),
      * })
      */
-    public function __construct($gearman, LoggerInterface $logger)
+    public function __construct(GearmanClient $gearman, LoggerInterface $logger)
     {
         $this->gearman = $gearman;
         $this->logger = $logger;

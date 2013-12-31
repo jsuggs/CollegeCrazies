@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Event;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use Mmoreram\GearmanBundle\Driver\Gearman;
+use Mmoreram\GearmanBundle\Service\GearmanClient;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -30,7 +31,7 @@ class GameSubscriber implements EventSubscriberInterface
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      * })
      */
-    public function __construct($gearman, ObjectManager $om)
+    public function __construct(GearmanClient $gearman, ObjectManager $om)
     {
         $this->gearman = $gearman;
         $this->om = $om;
