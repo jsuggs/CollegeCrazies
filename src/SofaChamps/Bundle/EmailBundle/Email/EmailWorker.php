@@ -30,26 +30,24 @@ class EmailWorker
 
     public function sendToEmail(\GearmanJob $job)
     {
-        $data = json_decode($job->workload(), true);
-        var_dump($data);
+        $workload = json_decode($job->workload(), true);
 
         // Make the email being sent to available to the templates
-        $data['emailTo'] = $data['email'];
+        $workload['emailTo'] = $workload['email'];
 
-        $html = '';//$this->templating->render(sprintf('SofaChampsEmailBundle:%s.html.twig', $data['templateName']), $data);
-        $text = '';//$this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $data['templateName']), $data);
+        $html = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.html.twig', $workload['templateName']), $workload['data']);
+        $text = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $workload['templateName']), $workload['data']);
 
-        $from = array_key_exists('from', $data)
-            ? $data['from']
+        $from = array_key_exists('from', $workload['data'])
+            ? $workload['from']
             : array('help@sofachamps.com' => 'SofaChamps');
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($data['subjectLine'])
+            ->setSubject($workload['subjectLine'])
             ->setFrom($from)
-            ->setTo($data['email'])
+            ->setTo($workload['email'])
             ->setBody($html, 'text/html')
             ->addPart($text, 'text/plain');
-        var_dump($message);
 
         return true;
     }
