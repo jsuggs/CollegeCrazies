@@ -108,7 +108,7 @@ liip_doctrine_cache:
 
 gearman:
     bundles:
-        SofaChampsEmailBundle:
+        email:
             name: SofaChampsEmailBundle
             active: true
     servers:

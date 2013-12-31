@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6b1b914c7e99bb0b05d6d85ff7b8deb2",
+    "hash": "8f9dfd59dcbe95c37e02d029d1ceb946",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3171,7 +3171,8 @@
         "doctrine/doctrine-migrations-bundle": 20,
         "doctrine/doctrine-fixtures-bundle": 20,
         "liip/functional-test-bundle": 20,
-        "vlabs/media-bundle": 20
+        "vlabs/media-bundle": 20,
+        "mmoreram/gearman-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

@@ -3,33 +3,35 @@
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use JMS\DiExtraBundle\Annotation as DI;
-use SofaChamps\Bundle\CoreBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Mmoreram\GearmanBundle\Driver\Gearman;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 /**
- * This queues up all of the emails to be sent
+ * This service will send email
  *
+ * @Gearman\Work(
+ *      name = "EmailSender",
+ *      description = "Main email worker.  Will handle all sending of email.",
+ *      defaultMethod = "doBackground",
+ *      service = "sofachamps.email.worker",
+ * )
  * @DI\Service("sofachamps.email.sender")
  */
 class EmailSender implements EmailSenderInterface
 {
     protected $gearman;
-    protected $templating;
     protected $logger;
 
     /**
      * @DI\InjectParams({
      *      "gearman" = @DI\Inject("gearman"),
-     *      "templating" = @DI\Inject("templating"),
-     *      "logger" = @DI\Inject("logger")
+     *      "logger" = @DI\Inject("logger"),
      * })
      */
-    public function __construct($gearman, EngineInterface $templating, LoggerInterface $logger)
+    public function __construct($gearman, LoggerInterface $logger)
     {
         $this->gearman = $gearman;
-        $this->templating = $templating;
         $this->logger = $logger;
     }
 
@@ -55,6 +57,8 @@ class EmailSender implements EmailSenderInterface
     /**
      * @Gearman\Job(
      *      name = "sendEmail",
+     *      description = "This will send an email",
+     *      iterations = 10,
      * )
      */
     public function sendToEmail($email, $templateName, $subjectLine, array $data = array())
@@ -63,26 +67,14 @@ class EmailSender implements EmailSenderInterface
             return;
         }
 
-        // Make the email being sent to available to the templates
-        $data['emailTo'] = $email;
+        $payload = array(
+            'email' => $email,
+            'templateName' => $templateName,
+            'subjectLine' => $subjectLine,
+            'data' => $data,
+        );
 
-        $html = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.html.twig', $templateName), $data);
-        $text = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $templateName), $data);
-
-        $from = array_key_exists('from', $data)
-            ? $data['from']
-            : array('help@sofachamps.com' => 'SofaChamps');
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject($subjectLine)
-            ->setFrom($from)
-            ->setTo($email)
-            ->setBody($html, 'text/html')
-            ->addPart($text, 'text/plain');
-
-
-        $this->gearman->doJob('sendEmail');
-        //$response = $this->gearman->send($message);
+        $this->gearman->doBackgroundJob('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', json_encode($payload));
 
         $this->logger->info(sprintf('Sent "%s" template "%s"', $email, $templateName));
     }

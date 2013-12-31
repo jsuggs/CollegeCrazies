@@ -18,6 +18,7 @@ class SendEmailCommand extends ContainerAwareCommand
             ->addArgument('email', InputArgument::REQUIRED, 'email')
             ->addArgument('template', InputArgument::REQUIRED, 'template')
             ->addArgument('subject', InputArgument::REQUIRED, 'subject')
+            ->addArgument('data', InputArgument::OPTIONAL, 'json data', '[]')
         ;
     }
 
@@ -31,7 +32,8 @@ class SendEmailCommand extends ContainerAwareCommand
         $this->sender->sendToEmail(
             $input->getArgument('email'),
             $input->getArgument('template'),
-            $input->getArgument('subject')
+            $input->getArgument('subject'),
+            json_decode($input->getArgument('data'))
         );
     }
 }
