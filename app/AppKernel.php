@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             new SofaChamps\Bundle\CoreBundle\SofaChampsCoreBundle(),
             new SofaChamps\Bundle\NFLBundle\SofaChampsNFLBundle(),
             new SofaChamps\Bundle\FacebookBundle\SofaChampsFacebookBundle(),
+            new SofaChamps\Bundle\SquaresBundle\SofaChampsSquaresBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -23,6 +23,11 @@ sofa_champs_nfl_admin:
     type:     annotation
     prefix:   /nfl_admin
 
+sofa_champs_squares:
+    resource: "@SofaChampsSquaresBundle/Controller/"
+    type:     annotation
+    prefix:   /squares
+
 sofa_champs_facebook:
     resource: "@SofaChampsFacebookBundle/Controller/"
     type:     annotation
