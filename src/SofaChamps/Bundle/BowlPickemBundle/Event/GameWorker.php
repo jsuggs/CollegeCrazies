@@ -32,22 +32,30 @@ class GameWorker
 
     public function updatePredictions(\GearmanJob $job)
     {
+        echo sprintf('Starting Job %s...', $job->unique());
         $workload = json_decode($job->workload(), true);
         $game = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->find($workload['game']);
+        echo " game: " . $game->getId();
 
-        $this->om
+        $update = $this->om
             ->createQuery('UPDATE SofaChampsBowlPickemBundle:Prediction p SET p.winner = :winner WHERE p.game = :game')
             ->setParameters(array(
                 'game' => $game,
                 'winner' => $game->getWinner(),
             ))
             ->execute();
+        echo " updated $update games with :" . $game->getWinner()->getId() . " ";
+        echo " home: " . $game->getHomeTeamScore() . " away: " . $game->getAwayTeamScore() . " ";
 
         $season = $game->getSeason();
+
+        echo " season: $season leagues: ";
         $this->analyzer->deleteAnalysis($season);
         $leagues = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->findBySeason($season);
         foreach ($leagues as $league) {
+            echo $league->getId() . ", ";
             $this->analyzer->analyizeLeaguePickSets($league, $season);
         }
+        echo "complete\n";
     }
 }

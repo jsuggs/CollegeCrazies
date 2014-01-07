@@ -53,7 +53,7 @@ class GameSubscriber implements EventSubscriberInterface
      * @Gearman\Job(
      *      name = "updatePredictions",
      *      description = "Update the predictions and analyize the leagues",
-     *      iterations = 5,
+     *      iterations = 1,
      * )
      */
     public function updatePredictions(GameEvent $event)
@@ -62,9 +62,10 @@ class GameSubscriber implements EventSubscriberInterface
 
         $payload = array(
             'game' => $game->getId(),
+            'ts' => time(),
         );
 
-        $this->gearman->doNormalJob('SofaChampsBundleBowlPickemBundleEventGameSubscriber~updatePredictions', json_encode($payload));
+        $this->gearman->doBackgroundJob('SofaChampsBundleBowlPickemBundleEventGameSubscriber~updatePredictions', json_encode($payload));
     }
 
     public function clearQueryCache(GameEvent $event)
