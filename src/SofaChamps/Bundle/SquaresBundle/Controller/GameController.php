@@ -71,6 +71,7 @@ class GameController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'game' => $game,
         );
     }
 

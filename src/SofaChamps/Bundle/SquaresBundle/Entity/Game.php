@@ -145,6 +145,6 @@ class Game
     {
         return array_sum($this->payouts->map(function($payout) {
             return $payout->getPercentage();
-        }));
+        })->toArray());
     }
 }
