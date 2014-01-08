@@ -21,7 +21,7 @@ class Game
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="seq_square_game", initialValue=1, allocationSize=1)
+     * @ORM\SequenceGenerator(sequenceName="seq_squares_game", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -46,12 +46,12 @@ class Game
     protected $awayTeam;
 
     /**
-     * @ORM\OneToMany(targetEntity="Square", mappedBy="Game")
+     * @ORM\OneToMany(targetEntity="Square", mappedBy="game")
      */
     protected $squares;
 
     /**
-     * @ORM\OneToMany(targetEntity="Payout", mappedBy="Game")
+     * @ORM\OneToMany(targetEntity="Payout", mappedBy="game")
      */
     protected $payouts;
 
@@ -82,5 +82,34 @@ class Game
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function addPayout(Payout $payout)
+    {
+        if (!$this->payouts->contains($payout)) {
+            $this->payouts->add($payout);
+        }
+    }
+
+    public function removePayout(Payout $payout)
+    {
+        if ($this->payouts->contains($payout)) {
+            $this->payouts->removeElement($payout);
+        }
+    }
+
+    public function getPayouts()
+    {
+        return $this->payouts;
+    }
+
+    /**
+     * @Assert\Max(100)
+     */
+    public function getPayoutPercentages()
+    {
+        return array_sum($this->payouts->map(function($payout) {
+            return $payout->getPercentage();
+        }));
     }
 }
