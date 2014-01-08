@@ -16,6 +16,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class GameController extends BaseController
 {
     /**
+     * @Route("/", name="squares_game_list")
+     * @Secure(roles="ROLE_USER")
+     * @Template
+     */
+    public function listAction()
+    {
+        return array(
+            'games' => $this->getUser()->getSquaresGames(),
+        );
+    }
+
+    /**
      * @Route("/new", name="squares_game_new")
      * @Secure(roles="ROLE_USER")
      * @Template

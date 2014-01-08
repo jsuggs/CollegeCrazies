@@ -1,0 +1,10 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>My Squares Games</h2>
+    <ol>
+        {% for game in games %}
+            <li>{{ game.name }}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}

@@ -288,6 +288,11 @@ class User extends BaseUser
         return $this->profilePicture;
     }
 
+    public function getSquaresGames()
+    {
+        return $this->squaresGames;
+    }
+
     public function __toString()
     {
         return $this->username;
