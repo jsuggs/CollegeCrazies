@@ -8,7 +8,10 @@
             <tr>
                 {% for c in range(0, 9) %}
                     {% set square = game.getSquare(r, c) %}
-                    <td>{{ r }} {{ c }} - {{ square.row }} {{ square.col }}</td>
+                    <td>
+                        {{ r }} {{ c }} - {{ square.row }} {{ square.col }}
+                        <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
+                    </td>
                 {% endfor %}
             </tr>
         {% endfor %}

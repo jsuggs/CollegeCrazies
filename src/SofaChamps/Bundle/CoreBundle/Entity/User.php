@@ -102,6 +102,11 @@ class User extends BaseUser
      */
     protected $squaresGames;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\SquaresBundle\Entity\Square", mappedBy="user")
+     */
+    protected $squaresSquares;
+
     public function __construct()
     {
         parent::__construct();
@@ -111,6 +116,7 @@ class User extends BaseUser
         $this->referrals = new ArrayCollection();
         $this->commissionerLeagues = new ArrayCollection();
         $this->squaresGames = new ArrayCollection();
+        $this->squaresSquares = new ArrayCollection();
     }
 
     public function getId()

@@ -43,4 +43,13 @@ class GameManager
 
         return $game;
     }
+
+    public function claimSquare(User $user, Game $game, $row, $col)
+    {
+        $square = $game->getSquare($row, $col);
+        $square->setOwner($user);
+
+        // TODO
+        return true;
+    }
 }

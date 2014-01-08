@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/game")
@@ -126,6 +127,22 @@ class GameController extends BaseController
         return array(
             'form' => $form->createView(),
         );
+    }
+
+    /**
+     * @Route("/claim/{gameId}/{row}/{col}", name="squares_square_claim")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Method({"GET"})
+     */
+    public function claimSquareAction(Game $game, $row, $col)
+    {
+        $success = $this->getGameManager()->claimSquare($this->getUser(), $game, $row, $col);
+        $this->getEntityManager()->flush();
+
+        return new JsonResponse(array(
+            'success' => $success,
+        ));
     }
 
     protected function getGameForm(Game $game = null)
