@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 
 /**
@@ -22,7 +21,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
     protected $router;
-    protected $security;
     protected $session;
     protected $om;
     protected $seasonManager;
@@ -30,24 +28,19 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     /**
      * @DI\InjectParams({
      *      "router" = @DI\Inject("router"),
-     *      "security" = @DI\Inject("security.context"),
      *      "session" = @DI\Inject("session"),
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
      * })
      */
-    public function __construct(Router $router, SecurityContext $security, Session $session, ObjectManager $om, SeasonManager $seasonManager)
+    public function __construct(Router $router, Session $session, ObjectManager $om, SeasonManager $seasonManager)
     {
         $this->router = $router;
-        $this->security = $security;
         $this->session = $session;
         $this->om = $om;
         $this->seasonManager = $seasonManager;
     }
 
-    /**
-     * DI\Observe("security.interactive_login")
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         if ($this->session->has('auto_league_assoc')) {
@@ -94,16 +87,28 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
             }
         }
 
-        // If no response, take them back to where they were coming from
+        // If no response, use default behavior
         if (!isset($response)) {
-            $referer_url = $request->headers->get('referer');
-            // Don't go back to the login
-            if (0 === substr_compare($referer_url, 'login', -5, 5)) {
-                $referer_url = '/';
-            }
-            $response = new RedirectResponse($referer_url);
+            $response = new RedirectResponse($this->determineTargetUrl($request));
         }
 
         return $response;
+    }
+
+    protected function determineTargetUrl(Request $request)
+    {
+        if ($targetUrl = $request->get('_target_path', null, true)) {
+            return $targetUrl;
+        }
+
+        // This is because the firewall is named "main"
+        $sessionKey = '_security.main.target_path';
+        if ($targetUrl = $request->getSession()->get($sessionKey)) {
+            $request->getSession()->remove($sessionKey);
+
+            return $targetUrl;
+        }
+
+        return '/';
     }
 }

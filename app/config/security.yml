@@ -29,6 +29,12 @@ security:
                 provider: fos_userbundle
                 success_handler: sofachamps.component.authentication.handler.login_success_handler
 
+            remember_me:
+                key: "%secret%"
+                lifetime: 31536000
+                path: /
+                domain: ~
+
             fos_facebook:
                 login_path: /login
                 check_path: /facebook/login
