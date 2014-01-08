@@ -20,6 +20,10 @@ class GameFormType extends AbstractType
             ->add('awayTeam', 'text', array(
                 'label' => 'The Away team name',
             ))
+            ->add('payouts', 'collection', array(
+                'type' => 'sofachamps_squares_payout',
+                'allow_add' => true,
+            ))
         ;
     }
 
