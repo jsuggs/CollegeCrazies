@@ -4,7 +4,7 @@
     <h2>Create a New Game</h2>
     <p>Let's get the basic info for this square out of the way...we'll fill in the details later</p>
 
-    <form action="" method="post">
+    <form action="{{ path('squares_game_create') }}" method="post">
         {% include 'SofaChampsSquaresBundle:Game:form.html.twig' %}
 
         <button type="submit" class="btn btn-primary btn-lg">Create Game</button>

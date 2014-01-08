@@ -28,6 +28,35 @@ class GameController extends BaseController
         );
     }
 
+    /**
+     * @Route("/create", name="squares_game_create")
+     * @Secure(roles="ROLE_USER")
+     * @Method({"POST"})
+     * @Template
+     */
+    public function createAction()
+    {
+        $user = $this->getUser();
+        $game = $this->getGameManager()->createGame($user);
+
+        $form = $this->getGameForm($game);
+        $form->bind($this->getRequest());
+
+        if ($form->isValid()) {
+            $this->getEntityManager()->flush();
+
+            return $this->redirect($this->generateUrl('squares_game_edit', array(
+                'gameId' => $game->getId(),
+            )));
+        }
+
+        $this->addMessage('warning', 'There was an error creating your game');
+
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+
     protected function getGameForm(Game $game = null)
     {
         return $this->createForm(new GameFormType(), $game);
