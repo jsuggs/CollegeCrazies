@@ -46,6 +46,12 @@ class Game
     protected $awayTeam;
 
     /**
+     * @ORM\Column(type="integer")
+     * @Assert\Range(min=0, minMessage="Cost Per Square must be greater than 0")
+     */
+    protected $costPerSquare;
+
+    /**
      * @ORM\OneToMany(targetEntity="Square", mappedBy="game")
      */
     protected $squares;
@@ -146,12 +152,22 @@ class Game
     }
 
     /**
-     * @Assert\Max(100)
+     * @Assert\Range(max=100)
      */
     public function getPayoutPercentages()
     {
         return array_sum($this->payouts->map(function($payout) {
             return $payout->getPercentage();
         })->toArray());
+    }
+
+    public function setCostPerSquare($costPerSquare)
+    {
+        $this->costPerSquare = $costPerSquare;
+    }
+
+    public function getCostPerSquare()
+    {
+        return $this->costPerSquare;
     }
 }

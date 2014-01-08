@@ -24,6 +24,7 @@ CREATE TABLE squares_games (
   , name VARCHAR(255) NOT NULL
   , homeTeam VARCHAR(255) NOT NULL
   , awayTeam VARCHAR(255) NOT NULL
+  , costPerSquare INT NOT NULL
   , PRIMARY KEY(id)
 )
 SQL;
