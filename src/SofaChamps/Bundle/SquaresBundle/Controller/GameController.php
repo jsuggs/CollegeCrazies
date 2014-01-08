@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 

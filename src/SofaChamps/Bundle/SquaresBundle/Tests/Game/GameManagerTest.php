@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\SquaresBundle\Tests\Game;
 
 use SofaChamps\Bundle\SquaresBundle\Game\GameManager;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
 
 class GameManagerTest extends SofaChampsTest
@@ -19,8 +20,12 @@ class GameManagerTest extends SofaChampsTest
 
     public function testCreateGame()
     {
-        $game = $this->manager->createGame();
+        $user = new User();
+
+        $game = $this->manager->createGame($user);
+
         $this->assertEquals(100, $game->getSquares()->count());
+        $this->assertEquals($user, $game->getUser());
     }
 }
 

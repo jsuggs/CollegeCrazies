@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,10 +26,12 @@ class Game
     protected $id;
 
     /**
-     * The Bowl Game Name
-     *
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="squaresGames")
+     */
+    protected $user;
+
+    /**
      * @ORM\Column(type="string", length=255)
-     * @var string
      */
     protected $name;
 
@@ -52,8 +55,9 @@ class Game
      */
     protected $payouts;
 
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->user = $user;
         $this->squares = new ArrayCollection();
         $this->payouts = new ArrayCollection();
     }
@@ -73,5 +77,10 @@ class Game
     public function getSquares()
     {
         return $this->squares;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 }

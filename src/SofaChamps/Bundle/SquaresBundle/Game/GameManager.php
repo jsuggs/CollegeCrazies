@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Game;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Square;
 
@@ -26,10 +27,10 @@ class GameManager
         $this->om = $om;
     }
 
-    public function createGame()
+    public function createGame(User $user)
     {
         // Create all of the squares for the game
-        $game = new Game();
+        $game = new Game($user);
         $this->om->persist($game);
 
         foreach (range(0, 9) as $row) {
