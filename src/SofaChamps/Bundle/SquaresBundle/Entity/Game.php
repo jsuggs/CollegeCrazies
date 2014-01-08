@@ -62,6 +62,41 @@ class Game
         $this->payouts = new ArrayCollection();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setHomeTeam($homeTeam)
+    {
+        $this->homeTeam = $homeTeam;
+    }
+
+    public function getHomeTeam()
+    {
+        return $this->homeTeam;
+    }
+
+    public function setAwayTeam($awayTeam)
+    {
+        $this->awayTeam = $awayTeam;
+    }
+
+    public function getAwayTeam()
+    {
+        return $this->awayTeam;
+    }
+
     public function setSquares($squares)
     {
         $this->squares = $squares;

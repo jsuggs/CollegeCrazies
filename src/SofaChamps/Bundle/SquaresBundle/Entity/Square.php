@@ -18,24 +18,41 @@ class Square
 {
     /**
      * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="squares")
+     */
+    protected $game;
+
+    /**
+     * @ORM\Id
      * @ORM\Column(type="integer")
      */
     protected $row;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      */
     protected $col;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Game", inversedBy="squares")
-     */
-    protected $game;
-
     public function __construct(Game $game, $row, $col)
     {
         $this->game = $game;
         $this->row = $row;
         $this->col = $col;
+    }
+
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    public function getRow()
+    {
+        return $this->row;
+    }
+
+    public function getCol()
+    {
+        return $this->col;
     }
 }
