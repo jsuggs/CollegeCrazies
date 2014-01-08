@@ -28,6 +28,20 @@ class GameController extends BaseController
     }
 
     /**
+     * @Route("/view/{gameId}", name="squares_game_view")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Method({"GET"})
+     * @Template
+     */
+    public function viewAction(Game $game)
+    {
+        return array(
+            'game' => $game,
+        );
+    }
+
+    /**
      * @Route("/new", name="squares_game_new")
      * @Secure(roles="ROLE_USER")
      * @Template

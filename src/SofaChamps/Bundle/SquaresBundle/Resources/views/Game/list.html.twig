@@ -4,7 +4,7 @@
     <h2>My Squares Games</h2>
     <ol>
         {% for game in games %}
-            <li>{{ game.name }}</li>
+            <li><a href="{{ path('squares_game_view', {gameId: game.id}) }}">{{ game.name }}</a></li>
         {% endfor %}
     </ol>
 {% endblock %}
