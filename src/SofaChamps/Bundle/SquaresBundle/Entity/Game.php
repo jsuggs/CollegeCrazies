@@ -114,6 +114,13 @@ class Game
         return $this->squares;
     }
 
+    public function getSquare($row, $col)
+    {
+        return $this->squares->filter(function ($square) use ($row, $col) {
+            return $square->getRow() == $row && $square->getCol() == $col;
+        })->current();
+    }
+
     public function getUser()
     {
         return $this->user;

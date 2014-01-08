@@ -2,4 +2,15 @@
 
 {% block content %}
     <h2>{{ game.name }}</h2>
+
+    <table border=1>
+        {% for r in range(0, 9) %}
+            <tr>
+                {% for c in range(0, 9) %}
+                    {% set square = game.getSquare(r, c) %}
+                    <td>{{ r }} {{ c }} - {{ square.row }} {{ square.col }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
