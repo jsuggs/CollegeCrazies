@@ -61,11 +61,17 @@ class Game
      */
     protected $payouts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Player", mappedBy="game")
+     */
+    protected $players;
+
     public function __construct(User $user)
     {
         $this->user = $user;
         $this->squares = new ArrayCollection();
         $this->payouts = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId()
@@ -169,5 +175,17 @@ class Game
     public function getCostPerSquare()
     {
         return $this->costPerSquare;
+    }
+
+    public function addPlayer(Player $player)
+    {
+        if (!$this->players->contains($player)) {
+            $this->players->add($player);
+        }
+    }
+
+    public function getPlayers()
+    {
+        return $this->players;
     }
 }
