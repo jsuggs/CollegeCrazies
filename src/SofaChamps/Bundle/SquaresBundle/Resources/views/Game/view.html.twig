@@ -8,12 +8,12 @@
             <tr>
                 <th></th>
                 {% for idx in range(0, 9) %}
-                    <th>{{ idx }}</th>
+                    <th>{{ idx }} = {{ game.translatedCol(idx) }}</th>
                 {% endfor %}
             </tr>
             {% for r in range(0, 9) %}
                 <tr>
-                    <th>{{ r }}</th>
+                    <th>{{ r }} = {{ game.translatedRow(r) }}</th>
                     {% for c in range(0, 9) %}
                         {% set square = game.getSquare(r, c) %}
                         <td>

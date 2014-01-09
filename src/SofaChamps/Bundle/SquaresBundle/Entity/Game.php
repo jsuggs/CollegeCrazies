@@ -66,6 +66,111 @@ class Game
      */
     protected $players;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $locked;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row0;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row1;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row2;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row3;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row4;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row5;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row6;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row7;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row8;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $row9;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col0;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col1;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col2;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col3;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col4;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col5;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col6;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col7;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col8;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $col9;
+
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -177,6 +282,16 @@ class Game
         return $this->costPerSquare;
     }
 
+    public function getTranslatedRow($row)
+    {
+        return $this->{"row$row"};
+    }
+
+    public function getTranslatedCol($col)
+    {
+        return $this->{"col$col"};
+    }
+
     public function addPlayer(Player $player)
     {
         if (!$this->players->contains($player)) {
@@ -187,5 +302,25 @@ class Game
     public function getPlayers()
     {
         return $this->players;
+    }
+
+    public function setLocked($locked)
+    {
+        $this->locked = (bool) $locked;
+    }
+
+    public function isLocked()
+    {
+        return $this->locked;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
     }
 }

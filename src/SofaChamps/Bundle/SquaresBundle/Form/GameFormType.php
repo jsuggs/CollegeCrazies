@@ -33,6 +33,9 @@ class GameFormType extends AbstractType
                 'type' => 'sofachamps_squares_player',
                 'allow_add' => true,
             ))
+            ->add('locked', 'checkbox', array(
+                'label' => 'Lock the game',
+            ))
         ;
     }
 

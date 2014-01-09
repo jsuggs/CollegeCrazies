@@ -33,6 +33,11 @@ class GameManager
         $game = new Game($user);
         $this->om->persist($game);
 
+        foreach (range(0, 9) as $idx) {
+            $game->{"row$idx"} = $idx;
+            $game->{"col$idx"} = $idx;
+        }
+
         foreach (range(0, 9) as $row) {
             foreach (range(0, 9) as $col) {
                 $square = new Square($game, $row, $col);
