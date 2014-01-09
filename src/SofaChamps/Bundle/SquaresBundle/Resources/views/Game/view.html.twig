@@ -3,17 +3,25 @@
 {% block content %}
     <h2>{{ game.name }}</h2>
 
-    <table border=1>
-        {% for r in range(0, 9) %}
+    <table class="table table-bordered">
+        <tbody>
             <tr>
-                {% for c in range(0, 9) %}
-                    {% set square = game.getSquare(r, c) %}
-                    <td>
-                        {{ r }} {{ c }} - {{ square.row }} {{ square.col }}
-                        <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
-                    </td>
+                <th></th>
+                {% for idx in range(0, 9) %}
+                    <th>{{ idx }}</th>
                 {% endfor %}
             </tr>
-        {% endfor %}
+            {% for r in range(0, 9) %}
+                <tr>
+                    <th>{{ r }}</th>
+                    {% for c in range(0, 9) %}
+                        {% set square = game.getSquare(r, c) %}
+                        <td>
+                            <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}
