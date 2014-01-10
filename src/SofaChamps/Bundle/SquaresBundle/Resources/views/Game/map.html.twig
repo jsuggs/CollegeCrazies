@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Map</h2>
 
-    <form action="{{ path('squares_game_update', {gameId: game.id}) }}" method="post">
+    <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
         {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-primary btn-lg">Update Game</button>

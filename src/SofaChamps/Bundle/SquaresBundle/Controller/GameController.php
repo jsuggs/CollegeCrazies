@@ -3,13 +3,13 @@
 namespace SofaChamps\Bundle\SquaresBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use SofaChamps\Bundle\SquaresBundle\Entity\Game;
-use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
-use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\SquaresBundle\Entity\Game;
+use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
+use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -150,12 +150,27 @@ class GameController extends BaseController
      * @Route("/map/{gameId}", name="squares_map")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
-     * @Method({"GET"})
      * @Template
      */
     public function mapAction(Game $game)
     {
         $form = $this->getGameMapForm($game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+
+                $this->addMessage('success', 'Map Updated');
+
+                return $this->redirect($this->generateUrl('squares_map', array(
+                    'gameId' => $game->getId(),
+                )));
+            }
+
+            $this->addMessage('warning', 'There was an error updating the map');
+        }
 
         return array(
             'form' => $form->createView(),
