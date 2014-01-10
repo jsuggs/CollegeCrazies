@@ -35,9 +35,24 @@ class Payout
     protected $description;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(type="smallint")
      */
     protected $percentage;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $rowResult;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $colResult;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="winners")
+     */
+    protected $winner;
 
     public function __construct(Game $game)
     {
@@ -67,5 +82,20 @@ class Payout
     public function getPercentage()
     {
         return $this->percentage;
+    }
+
+    public function setWinner(Player $player)
+    {
+        $this->winner = $player;
+    }
+
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    public function isComplete()
+    {
+        return $this->rowResult && $this->colResult;
     }
 }

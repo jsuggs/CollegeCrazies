@@ -45,6 +45,11 @@ class Player
      */
     protected $color;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Payout", mappedBy="winner")
+     */
+    protected $winners;
+
     public function __construct(User $user, Game $game)
     {
         $this->user = $user;

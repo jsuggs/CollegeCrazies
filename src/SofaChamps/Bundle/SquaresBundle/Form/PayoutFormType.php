@@ -33,7 +33,7 @@ class PayoutFormType extends AbstractType
             ->add('description', 'text', array(
                 'label' => 'What the payout is for',
             ))
-            ->add('percentage', 'text', array(
+            ->add('percentage', 'integer', array(
                 'label' => 'The percentage this wins',
             ))
         ;
