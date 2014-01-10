@@ -1,27 +1,52 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ game.name }}</h2>
+    <h2>{{ game.name }} <small><a href="{{ path('squares_game_edit', {gameId: game.id}) }}">Edit</a></small></h2>
 
-    <table class="table table-bordered">
-        <tbody>
-            <tr>
-                <th></th>
-                {% for idx in range(0, 9) %}
-                    <th>{{ idx }} = {{ game.translatedCol(idx) }}</th>
-                {% endfor %}
-            </tr>
-            {% for r in range(0, 9) %}
-                <tr>
-                    <th>{{ r }} = {{ game.translatedRow(r) }}</th>
-                    {% for c in range(0, 9) %}
-                        {% set square = game.getSquare(r, c) %}
-                        <td>
-                            <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
-                        </td>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th></th>
+                        {% for idx in range(0, 9) %}
+                            <th>{{ idx }} = {{ game.translatedCol(idx) }}</th>
+                        {% endfor %}
+                    </tr>
+                    {% for r in range(0, 9) %}
+                        <tr>
+                            <th>{{ r }} = {{ game.translatedRow(r) }}</th>
+                            {% for c in range(0, 9) %}
+                                {% set square = game.getSquare(r, c) %}
+                                <td>
+                                    <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
+                                </td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Players</h2>
+            <ol>
+                {% for player in game.players %}
+                    <li>
+                        {{ player.name }}
+                    </li>
+                {% endfor %}
+            </ol>
+
+            <hr />
+
+            <h2>Payouts</h2>
+            <ol>
+                {% for payout in game.payouts %}
+                    <li>
+                        {{ payout.description }}
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
 {% endblock %}

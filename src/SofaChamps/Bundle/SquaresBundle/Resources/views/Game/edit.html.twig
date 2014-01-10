@@ -1,7 +1,7 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Edit</h2>
+    <h2>Edit <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">View</a></small></h2>
 
     <form action="{{ path('squares_game_update', {gameId: game.id}) }}" method="post">
         {% include 'SofaChampsSquaresBundle:Game:form.html.twig' %}
