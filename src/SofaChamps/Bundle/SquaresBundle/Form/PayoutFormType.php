@@ -36,6 +36,12 @@ class PayoutFormType extends AbstractType
             ->add('percentage', 'integer', array(
                 'label' => 'The percentage this wins',
             ))
+            ->add('rowResult', 'integer', array(
+                'label' => 'The home team result',
+            ))
+            ->add('colResult', 'integer', array(
+                'label' => 'The away team result',
+            ))
         ;
     }
 

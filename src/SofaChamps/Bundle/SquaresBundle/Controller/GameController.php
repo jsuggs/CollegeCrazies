@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
+use SofaChamps\Bundle\SquaresBundle\Form\GamePayoutsFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -178,6 +179,38 @@ class GameController extends BaseController
         );
     }
 
+    /**
+     * @Route("/payouts/{gameId}", name="squares_payouts")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Template
+     */
+    public function payoutsAction(Game $game)
+    {
+        $form = $this->getGamePayoutsForm($game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+
+                $this->addMessage('success', 'Payouts Updated');
+
+                return $this->redirect($this->generateUrl('squares_payouts', array(
+                    'gameId' => $game->getId(),
+                )));
+            }
+
+            $this->addMessage('warning', 'There was an error updating the payouts');
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'game' => $game,
+        );
+    }
+
     protected function getGameForm(Game $game = null)
     {
         return $this->createForm(new GameFormType(), $game);
@@ -186,5 +219,10 @@ class GameController extends BaseController
     protected function getGameMapForm(Game $game = null)
     {
         return $this->createForm(new GameMapFormType(), $game);
+    }
+
+    protected function getGamePayoutsForm(Game $game = null)
+    {
+        return $this->createForm(new GamePayoutsFormType(), $game);
     }
 }
