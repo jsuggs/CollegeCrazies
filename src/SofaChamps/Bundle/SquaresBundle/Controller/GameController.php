@@ -9,9 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
-use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
-use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
-use SofaChamps\Bundle\SquaresBundle\Form\GamePayoutsFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -46,6 +43,7 @@ class GameController extends BaseController
         return array(
             'game' => $game,
             'player' => $player,
+            'player_forms' => $this->getPlayerForms($game),
         );
     }
 
@@ -217,18 +215,13 @@ class GameController extends BaseController
         );
     }
 
-    protected function getGameForm(Game $game = null)
+    protected function getPlayerForms(Game $game)
     {
-        return $this->createForm(new GameFormType(), $game);
-    }
+        $forms = array();
+        foreach ($game->getPlayers() as $player) {
+            $forms[$player->getId()] =  $this->getPlayerForm($player)->createView();
+        }
 
-    protected function getGameMapForm(Game $game = null)
-    {
-        return $this->createForm(new GameMapFormType(), $game);
-    }
-
-    protected function getGamePayoutsForm(Game $game = null)
-    {
-        return $this->createForm(new GamePayoutsFormType(), $game);
+        return $forms;
     }
 }

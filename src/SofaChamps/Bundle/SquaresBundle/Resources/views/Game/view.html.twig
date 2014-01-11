@@ -18,7 +18,7 @@
                             <th>{{ r }} = {{ game.translatedRow(r) }}</th>
                             {% for c in range(0, 9) %}
                                 {% set square = game.getSquare(r, c) %}
-                                <td>
+                                <td{% if square.owner %} style="background: #{{ square.owner.color }}"{% endif %}>
                                     {% if square.owner %}
                                         {{ square.owner.name }}
                                     {% else %}
@@ -35,8 +35,14 @@
             <h2>Players</h2>
             <ol>
                 {% for player in game.players %}
-                    <li>
+                    {% set form = player_forms[player.id] %}
+                    <li style="background: #{{ player.color }}">
                         {{ player.name }}
+                        <form action="{{ path('squares_player_update', {playerId: player.id}) }}" method="post">
+                            {{ form_widget(form) }}
+
+                            <button>Update Player</button>
+                        </form>
                     </li>
                 {% endfor %}
             </ol>
@@ -54,6 +60,9 @@
                     </li>
                 {% endfor %}
             </ol>
+
+            <h2>Stats</h2>
+            <p></p>
         </div>
     </div>
 {% endblock %}
