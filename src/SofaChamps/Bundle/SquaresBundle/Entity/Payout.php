@@ -116,7 +116,7 @@ class Payout
 
     public function isComplete()
     {
-        return $this->homeTeamResult && $this->awayTeamResult;
+        return isset($this->homeTeamResult) && isset($this->awayTeamResult);
     }
 
     public function getRowResult()
