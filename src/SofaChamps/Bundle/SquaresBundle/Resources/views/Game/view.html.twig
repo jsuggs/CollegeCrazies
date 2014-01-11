@@ -43,11 +43,14 @@
 
             <hr />
 
-            <h2>Payouts <small><a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit<a></small></h2>
+            <h2>Payouts <small><a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit</a></small></h2>
             <ol>
                 {% for payout in game.payouts %}
                     <li>
                         {{ payout.description }}
+                        {% if payout.winner %}
+                            {{ payout.winner.name }}
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ol>
