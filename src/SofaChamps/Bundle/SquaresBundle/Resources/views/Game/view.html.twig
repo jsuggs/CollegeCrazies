@@ -20,6 +20,9 @@
                                 {% set square = game.getSquare(r, c) %}
                                 <td>
                                     <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
+                                    {% if square.owner %}
+                                        {{ square.owner.name }}
+                                    {% endif %}
                                 </td>
                             {% endfor %}
                         </tr>

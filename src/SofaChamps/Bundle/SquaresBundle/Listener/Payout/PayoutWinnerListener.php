@@ -8,12 +8,12 @@ use SofaChamps\Bundle\SquaresBundle\Entity\Payout;
 
 /**
  * @DoctrineListener(
- *      events={"prePersist"}
+ *      events={"preUpdate"}
  * )
  */
 class PayoutWinnerListener
 {
-    public function prePersist(LifecycleEventArgs $args)
+    public function preUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
@@ -21,10 +21,10 @@ class PayoutWinnerListener
             if ($entity->isComplete()) {
                 $winner = $entity
                     ->getGame()
-                    ->getSquare($entity->getRowResult(), $payout->getColResult())
+                    ->getSquare($entity->getRowResult(), $entity->getColResult())
                     ->getOwner();
 
-                $payout->setWinner($winner);
+                $entity->setWinner($winner);
             }
         }
     }

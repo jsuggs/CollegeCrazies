@@ -36,7 +36,7 @@ class Square
     protected $col;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="squaresSquares")
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="squaresSquares")
      */
     protected $owner;
 

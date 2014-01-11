@@ -13,9 +13,9 @@ CREATE TABLE squares_game_payouts (
   , game_id INT DEFAULT NULL
   , description VARCHAR(255) NOT NULL
   , percentage SMALLINT NOT NULL
+  , homeTeamResult SMALLINT DEFAULT NULL
+  , awayTeamResult SMALLINT DEFAULT NULL
   , winner_id INT DEFAULT NULL
-  , rowResult SMALLINT DEFAULT NULL
-  , colResult SMALLINT DEFAULT NULL
   , PRIMARY KEY(id)
 )
 SQL;

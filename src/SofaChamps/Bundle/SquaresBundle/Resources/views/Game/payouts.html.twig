@@ -1,7 +1,7 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Payouts</h2>
+    <h2>Payouts <small><a href="{{ path('squares_game') }}">view game</a></small></h2>
 
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
         {{ form_widget(form) }}

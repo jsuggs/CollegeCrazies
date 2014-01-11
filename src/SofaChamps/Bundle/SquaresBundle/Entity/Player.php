@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,6 +47,11 @@ class Player
     protected $color;
 
     /**
+     * @ORM\OneToMany(targetEntity="Square", mappedBy="owner")
+     */
+    protected $squaresSquares;
+
+    /**
      * @ORM\OneToMany(targetEntity="Payout", mappedBy="winner")
      */
     protected $winners;
@@ -54,6 +60,7 @@ class Player
     {
         $this->user = $user;
         $this->game = $game;
+        $this->squaresSquares = new ArrayCollection();
     }
 
     public function getGame()

@@ -42,12 +42,12 @@ class Payout
     /**
      * @ORM\Column(type="smallint", nullable=true)
      */
-    protected $rowResult;
+    protected $homeTeamResult;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
      */
-    protected $colResult;
+    protected $awayTeamResult;
 
     /**
      * @ORM\ManyToOne(targetEntity="Player", inversedBy="winners")
@@ -84,7 +84,27 @@ class Payout
         return $this->percentage;
     }
 
-    public function setWinner(Player $player)
+    public function setHomeTeamResult($result)
+    {
+        $this->homeTeamResult = $result;
+    }
+
+    public function getHomeTeamResult()
+    {
+        return $this->homeTeamResult;
+    }
+
+    public function setAwayTeamResult($result)
+    {
+        $this->awayTeamResult = $result;
+    }
+
+    public function getAwayTeamResult()
+    {
+        return $this->awayTeamResult;
+    }
+
+    public function setWinner(Player $player = null)
     {
         $this->winner = $player;
     }
@@ -96,6 +116,16 @@ class Payout
 
     public function isComplete()
     {
-        return $this->rowResult && $this->colResult;
+        return $this->homeTeamResult && $this->awayTeamResult;
+    }
+
+    public function getRowResult()
+    {
+        return substr((string) $this->homeTeamResult, -1);
+    }
+
+    public function getColResult()
+    {
+        return substr((string) $this->awayTeamResult, -1);
     }
 }
