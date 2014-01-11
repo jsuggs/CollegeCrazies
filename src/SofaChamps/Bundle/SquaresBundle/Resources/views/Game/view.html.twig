@@ -58,7 +58,15 @@
             </ol>
 
             <h2>Stats</h2>
-            <p></p>
+            <dl>
+                <dt>Cost Per Square</dt>
+                <dd>${{ game.costPerSquare(true)|number_format(2, '.', ',') }}</dd>
+
+                {% set claimedSquares = game.claimedSquares|length %}
+                {% set unclaimedSquares = 100 - claimedSquares %}
+                <dt>Squares (Claimed / Unclaimed)</dt>
+                <dd>(<span id="claimed-squares">{{ claimedSquares }}</span> / <span id="unclaimed-squares">{{ unclaimedSquares }}</span>)</dd>
+            </dl>
         </div>
     </div>
 {% endblock %}

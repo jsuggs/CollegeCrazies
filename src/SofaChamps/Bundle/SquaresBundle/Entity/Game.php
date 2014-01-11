@@ -238,6 +238,13 @@ class Game
         })->current();
     }
 
+    public function getClaimedSquares()
+    {
+        return $this->squares->filter(function ($square) {
+            return $square->getOwner();
+        });
+    }
+
     public function getUser()
     {
         return $this->user;
@@ -277,9 +284,11 @@ class Game
         $this->costPerSquare = $costPerSquare;
     }
 
-    public function getCostPerSquare()
+    public function getCostPerSquare($dollars = false)
     {
-        return $this->costPerSquare;
+        return $dollars
+            ? ($this->costPerSquare / 100)
+            : $this->costPerSquare;
     }
 
     public function getTranslatedRow($row)
