@@ -63,6 +63,11 @@ class Player
         $this->squaresSquares = new ArrayCollection();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getGame()
     {
         return $this->game;

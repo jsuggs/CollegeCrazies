@@ -76,10 +76,10 @@ class GameManager
         $game->addPlayer($player);
     }
 
-    public function claimSquare(User $user, Game $game, $row, $col)
+    public function claimSquare(Player $player, Game $game, $row, $col)
     {
         $square = $game->getSquare($row, $col);
-        $square->setOwner($user);
+        $square->setOwner($player);
 
         // TODO
         return true;

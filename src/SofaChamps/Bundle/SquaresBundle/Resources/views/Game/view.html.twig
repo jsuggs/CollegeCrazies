@@ -19,9 +19,10 @@
                             {% for c in range(0, 9) %}
                                 {% set square = game.getSquare(r, c) %}
                                 <td>
-                                    <a href="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}">Claim</a>
                                     {% if square.owner %}
                                         {{ square.owner.name }}
+                                    {% else %}
+                                        <a href="{{ path('squares_square_claim', {gameId: game.id, playerId: player.id, row: r, col: c}) }}">Claim</a>
                                     {% endif %}
                                 </td>
                             {% endfor %}

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
+use SofaChamps\Bundle\SquaresBundle\Entity\Player;
 use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GamePayoutsFormType;
@@ -39,8 +40,12 @@ class GameController extends BaseController
      */
     public function viewAction(Game $game)
     {
+        $user = $this->getUser();
+        $player = $game->getPlayerForUser($user);
+
         return array(
             'game' => $game,
+            'player' => $player,
         );
     }
 
@@ -132,14 +137,15 @@ class GameController extends BaseController
     }
 
     /**
-     * @Route("/claim/{gameId}/{row}/{col}", name="squares_square_claim")
+     * @Route("/claim/{gameId}/{playerId}/{row}/{col}", name="squares_square_claim")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})
      * @Method({"GET"})
      */
-    public function claimSquareAction(Game $game, $row, $col)
+    public function claimSquareAction(Game $game, Player $player, $row, $col)
     {
-        $success = $this->getGameManager()->claimSquare($this->getUser(), $game, $row, $col);
+        $success = $this->getGameManager()->claimSquare($player, $game, $row, $col);
         $this->getEntityManager()->flush();
 
         return new JsonResponse(array(

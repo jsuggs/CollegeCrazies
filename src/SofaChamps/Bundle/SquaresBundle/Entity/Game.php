@@ -304,6 +304,13 @@ class Game
         return $this->players;
     }
 
+    public function getPlayerForUser(User $user)
+    {
+        return $this->players->filter(function($player) use ($user) {
+            return $player->getUser() == $user;
+        })->first();
+    }
+
     public function setLocked($locked)
     {
         $this->locked = (bool) $locked;

@@ -62,7 +62,7 @@ class Square
         return $this->col;
     }
 
-    public function setOwner(User $owner)
+    public function setOwner(Player $owner)
     {
         $this->owner = $owner;
     }
