@@ -16,6 +16,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class PlayerController extends BaseController
 {
     /**
+     * @Route("/edit/{playerId}", name="squares_player_edit")
+     * @Secure(roles="ROLE_USER")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function editAction(Player $player)
+    {
+        $form = $this->getPlayerForm($player);
+
+        return array(
+            'player' => $player,
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
      * @Route("/update/{playerId}", name="squares_player_update")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})

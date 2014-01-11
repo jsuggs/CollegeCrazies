@@ -38,11 +38,7 @@
                     {% set form = player_forms[player.id] %}
                     <li style="background: #{{ player.color }}">
                         {{ player.name }}
-                        <form action="{{ path('squares_player_update', {playerId: player.id}) }}" method="post">
-                            {{ form_widget(form) }}
-
-                            <button>Update Player</button>
-                        </form>
+                        {{ render(controller('SofaChampsSquaresBundle:Player:edit', {player: player})) }}
                     </li>
                 {% endfor %}
             </ol>
