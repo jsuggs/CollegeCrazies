@@ -22,7 +22,7 @@
                                     {% if square.owner %}
                                         {{ square.owner.name }}
                                     {% else %}
-                                        <form action="{{ path('squares_square_claim', {gameId: game.id, playerId: player.id, row: r, col: c}) }}" method="post">
+                                        <form action="{{ path('squares_square_claim', {gameId: game.id, playerId: player.id, row: r, col: c}) }}" method="post" class="squares-claim">
                                             <button>Claim</button>
                                         </form>
                                     {% endif %}
