@@ -143,11 +143,17 @@ class GameController extends BaseController
      */
     public function claimSquareAction(Game $game, Player $player, $row, $col)
     {
-        $success = $this->getGameManager()->claimSquare($player, $game, $row, $col);
+        $square = $game->getSquare($row, $col);
+        $success = $this->getGameManager()->claimSquare($player, $square);
         $this->getEntityManager()->flush();
 
         return new JsonResponse(array(
             'success' => $success,
+            'html' => $this->renderView('SofaChampsSquaresBundle:Game:_td.html.twig', array(
+                'player' => $player,
+                'square' => $square,
+                'game' => $game,
+            )),
         ));
     }
 
