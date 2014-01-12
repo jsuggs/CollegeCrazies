@@ -139,7 +139,7 @@ class GameController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
      * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
     public function claimSquareAction(Game $game, Player $player, $row, $col)
     {
