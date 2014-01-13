@@ -11,6 +11,12 @@ $(function() {
             success: function(data) {
                 if (data.success) {
                     $td.replaceWith(data.html);
+
+                    var $claimedSquares = $("#claimed-squares");
+                    var $unclaimedSquares = $("#unclaimed-squares");
+
+                    $claimedSquares.html(parseInt($claimedSquares.html()) + 1);
+                    $unclaimedSquares.html(parseInt($unclaimedSquares.html()) - 1);
                 }
             },
         });
