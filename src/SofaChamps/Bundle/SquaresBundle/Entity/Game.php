@@ -320,6 +320,13 @@ class Game
         })->first();
     }
 
+    public function isPlayer(User $user)
+    {
+        return $this->players->exists(function ($player) use ($user) {
+            return $player->getUser() == $user;
+        });
+    }
+
     public function setLocked($locked)
     {
         $this->locked = (bool) $locked;
