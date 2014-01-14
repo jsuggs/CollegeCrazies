@@ -18,9 +18,9 @@ class PickController extends BaseController
      * @Route(name="sbc_pick")
      * @Secure(roles="ROLE_USER")
      * @Method({"GET"})
-     * @Template("SofaChampsSuperBowlChallengeBundle:Pick:edit.html.twig")
+     * @Template
      */
-    public function editPickAction($year)
+    public function editAction($year)
     {
         $user = $this->getUser();
         $pick = $this->getUserPick($user, $year);
@@ -41,7 +41,7 @@ class PickController extends BaseController
      * @Method({"POST"})
      * @Template("SofaChampsSuperBowlChallengeBundle:Pick:edit.html.twig")
      */
-    public function updatePickAction($year)
+    public function updateAction($year)
     {
         $user = $this->getUser();
         $pick = $this->getUserPick($user, $year);
