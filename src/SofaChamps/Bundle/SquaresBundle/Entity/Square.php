@@ -38,7 +38,7 @@ class Square
     /**
      * @ORM\ManyToOne(targetEntity="Player", inversedBy="squaresSquares")
      */
-    protected $owner;
+    protected $player;
 
     public function __construct(Game $game, $row, $col)
     {
@@ -62,13 +62,13 @@ class Square
         return $this->col;
     }
 
-    public function setOwner(Player $owner)
+    public function setPlayer(Player $player)
     {
-        $this->owner = $owner;
+        $this->player = $player;
     }
 
-    public function getOwner()
+    public function getPlayer()
     {
-        return $this->owner;
+        return $this->player;
     }
 }

@@ -22,7 +22,7 @@ class PayoutWinnerListener
                 $winner = $entity
                     ->getGame()
                     ->getSquare($entity->getRowResult(), $entity->getColResult())
-                    ->getOwner();
+                    ->getPlayer();
 
                 $entity->setWinner($winner);
             }

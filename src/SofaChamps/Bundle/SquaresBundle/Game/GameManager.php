@@ -80,8 +80,8 @@ class GameManager
     {
         $success = false;
 
-        if (!$square->getOwner()) {
-            $square->setOwner($player);
+        if (!$square->getPlayer()) {
+            $square->setPlayer($player);
             $success = true;
         }
 

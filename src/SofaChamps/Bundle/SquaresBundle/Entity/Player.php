@@ -47,7 +47,7 @@ class Player
     protected $color;
 
     /**
-     * @ORM\OneToMany(targetEntity="Square", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Square", mappedBy="player")
      */
     protected $squaresSquares;
 

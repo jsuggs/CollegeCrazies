@@ -241,7 +241,7 @@ class Game
     public function getClaimedSquares()
     {
         return $this->squares->filter(function ($square) {
-            return $square->getOwner();
+            return $square->getPlayer();
         });
     }
 
