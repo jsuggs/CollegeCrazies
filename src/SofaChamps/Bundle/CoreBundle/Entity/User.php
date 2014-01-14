@@ -97,6 +97,16 @@ class User extends BaseUser
      */
     protected $profilePicture;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\SquaresBundle\Entity\Game", mappedBy="user")
+     */
+    protected $squaresGames;
+
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\SquaresBundle\Entity\Player", mappedBy="user")
+     */
+    protected $squaresPlayers;
+
     public function __construct()
     {
         parent::__construct();
@@ -105,6 +115,8 @@ class User extends BaseUser
         $this->leagues = new ArrayCollection();
         $this->referrals = new ArrayCollection();
         $this->commissionerLeagues = new ArrayCollection();
+        $this->squaresGames = new ArrayCollection();
+        $this->squaresPlayers = new ArrayCollection();
     }
 
     public function getId()
@@ -280,6 +292,11 @@ class User extends BaseUser
     public function getProfilePicture()
     {
         return $this->profilePicture;
+    }
+
+    public function getSquaresGames()
+    {
+        return $this->squaresGames;
     }
 
     public function __toString()

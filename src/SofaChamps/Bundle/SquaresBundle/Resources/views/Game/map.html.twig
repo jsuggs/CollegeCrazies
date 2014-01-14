@@ -1,0 +1,11 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Map</h2>
+
+    <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary btn-lg">Update Game</button>
+    </form>
+{% endblock %}
