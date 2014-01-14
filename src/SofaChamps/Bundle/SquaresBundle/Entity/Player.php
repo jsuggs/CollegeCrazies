@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="squares_players",
+ *      name="squares_players"
  * )
  */
 class Player
