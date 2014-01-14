@@ -53,10 +53,11 @@ class UserExtension extends \Twig_Extension
         return $date->format($format);
     }
 
-    public function profileLink(User $user)
+    public function profileLink(User $user, $showProfilePicture = false)
     {
         return $this->container->get('templating')->render('SofaChampsCoreBundle:User:_profile_link.html.twig', array(
             'user' => $user,
+            'showProfilePicture' => $showProfilePicture,
         ));
     }
 

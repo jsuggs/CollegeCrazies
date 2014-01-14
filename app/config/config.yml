@@ -91,6 +91,8 @@ vlabs_media:
     mapping:
         image_entity:
             class: SofaChamps\Bundle\CoreBundle\Entity\Image
+    templates:
+        image: SofaChampsCoreBundle:Vlabs:image.html.twig
 
 fos_facebook:
     alias:  facebook

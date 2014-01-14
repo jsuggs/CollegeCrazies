@@ -23,7 +23,7 @@
                 <tr>
                     <td>{{ rank }}</td>
                     <td><a href="{{ path('pickset_view_noleague', {'picksetId': pickSet.id, season: season}) }}">{{ pickSet.name|default('Not Named') }}</a></td>
-                    <td>{{ profile_link(pickSet.user)|raw }}</td>
+                    <td>{{ profile_link(pickSet.user, true)|raw }}</td>
                     <td>{{ pickSet.points }}</td>
                     <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
                     <td>{{ pickSet.pointsPossible }}</td>

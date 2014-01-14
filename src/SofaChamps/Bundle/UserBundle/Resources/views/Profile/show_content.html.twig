@@ -1,5 +1,12 @@
 <h2>User Profile</h2>
 <h3>{{ user.username }}</h3>
+
+{% if user.profilePicture %}
+    {{ user.profilePicture|vlabs_filter('resize', { 'width' : 100, 'height' : 100 })|vlabs_media('image', {attr: {class: 'img-rounded'}}) }}
+{% endif %}
+
+<hr />
+
 <div>
     <dl>
         <dt>First Name</dt>
