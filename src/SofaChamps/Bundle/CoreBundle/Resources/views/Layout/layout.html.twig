@@ -67,9 +67,9 @@
                 {% if is_granted('ROLE_USER') %}
                     {% block nav_user '' %}
                     <li>
-                        <a href="{{ path('fos_user_profile_edit') }}">
+                        <a href="{{ path('fos_user_profile_edit') }}" class="profile">
                             {% if app.user.profilePicture %}
-                                {{ app.user.profilePicture|vlabs_filter('resize', { 'width' : 25, 'height' : 25 })|vlabs_media('image', {attr: {class: 'img-rounded'}}) }}
+                                {{ app.user.profilePicture|vlabs_filter('resize', { 'height' : 25 })|vlabs_media('image', {attr: {class: 'img-rounded'}}) }}
                             {% else %}
                                 <span class="glyphicon glyphicon-user"></span>
                             {% endif %}
