@@ -10,7 +10,6 @@ use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Question;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Result;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\ConfigFormType;
 use SofaChamps\Bundle\SuperBowlChallengeBundle\Form\QuestionFormType;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BaseController extends CoreController
 {
@@ -34,10 +33,8 @@ class BaseController extends CoreController
         return $this->createForm(new QuestionFormType(), $question);
     }
 
-    protected function getUserPick(User $user, $year = null)
+    protected function getUserPick(User $user, $year)
     {
-        $year = $year ?: date('Y');
-
         $pick = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Pick')
             ->findOneBy(array(
@@ -53,19 +50,19 @@ class BaseController extends CoreController
         return $pick;
     }
 
-    protected function getConfig($year = null)
+    protected function getConfig($year)
     {
-        $year = $year ?: date('Y');
-
         $config = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Config')
             ->find($year);
 
         if (!$config) {
             $config = new Config($year);
+            $config->setStartTime(new \DateTime());
+            $config->setCloseTime(new \DateTime());
 
-            // Default the 4 bonus questions
-            for ($index = 4; $index >= 1; $index--) {
+            // Default the 8 bonus questions
+            for ($index = 8; $index >= 1; $index--) {
                 $question = new Question();
                 $question->setYear($year);
                 $question->setIndex($index);
@@ -78,14 +75,17 @@ class BaseController extends CoreController
         return $config;
     }
 
-    protected function getResult($year = null)
+    protected function getResult($year)
     {
-        $year = $year ?: date('Y');
-
         $result = $this
             ->getRepository('SofaChampsSuperBowlChallengeBundle:Result')
             ->find($year);
 
         return $result ?: new Result($year);
+    }
+
+    protected function getPickManager()
+    {
+        return $this->get('sofachamps.superbowlchallenge.pickmanager');
     }
 }

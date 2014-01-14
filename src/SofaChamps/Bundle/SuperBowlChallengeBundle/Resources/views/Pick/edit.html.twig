@@ -12,7 +12,7 @@
 {% block content %}
     <h2>Superbowl Challenge</h2>
 
-    <form action="{{ path('sbc_pick', {year: year}) }}" method="post" class="form" {{ form_enctype(form) }}>
+    <form action="{{ path('sbc_pick_update', {year: year}) }}" method="post" class="form" {{ form_enctype(form) }}>
         <fieldset>
             <legend>Final Scores</legend>
             <table class="table table-bordered">
