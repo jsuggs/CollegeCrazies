@@ -13,7 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="GameRepository")
  * @ORM\Table(
  *      name="games",
- *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_games_season_tiebreaker_priority", columns={"season", "tiebreakerPriority"})}
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_games_season_tiebreaker_priority", columns={"season", "tiebreakerPriority"}),
+ *          @ORM\UniqueConstraint(name="uniq_games_hometeam_id", columns={"season", "homeTeam_id"}),
+ *          @ORM\UniqueConstraint(name="uniq_games_awayteam_id", columns={"season", "awayTeam_id"}),
+ *      }
  * )
  */
 class Game
@@ -53,12 +57,12 @@ class Game
     protected $shortName;
 
     /**
-     * @ORM\OneToOne(targetEntity="Team")
+     * @ORM\ManyToOne(targetEntity="Team")
      */
     protected $homeTeam;
 
     /**
-     * @ORM\OneToOne(targetEntity="Team")
+     * @ORM\ManyToOne(targetEntity="Team")
      */
     protected $awayTeam;
 
