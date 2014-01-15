@@ -1,4 +1,0 @@
-echo 'DROP DATABASE sofachamps_beta' | psql -d postgres
-echo 'CREATE DATABASE sofachamps_beta TEMPLATE collegecrazies' | psql -d postgres
-echo 'ALTER DATABASE sofachamps_beta OWNER TO sofachamps_beta' | psql -d postgres
-echo 'REASSIGN OWNED BY collegecrazies TO sofachamps_beta' | psql -d sofachamps_beta

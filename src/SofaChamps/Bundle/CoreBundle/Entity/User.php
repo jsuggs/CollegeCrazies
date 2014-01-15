@@ -15,7 +15,10 @@ use Vlabs\MediaBundle\Annotation\Vlabs;
  *
  * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(
- *      name="users"
+ *      name="users",
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="uniq_user_profile_img_id", columns={"profile_img_id"}),
+ *      }
  * )
  */
 class User extends BaseUser
