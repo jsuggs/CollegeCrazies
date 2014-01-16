@@ -30,6 +30,8 @@ class AppKernel extends Kernel
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Vlabs\MediaBundle\VlabsMediaBundle(),
+            new Liip\DoctrineCacheBundle\LiipDoctrineCacheBundle(),
+            new Mmoreram\GearmanBundle\GearmanBundle(),
             new SofaChamps\Bundle\BowlPickemBundle\SofaChampsBowlPickemBundle(),
             new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
             new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),

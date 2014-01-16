@@ -29,7 +29,8 @@
         "flot/flot": "master",
         "liip/functional-test-bundle": "dev-master",
         "fzaninotto/faker": "~1.2",
-        "vlabs/media-bundle": "dev-symfony2.3"
+        "vlabs/media-bundle": "dev-symfony2.3",
+        "mmoreram/gearman-bundle": "dev-master"
     },
     "config": {
         "bin-dir": "bin"

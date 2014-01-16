@@ -30,13 +30,19 @@ class RegistrationListenerTest extends SofaChampsTest
     {
         $form = $this->buildMock('Symfony\Component\Form\Form');
         $request = $this->buildMock('Symfony\Component\HttpFoundation\Request');
+        $season = rand(2000, 2020);
 
         $this->router->expects($this->any())
             ->method('generate')
             ->will($this->returnValue($this->getFaker()->url()));
 
+        $this->seasonManager->expects($this->any())
+            ->method('getCurrentSeason')
+            ->will($this->returnValue($season));
+
         $this->picksLockedManager->expects($this->any())
             ->method('arePickLocked')
+            ->with($season)
             ->will($this->returnValue(false));
 
         $event = new FormEvent($form, $request);
@@ -45,8 +51,15 @@ class RegistrationListenerTest extends SofaChampsTest
 
     public function testOnRegistrationSuccessAfterPicksLockedDoesNotRedirect()
     {
+        $season = rand(2000, 2020);
+
+        $this->seasonManager->expects($this->any())
+            ->method('getCurrentSeason')
+            ->will($this->returnValue($season));
+
         $this->picksLockedManager->expects($this->any())
             ->method('arePickLocked')
+            ->with($season)
             ->will($this->returnValue(true));
 
         $event = $this->buildMock('FOS\UserBundle\Event\FormEvent');

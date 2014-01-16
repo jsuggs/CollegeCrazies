@@ -9,65 +9,52 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class EmailSenderTest extends SofaChampsTest
 {
-    protected $mailer;
-    protected $templating;
+    protected $gearman;
     protected $logger;
-    protected $emailSender;
+    protected $sender;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->mailer = $this->buildMock('\Swift_Mailer');
-        $this->templating = $this->buildMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $this->gearman = $this->buildMock('Mmoreram\GearmanBundle\Service\GearmanClient');
         $this->logger = $this->buildMock('Symfony\Component\HttpKernel\Log\LoggerInterface');
 
-        $this->sender = new EmailSender($this->mailer, $this->templating, $this->logger);
+        $this->sender = new EmailSender($this->gearman, $this->logger);
     }
 
     public function testSendToEmail()
     {
         $email = $this->getFaker()->email();
-        $template = $this->getFaker()->word();
+        $templateName = $this->getFaker()->word();
         $subjectLine = $this->getFaker()->word(3);
 
         $from = array(
             $this->getFaker()->email() => $this->getFaker()->name(),
         );
 
-        $html = $this->getFaker()->paragraph();
-        $text = $this->getFaker()->paragraph();
-
         $data = array(
             'form' => $from,
         );
 
-        $this->templating->expects($this->at(0))
-            ->method('render')
-            ->will($this->returnValue($html));
+        $payload = array(
+            'email' => $email,
+            'templateName' => $templateName,
+            'subjectLine' => $subjectLine,
+            'data' => $data,
+        );
 
-        $this->templating->expects($this->at(1))
-            ->method('render')
-            ->will($this->returnValue($text));
+        $this->gearman->expects($this->once())
+            ->method('doBackgroundJob')
+            ->with('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', json_encode($payload));
 
-        $message = \Swift_Message::newInstance()
-            ->setSubject($subjectLine)
-            ->setFrom($from)
-            ->setTo($email)
-            ->setBody($html, 'text/html')
-            ->addPart($text, 'text/plain');
-
-        $this->mailer->expects($this->once())
-            ->method('send');
-            //->with($message);
-
-        $this->sender->sendToEmail($email, $template, $subjectLine, $data);
+        $this->sender->sendToEmail($email, $templateName, $subjectLine, $data);
     }
 
     public function testSendToEmailWithInvalidEmail()
     {
-        $this->mailer->expects($this->never())
-            ->method('send');
+        $this->gearman->expects($this->never())
+            ->method('doBackgroundJob');
 
         $this->sender->sendToEmail('invalidEmail', '', '');
     }

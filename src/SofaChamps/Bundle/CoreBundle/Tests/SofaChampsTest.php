@@ -2,6 +2,9 @@
 
 namespace SofaChamps\Bundle\CoreBundle\Tests;
 
+# Not sure why, but this is being requried for the gearman:worker:list console command
+require_once 'PHPUnit/Autoload.php';
+
 use Faker\Factory;
 
 class SofaChampsTest extends \PHPUnit_Framework_TestCase

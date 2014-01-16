@@ -15,5 +15,5 @@
             <p>Read more about who we are and why we did this <a href="{{ path('about') }}">here</a></p>
         </div>
     </div>
-    <p>{% if not picks_locked %}<a href="/register" class="btn btn-info">Sign up now!</a> or {% endif %}<a href="/login" class="btn btn-success">Login</a></p>
+    <p>{% if not picks_locked(season) %}<a href="/register" class="btn btn-info">Sign up now!</a> or {% endif %}<a href="/login" class="btn btn-success">Login</a></p>
 {% endblock %}

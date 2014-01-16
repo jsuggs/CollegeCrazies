@@ -4,30 +4,36 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Event;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetAnalyzer;
-use Symfony\Component\EventDispatcher\Event;
+use Mmoreram\GearmanBundle\Driver\Gearman;
+use Mmoreram\GearmanBundle\Service\GearmanClient;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * GameSubscriber
  *
+ * @Gearman\Work(
+ *      name = "GameSubscriber",
+ *      description = "Handles progressing game events",
+ *      defaultMethod = "doBackground",
+ *      service = "sofachamps.bp.game_worker",
+ * )
  * @DI\Service
  * @DI\Tag("kernel.event_subscriber")
  */
 class GameSubscriber implements EventSubscriberInterface
 {
-    protected $analyzer;
+    protected $gearman;
     protected $om;
 
     /**
      * @DI\InjectParams({
-     *      "analyzer" = @DI\Inject("sofachamps.bp.pickset_analyzer"),
-     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager")
+     *      "gearman" = @DI\Inject("gearman"),
+     *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      * })
      */
-    public function __construct(PicksetAnalyzer $analyzer, ObjectManager $om)
+    public function __construct(GearmanClient $gearman, ObjectManager $om)
     {
-        $this->analyzer = $analyzer;
+        $this->gearman = $gearman;
         $this->om = $om;
     }
 
@@ -35,8 +41,7 @@ class GameSubscriber implements EventSubscriberInterface
     {
         return array(
             GameEvents::GAME_COMPLETE => array(
-                array('analyizePickSets', 0),
-                array('updatePredictions', 10),
+                array('updatePredictions', 0),
             ),
             GameEvents::GAME_UPDATED => array(
                 array('clearQueryCache', 0),
@@ -44,27 +49,23 @@ class GameSubscriber implements EventSubscriberInterface
         );
     }
 
+    /**
+     * @Gearman\Job(
+     *      name = "updatePredictions",
+     *      description = "Update the predictions and analyize the leagues",
+     *      iterations = 1,
+     * )
+     */
     public function updatePredictions(GameEvent $event)
     {
         $game = $event->getGame();
-        $this->om
-            ->createQuery('UPDATE SofaChampsBowlPickemBundle:Prediction p SET p.winner = :winner WHERE p.game = :game')
-            ->setParameters(array(
-                'game' => $game,
-                'winner' => $game->getWinner(),
-            ))
-            ->execute();
-    }
 
-    public function analyizePickSets(GameEvent $event)
-    {
-        $game = $event->getGame();
-        $season = $game->getSeason();
-        $this->analyzer->deleteAnalysis($season);
-        $leagues = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->findBySeason($season);
-        foreach ($leagues as $league) {
-            $this->analyzer->analyizeLeaguePickSets($league, $season);
-        }
+        $payload = array(
+            'game' => $game->getId(),
+            'ts' => time(),
+        );
+
+        $this->gearman->doBackgroundJob('SofaChampsBundleBowlPickemBundleEventGameSubscriber~updatePredictions', json_encode($payload));
     }
 
     public function clearQueryCache(GameEvent $event)

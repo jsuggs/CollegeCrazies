@@ -28,7 +28,6 @@ class AppExtension extends \Twig_Extension
     public function getGlobals()
     {
         return array(
-            'picks_locked' => $this->picksLocked(),
             'current_season' => $this->getCurrentSeason(),
         );
     }
@@ -37,12 +36,13 @@ class AppExtension extends \Twig_Extension
     {
         return array(
             'picks_lock_time' => new \Twig_Function_Method($this, 'getLockTime'),
+            'picks_locked' => new \Twig_Function_Method($this, 'picksLocked'),
         );
     }
 
-    public function picksLocked()
+    public function picksLocked($season)
     {
-        return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
+        return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked($season);
     }
 
     public function getCurrentSeason()

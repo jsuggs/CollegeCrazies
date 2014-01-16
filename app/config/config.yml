@@ -100,3 +100,23 @@ fos_facebook:
     secret: %facebook.secret%
     cookie: true
     permissions: [email]
+
+liip_doctrine_cache:
+    namespaces:
+        gearman:
+            type: file_system
+
+gearman:
+    bundles:
+        email:
+            name: SofaChampsEmailBundle
+            active: true
+        bowl-picket:
+            name: SofaChampsBowlPickemBundle
+            active: true
+            include:
+                - Event
+    servers:
+        localhost:
+            host: 127.0.0.1
+            port: 4730

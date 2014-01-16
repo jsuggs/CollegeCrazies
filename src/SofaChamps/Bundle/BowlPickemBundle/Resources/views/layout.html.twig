@@ -10,7 +10,7 @@
             <ul class="dropdown-menu" role="menu">
                 {% for pickSet in app.user.pickSetsForSeason(season) if pickSet.id|length %}
                     <li{% if pickSet == currentPickSet %} class="active"{% endif %}>
-                        <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">
+                        <a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}">
                             <span class="glyphicon glyphicon-list"></span> {{ pickSet.name }}
                         </a>
                         {% if pickSet.leagues %}
@@ -33,12 +33,12 @@
                 {% if app.user.pickSetsForSeason(season) or app.user.leaguesForSeason(season) %}
                     <li class="divider"></li>
                     <li><a href="{{ path('pickset_manage', {season: season}) }}">Manage Picksets</a></li>
-                {% elseif picks_locked %}
+                {% elseif picks_locked(season) %}
                     <li class="divider"></li>
                     <li><a href="{{ path('league_public', {season: season}) }}">Public Leagues</a></li>
                 {% endif %}
 
-                {% if not picks_locked %}
+                {% if not picks_locked(season) %}
                     <li class="divider"></li>
                     <li><a href="{{ path('pickset_new', {season: season}) }}">Create a new Pickset</a></li>
 
