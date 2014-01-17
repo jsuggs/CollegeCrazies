@@ -1,11 +1,34 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>Edit <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">View</a></small></h2>
+    <h2>Edit <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">View the game</a></small></h2>
+    <p>Ok, this is where it all goes down, make it awesome</p>
 
     <form action="{{ path('squares_game_update', {gameId: game.id}) }}" method="post">
-        {% include 'SofaChampsSquaresBundle:Game:form.html.twig' %}
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="col-md-8">
+                <h3>The basics</h3>
+                {{ form_row(form.name) }}
+                {{ form_row(form.homeTeam) }}
+                {{ form_row(form.awayTeam) }}
+                <div class="form-group">
+                    {{ form_errors(form.costPerSquare) }}
+                    {{ form_label(form.costPerSquare) }}
+                    <p class="help-block">Example: $1 = 1, $.50 = .50, $.05 = .05</p>
+                    {{ form_widget(form.costPerSquare, {attr: {class:"form-control"}}) }}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Payouts</h4>
+                <p>Ok, this is how it all goes down...</p>
+                {{ form_row(form.payouts) }}
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-primary btn-lg">Update Game</button>
+
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

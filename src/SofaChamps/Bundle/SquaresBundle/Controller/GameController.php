@@ -65,7 +65,7 @@ class GameController extends BaseController
      * @Route("/create", name="squares_game_create")
      * @Secure(roles="ROLE_USER")
      * @Method({"POST"})
-     * @Template
+     * @Template("SofaChampsSquaresBundle:Game:new.html.twig")
      */
     public function createAction()
     {
@@ -99,7 +99,7 @@ class GameController extends BaseController
      */
     public function editAction(Game $game)
     {
-        $form = $this->getGameForm($game);
+        $form = $this->getGameEditForm($game);
 
         return array(
             'form' => $form->createView(),
@@ -196,6 +196,38 @@ class GameController extends BaseController
      * @Template
      */
     public function payoutsAction(Game $game)
+    {
+        $form = $this->getGamePayoutsForm($game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+
+                $this->addMessage('success', 'Payouts Updated');
+
+                return $this->redirect($this->generateUrl('squares_payouts', array(
+                    'gameId' => $game->getId(),
+                )));
+            }
+
+            $this->addMessage('warning', 'There was an error updating the payouts');
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'game' => $game,
+        );
+    }
+
+    /**
+     * @Route("/players/{gameId}", name="squares_players")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Template
+     */
+    public function playersAction(Game $game)
     {
         $form = $this->getGamePayoutsForm($game);
 

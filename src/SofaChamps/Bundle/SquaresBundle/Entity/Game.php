@@ -69,7 +69,7 @@ class Game
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $locked;
+    protected $locked = false;
 
     /**
      * @ORM\Column(type="smallint")
@@ -327,7 +327,7 @@ class Game
         });
     }
 
-    public function setLocked($locked)
+    public function setLocked($locked = null)
     {
         $this->locked = (bool) $locked;
     }

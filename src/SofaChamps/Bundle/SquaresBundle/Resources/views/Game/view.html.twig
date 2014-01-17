@@ -1,7 +1,7 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ game.name }}{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_game_edit', {gameId: game.id}) }}">Edit</a></small>{% endif %}</h2>
+    <h2>{{ game.name }}{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_game_edit', {gameId: game.id}) }}">Edit the game</a></small>{% endif %}</h2>
 
     <div class="row">
         <div class="col-md-8">
@@ -26,20 +26,22 @@
             </table>
         </div>
         <div class="col-md-4">
-            <h2>Players</h2>
+            <h2>Players{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_players', {gameId: game.id}) }}">Edit the players</a></small>{% endif %}</h2>
             <ol>
                 {% for player in game.players %}
                     {% set form = player_forms[player.id] %}
                     <li style="background: #{{ player.color }}">
                         {{ player.name }}
-                        {{ render(controller('SofaChampsSquaresBundle:Player:edit', {player: player})) }}
                     </li>
                 {% endfor %}
             </ol>
+            {% if not game.locked %}
+                <a href="">Add more players</a>
+            {% endif %}
 
             <hr />
 
-            <h2>Payouts{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit</a></small>{% endif %}</h2>
+            <h2>Payouts{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit the payouts</a></small>{% endif %}</h2>
             <ol>
                 {% for payout in game.payouts %}
                     <li>

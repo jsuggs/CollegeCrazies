@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Controller;
 use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
+use SofaChamps\Bundle\SquaresBundle\Form\GameEditFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GamePayoutsFormType;
@@ -25,6 +26,11 @@ class BaseController extends CoreController
     protected function getGameForm(Game $game = null)
     {
         return $this->createForm(new GameFormType(), $game);
+    }
+
+    protected function getGameEditForm(Game $game)
+    {
+        return $this->createForm(new GameEditFormType(), $game);
     }
 
     protected function getGameMapForm(Game $game = null)

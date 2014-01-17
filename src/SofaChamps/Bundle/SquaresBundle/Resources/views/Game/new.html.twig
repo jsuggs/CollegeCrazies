@@ -5,8 +5,30 @@
     <p>Let's get the basic info for this square out of the way...we'll fill in the details later</p>
 
     <form action="{{ path('squares_game_create') }}" method="post">
-        {% include 'SofaChampsSquaresBundle:Game:form.html.twig' %}
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Basic details</h3>
+                {{ form_row(form.name) }}
+                {{ form_row(form.homeTeam) }}
+                {{ form_row(form.awayTeam) }}
+                <div class="form-group">
+                    {{ form_errors(form.costPerSquare) }}
+                    {{ form_label(form.costPerSquare) }}
+                    <p class="help-block">Example: $1 = 1, $.50 = .50, $.05 = .05</p>
+                    {{ form_widget(form.costPerSquare, {attr: {class:"form-control"}}) }}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <h4>Payouts</h4>
+                <p>You can add these now...or later</p>
+                {{ form_row(form.payouts) }}
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-primary btn-lg">Create Game</button>
+
+        {{ form_rest(form) }}
     </form>
 {% endblock %}
