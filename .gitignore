@@ -4,5 +4,6 @@
 /app/bootstrap*
 /app/cache/*
 /app/logs/*
+/app/maintenance.lock
 /vendor/
 /app/config/parameters.ini
