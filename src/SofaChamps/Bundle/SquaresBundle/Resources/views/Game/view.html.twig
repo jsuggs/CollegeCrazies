@@ -36,7 +36,7 @@
                 {% endfor %}
             </ol>
             {% if not game.locked %}
-                <a href="">Add more players</a>
+                <a href="{{ path('squares_invite', {gameId: game.id}) }}">Add more players</a>
             {% endif %}
 
             <hr />

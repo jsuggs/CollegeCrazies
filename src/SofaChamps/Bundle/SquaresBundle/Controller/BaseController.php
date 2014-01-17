@@ -7,6 +7,7 @@ use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
 use SofaChamps\Bundle\SquaresBundle\Form\GameEditFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameFormType;
+use SofaChamps\Bundle\SquaresBundle\Form\GameInviteFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GameMapFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\GamePayoutsFormType;
 use SofaChamps\Bundle\SquaresBundle\Form\PlayerFormType;
@@ -41,5 +42,10 @@ class BaseController extends CoreController
     protected function getGamePayoutsForm(Game $game = null)
     {
         return $this->createForm(new GamePayoutsFormType(), $game);
+    }
+
+    protected function getInviteForm(Game $game)
+    {
+        return $this->createForm(new GameInviteFormType());
     }
 }
