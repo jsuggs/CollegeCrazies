@@ -33,7 +33,7 @@ class SendEmailCommand extends ContainerAwareCommand
             $input->getArgument('email'),
             $input->getArgument('template'),
             $input->getArgument('subject'),
-            json_decode($input->getArgument('data'))
+            json_decode($input->getArgument('data'), true)
         );
     }
 }

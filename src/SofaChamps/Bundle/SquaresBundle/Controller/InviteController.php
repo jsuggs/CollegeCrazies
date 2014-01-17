@@ -45,8 +45,11 @@ class InviteController extends BaseController
 
         $data = $form->getData();
         $emails = $this->getEmailInputParser()->parseEmails($data['invites']);
+        $this->getEmailSender()->sendToEmail($emails, '', '', array($game));
+        $this->addMessage('info', sprintf('Sending %d invites', count($emails)));
 
-        var_dump($emails);
-        die();
+        return $this->redirect($this->generateUrl('squares_game_view', array(
+            'gameId' => $game->getId(),
+        )));
     }
 }
