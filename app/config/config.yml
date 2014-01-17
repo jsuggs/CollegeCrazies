@@ -111,11 +111,19 @@ gearman:
         email:
             name: SofaChampsEmailBundle
             active: true
+            ignore:
+                - Tests
         bowl-picket:
             name: SofaChampsBowlPickemBundle
             active: true
             include:
                 - Event
+            ignore:
+                - Tests
+        core:
+            name: SofaChampsCoreBundle
+            ignore:
+                - Tests
     servers:
         localhost:
             host: 127.0.0.1
