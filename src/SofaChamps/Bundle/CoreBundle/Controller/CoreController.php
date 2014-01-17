@@ -59,7 +59,13 @@ class CoreController extends Controller
         return $this->get('event_dispatcher');
     }
 
-    protected function getEmailSender() {
+    protected function getEmailSender()
+    {
         return $this->get('sofachamps.email.sender');
+    }
+
+    protected function getEmailInputParser()
+    {
+        return $this->get('sofachamps.email.input_parser');
     }
 }

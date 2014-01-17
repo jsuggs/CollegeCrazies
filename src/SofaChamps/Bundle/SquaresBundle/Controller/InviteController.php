@@ -44,9 +44,9 @@ class InviteController extends BaseController
         $form->bind($this->getRequest());
 
         $data = $form->getData();
+        $emails = $this->getEmailInputParser()->parseEmails($data['invites']);
 
-        $invites = $data['invites'];
-        var_dump($data);
+        var_dump($emails);
         die();
     }
 }

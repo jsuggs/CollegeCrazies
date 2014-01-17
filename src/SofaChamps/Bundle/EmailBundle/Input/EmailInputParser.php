@@ -5,7 +5,7 @@ namespace SofaChamps\Bundle\EmailBundle\Input;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
- * @DI\Service("sofachamps.email.input_guesser")
+ * @DI\Service("sofachamps.email.input_parser")
  */
 class EmailInputParser
 {
