@@ -664,9 +664,7 @@ class LeagueController extends BaseController
 
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
-            $emails = array_filter(array_map('trim', explode(',', $request->get('emails'))), function($email) {
-                return filter_var($email, FILTER_VALIDATE_EMAIL);
-            });
+            $emails = $this->getEmailInputParser()->parseEmails($request->get('emails'));
 
             $subjectLine = sprintf('Invitation to join SofaChamps Bowl Pickem Challenge - League: %s', $league->getName());
 
