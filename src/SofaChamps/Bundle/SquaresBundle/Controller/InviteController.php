@@ -48,21 +48,10 @@ class InviteController extends BaseController
 
         $this->addMessage('info', sprintf('Sending %d invites', count($emails)));
 
-        $subjectLine = sprintf('Invitation to play SofaChamps Squares - Game: %s', $game->getName());
+        $user = $this->getUser();
+        $this->getInviteManager()->sendInvitesToEmails($game, $user, $emails);
 
-        $this->getEmailSender()->sendToEmails($emails, 'Squares:invite', $subjectLine, array(
-            'user' => $user,
-            'game' => $game,
-            'season' => $season,
-            'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
-        ));
-
-        //$em = $this->getEntityManager();
-        //foreach ($emails as $email) {
-            //$invite = new Invite($user, $email);
-            //$em->persist($invite);
-        //}
-        //$em->flush();
+        $this->getEntityManager()->flush();
 
         return $this->redirect($this->generateUrl('squares_game_view', array(
             'gameId' => $game->getId(),

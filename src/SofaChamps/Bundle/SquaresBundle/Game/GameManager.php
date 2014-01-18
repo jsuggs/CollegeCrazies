@@ -17,15 +17,18 @@ use SofaChamps\Bundle\SquaresBundle\Entity\Square;
 class GameManager
 {
     private $om;
+    private $playerManager;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "playerManager" = @DI\Inject("sofachamps.squares.player_manager"),
      * })
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, PlayerManager $playerManager)
     {
         $this->om = $om;
+        $this->playerManager = $playerManager;
     }
 
     public function createGame(User $user)
@@ -48,27 +51,11 @@ class GameManager
         }
 
         // Add the user as a player
-        $player = $this->createPlayer($user, $game);
+        $player = $this->playerManager->createPlayer($user, $game);
 
-        $this->addPlayerToGame($game, $player);
+        $this->playerManager->addPlayerToGame($game, $player);
 
         return $game;
-    }
-
-    public function createPlayer(User $user, Game $game)
-    {
-        $player = new Player($user, $game);
-        $player->setName($user->getUsername());
-        $player->setColor($this->generateRandomColor());
-
-        $this->om->persist($player);
-
-        return $player;
-    }
-
-    // TODO Move this to a player manager class
-    private function generateRandomColor() {
-        return sprintf('%06X', mt_rand(0, 0xFFFFFF));
     }
 
     public function addPlayerToGame(Game $game, Player $player)
