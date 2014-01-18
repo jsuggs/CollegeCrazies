@@ -14,15 +14,18 @@ use JMS\DiExtraBundle\Annotation as DI;
 class MaintenanceManager
 {
     private $filePath;
+    private $env;
 
     /**
      * @DI\InjectParams({
      *      "filePath" = @DI\Inject("%sofachamps.maintenance.file_path%"),
+     *      "env" = @DI\Inject("%kernel.environment%"),
      * })
      */
-    public function __construct($filePath)
+    public function __construct($filePath, $env)
     {
         $this->filePath = $filePath;
+        $this->env = $env;
     }
 
     public function enableMaintenanceMode()
@@ -40,5 +43,10 @@ class MaintenanceManager
     public function isMaintenanceMode()
     {
         return file_exists($this->filePath);
+    }
+
+    public function showMaintenance()
+    {
+        return !in_array($this->env, array('dev', 'test')) && $this->isMaintenanceMode();
     }
 }

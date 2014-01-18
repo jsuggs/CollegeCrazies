@@ -39,7 +39,7 @@ class MaintenanceListener
             return;
         }
 
-        if ($this->manager->isMaintenanceMode()) {
+        if ($this->manager->showMaintenance()) {
             $content = $this->twig->render('SofaChampsMaintenanceBundle::maintenance.html.twig');
             $event->setResponse(new Response($content, 503));
             $event->stopPropagation();
