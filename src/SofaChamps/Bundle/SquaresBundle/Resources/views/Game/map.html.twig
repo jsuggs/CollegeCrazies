@@ -4,8 +4,86 @@
     <h2>Map</h2>
 
     <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
-        {{ form_widget(form) }}
+        <table class="table table-bordered squares-map">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>{{ form_widget(form.row0) }}</th>
+                    <th>{{ form_widget(form.row1) }}</th>
+                    <th>{{ form_widget(form.row2) }}</th>
+                    <th>{{ form_widget(form.row3) }}</th>
+                    <th>{{ form_widget(form.row4) }}</th>
+                    <th>{{ form_widget(form.row5) }}</th>
+                    <th>{{ form_widget(form.row6) }}</th>
+                    <th>{{ form_widget(form.row7) }}</th>
+                    <th>{{ form_widget(form.row8) }}</th>
+                    <th>{{ form_widget(form.row9) }}</th>
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col0) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col1) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col2) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col3) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col4) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col5) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col6) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col7) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col8) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>{{ form_widget(form.col9) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
 
         <button type="submit" class="btn btn-primary btn-lg">Update Game</button>
+
+        {{ form_rest(form) }}
     </form>
 {% endblock %}
