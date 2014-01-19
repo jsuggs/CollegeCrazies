@@ -37,9 +37,16 @@ class GameManager
         $game = new Game($user);
         $this->om->persist($game);
 
-        foreach (range(0, 9) as $idx) {
-            $game->{"row$idx"} = $idx;
-            $game->{"col$idx"} = $idx;
+        $ten = range(0, 9);
+
+        shuffle($ten);
+        foreach ($ten as $idx => $map) {
+            $game->{"row$idx"} = $map;
+        }
+
+        shuffle($ten);
+        foreach ($ten as $idx => $map) {
+            $game->{"col$idx"} = $map;
         }
 
         foreach (range(0, 9) as $row) {
@@ -53,7 +60,7 @@ class GameManager
         // Add the user as a player
         $player = $this->playerManager->createPlayer($user, $game);
 
-        $this->playerManager->addPlayerToGame($game, $player);
+        $this->addPlayerToGame($game, $player);
 
         return $game;
     }
