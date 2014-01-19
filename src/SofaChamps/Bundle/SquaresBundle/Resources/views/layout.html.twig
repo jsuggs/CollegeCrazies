@@ -5,6 +5,18 @@
     <li><a href="{{ path('squares_game_list') }}">My Squares Games</a></li>
 {% endblock %}
 
+{% block nav_secondary %}
+    {% if is_granted('ROLE_USER') and game is defined and is_granted('EDIT', game) %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#">Edit Game <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('squares_game_edit', {gameId: game.id}) }}"><span class="glyphicon glyphicon-wrench"></span> Edit Game</a></li>
+                <li><a href="{{ path('squares_map', {gameId: game.id}) }}"><span class="glyphicon glyphicon-th"></span> Edit Row/Col Map</a></li>
+            </ul>
+        </li>
+    {% endif %}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
