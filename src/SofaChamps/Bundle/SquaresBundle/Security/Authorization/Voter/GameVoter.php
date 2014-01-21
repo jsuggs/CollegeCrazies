@@ -61,7 +61,9 @@ class GameVoter implements VoterInterface
 
     protected function canUserEditGame(User $user, Game $game)
     {
-        return !$game->isLocked() || $game->getUser() == $user
+        $player = $game->getPlayerForUser($user);
+
+        return !$game->isLocked() && $player->isAdmin()
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
     }

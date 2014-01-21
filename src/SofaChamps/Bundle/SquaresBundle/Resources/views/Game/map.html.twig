@@ -3,6 +3,10 @@
 {% block content %}
     <h2>Map</h2>
 
+    <p class="text-info">The map is what determines the values of the squares for the payouts.</p>
+    <button id="squares-map-randomize" type="button" class="btn btn-primary btn-lg">Randomize Map</button>
+    <hr />
+
     <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
         <table class="table table-bordered squares-map">
             <tbody>
@@ -82,8 +86,30 @@
             </tbody>
         </table>
 
-        <button type="submit" class="btn btn-primary btn-lg">Update Game</button>
+        <button type="submit" class="btn btn-success btn-lg">Update Map</button>
 
         {{ form_rest(form) }}
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            var shuffle = function (o) {
+                for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                return o;
+            };
+
+            $('#squares-map-randomize').click(function(e) {
+                e.preventDefault();
+                var rows = cols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                shuffle(rows);
+                shuffle(cols);
+                for (var i=0;i<rows.length;i++) { $("#game_map_row"+i).val(rows[i]); }
+                for (var i=0;i<cols.length;i++) { $("#game_map_col"+i).val(cols[i]); }
+            });
+        });
+    </script>
 {% endblock %}
