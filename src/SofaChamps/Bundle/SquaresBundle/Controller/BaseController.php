@@ -53,4 +53,15 @@ class BaseController extends CoreController
     {
         return $this->createForm(new GameInviteFormType());
     }
+
+    protected function findPlayer($playerId)
+    {
+        $player = $this->getRepository('SofaChampsSquaresBundle:Player')->find($playerId);
+
+        if (!$player) {
+            throw $this->createNotFoundException('Unable to find player');
+        }
+
+        return $player;
+    }
 }

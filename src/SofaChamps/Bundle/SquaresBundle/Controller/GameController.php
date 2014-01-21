@@ -77,6 +77,7 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $this->getEntityManager()->flush();
+            $this->addMessage('success', 'Squares game created');
 
             return $this->redirect($this->generateUrl('squares_game_edit', array(
                 'gameId' => $game->getId(),
@@ -121,6 +122,7 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $this->getEntityManager()->flush();
+            $this->addMessage('success', 'Squares game updated');
 
             return $this->redirect($this->generateUrl('squares_game_edit', array(
                 'gameId' => $game->getId(),
@@ -155,17 +157,6 @@ class GameController extends BaseController
                 'game' => $game,
             )),
         ));
-    }
-
-    private function findPlayer($playerId)
-    {
-        $player = $this->getRepository('SofaChampsSquaresBundle:Player')->find($playerId);
-
-        if (!$player) {
-            throw $this->createNotFoundException('Unable to find player');
-        }
-
-        return $player;
     }
 
     /**
