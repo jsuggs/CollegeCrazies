@@ -58,7 +58,7 @@ class GameManager
         }
 
         // Add the user as a player
-        $player = $this->playerManager->createPlayer($user, $game);
+        $player = $this->playerManager->createPlayer($user, $game, true);
 
         $this->addPlayerToGame($game, $player);
 

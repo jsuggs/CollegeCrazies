@@ -25,11 +25,12 @@ class PlayerManager
         $this->om = $om;
     }
 
-    public function createPlayer(User $user, Game $game)
+    public function createPlayer(User $user, Game $game, $isAdmin = false)
     {
         $player = new Player($user, $game);
         $player->setName(substr($user->getUsername(), 0, 10));
         $player->setColor($this->generateRandomColor());
+        $player->setAdmin($isAdmin);
 
         $this->om->persist($player);
 

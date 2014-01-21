@@ -56,6 +56,11 @@ class Player
      */
     protected $winners;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default"=false})
+     */
+    protected $admin = false;
+
     public function __construct(User $user, Game $game)
     {
         $this->user = $user;
@@ -96,5 +101,15 @@ class Player
     public function getColor()
     {
         return $this->color;
+    }
+
+    public function setAdmin($admin)
+    {
+        $this->admin = (bool) $admin;
+    }
+
+    public function isAdmin()
+    {
+        return $this->admin;
     }
 }
