@@ -2,7 +2,16 @@
     {% if square.player %}
         {{ square.player.name }}
     {% else %}
-        <form action="{{ path('squares_square_claim', {gameId: game.id, playerId: player.id, row: r, col: c}) }}" method="post" class="squares-claim">
+        <form action="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}" method="post" class="squares-claim">
+            {% if player.admin %}
+                <select name="playerId">
+                    {% for p in game.players %}
+                        <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <input type="hidden" name="playerId" value="{{ player.id }}"/>
+            {% endif %}
             <button>Claim</button>
         </form>
     {% endif %}

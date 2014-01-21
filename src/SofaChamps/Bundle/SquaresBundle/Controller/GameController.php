@@ -135,14 +135,14 @@ class GameController extends BaseController
     }
 
     /**
-     * @Route("/claim/{gameId}/{playerId}/{row}/{col}", name="squares_square_claim")
+     * @Route("/claim/{gameId}/{row}/{col}", name="squares_square_claim")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
-     * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})
      * @Method({"POST"})
      */
-    public function claimSquareAction(Game $game, Player $player, $row, $col)
+    public function claimSquareAction(Game $game, $row, $col)
     {
+        $player = $this->findPlayer($this->getRequest()->request->get('playerId'));
         $square = $game->getSquare($row, $col);
         $success = $this->getGameManager()->claimSquare($player, $square);
         $this->getEntityManager()->flush();
@@ -155,6 +155,17 @@ class GameController extends BaseController
                 'game' => $game,
             )),
         ));
+    }
+
+    private function findPlayer($playerId)
+    {
+        $player = $this->getRepository('SofaChampsSquaresBundle:Player')->find($playerId);
+
+        if (!$player) {
+            throw $this->createNotFoundException('Unable to find player');
+        }
+
+        return $player;
     }
 
     /**
