@@ -43,7 +43,7 @@ class GameController extends BaseController
         return array(
             'game' => $game,
             'player' => $player,
-            'player_forms' => $this->getPlayerForms($game),
+            'player_forms' => $this->getPlayerForms($game->getPlayers()->toArray()),
         );
     }
 
