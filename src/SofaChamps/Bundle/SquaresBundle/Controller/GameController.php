@@ -79,7 +79,7 @@ class GameController extends BaseController
             $this->getEntityManager()->flush();
             $this->addMessage('success', 'Squares game created');
 
-            return $this->redirect($this->generateUrl('squares_game_edit', array(
+            return $this->redirect($this->generateUrl('squares_game_view', array(
                 'gameId' => $game->getId(),
             )));
         }

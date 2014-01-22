@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Create a New Game</h2>
-    <p>Let's get the basic info for this square out of the way...we'll fill in the details later</p>
+    <p class="text-info">Let's get the basic info for this square out of the way...we'll fill in the details later</p>
 
     <form action="{{ path('squares_game_create') }}" method="post">
         {{ form_errors(form) }}
