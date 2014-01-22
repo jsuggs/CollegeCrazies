@@ -1,0 +1,13 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Players <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">Return to game</a></small></h2>
+
+    <p class="text-info">These are the players</p>
+
+    {% for player in players %}
+        {% set form = forms[player.id] %}
+        {% include "SofaChampsSquaresBundle:Player:edit.html.twig" %}
+        <hr />
+    {% endfor %}
+{% endblock %}

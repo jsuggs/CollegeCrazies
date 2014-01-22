@@ -43,6 +43,10 @@ class PlayerFormType extends AbstractType
                 'label' => 'Color',
                 'max_length' => 6,
             ))
+            ->add('admin', 'checkbox', array(
+                'label' => 'Admin',
+                'required' => false,
+            ))
         ;
     }
 

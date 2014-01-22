@@ -231,34 +231,20 @@ class GameController extends BaseController
      */
     public function playersAction(Game $game)
     {
-        $form = $this->getGamePayoutsForm($game);
-
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bind($this->getRequest());
-
-            if ($form->isValid()) {
-                $this->getEntityManager()->flush();
-
-                $this->addMessage('success', 'Payouts Updated');
-
-                return $this->redirect($this->generateUrl('squares_payouts', array(
-                    'gameId' => $game->getId(),
-                )));
-            }
-
-            $this->addMessage('warning', 'There was an error updating the payouts');
-        }
+        $players = $game->getPlayers()->toArray();
+        $forms = $this->getPlayerForms($players);
 
         return array(
-            'form' => $form->createView(),
             'game' => $game,
+            'forms' => $forms,
+            'players' => $players,
         );
     }
 
-    protected function getPlayerForms(Game $game)
+    protected function getPlayerForms(array $players)
     {
         $forms = array();
-        foreach ($game->getPlayers() as $player) {
+        foreach ($players as $player) {
             $forms[$player->getId()] =  $this->getPlayerForm($player)->createView();
         }
 
