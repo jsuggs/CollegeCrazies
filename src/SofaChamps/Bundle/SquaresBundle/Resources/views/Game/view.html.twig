@@ -10,9 +10,16 @@
         <p>Note: The numbers will be scrambled after the game is locked</p>
     {% endif %}
 
+    {% if is_granted('PROXY_CLAIM', game) %}
+        <div>
+            <button type="button" id="squares-proxy" class="btn btn-warning">Claim for others</button>
+            <hr />
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-8">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="square">
                 <tbody>
                     <tr>
                         <th></th>
@@ -72,4 +79,18 @@
             </dl>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            $("#squares-proxy").click(function(e) {
+                e.preventDefault();
+                $("#square select[name='playerId']").show();
+                $(this).parent().hide();
+            });
+        });
+    </script>
 {% endblock %}

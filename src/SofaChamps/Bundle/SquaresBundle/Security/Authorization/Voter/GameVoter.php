@@ -18,7 +18,7 @@ class GameVoter implements VoterInterface
 {
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, array('EDIT', 'VIEW'));
+        return in_array($attribute, array('EDIT', 'VIEW', 'PROXY_CLAIM'));
     }
 
     public function supportsClass($class)
@@ -42,7 +42,7 @@ class GameVoter implements VoterInterface
 
             if ($attribute === 'VIEW') {
                 return $this->canUserViewGame($user, $object);
-            } elseif ($attribute === 'EDIT') {
+            } elseif (in_array($attribute,  array('EDIT', 'PROXY_CLAIM'))) {
                 return $this->canUserEditGame($user, $object);
             }
 
