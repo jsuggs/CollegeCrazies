@@ -1,0 +1,5 @@
+<ol>
+    {% for log in game.logs %}
+        <li>{{ log.message }} on <time>{{ log.createdAt|user_date("F jS \\a\\t g:ia T") }}</time></li>
+    {% endfor %}
+</ol>

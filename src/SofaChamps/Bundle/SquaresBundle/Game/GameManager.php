@@ -18,17 +18,20 @@ class GameManager
 {
     private $om;
     private $playerManager;
+    private $logManager;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      *      "playerManager" = @DI\Inject("sofachamps.squares.player_manager"),
+     *      "logManager" = @DI\Inject("sofachamps.squares.log_manager"),
      * })
      */
-    public function __construct(ObjectManager $om, PlayerManager $playerManager)
+    public function __construct(ObjectManager $om, PlayerManager $playerManager, LogManager $logManager)
     {
         $this->om = $om;
         $this->playerManager = $playerManager;
+        $this->logManager = $logManager;
     }
 
     public function createGame(User $user)
@@ -36,6 +39,8 @@ class GameManager
         // Create all of the squares for the game
         $game = new Game($user);
         $this->om->persist($game);
+
+        $this->logManager->createLog($game, 'Game Created');
 
         $ten = range(0, 9);
 

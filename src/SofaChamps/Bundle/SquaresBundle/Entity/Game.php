@@ -67,6 +67,12 @@ class Game
     protected $players;
 
     /**
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="game")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    protected $logs;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     protected $locked = false;
@@ -177,6 +183,7 @@ class Game
         $this->squares = new ArrayCollection();
         $this->payouts = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     public function getId()
@@ -325,6 +332,16 @@ class Game
         return $this->players->exists(function ($player) use ($user) {
             return $player->getUser() == $user;
         });
+    }
+
+    public function addLog(Log $log)
+    {
+        $this->logs->add($log);
+    }
+
+    public function getLogs()
+    {
+        return $this->logs;
     }
 
     public function setLocked($locked = null)
