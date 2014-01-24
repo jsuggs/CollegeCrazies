@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/invite")
@@ -56,5 +57,35 @@ class InviteController extends BaseController
         return $this->redirect($this->generateUrl('squares_game_view', array(
             'gameId' => $game->getId(),
         )));
+    }
+
+    /**
+     * @Route("/join/{gameId}", name="squares_join")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Method({"GET"})
+     * @Template
+     */
+    public function joinAction(Game $game)
+    {
+        $user = $this->getUser();
+
+        if ($user) {
+            $player = $game->getPlayerForUser($user);
+
+            if (!$player) {
+                $player = $this->getPlayerManager()->createPlayer($user, $game);
+            }
+            $this->getGameManager()->addPlayerToGame($game, $player);
+            $this->addMessage('success', 'Added to game');
+        } elseif($this->getSession()->has('squares_game_join')) {
+            die('bang');
+        } else {
+            $this->getSession()->set('squares_game_join', $game->getId());
+            throw new AccessDeniedException('Must be logged in to join squares');
+        }
+
+        return array(
+            'game' => $game,
+        );
     }
 }
