@@ -49,7 +49,7 @@ class Player
     /**
      * @ORM\OneToMany(targetEntity="Square", mappedBy="player")
      */
-    protected $squaresSquares;
+    protected $squares;
 
     /**
      * @ORM\OneToMany(targetEntity="Payout", mappedBy="winner")
@@ -65,7 +65,7 @@ class Player
     {
         $this->user = $user;
         $this->game = $game;
-        $this->squaresSquares = new ArrayCollection();
+        $this->squares = new ArrayCollection();
     }
 
     public function getId()
@@ -111,5 +111,10 @@ class Player
     public function isAdmin()
     {
         return $this->admin;
+    }
+
+    public function getSquares()
+    {
+        return $this->squares;
     }
 }

@@ -41,13 +41,20 @@
         </div>
         <div class="col-md-4">
             <h2>Players{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_players', {gameId: game.id}) }}">Edit the players</a></small>{% endif %}</h2>
-            <ol>
-                {% for player in game.players %}
-                    <li style="background: #{{ player.color }}">
-                        {{ player.name }}
-                    </li>
-                {% endfor %}
-            </ol>
+            <table class="table">
+                <thead>
+                    <th>Player</th>
+                    <th>Squares</th>
+                </thead>
+                <tbody>
+                    {% for player in game.players %}
+                        <tr style="background: #{{ player.color }}">
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.squares|length }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
             {% if not game.locked %}
                 <a href="{{ path('squares_invite', {gameId: game.id}) }}">Add more players</a>
             {% endif %}

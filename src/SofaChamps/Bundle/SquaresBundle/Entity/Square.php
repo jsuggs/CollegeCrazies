@@ -36,7 +36,7 @@ class Square
     protected $col;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="squaresSquares")
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="squares")
      */
     protected $player;
 
