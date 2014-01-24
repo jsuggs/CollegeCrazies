@@ -34,7 +34,7 @@ class GameManager
         $this->logManager = $logManager;
     }
 
-    public function createGame(User $user)
+    public function createGame(User $user, $shuffleMap = true)
     {
         // Create all of the squares for the game
         $game = new Game($user);
@@ -44,12 +44,16 @@ class GameManager
 
         $ten = range(0, 9);
 
-        shuffle($ten);
+        if ($shuffleMap) {
+            shuffle($ten);
+        }
         foreach ($ten as $idx => $map) {
             $game->{"row$idx"} = $map;
         }
 
-        shuffle($ten);
+        if ($shuffleMap) {
+            shuffle($ten);
+        }
         foreach ($ten as $idx => $map) {
             $game->{"col$idx"} = $map;
         }
