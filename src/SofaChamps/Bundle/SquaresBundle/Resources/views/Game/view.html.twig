@@ -56,7 +56,7 @@
                 </tbody>
             </table>
             {% if not game.locked %}
-                <a href="{{ path('squares_invite', {gameId: game.id}) }}">Add more players</a>
+                <a href="{{ path('squares_invite', {gameId: game.id}) }}" class="btn btn-info">Add/invite more players</a>
             {% endif %}
 
             <hr />
