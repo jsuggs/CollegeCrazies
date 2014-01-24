@@ -12,6 +12,7 @@ class InviteManagerTest extends SofaChampsTest
     protected $om;
     protected $playerManager;
     protected $emailSender;
+    protected $logManager;
     protected $manager;
 
     protected function setUp()
@@ -21,8 +22,9 @@ class InviteManagerTest extends SofaChampsTest
         $this->om = $this->buildMock('Doctrine\Common\Persistence\ObjectManager');
         $this->playerManager = $this->buildMock('SofaChamps\Bundle\SquaresBundle\Game\PlayerManager');
         $this->emailSender = $this->buildMock('SofaChamps\Bundle\EmailBundle\Email\EmailSenderInterface');
+        $this->logManager = $this->buildMock('SofaChamps\Bundle\SquaresBundle\Game\LogManager');
 
-        $this->manager = new InviteManager($this->om, $this->playerManager, $this->emailSender);
+        $this->manager = new InviteManager($this->om, $this->playerManager, $this->emailSender, $this->logManager);
     }
 
     public function testSendInvitesToEmails()
@@ -65,5 +67,3 @@ class InviteManagerTest extends SofaChampsTest
 
     }
 }
-
-

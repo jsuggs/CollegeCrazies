@@ -10,14 +10,17 @@ use SofaChamps\Bundle\SquaresBundle\Game\GameManager;
 class GameManagerTest extends SofaChampsTest
 {
     protected $om;
+    protected $playerManager;
+    protected $logManager;
     protected $manager;
 
     protected function setUp()
     {
         $this->om = $this->buildMock('Doctrine\Common\Persistence\ObjectManager');
         $this->playerManager = $this->buildMock('SofaChamps\Bundle\SquaresBundle\Game\PlayerManager', array('createPlayer'));
+        $this->logManager = $this->buildMock('SofaChamps\Bundle\SquaresBundle\Game\LogManager');
 
-        $this->manager = new GameManager($this->om, $this->playerManager);
+        $this->manager = new GameManager($this->om, $this->playerManager, $this->logManager);
     }
 
     public function testCreateGame()
