@@ -19,10 +19,17 @@ class Payout
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="seq_squares_payout", initialValue=1, allocationSize=1)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     protected $id;
+
+    /**
+     * The sequence the payouts happen
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    protected $seq;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="payouts")
@@ -54,14 +61,31 @@ class Payout
      */
     protected $winner;
 
-    public function __construct(Game $game)
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $carryover = false;
+
+    public function __construct(Game $game, $seq)
     {
         $this->game = $game;
+        $this->id = $game->getId();
+        $this->seq = $seq;
     }
 
     public function getGame()
     {
         return $this->game;
+    }
+
+    public function setSeq($seq)
+    {
+        $this->seq = $seq;
+    }
+
+    public function getSeq()
+    {
+        return $this->seq;
     }
 
     public function setDescription($description)
@@ -82,6 +106,11 @@ class Payout
     public function getPercentage()
     {
         return $this->percentage;
+    }
+
+    public function incrementPercentage($percentage)
+    {
+        $this->percentage += $percentage;
     }
 
     public function setHomeTeamResult($result)
@@ -127,5 +156,15 @@ class Payout
     public function getColResult()
     {
         return substr((string) $this->awayTeamResult, -1);
+    }
+
+    public function setCarryover($carryover)
+    {
+        $this->carryover = (bool) $carryover;
+    }
+
+    public function isCarryover()
+    {
+        return $this->carryover;
     }
 }

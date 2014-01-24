@@ -20,7 +20,7 @@ class Log
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="seq_squares_payout", initialValue=1, allocationSize=1)
+     * @ORM\SequenceGenerator(sequenceName="seq_squares_log", initialValue=1, allocationSize=1)
      */
     protected $id;
 

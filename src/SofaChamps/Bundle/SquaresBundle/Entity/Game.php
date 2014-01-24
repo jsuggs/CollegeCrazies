@@ -58,6 +58,7 @@ class Game
 
     /**
      * @ORM\OneToMany(targetEntity="Payout", mappedBy="game")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     protected $payouts;
 
@@ -76,6 +77,11 @@ class Game
      * @ORM\Column(type="boolean")
      */
     protected $locked = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $forceWinner = false;
 
     /**
      * @ORM\Column(type="smallint")
@@ -276,6 +282,15 @@ class Game
         return $this->payouts;
     }
 
+    public function getNextPayout(Payout $payout)
+    {
+        foreach ($this->payouts as $p) {
+            if ($p->getSeq() > $payout->getSeq()) {
+                return $p;
+            }
+        }
+    }
+
     /**
      * @Assert\Range(max=100)
      */
@@ -352,6 +367,16 @@ class Game
     public function isLocked()
     {
         return $this->locked;
+    }
+
+    public function setForceWinner($forceWinner)
+    {
+        $this->forceWinner = $forceWinner;
+    }
+
+    public function isForceWinner()
+    {
+        return $this->forceWinner;
     }
 
     public function __set($name, $value)
