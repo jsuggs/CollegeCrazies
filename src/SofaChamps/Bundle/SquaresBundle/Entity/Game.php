@@ -313,6 +313,11 @@ class Game
             : $this->costPerSquare;
     }
 
+    public function getTotalPayoutAmount($dollars)
+    {
+        return $this->getClaimedSquares()->count() * $this->getCostPerSquare($dollars);
+    }
+
     public function getTranslatedRow($row)
     {
         return $this->{"row$row"};

@@ -103,14 +103,21 @@ class Payout
         $this->percentage = $percentage;
     }
 
-    public function getPercentage()
+    public function getPercentage($percent = false)
     {
-        return $this->percentage;
+        return $percent
+            ? $this->percentage / 100
+            : $this->percentage;
     }
 
     public function incrementPercentage($percentage)
     {
         $this->percentage += $percentage;
+    }
+
+    public function getPayoutAmount($dollars = false)
+    {
+        return $this->game->getTotalPayoutAmount($dollars) * $this->getPercentage(true);
     }
 
     public function setHomeTeamResult($result)
