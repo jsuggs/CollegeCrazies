@@ -73,6 +73,11 @@ class Payout
         $this->seq = $seq;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getGame()
     {
         return $this->game;
