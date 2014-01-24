@@ -11,7 +11,7 @@ class GameInviteFormType extends GameFormType
     {
         $builder
             ->add('invites', 'textarea', array(
-                'label' => 'Who?',
+                'label' => 'Email Addresses',
             ))
         ;
     }

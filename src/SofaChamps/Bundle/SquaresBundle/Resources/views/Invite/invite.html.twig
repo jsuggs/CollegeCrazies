@@ -3,6 +3,12 @@
 {% block content %}
     <h2>Invite</h2>
 
+    <p class="help-text">
+        Enter email addresses.  You can enter one per line or comma separated.
+        <br>
+        We will send each user an email with an invite link.
+    </p>
+
     <form action="{{ path('squares_invite_send', {gameId: game.id}) }}" method="post">
         {{ form_widget(form) }}
 
