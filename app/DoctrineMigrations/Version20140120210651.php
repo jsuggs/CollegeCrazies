@@ -30,6 +30,9 @@ SQL;
         $this->addSql('ALTER TABLE squares_game_payouts ADD PRIMARY KEY (id, seq)');
         $this->addSql('DROP SEQUENCE seq_squares_payout');
         $this->addSql("ALTER TABLE squares_games ADD forcewinner BOOLEAN DEFAULT 'false' NOT NULL");
+        $this->addSql('ALTER TABLE invites ADD type VARCHAR(32)');
+        $this->addSql("UPDATE invites set type='bp'");
+        $this->addSql('ALTER TABLE invites ALTER COLUMN type SET NOT NULL');
     }
 
     public function down(Schema $schema)
@@ -43,5 +46,6 @@ SQL;
         $this->addSql('ALTER TABLE squares_game_payouts ADD PRIMARY KEY (id)');
         $this->addSql('CREATE SEQUENCE seq_squares_payout INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('ALTER TABLE squares_games DROP forcewinner');
+        $this->addSql('ALTER TABLE invites DROP type');
     }
 }

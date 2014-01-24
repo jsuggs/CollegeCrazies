@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\EmailBundle\Email\EmailSenderInterface;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
+use SofaChamps\Bundle\SquaresBundle\Entity\Invite;
 
 /**
  * @DI\Service("sofachamps.squares.invite_manager")
@@ -56,6 +57,9 @@ class InviteManager
             'game' => $game,
             'from' => array($fromUser->getEmail() => $fromUser->getUsername()),
         ));
+
+        $invite = new Invite($fromUser, $email);
+        $this->om->persist($invite);
 
         $this->logManager->createLog($game, sprintf(
             'Invite sent to %s',

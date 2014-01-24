@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
+namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\Invite as BaseInvite;
