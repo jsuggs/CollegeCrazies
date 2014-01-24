@@ -16,19 +16,22 @@ class InviteManager
     private $om;
     private $playerManager;
     private $emailSender;
+    private $logManager;
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      *      "playerManager" = @DI\Inject("sofachamps.squares.player_manager"),
      *      "emailSender" = @DI\Inject("sofachamps.email.sender"),
+     *      "logManager" = @DI\Inject("sofachamps.squares.log_manager"),
      * })
      */
-    public function __construct(ObjectManager $om, PlayerManager $playerManager, EmailSenderInterface $emailSender)
+    public function __construct(ObjectManager $om, PlayerManager $playerManager, EmailSenderInterface $emailSender, LogManager $logManager)
     {
         $this->om = $om;
         $this->playerManager = $playerManager;
         $this->emailSender = $emailSender;
+        $this->logManager = $logManager;
     }
 
     public function sendInvitesToEmails(Game $game, User $fromUser, array $emails)
@@ -52,6 +55,11 @@ class InviteManager
             'fromUser' => $fromUser,
             'game' => $game,
             'from' => array($fromUser->getEmail() => $fromUser->getUsername()),
+        ));
+
+        $this->logManager->createLog($game, sprintf(
+            'Invite sent to %s',
+            $email
         ));
     }
 

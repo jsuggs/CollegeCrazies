@@ -43,7 +43,6 @@ class GameController extends BaseController
         return array(
             'game' => $game,
             'player' => $player,
-            'player_forms' => $this->getPlayerForms($game->getPlayers()->toArray()),
         );
     }
 
@@ -221,33 +220,5 @@ class GameController extends BaseController
             'form' => $form->createView(),
             'game' => $game,
         );
-    }
-
-    /**
-     * @Route("/players/{gameId}", name="squares_players")
-     * @Secure(roles="ROLE_USER")
-     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
-     * @Template
-     */
-    public function playersAction(Game $game)
-    {
-        $players = $game->getPlayers()->toArray();
-        $forms = $this->getPlayerForms($players);
-
-        return array(
-            'game' => $game,
-            'forms' => $forms,
-            'players' => $players,
-        );
-    }
-
-    protected function getPlayerForms(array $players)
-    {
-        $forms = array();
-        foreach ($players as $player) {
-            $forms[$player->getId()] =  $this->getPlayerForm($player)->createView();
-        }
-
-        return $forms;
     }
 }
