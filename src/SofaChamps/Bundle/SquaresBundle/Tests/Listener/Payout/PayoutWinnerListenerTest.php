@@ -49,6 +49,7 @@ class PayoutWinnerListenerTest extends SofaChampsWebTest
 
         $payoutId = $payout->getId();
 
+        // Re-query from the db
         $this->getEntityManager()->clear();
         $payout = $this->getEntityManager()->getRepository('SofaChampsSquaresBundle:Payout')->findOneBy(array(
             'id' => $payoutId,
@@ -56,5 +57,6 @@ class PayoutWinnerListenerTest extends SofaChampsWebTest
         ));
 
         $this->assertEquals($userPlayer->getId(), $payout->getWinner()->getId());
+        $this->assertEquals(2, $this->game->getLogs()->count());
     }
 }

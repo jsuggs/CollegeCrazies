@@ -30,6 +30,8 @@ class LogManager
 
         $this->om->persist($log);
 
+        $game->addLog($log);
+
         return $log;
     }
 }
