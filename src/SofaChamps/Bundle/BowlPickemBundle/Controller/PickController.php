@@ -90,7 +90,7 @@ class PickController extends BaseController
     public function newPickAction($season)
     {
         // No more picksets after picks lock
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,

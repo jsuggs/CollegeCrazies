@@ -74,9 +74,9 @@ class BaseController extends CoreController
         $em->persist($user);
     }
 
-    protected function picksLocked()
+    protected function picksLocked($season)
     {
-        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
+        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked($season);
     }
 
     protected function getLeagueManager()
