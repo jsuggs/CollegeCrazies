@@ -10,7 +10,12 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    {% stylesheets 'css/main.less' filter='less' output='compiled/css/main.css' %}
+    {% stylesheets
+        'css/main.less'
+        'components/evol.colorpicker/less/evol.colorpicker.less'
+        filter='less,cssrewrite'
+        output='compiled/css/main.css'
+    %}
         <link rel="stylesheet" href="{{ asset_url }}">
     {% endstylesheets %}
 </head>
@@ -133,6 +138,8 @@
         'components/jquery.ui/ui/jquery.ui.widget.js'
         'components/jquery.ui/ui/jquery.ui.mouse.js'
         'components/jquery.ui/ui/jquery.ui.sortable.js'
+        'components/jquery.ui/ui/jquery.ui.button.js'
+        'components/evol.colorpicker/js/evol.colorpicker.js'
         'js/cc.js'
         output='compiled/js/sofachamps.js'
     %}

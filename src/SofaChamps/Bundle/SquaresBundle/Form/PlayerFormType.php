@@ -42,6 +42,7 @@ class PlayerFormType extends AbstractType
             ->add('color', 'text', array(
                 'label' => 'Color',
                 'max_length' => 6,
+                'attr' => array('class' => 'color-input'),
             ))
             ->add('admin', 'checkbox', array(
                 'label' => 'Admin',

@@ -11,3 +11,15 @@
         <hr />
     {% endfor %}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            $(".color-input").colorpicker({
+                showOn: 'both'
+            });
+        });
+    </script>
+{% endblock %}

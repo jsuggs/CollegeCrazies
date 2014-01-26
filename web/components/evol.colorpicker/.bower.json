@@ -1,0 +1,13 @@
+{
+  "name": "evol.colorpicker",
+  "homepage": "https://github.com/evoluteur/colorpicker",
+  "_release": "3697cfe5b4",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "3697cfe5b4e8a2bd4ceea65f1c24dc901403aa61"
+  },
+  "_source": "git://github.com/evoluteur/colorpicker.git",
+  "_target": "*",
+  "_originalSource": "evol.colorpicker"
+}
