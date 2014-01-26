@@ -4,6 +4,7 @@
     "dependencies": {
         "jquery": "latest",
         "jquery.ui": "latest",
+        "jquery-ui-bootstrap": "latest",
         "backbone": "latest",
         "bootbox": "latest",
         "requirejs": "latest",
