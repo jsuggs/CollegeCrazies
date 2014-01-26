@@ -22,7 +22,7 @@ class PlayerController extends BaseController
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
      * @Template
      */
-    public function playersAction(Game $game)
+    public function listAction(Game $game)
     {
         $players = $game->getPlayers()->toArray();
         $forms = $this->getPlayerForms($players);
