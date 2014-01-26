@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
+use SofaChamps\Bundle\SquaresBundle\Form\GamePlayersFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -24,13 +25,19 @@ class PlayerController extends BaseController
      */
     public function listAction(Game $game)
     {
-        $players = $game->getPlayers()->toArray();
-        $forms = $this->getPlayerForms($players);
+        $form = $this->createForm(new GamePlayersFormType(), $game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+                $this->addMessage('success', 'Players updated');
+            }
+        }
 
         return array(
             'game' => $game,
-            'forms' => $forms,
-            'players' => $players,
+            'form' => $form->createView(),
         );
     }
     /**

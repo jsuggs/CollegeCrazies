@@ -335,6 +335,13 @@ class Game
         }
     }
 
+    public function removePlayer(Player $player)
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
+        }
+    }
+
     public function getPlayers()
     {
         return $this->players;

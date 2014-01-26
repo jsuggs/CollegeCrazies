@@ -5,11 +5,25 @@
 
     <p class="text-info">These are the players</p>
 
-    {% for player in players %}
-        {% set form = forms[player.id] %}
-        {% include "SofaChampsSquaresBundle:Player:edit.html.twig" %}
-        <hr />
-    {% endfor %}
+    <form action="{{ path('squares_players', {gameId: game.id}) }}" method="post">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Color</th>
+                <th>Admin</th>
+            </tr>
+            {% for player in form.players %}
+                <tr>
+                    <td>{{ form_widget(player.name) }}</td>
+                    <td>{{ form_widget(player.color) }}</td>
+                    <td>{{ form_widget(player.admin) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit" class="btn btn-success">Update Players</button>
+        {{ form_rest(form) }}
+    </form>
 {% endblock %}
 
 {% block javascripts %}

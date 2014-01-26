@@ -1,5 +1,8 @@
 <form action="{{ path('squares_player_update', {playerId: player.id}) }}" method="post">
-    {{ form_widget(form) }}
+    {{ form_widget(form.name) }}
+    {{ form_widget(form.color) }}
+    {{ form_widget(form.admin) }}
 
     <button class="btn">Update Player</button>
+    {{ form_rest(form) }}
 </form>
