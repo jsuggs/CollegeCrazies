@@ -3,7 +3,7 @@
         {{ square.player.name }}
     {% else %}
         <form action="{{ path('squares_square_claim', {gameId: game.id, row: r, col: c}) }}" method="post" class="squares-claim">
-            {% if player.admin %}
+            {% if is_granted('PROXY_CLAIM', game) %}
                 <select name="playerId" class="form-control" style="display: none;">
                     {% for p in game.players %}
                         <option value="{{ p.id }}">{{ p.name }}</option>
