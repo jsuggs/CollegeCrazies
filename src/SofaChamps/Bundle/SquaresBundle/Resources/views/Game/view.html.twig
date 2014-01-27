@@ -61,7 +61,15 @@
 
             <hr />
 
-            <h2>Payouts{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit the payouts</a></small>{% endif %}</h2>
+            <h2>
+                Payouts
+                {% if is_granted('EDIT', game) %}
+                    <small>
+                        <a href="{{ path('squares_payouts', {gameId: game.id}) }}">Edit payouts</a>
+                        <a href="{{ path('squares_results', {gameId: game.id}) }}">Edit results</a>
+                    </small>
+                {% endif %}
+            </h2>
             <table class="table">
                 <thead>
                     <th>Description</th>

@@ -1,0 +1,25 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Results <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">Return to game</a></small></h2>
+
+    <form action="{{ path('squares_results', {gameId: game.id}) }}" method="post">
+        <table class="table">
+            <tr>
+                <th>Description</th>
+                <th>HT</th>
+                <th>AT</th>
+            </tr>
+            {% for payout in form.payouts %}
+                <tr>
+                    <td>{{ payout.vars.value.getDescription }}</td>
+                    <td>{{ form_widget(payout.homeTeamResult) }}</td>
+                    <td>{{ form_widget(payout.awayTeamResult) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit" class="btn btn-success">Update Results</button>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

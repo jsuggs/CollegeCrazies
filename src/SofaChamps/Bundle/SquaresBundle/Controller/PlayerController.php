@@ -40,6 +40,7 @@ class PlayerController extends BaseController
             'form' => $form->createView(),
         );
     }
+
     /**
      * @Route("/edit/{playerId}", name="squares_player_edit")
      * @Secure(roles="ROLE_USER")

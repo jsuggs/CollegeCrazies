@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
+use SofaChamps\Bundle\SquaresBundle\Form\GameResultsFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -219,6 +220,30 @@ class GameController extends BaseController
         return array(
             'form' => $form->createView(),
             'game' => $game,
+        );
+    }
+
+    /**
+     * @Route("/results/{gameId}", name="squares_results")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Template
+     */
+    public function resultsAction(Game $game)
+    {
+        $form = $this->createForm(new GameResultsFormType(), $game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+                $this->addMessage('success', 'Results updated');
+            }
+        }
+
+        return array(
+            'game' => $game,
+            'form' => $form->createView(),
         );
     }
 }
