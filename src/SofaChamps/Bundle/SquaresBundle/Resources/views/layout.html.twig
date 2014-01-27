@@ -12,6 +12,8 @@
             <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ path('squares_game_edit', {gameId: game.id}) }}"><span class="glyphicon glyphicon-wrench"></span> Edit Game</a></li>
                 <li><a href="{{ path('squares_map', {gameId: game.id}) }}"><span class="glyphicon glyphicon-th"></span> Edit Row/Col Map</a></li>
+                <li><a href="{{ path('squares_players', {gameId: game.id}) }}"><span class="glyphicon glyphicon-tasks"></span> Edit Players</a></li>
+                <li><a href="{{ path('squares_payouts', {gameId: game.id}) }}"><span class="glyphicon glyphicon-usd"></span>Edit Payouts</a></li>
             </ul>
         </li>
     {% endif %}
