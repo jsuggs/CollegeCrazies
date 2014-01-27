@@ -34,6 +34,7 @@ class EmailInputParserTest extends SofaChampsTest
             array('test@test.com x@x.com, y@y.com', array('test@test.com', 'x@x.com', 'y@y.com')),
             array("test@test.com x@x.com, y@y.com\nz@z.com", array('test@test.com', 'x@x.com', 'y@y.com', 'z@z.com')),
             array("test@test.com x@x.com, y@y.com\nz@z.com\ninvalid", array('test@test.com', 'x@x.com', 'y@y.com', 'z@z.com')),
+            //array("\"test@test.com\"\n x@x.com, \"y@y.com\"\nz@z.com", array('test@test.com', 'x@x.com', 'y@y.com', 'z@z.com')),
         );
     }
 

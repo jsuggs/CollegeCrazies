@@ -16,6 +16,7 @@ class EmailInputParser
         $lines = explode("\n", $text);
         foreach ($lines as $line) {
             $cleaned = preg_replace('/\s+/', ',', $line);
+            $cleaned = preg_replace('/[\'\"]\w[\'\"]/', '${1}', $cleaned);
             $words = explode(',', $cleaned);
             foreach ($words as $word) {
                 $emails[] = $word;
