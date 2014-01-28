@@ -19,6 +19,11 @@ class BaseController extends CoreController
         return $this->get('sofachamps.squares.game_manager');
     }
 
+    protected function getPlayerManager()
+    {
+        return $this->get('sofachamps.squares.player_manager');
+    }
+
     protected function getInviteManager()
     {
         return $this->get('sofachamps.squares.invite_manager');

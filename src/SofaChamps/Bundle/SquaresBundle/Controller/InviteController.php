@@ -75,9 +75,12 @@ class InviteController extends BaseController
 
             if (!$player) {
                 $player = $this->getPlayerManager()->createPlayer($user, $game);
+                $this->addMessage('success', 'Added to game');
+            } else {
+                $this->addMessage('info', 'You were already in the game');
             }
             $this->getGameManager()->addPlayerToGame($game, $player);
-            $this->addMessage('success', 'Added to game');
+            $this->getEntityManager()->flush();
         } else {
             $response = $this->getResponse();
             $this->setCookie($response, InviteManager::COOKIE_NAME, $game->getId());
