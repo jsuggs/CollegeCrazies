@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
+use SofaChamps\Bundle\SquaresBundle\Game\InviteManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -77,10 +78,12 @@ class InviteController extends BaseController
             }
             $this->getGameManager()->addPlayerToGame($game, $player);
             $this->addMessage('success', 'Added to game');
-        } elseif($this->getSession()->has('squares_game_join')) {
-            die('bang');
         } else {
-            $this->getSession()->set('squares_game_join', $game->getId());
+            $response = $this->getResponse();
+            $this->setCookie($response, InviteManager::COOKIE_NAME, $game->getId());
+            $response->sendHeaders();
+
+            $this->addMessage('info', 'You can join the squares game after you login or create an account');
             throw new AccessDeniedException('Must be logged in to join squares');
         }
 

@@ -3,6 +3,8 @@
 namespace SofaChamps\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * BaseController
@@ -12,6 +14,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class CoreController extends Controller
 {
+    protected function getResponse()
+    {
+        return new Response();
+    }
+
+    protected function setCookie(Response $response, $name, $value)
+    {
+        $response->headers->setCookie(new Cookie($name, $value));
+    }
+
     /**
      * getEntityManager
      *
