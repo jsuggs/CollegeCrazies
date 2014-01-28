@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\SecurityBundle\RequestProcessor;
 
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
 interface RequestProcessor
@@ -11,5 +12,5 @@ interface RequestProcessor
      *
      * @return Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function processRequest(Request $request);
+    public function processRequest(Request $request, User $user);
 }

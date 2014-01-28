@@ -26,7 +26,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         foreach ($this->processors as $processor) {
-            if ($response = $processor->processRequest($request)) {
+            if ($response = $processor->processRequest($request, $token->getUser())) {
                 return $response;
             }
         }

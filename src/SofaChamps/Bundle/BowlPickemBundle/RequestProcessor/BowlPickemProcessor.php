@@ -1,18 +1,21 @@
 <?php
 
-namespace SofaChamps\Bundle\SecurityBundle\RequestProcessor;
+namespace SofaChamps\Bundle\BowlPickemBundle\RequestProcessor;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
+use SofaChamps\Bundle\SecurityBundle\RequestProcessor\RequestProcessor;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Router;
 
 /**
- * TargetUrlProcessor
+ * BowlPickemProcessor
  *
+ * @DI\Service
  * @DI\Tag("sofachamps.request_processor")
  */
 class BowlPickemProcessor implements RequestProcessor
@@ -33,7 +36,7 @@ class BowlPickemProcessor implements RequestProcessor
         $this->seasonManager = $seasonManager;
     }
 
-    public function processRequest(Request $request)
+    public function processRequest(Request $request, User $user)
     {
         if ($this->session->has('auto_league_assoc')) {
             $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($this->session->get('auto_league_assoc'));

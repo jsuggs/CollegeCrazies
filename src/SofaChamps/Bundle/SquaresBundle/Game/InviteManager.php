@@ -14,6 +14,8 @@ use SofaChamps\Bundle\SquaresBundle\Entity\Invite;
  */
 class InviteManager
 {
+    const COOKIE_NAME = 'squares_invite_game';
+
     private $om;
     private $playerManager;
     private $emailSender;

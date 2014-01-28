@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\SecurityBundle\RequestProcessor;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
  * TargetUrlProcessor
  *
  * @DI\Service
- * @DI\Tag("sofachamps.request_processor")
+ * @DI\Tag("sofachamps.request_processor", attributes={"priority": -255})
  */
 class TargetUrlProcessor implements RequestProcessor
 {
-    public function processRequest(Request $request)
+    public function processRequest(Request $request, User $user)
     {
         return new RedirectResponse($this->getTargetUrl($request));
     }
