@@ -10,6 +10,6 @@
         <dd>{{ game.name }}</dd>
 
         <dt>Cost Per Square</dt>
-        <dd>${{ payout.costPerSquare(true)|number_format(2, '.', ',') }}</dd>
+        <dd>${{ game.costPerSquare(true)|number_format(2, '.', ',') }}</dd>
     </dl>
 {% endblock %}
