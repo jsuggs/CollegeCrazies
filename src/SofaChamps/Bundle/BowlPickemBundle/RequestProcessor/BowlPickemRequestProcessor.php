@@ -90,6 +90,8 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
 
     public function processRegisrationRequest(Request $request)
     {
+        // TODO - Better check
+        return;
         $season = $this->seasonManager->getCurrentSeason();
         if (!$this->picksLockedManager->arePickLocked($season)) {
             $url = $this->router->generate('pickset_new', array(
