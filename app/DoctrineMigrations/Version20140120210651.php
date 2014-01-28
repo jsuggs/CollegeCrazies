@@ -33,6 +33,9 @@ SQL;
         $this->addSql('ALTER TABLE invites ADD type VARCHAR(32)');
         $this->addSql("UPDATE invites set type='bp'");
         $this->addSql('ALTER TABLE invites ALTER COLUMN type SET NOT NULL');
+        $this->addSql('ALTER TABLE invites ADD squares_game_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE invites ADD CONSTRAINT FK_INVITES_REF_SQUARES_GAME_GAME_ID FOREIGN KEY (squares_game_id) REFERENCES squares_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_INVITES_SQUARES_GAME_ID ON invites (squares_game_id)');
     }
 
     public function down(Schema $schema)
@@ -47,5 +50,6 @@ SQL;
         $this->addSql('CREATE SEQUENCE seq_squares_payout INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('ALTER TABLE squares_games DROP forcewinner');
         $this->addSql('ALTER TABLE invites DROP type');
+        $this->addSql('ALTER TABLE invites DROP game_id');
     }
 }

@@ -74,6 +74,11 @@ class Game
     protected $logs;
 
     /**
+     * @ORM\OneToMany(targetEntity="Invite", mappedBy="game")
+     */
+    protected $invites;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     protected $locked = false;
@@ -190,6 +195,7 @@ class Game
         $this->payouts = new ArrayCollection();
         $this->players = new ArrayCollection();
         $this->logs = new ArrayCollection();
+        $this->invites = new ArrayCollection();
     }
 
     public function getId()
