@@ -1,16 +1,16 @@
 <?php
 
-namespace SofaChamps\Bundle\SecurityBundle\RequestProcessor;
+namespace SofaChamps\Bundle\CoreBundle\RequestProcessor;
 
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 
-interface RequestProcessor
+interface LoginRequestProcessor
 {
     /**
      * @param Request $request
      *
      * @return Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function processRequest(Request $request, User $user);
+    public function processLoginRequest(Request $request, User $user);
 }

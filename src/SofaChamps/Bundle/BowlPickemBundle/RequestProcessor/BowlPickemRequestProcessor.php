@@ -5,45 +5,47 @@ namespace SofaChamps\Bundle\BowlPickemBundle\RequestProcessor;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
+use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use SofaChamps\Bundle\SecurityBundle\RequestProcessor\RequestProcessor;
+use SofaChamps\Bundle\CoreBundle\RequestProcessor\LoginRequestProcessor;
+use SofaChamps\Bundle\CoreBundle\RequestProcessor\RegistrationRequestProcessor;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * BowlPickemProcessor
  *
  * @DI\Service
- * @DI\Tag("sofachamps.request_processor")
+ * @DI\Tag("sofachamps.request_processor.login")
+ * @DI\Tag("sofachamps.request_processor.registration")
  */
-class BowlPickemProcessor implements RequestProcessor
+class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationRequestProcessor
 {
     /**
      * @DI\InjectParams({
      *      "router" = @DI\Inject("router"),
-     *      "session" = @DI\Inject("session"),
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
      *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
+     *      "picksLockedManager" = @DI\Inject("sofachamps.bp.picks_locked_manager"),
      * })
      */
-    public function __construct(Router $router, Session $session, ObjectManager $om, SeasonManager $seasonManager)
+    public function __construct(UrlGeneratorInterface $router, ObjectManager $om, SeasonManager $seasonManager, PicksLockedManager $picksLockedManager)
     {
         $this->router = $router;
-        $this->session = $session;
         $this->om = $om;
         $this->seasonManager = $seasonManager;
+        $this->picksLockedManager = $picksLockedManager;
     }
 
-    public function processRequest(Request $request, User $user)
+    public function processLoginRequest(Request $request, User $user)
     {
-        if ($this->session->has('auto_league_assoc')) {
-            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($this->session->get('auto_league_assoc'));
+        if ($request->getSession()->has('auto_league_assoc')) {
+            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($request->getSession()->get('auto_league_assoc'));
 
             if ($league) {
                 if ($league->isUserInLeague($user)) {
-                    $this->session->setFlash('error', 'You are already in the league');
+                    $request->getSession()->setFlash('error', 'You are already in the league');
                 } else {
                     $user = $token->getUser();
                     $user->addLeague($league);
@@ -60,7 +62,7 @@ class BowlPickemProcessor implements RequestProcessor
                         case 1:
                             $pickSet = $pickSets[0];
                             $league->addPickSet($pickSet);
-                            $this->session->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
+                            $request->getSession()->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                             $response = new RedirectResponse($this->router->generate('league_home', array(
                                 'season' => $season,
@@ -75,7 +77,7 @@ class BowlPickemProcessor implements RequestProcessor
                             break;
                     }
 
-                    $this->session->remove('auto_league_assoc');
+                    $request->getSession()->remove('auto_league_assoc');
                     $this->om->flush();
                 }
             }
@@ -83,6 +85,18 @@ class BowlPickemProcessor implements RequestProcessor
             if ($response) {
                 return $response;
             }
+        }
+    }
+
+    public function processRegisrationRequest(Request $request)
+    {
+        $season = $this->seasonManager->getCurrentSeason();
+        if (!$this->picksLockedManager->arePickLocked($season)) {
+            $url = $this->router->generate('pickset_new', array(
+                'season' => $season,
+            ));
+
+            return new RedirectResponse($url);
         }
     }
 }

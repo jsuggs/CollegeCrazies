@@ -35,7 +35,6 @@ class AppKernel extends Kernel
             new SofaChamps\Bundle\BowlPickemBundle\SofaChampsBowlPickemBundle(),
             new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
             new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),
-            new SofaChamps\Bundle\SecurityBundle\SofaChampsSecurityBundle(),
             new SofaChamps\Bundle\SuperBowlChallengeBundle\SofaChampsSuperBowlChallengeBundle(),
             new SofaChamps\Bundle\CoreBundle\SofaChampsCoreBundle(),
             new SofaChamps\Bundle\NFLBundle\SofaChampsNFLBundle(),

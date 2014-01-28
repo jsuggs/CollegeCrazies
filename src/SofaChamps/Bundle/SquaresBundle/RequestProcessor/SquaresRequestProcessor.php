@@ -5,7 +5,7 @@ namespace SofaChamps\Bundle\SquaresBundle\RequestProcessor;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use SofaChamps\Bundle\SecurityBundle\RequestProcessor\RequestProcessor;
+use SofaChamps\Bundle\CoreBundle\RequestProcessor\LoginRequestProcessor;
 use SofaChamps\Bundle\SquaresBundle\Game\InviteManager;
 use SofaChamps\Bundle\SquaresBundle\Game\PlayerManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,9 +16,9 @@ use Symfony\Component\Routing\Router;
  * SquaresProcessor
  *
  * @DI\Service
- * @DI\Tag("sofachamps.request_processor")
+ * @DI\Tag("sofachamps.request_processor.login")
  */
-class SquaresProcessor implements RequestProcessor
+class SquaresRequestProcessor implements LoginRequestProcessor
 {
     /**
      * @DI\InjectParams({
@@ -34,7 +34,7 @@ class SquaresProcessor implements RequestProcessor
         $this->playerManager = $playerManager;
     }
 
-    public function processRequest(Request $request, User $user)
+    public function processLoginRequest(Request $request, User $user)
     {
         if ($request->cookies->has(InviteManager::COOKIE_NAME)) {
             $game = $this->om->getRepository('SofaChampsSquaresBundle:Game')->find($request->cookies->get(InviteManager::COOKIE_NAME));
@@ -48,13 +48,9 @@ class SquaresProcessor implements RequestProcessor
             if (!$player) {
                 $this->playerManager->createPlayer($user, $game);
                 $this->om->flush();
-                $response = new RedirectResponse($this->router->generateUrl('squares_game_view', array(
+                return new RedirectResponse($this->router->generateUrl('squares_game_view', array(
                     'gameId' => $game->getId(),
                 )));
-            }
-
-            if (isset($response)) {
-                return $response;
             }
         }
     }
