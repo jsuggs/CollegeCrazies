@@ -40,8 +40,8 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
 
     public function processLoginRequest(Request $request, User $user)
     {
-        if ($request->getSession()->has('auto_league_assoc')) {
-            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($request->getSession()->get('auto_league_assoc'));
+        if ($request->cookies->has('bp_league_join')) {
+            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($request->cookies->get('bp_league_join'));
 
             if ($league) {
                 if ($league->isUserInLeague($user)) {
@@ -77,7 +77,7 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                             break;
                     }
 
-                    $request->getSession()->remove('auto_league_assoc');
+                    $request->headers->clearCookie('bp_league_join');
                     $this->om->flush();
                 }
             }

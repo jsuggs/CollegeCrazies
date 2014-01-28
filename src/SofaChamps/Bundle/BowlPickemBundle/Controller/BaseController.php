@@ -103,4 +103,23 @@ class BaseController extends CoreController
     {
         return $this->getSeasonManager()->getCurrentSeason();
     }
+
+    protected function writeLeagueJoinCookie(League $league)
+    {
+        $response = $this->getResponse();
+        $this->setCookie($response, 'bp_league_join', $league->getId());
+        $response->sendHeaders();
+    }
+
+    protected function getLeagueJoinCookie()
+    {
+        $request = $this->getRequest()->cookies()->get('bp_league_join');
+    }
+
+    protected function deleteLeagueJoinCookie()
+    {
+        $response = $this->getResponse();
+        $response->headers->clearCookie('bp_league_join');
+        $response->sendHeaders();
+    }
 }

@@ -190,7 +190,7 @@ class LeagueController extends BaseController
      */
     public function joinAction($season)
     {
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
@@ -219,14 +219,15 @@ class LeagueController extends BaseController
                     'leagueId' => $league->getId(),
                 )));
             }
-            $this->getSession()->set('auto_league_assoc', $league->getId());
+            $this->writeLeagueJoinCookie($league);
+
             throw new AccessDeniedException('Must be logged in to join league');
         }
         $pickSets = $user->getPickSetsForSeason($season);
 
         if (count($pickSets) === 0) {
             $this->addMessage('info', 'You cannot join a league without first creating a pickset.');
-            $this->getSession()->set('auto_league_assoc', $league->getId());
+            $this->writeLeagueJoinCookie($league);
 
             return $this->redirect($this->generateUrl('pickset_new', array(
                 'season' => $season,
@@ -268,7 +269,8 @@ class LeagueController extends BaseController
                 $this->getEntityManager()->flush();
 
                 // Go to an intermediate page for assiging pickset to this league
-                $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
+                $this->writeLeagueJoinCookie($league);
+
                 return $this->redirect($this->generateUrl('league_assoc', array(
                     'season' => $season,
                     'leagueId' => $league->getId(),
@@ -292,9 +294,9 @@ class LeagueController extends BaseController
     public function prejoinAction(League $league, $season)
     {
         $returnToLeagueHome = false;
-        $this->getSession()->set('auto_league_assoc', $league->getId());
+        $this->writeLeagueJoinCookie($league);
 
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'You cannot join a league after picks lock');
             $returnToLeagueHome = true;
         }
@@ -339,7 +341,7 @@ class LeagueController extends BaseController
     {
         $request = $this->getRequest();
         if ($request->getMethod() === 'POST') {
-            if ($this->picksLocked()) {
+            if ($this->picksLocked($season)) {
                 $this->addMessage('warning', 'You cannot change league assignments after picks lock');
             } else {
                 $pickSet = $this->findPickSet($request->request->get('pickset'));
@@ -526,7 +528,7 @@ class LeagueController extends BaseController
      */
     public function newAction($season)
     {
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
@@ -553,7 +555,7 @@ class LeagueController extends BaseController
      */
     public function createAction($season)
     {
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($seaon)) {
             $this->addMessage('warning', 'You cannot create a league after picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
@@ -581,7 +583,7 @@ class LeagueController extends BaseController
                     'leagueId' => $league->getId(),
                 )));
             } else {
-                $this->getRequest()->getSession()->set('auto_league_assoc', $league->getId());
+                $this->writeLeagueJoinCookie($league);
 
                 $return = $this->redirect($this->generateUrl('league_assoc', array(
                     'season' => $season,
