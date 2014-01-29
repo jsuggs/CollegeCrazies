@@ -121,7 +121,10 @@ class GameController extends BaseController
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
-            $this->getEntityManager()->flush();
+            $this->getEntityManager()->transactional(function ($em) {
+                // Ensure that the unique constraint is deferred
+                $em->getConnection()->exec('SET CONSTRAINTS uniq_squares_payouts_game_id_seq DEFERRED');
+            });
             $this->addMessage('success', 'Squares game updated');
 
             return $this->redirect($this->generateUrl('squares_game_edit', array(

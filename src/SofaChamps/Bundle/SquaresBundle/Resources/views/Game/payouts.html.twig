@@ -5,25 +5,10 @@
 
     <p><a href="{{ path('squares_results', {gameId: game.id}) }}" class="btn btn-info">Edit the results</a></p>
 
+    <p class="text-primary">Note: You can drag and drop the results to change their order</p>
+
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
-        <table class="table squares-payouts">
-            <thead>
-                <tr>
-                    <th>Sequence</th>
-                    <th>Description</th>
-                    <th>Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for payout in form.payouts %}
-                    <tr>
-                        <td>{{ form_widget(payout.seq, {attr: {class: "sequence"}}) }}</td>
-                        <td>{{ form_widget(payout.description) }}</td>
-                        <td>{{ form_widget(payout.percentage) }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% include "SofaChampsSquaresBundle:Game:_payouts_form.html.twig" %}
 
         <button type="submit" class="btn btn-primary btn-lg">Update Payouts</button>
         {{ form_rest(form) }}
