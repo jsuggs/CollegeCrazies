@@ -23,6 +23,13 @@
                 <tbody>
                     <tr>
                         <th></th>
+                        <th colspan=11>{{ game.homeTeam }}</th>
+                    </tr>
+                    <tr>
+                        <th rowspan=12>{{ game.awayTeam }}</th>
+                    </tr>
+                    <tr>
+                        <th></th>
                         {% for idx in range(0, 9) %}
                             <th>{{ game.locked ? game.translatedCol(idx) : idx }}</th>
                         {% endfor %}

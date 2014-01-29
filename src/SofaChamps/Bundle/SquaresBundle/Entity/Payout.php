@@ -38,21 +38,28 @@ class Payout
 
     /**
      * @ORM\Column
+     * @Assert\NotNull
      */
     protected $description;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Type(type="integer")
+     * @Assert\Range(min=0, max=100)
      */
     protected $percentage;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Assert\Type(type="integer")
+     * @Assert\Range(min=0)
      */
     protected $homeTeamResult;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Assert\Type(type="integer")
+     * @Assert\Range(min=0)
      */
     protected $awayTeamResult;
 
@@ -162,12 +169,12 @@ class Payout
 
     public function getRowResult()
     {
-        return substr((string) $this->homeTeamResult, -1);
+        return (int) substr((string) $this->awayTeamResult, -1);
     }
 
     public function getColResult()
     {
-        return substr((string) $this->awayTeamResult, -1);
+        return (int) substr((string) $this->homeTeamResult, -1);
     }
 
     public function setCarryover($carryover)

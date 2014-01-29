@@ -3,6 +3,8 @@
 {% block content %}
     <h2>Payouts <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">view game</a></small></h2>
 
+    <p><a href="{{ path('squares_results', {gameId: game.id}) }}" class="btn btn-info">Edit the results</a></p>
+
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
         <table class="table">
             <tr>

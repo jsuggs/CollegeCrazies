@@ -334,6 +334,24 @@ class Game
         return $this->{"col$col"};
     }
 
+    public function getReverseTranslatedRow($value)
+    {
+        foreach (range(0, 9) as $idx) {
+            if ($this->getTranslatedRow($idx) == $value) {
+                return $idx;
+            }
+        }
+    }
+
+    public function getReverseTranslatedCol($value)
+    {
+        foreach (range(0, 9) as $idx) {
+            if ($this->getTranslatedCol($idx) == $value) {
+                return $idx;
+            }
+        }
+    }
+
     public function addPlayer(Player $player)
     {
         if (!$this->players->contains($player)) {

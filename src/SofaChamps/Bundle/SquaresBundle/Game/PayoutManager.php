@@ -34,8 +34,8 @@ class PayoutManager
     {
         $game = $payout->getGame();
 
-        $winnerRow = $game->getTranslatedRow($payout->getRowResult());
-        $winnerCol = $game->getTranslatedCol($payout->getColResult());
+        $winnerRow = $game->getReverseTranslatedRow($payout->getRowResult());
+        $winnerCol = $game->getReverseTranslatedCol($payout->getColResult());
 
         $square = $game->getSquare($winnerRow, $winnerCol);
 

@@ -7,14 +7,20 @@
         <table class="table">
             <tr>
                 <th>Description</th>
-                <th>HT</th>
-                <th>AT</th>
+                <th>{{ game.homeTeam }}</th>
+                <th>{{ game.awayTeam }}</th>
             </tr>
             {% for payout in form.payouts %}
                 <tr>
                     <td>{{ payout.vars.value.getDescription }}</td>
-                    <td>{{ form_widget(payout.homeTeamResult) }}</td>
-                    <td>{{ form_widget(payout.awayTeamResult) }}</td>
+                    <td>
+                        {{ form_errors(payout.homeTeamResult) }}
+                        {{ form_widget(payout.homeTeamResult) }}
+                    </td>
+                    <td>
+                        {{ form_errors(payout.awayTeamResult) }}
+                        {{ form_widget(payout.awayTeamResult) }}
+                    </td>
                 </tr>
             {% endfor %}
         </table>
