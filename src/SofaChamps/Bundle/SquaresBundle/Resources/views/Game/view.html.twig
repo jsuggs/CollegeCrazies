@@ -1,7 +1,7 @@
 {% extends "SofaChampsSquaresBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ game.name }}{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_game_edit', {gameId: game.id}) }}">Edit the game</a></small>{% endif %}</h2>
+    <h2>{{ game.name }}{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_game_edit', {gameId: game.id}) }}">Edit the details</a></small>{% endif %}</h2>
 
     {% if game.locked %}
         <p>The game is locked. Squares are locked. Good luck.</p>
@@ -12,7 +12,7 @@
 
     {% if is_granted('PROXY_CLAIM', game) %}
         <div>
-            <button type="button" id="squares-proxy" class="btn btn-warning">Claim for others</button>
+            <button type="button" id="squares-proxy" class="btn btn-warning">Claim squares for players</button>
             <hr />
         </div>
     {% endif %}

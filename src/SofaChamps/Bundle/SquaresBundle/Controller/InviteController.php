@@ -69,15 +69,17 @@ class InviteController extends BaseController
     public function joinAction(Game $game)
     {
         $user = $this->getUser();
+        $player = $user ? $game->getPlayerForUser($user) : null;
 
         if ($user) {
-            $player = $game->getPlayerForUser($user);
-
             if (!$player) {
                 $player = $this->getPlayerManager()->createPlayer($user, $game);
                 $this->addMessage('success', 'Added to game');
             } else {
                 $this->addMessage('info', 'You were already in the game');
+                return $this->redirect($this->generateUrl('squares_game_view', array(
+                    'gameId' => $game->getId(),
+                )));
             }
             $this->getGameManager()->addPlayerToGame($game, $player);
             $this->getEntityManager()->flush();
@@ -92,6 +94,7 @@ class InviteController extends BaseController
 
         return array(
             'game' => $game,
+            'player' => $player,
         );
     }
 }

@@ -4,8 +4,22 @@
     <h2>Payouts <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">view game</a></small></h2>
 
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
-        {{ form_widget(form) }}
+        <table class="table">
+            <tr>
+                <th>Sequence</th>
+                <th>Description</th>
+                <th>Percentage</th>
+            </tr>
+            {% for payout in form.payouts %}
+                <tr>
+                    <td>{{ form_widget(payout.seq) }}</td>
+                    <td>{{ form_widget(payout.description) }}</td>
+                    <td>{{ form_widget(payout.percentage) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
 
         <button type="submit" class="btn btn-primary btn-lg">Update Payouts</button>
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

@@ -60,7 +60,7 @@ class InviteManager
             'from' => array($fromUser->getEmail() => $fromUser->getUsername()),
         ));
 
-        $invite = new Invite($fromUser, $email);
+        $invite = new Invite($fromUser, $game, $email);
         $this->om->persist($invite);
 
         $this->logManager->createLog($game, sprintf(

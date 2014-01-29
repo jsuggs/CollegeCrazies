@@ -113,11 +113,11 @@ class GameController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
      * @Method({"POST"})
-     * @Template
+     * @Template("SofaChampsSquaresBundle:Game:edit.html.twig")
      */
     public function updateAction(Game $game)
     {
-        $form = $this->getGameForm($game);
+        $form = $this->getGameEditForm($game);
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
@@ -133,6 +133,7 @@ class GameController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'game' => $game,
         );
     }
 
