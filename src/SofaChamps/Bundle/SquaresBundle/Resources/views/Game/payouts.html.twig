@@ -6,19 +6,23 @@
     <p><a href="{{ path('squares_results', {gameId: game.id}) }}" class="btn btn-info">Edit the results</a></p>
 
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
-        <table class="table">
-            <tr>
-                <th>Sequence</th>
-                <th>Description</th>
-                <th>Percentage</th>
-            </tr>
-            {% for payout in form.payouts %}
+        <table class="table squares-payouts">
+            <thead>
                 <tr>
-                    <td>{{ form_widget(payout.seq) }}</td>
-                    <td>{{ form_widget(payout.description) }}</td>
-                    <td>{{ form_widget(payout.percentage) }}</td>
+                    <th>Sequence</th>
+                    <th>Description</th>
+                    <th>Percentage</th>
                 </tr>
-            {% endfor %}
+            </thead>
+            <tbody>
+                {% for payout in form.payouts %}
+                    <tr>
+                        <td>{{ form_widget(payout.seq, {attr: {class: "sequence"}}) }}</td>
+                        <td>{{ form_widget(payout.description) }}</td>
+                        <td>{{ form_widget(payout.percentage) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
         <button type="submit" class="btn btn-primary btn-lg">Update Payouts</button>

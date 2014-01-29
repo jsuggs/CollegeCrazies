@@ -21,4 +21,17 @@ $(function() {
             },
         });
     });
+    var reorderPayouts = function ($tbody) {
+        //
+        console.log($tbody);
+        $tbody.children("tr").each(function(idx, val) {
+            console.log(val);
+            $(this).find('.sequence').val(idx + 1);
+        });
+    };
+    $("table.squares-payouts tbody").sortable({
+        stop: function (event, ui) {
+            reorderPayouts($(event.target));
+        }
+    });
 });

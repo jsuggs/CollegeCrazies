@@ -11,7 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="squares_game_payouts"
+ *      name="squares_game_payouts",
+ *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_squares_payouts_game_id_seq",columns={"game_id", "seq"})}
  * )
  */
 class Payout
@@ -19,15 +20,14 @@ class Payout
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\SequenceGenerator(sequenceName="seq_squares_payout", initialValue=1, allocationSize=1)
      */
     protected $id;
 
     /**
      * The sequence the payouts happen
-     * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="NONE")
      */
     protected $seq;
 
@@ -76,7 +76,6 @@ class Payout
     public function __construct(Game $game, $seq)
     {
         $this->game = $game;
-        $this->id = $game->getId();
         $this->seq = $seq;
     }
 
