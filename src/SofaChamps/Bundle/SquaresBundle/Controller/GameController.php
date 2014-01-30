@@ -54,10 +54,13 @@ class GameController extends BaseController
      */
     public function newAction()
     {
+        $user = $this->getUser();
         $form = $this->getGameForm();
+        $game = $this->getGameManager()->createGame($user);
 
         return array(
             'form' => $form->createView(),
+            'game' => $game,
         );
     }
 

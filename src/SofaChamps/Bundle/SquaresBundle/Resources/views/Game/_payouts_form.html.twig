@@ -6,6 +6,8 @@
     </tr>
 {% endmacro %}
 
+{% do form.payouts.setRendered %}
+
 <table class="table squares-payouts" data-prototype="{{ _self.payout_row(form.payouts.vars.prototype)|e }}">
     <thead>
         <tr>
