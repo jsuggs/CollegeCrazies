@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use JMS\Serializer\Serializer;
 use Mmoreram\GearmanBundle\Driver\Gearman;
 use Mmoreram\GearmanBundle\Service\GearmanClient;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
@@ -22,17 +23,20 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 class EmailSender implements EmailSenderInterface
 {
     protected $gearman;
+    protected $serializer;
     protected $logger;
 
     /**
      * @DI\InjectParams({
      *      "gearman" = @DI\Inject("gearman"),
+     *      "serializer" = @DI\Inject("jms_serializer"),
      *      "logger" = @DI\Inject("logger"),
      * })
      */
-    public function __construct(GearmanClient $gearman, LoggerInterface $logger)
+    public function __construct(GearmanClient $gearman, Serializer $serializer, LoggerInterface $logger)
     {
         $this->gearman = $gearman;
+        $this->serializer = $serializer;
         $this->logger = $logger;
     }
 
@@ -68,14 +72,14 @@ class EmailSender implements EmailSenderInterface
             return;
         }
 
-        $payload = array(
+        $payload = $this->serializer->serialize(array(
             'email' => $email,
             'templateName' => $templateName,
             'subjectLine' => $subjectLine,
             'data' => $data,
-        );
+        ), 'json');
 
-        $this->gearman->doBackgroundJob('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', json_encode($payload));
+        $this->gearman->doBackgroundJob('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', $payload);
 
         $this->logger->info(sprintf('Sent "%s" template "%s"', $email, $templateName));
     }

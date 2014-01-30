@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      name="squares_game_payouts",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_squares_payouts_game_id_seq",columns={"game_id", "seq"})}
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Payout
 {
@@ -22,23 +24,27 @@ class Payout
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\SequenceGenerator(sequenceName="seq_squares_payout", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
     /**
      * The sequence the payouts happen
      * @ORM\Column(type="integer")
+     * @Serialize\Expose
      */
     protected $seq;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="payouts")
+     * @Serialize\Expose
      */
     protected $game;
 
     /**
      * @ORM\Column
      * @Assert\NotNull
+     * @Serialize\Expose
      */
     protected $description;
 
@@ -46,6 +52,7 @@ class Payout
      * @ORM\Column(type="smallint")
      * @Assert\Type(type="integer")
      * @Assert\Range(min=0, max=100)
+     * @Serialize\Expose
      */
     protected $percentage;
 
@@ -53,6 +60,7 @@ class Payout
      * @ORM\Column(type="smallint", nullable=true)
      * @Assert\Type(type="integer")
      * @Assert\Range(min=0)
+     * @Serialize\Expose
      */
     protected $homeTeamResult;
 
@@ -60,11 +68,13 @@ class Payout
      * @ORM\Column(type="smallint", nullable=true)
      * @Assert\Type(type="integer")
      * @Assert\Range(min=0)
+     * @Serialize\Expose
      */
     protected $awayTeamResult;
 
     /**
      * @ORM\ManyToOne(targetEntity="Player", inversedBy="winners")
+     * @Serialize\Expose
      */
     protected $winner;
 
