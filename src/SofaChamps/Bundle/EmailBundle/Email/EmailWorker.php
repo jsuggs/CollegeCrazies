@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\EmailBundle\Email;
 use JMS\DiExtraBundle\Annotation as DI;
 use Mmoreram\GearmanBundle\Driver\Gearman;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * This is the process that actually sends the emails
@@ -15,17 +16,20 @@ class EmailWorker
 {
     protected $mailer;
     protected $templating;
+    protected $router;
 
     /**
      * @DI\InjectParams({
      *      "mailer" = @DI\Inject("mailer"),
      *      "templating" = @DI\Inject("templating"),
+     *      "router" = @DI\Inject("router"),
      * })
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, UrlGeneratorInterface $router)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->router = $router;
     }
 
     public function sendToEmail(\GearmanJob $job)
@@ -36,6 +40,11 @@ class EmailWorker
 
         // Make the email being sent to available to the templates
         $workload['emailTo'] = $workload['email'];
+
+        // Set the context
+        $context = $this->router->getContext();
+        $context->setHost('www.sofachamps.com');
+        $context->setScheme('http');
 
         $html = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.html.twig', $workload['templateName']), $workload['data']);
         $text = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $workload['templateName']), $workload['data']);

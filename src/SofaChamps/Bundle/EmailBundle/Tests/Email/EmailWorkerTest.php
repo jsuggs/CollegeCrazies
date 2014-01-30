@@ -9,6 +9,7 @@ class EmailWorkerTest extends SofaChampsTest
 {
     protected $mailer;
     protected $templating;
+    protected $router;
     protected $worker;
 
     protected function setUp()
@@ -17,8 +18,14 @@ class EmailWorkerTest extends SofaChampsTest
 
         $this->mailer = $this->buildMock('\Swift_Mailer');
         $this->templating = $this->buildMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
+        $this->router = $this->buildMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        $context = $this->buildMock('Symfony\Component\Routing\RequestContext');
 
-        $this->worker = new EmailWorker($this->mailer, $this->templating);
+        $this->router->expects($this->any())
+            ->method('getContext')
+            ->will($this->returnValue($context));
+
+        $this->worker = new EmailWorker($this->mailer, $this->templating, $this->router);
     }
 
     public function testSendToEmail()
