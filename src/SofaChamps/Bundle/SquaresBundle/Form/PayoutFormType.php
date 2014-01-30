@@ -30,19 +30,14 @@ class PayoutFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('seq', 'integer', array(
+                'label' => 'The order of the payouts',
+            ))
             ->add('description', 'text', array(
                 'label' => 'What the payout is for',
             ))
             ->add('percentage', 'integer', array(
                 'label' => 'The percentage this wins',
-            ))
-            ->add('homeTeamResult', 'integer', array(
-                'label' => 'The home team result',
-                'required' => false,
-            ))
-            ->add('awayTeamResult', 'integer', array(
-                'label' => 'The away team result',
-                'required' => false,
             ))
         ;
     }
@@ -55,8 +50,11 @@ class PayoutFormType extends AbstractType
             'empty_data' => function (FormInterface $form) use ($om) {
                 // Get the game
                 $game = $form->getParent()->getParent()->getData();
+                $curPayouts = $game->getPayouts()->count();
+
                 // Create the payout
-                $payout = new Payout($game);
+                $payout = new Payout($game, $curPayouts + 1);
+
                 // Persist
                 $om->persist($payout);
 

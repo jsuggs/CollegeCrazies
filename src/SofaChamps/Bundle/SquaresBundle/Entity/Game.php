@@ -58,6 +58,7 @@ class Game
 
     /**
      * @ORM\OneToMany(targetEntity="Payout", mappedBy="game")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     protected $payouts;
 
@@ -67,9 +68,25 @@ class Game
     protected $players;
 
     /**
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="game")
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    protected $logs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Invite", mappedBy="game")
+     */
+    protected $invites;
+
+    /**
      * @ORM\Column(type="boolean")
      */
-    protected $locked;
+    protected $locked = false;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default"=false})
+     */
+    protected $forceWinner = false;
 
     /**
      * @ORM\Column(type="smallint")
@@ -177,6 +194,8 @@ class Game
         $this->squares = new ArrayCollection();
         $this->payouts = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->logs = new ArrayCollection();
+        $this->invites = new ArrayCollection();
     }
 
     public function getId()
@@ -269,6 +288,15 @@ class Game
         return $this->payouts;
     }
 
+    public function getNextPayout(Payout $payout)
+    {
+        foreach ($this->payouts as $p) {
+            if ($p->getSeq() > $payout->getSeq()) {
+                return $p;
+            }
+        }
+    }
+
     /**
      * @Assert\Range(max=100)
      */
@@ -291,6 +319,11 @@ class Game
             : $this->costPerSquare;
     }
 
+    public function getTotalPayoutAmount($dollars)
+    {
+        return $this->getClaimedSquares()->count() * $this->getCostPerSquare($dollars);
+    }
+
     public function getTranslatedRow($row)
     {
         return $this->{"row$row"};
@@ -301,10 +334,35 @@ class Game
         return $this->{"col$col"};
     }
 
+    public function getReverseTranslatedRow($value)
+    {
+        foreach (range(0, 9) as $idx) {
+            if ($this->getTranslatedRow($idx) == $value) {
+                return $idx;
+            }
+        }
+    }
+
+    public function getReverseTranslatedCol($value)
+    {
+        foreach (range(0, 9) as $idx) {
+            if ($this->getTranslatedCol($idx) == $value) {
+                return $idx;
+            }
+        }
+    }
+
     public function addPlayer(Player $player)
     {
         if (!$this->players->contains($player)) {
             $this->players->add($player);
+        }
+    }
+
+    public function removePlayer(Player $player)
+    {
+        if ($this->players->contains($player)) {
+            $this->players->removeElement($player);
         }
     }
 
@@ -327,7 +385,17 @@ class Game
         });
     }
 
-    public function setLocked($locked)
+    public function addLog(Log $log)
+    {
+        $this->logs->add($log);
+    }
+
+    public function getLogs()
+    {
+        return $this->logs;
+    }
+
+    public function setLocked($locked = null)
     {
         $this->locked = (bool) $locked;
     }
@@ -335,6 +403,16 @@ class Game
     public function isLocked()
     {
         return $this->locked;
+    }
+
+    public function setForceWinner($forceWinner)
+    {
+        $this->forceWinner = $forceWinner;
+    }
+
+    public function isForceWinner()
+    {
+        return $this->forceWinner;
     }
 
     public function __set($name, $value)

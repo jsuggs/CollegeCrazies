@@ -1,8 +1,23 @@
 {% extends "SofaChampsCoreBundle:Layout:layout.html.twig" %}
 
 {% block nav_primary %}
+    <li><a href="{{ path('squares_home') }}">Squares Home</a></li>
     <li><a href="{{ path('squares_game_new') }}">New Squares Game</a></li>
     <li><a href="{{ path('squares_game_list') }}">My Squares Games</a></li>
+{% endblock %}
+
+{% block nav_secondary %}
+    {% if is_granted('ROLE_USER') and game is defined and is_granted('EDIT', game) %}
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="#">Edit Game <b class="caret"></b></a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('squares_game_edit', {gameId: game.id}) }}"><span class="glyphicon glyphicon-wrench"></span> Edit Game</a></li>
+                <li><a href="{{ path('squares_map', {gameId: game.id}) }}"><span class="glyphicon glyphicon-th"></span> Edit Row/Col Map</a></li>
+                <li><a href="{{ path('squares_players', {gameId: game.id}) }}"><span class="glyphicon glyphicon-tasks"></span> Edit Players</a></li>
+                <li><a href="{{ path('squares_payouts', {gameId: game.id}) }}"><span class="glyphicon glyphicon-usd"></span>Edit Payouts</a></li>
+            </ul>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
@@ -13,4 +28,13 @@
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .evo-colorind-ie {
+            top: 3px;
+        }
+    </style>
 {% endblock %}

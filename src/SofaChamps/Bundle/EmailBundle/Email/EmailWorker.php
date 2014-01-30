@@ -32,6 +32,8 @@ class EmailWorker
     {
         $workload = json_decode($job->workload(), true);
 
+        var_dump(sprintf('Sending %s to %s with %s', $workload['templateName'], $workload['email'], var_export($workload['data'], true)));
+
         // Make the email being sent to available to the templates
         $workload['emailTo'] = $workload['email'];
 

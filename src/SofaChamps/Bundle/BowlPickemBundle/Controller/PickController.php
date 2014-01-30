@@ -90,7 +90,7 @@ class PickController extends BaseController
     public function newPickAction($season)
     {
         // No more picksets after picks lock
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
@@ -98,7 +98,7 @@ class PickController extends BaseController
         }
 
         $user = $this->getUser();
-        $leagueId = $this->getSession()->get('auto_league_assoc') ?: $this->getRequest()->get('leagueId');
+        $leagueId = $this->getLeagueJoinCookie() ?: $this->getRequest()->get('leagueId');
         $league = $leagueId
             ? $this->findLeague($leagueId)
             : null;
@@ -107,7 +107,7 @@ class PickController extends BaseController
 
         if ($league) {
             $this->addMessage('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
-            $this->getSession()->remove('auto_league_assoc');
+            $this->deleteLeagueJoinCookie();
             $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
@@ -227,7 +227,7 @@ class PickController extends BaseController
         }
 
         $user = $this->getUser();
-        $leagueId = $this->getSession()->get('auto_league_assoc') ?: $this->getRequest()->get('leagueId');
+        $leagueId = $this->getLeagueJoinCookie() ?: $this->getRequest()->get('leagueId');
         $league = $leagueId
             ? $this->findLeague($leagueId)
             : null;

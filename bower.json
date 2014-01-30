@@ -1,14 +1,16 @@
 {
     "name": "SofaChamps",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "dependencies": {
-        "jquery": "1.*",
+        "jquery": "latest",
         "jquery.ui": "latest",
+        "jquery-ui-bootstrap": "latest",
         "backbone": "latest",
         "bootbox": "latest",
         "requirejs": "latest",
         "flot": "latest",
         "bootstrap": "3.*",
-        "font-awesome": "latest"
+        "font-awesome": "latest",
+        "evol.colorpicker": "latest"
     }
 }

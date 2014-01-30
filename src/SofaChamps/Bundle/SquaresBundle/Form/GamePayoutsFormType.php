@@ -14,6 +14,8 @@ class GamePayoutsFormType extends AbstractType
             ->add('payouts', 'collection', array(
                 'type' => 'sofachamps_squares_payout',
                 'allow_add' => true,
+                'by_reference' => false,
+                'prototype' => true,
             ))
         ;
     }

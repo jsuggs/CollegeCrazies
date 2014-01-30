@@ -1,0 +1,15 @@
+{% extends 'SofaChampsEmailBundle:Layout:base.html.twig' %}
+
+{% block content %}
+    <p>{{ fromUser.username }} has invited you to play <i>Sofachamps Squares</i>.</p>
+
+    <p>To accept the invitation, just <a href="{{ url('squares_join', {gameId: game.id, rid: user.id}) }}">click here to join.</a></p>
+
+    <dl>
+        <dt>Game Name</dt>
+        <dd>{{ game.name }}</dd>
+
+        <dt>Cost Per Square</dt>
+        <dd>${{ game.costPerSquare(true)|number_format(2, '.', ',') }}</dd>
+    </dl>
+{% endblock %}

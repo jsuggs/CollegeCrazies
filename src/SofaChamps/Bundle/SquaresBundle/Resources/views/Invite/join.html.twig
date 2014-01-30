@@ -1,0 +1,11 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Join</h2>
+
+    <p>
+        You can now see the game.<br />
+        <a href="{{ path('squares_game_view', {gameId: game.id}) }}" class="btn btn-lg btn-success">View Game</a>
+    </p>
+
+{% endblock %}

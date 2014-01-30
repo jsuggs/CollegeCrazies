@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\SquaresBundle\Entity\Game;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
+use SofaChamps\Bundle\SquaresBundle\Form\GameResultsFormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -43,7 +44,6 @@ class GameController extends BaseController
         return array(
             'game' => $game,
             'player' => $player,
-            'player_forms' => $this->getPlayerForms($game),
         );
     }
 
@@ -54,10 +54,13 @@ class GameController extends BaseController
      */
     public function newAction()
     {
+        $user = $this->getUser();
         $form = $this->getGameForm();
+        $game = $this->getGameManager()->createGame($user);
 
         return array(
             'form' => $form->createView(),
+            'game' => $game,
         );
     }
 
@@ -65,7 +68,7 @@ class GameController extends BaseController
      * @Route("/create", name="squares_game_create")
      * @Secure(roles="ROLE_USER")
      * @Method({"POST"})
-     * @Template
+     * @Template("SofaChampsSquaresBundle:Game:new.html.twig")
      */
     public function createAction()
     {
@@ -77,8 +80,9 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $this->getEntityManager()->flush();
+            $this->addMessage('success', 'Squares game created');
 
-            return $this->redirect($this->generateUrl('squares_game_edit', array(
+            return $this->redirect($this->generateUrl('squares_game_view', array(
                 'gameId' => $game->getId(),
             )));
         }
@@ -99,7 +103,7 @@ class GameController extends BaseController
      */
     public function editAction(Game $game)
     {
-        $form = $this->getGameForm($game);
+        $form = $this->getGameEditForm($game);
 
         return array(
             'form' => $form->createView(),
@@ -112,15 +116,19 @@ class GameController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
      * @Method({"POST"})
-     * @Template
+     * @Template("SofaChampsSquaresBundle:Game:edit.html.twig")
      */
     public function updateAction(Game $game)
     {
-        $form = $this->getGameForm($game);
+        $form = $this->getGameEditForm($game);
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
-            $this->getEntityManager()->flush();
+            $this->getEntityManager()->transactional(function ($em) {
+                // Ensure that the unique constraint is deferred
+                $em->getConnection()->exec('SET CONSTRAINTS uniq_squares_payouts_game_id_seq DEFERRED');
+            });
+            $this->addMessage('success', 'Squares game updated');
 
             return $this->redirect($this->generateUrl('squares_game_edit', array(
                 'gameId' => $game->getId(),
@@ -131,18 +139,19 @@ class GameController extends BaseController
 
         return array(
             'form' => $form->createView(),
+            'game' => $game,
         );
     }
 
     /**
-     * @Route("/claim/{gameId}/{playerId}/{row}/{col}", name="squares_square_claim")
+     * @Route("/claim/{gameId}/{row}/{col}", name="squares_square_claim")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
-     * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})
      * @Method({"POST"})
      */
-    public function claimSquareAction(Game $game, Player $player, $row, $col)
+    public function claimSquareAction(Game $game, $row, $col)
     {
+        $player = $this->findPlayer($this->getRequest()->request->get('playerId'));
         $square = $game->getSquare($row, $col);
         $success = $this->getGameManager()->claimSquare($player, $square);
         $this->getEntityManager()->flush();
@@ -203,7 +212,10 @@ class GameController extends BaseController
             $form->bind($this->getRequest());
 
             if ($form->isValid()) {
-                $this->getEntityManager()->flush();
+                $this->getEntityManager()->transactional(function ($em) {
+                    // Ensure that the unique constraint is deferred
+                    $em->getConnection()->exec('SET CONSTRAINTS uniq_squares_payouts_game_id_seq DEFERRED');
+                });
 
                 $this->addMessage('success', 'Payouts Updated');
 
@@ -221,13 +233,27 @@ class GameController extends BaseController
         );
     }
 
-    protected function getPlayerForms(Game $game)
+    /**
+     * @Route("/results/{gameId}", name="squares_results")
+     * @Secure(roles="ROLE_USER")
+     * @ParamConverter("game", class="SofaChampsSquaresBundle:Game", options={"id" = "gameId"})
+     * @Template
+     */
+    public function resultsAction(Game $game)
     {
-        $forms = array();
-        foreach ($game->getPlayers() as $player) {
-            $forms[$player->getId()] =  $this->getPlayerForm($player)->createView();
+        $form = $this->createForm(new GameResultsFormType(), $game);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                $this->getEntityManager()->flush();
+                $this->addMessage('success', 'Results updated');
+            }
         }
 
-        return $forms;
+        return array(
+            'game' => $game,
+            'form' => $form->createView(),
+        );
     }
 }

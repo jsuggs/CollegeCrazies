@@ -3,9 +3,113 @@
 {% block content %}
     <h2>Map</h2>
 
-    <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
-        {{ form_widget(form) }}
+    <p class="text-info">The map is what determines the values of the squares for the payouts.</p>
+    <button id="squares-map-randomize" type="button" class="btn btn-primary btn-lg">Randomize Map</button>
+    <hr />
 
-        <button type="submit" class="btn btn-primary btn-lg">Update Game</button>
+    <form action="{{ path('squares_map', {gameId: game.id}) }}" method="post">
+        <table class="table table-bordered squares-map">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>0 = {{ form_widget(form.row0) }}</th>
+                    <th>1 = {{ form_widget(form.row1) }}</th>
+                    <th>2 = {{ form_widget(form.row2) }}</th>
+                    <th>3 = {{ form_widget(form.row3) }}</th>
+                    <th>4 = {{ form_widget(form.row4) }}</th>
+                    <th>5 = {{ form_widget(form.row5) }}</th>
+                    <th>6 = {{ form_widget(form.row6) }}</th>
+                    <th>7 = {{ form_widget(form.row7) }}</th>
+                    <th>8 = {{ form_widget(form.row8) }}</th>
+                    <th>9 = {{ form_widget(form.row9) }}</th>
+                </tr>
+                <tr>
+                    <th>0 = {{ form_widget(form.col0) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>1 = {{ form_widget(form.col1) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>2 = {{ form_widget(form.col2) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>3 = {{ form_widget(form.col3) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>4 = {{ form_widget(form.col4) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>5 = {{ form_widget(form.col5) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>6 = {{ form_widget(form.col6) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>7 = {{ form_widget(form.col7) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>8 = {{ form_widget(form.col8) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>9 = {{ form_widget(form.col9) }}</th>
+                    {% for c in range(0, 9) %}
+                        <td>-</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-success btn-lg">Update Map</button>
+
+        {{ form_rest(form) }}
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            var shuffle = function (o) {
+                for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+                return o;
+            };
+
+            $('#squares-map-randomize').click(function(e) {
+                e.preventDefault();
+                var nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+                rows = shuffle(nums);
+                for (var i=0;i<rows.length;i++) { $("#game_map_row"+i).val(rows[i]); }
+                cols = shuffle(nums);
+                for (var i=0;i<cols.length;i++) { $("#game_map_col"+i).val(cols[i]); }
+            });
+        });
+    </script>
 {% endblock %}

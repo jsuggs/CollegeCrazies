@@ -1,0 +1,39 @@
+{% extends "SofaChampsSquaresBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Players <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">Return to game</a></small></h2>
+
+    <p class="text-info">These are the players</p>
+
+    <form action="{{ path('squares_players', {gameId: game.id}) }}" method="post">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <th>Color</th>
+                <th><span class="glyphicon glyphicon-tower"></span> Admin</th>
+            </tr>
+            {% for player in form.players %}
+                <tr>
+                    <td>{{ form_widget(player.name) }}</td>
+                    <td>{{ form_widget(player.color) }}</td>
+                    <td>{{ form_widget(player.admin) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <button type="submit" class="btn btn-success">Update Players</button>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function() {
+            $(".color-input").colorpicker({
+                showOn: 'both'
+            });
+        });
+    </script>
+{% endblock %}
