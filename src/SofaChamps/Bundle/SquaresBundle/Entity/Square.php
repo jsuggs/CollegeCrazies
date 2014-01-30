@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,29 +15,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="squares_squares"
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Square
 {
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="squares")
+     * @Serialize\Expose
      */
     protected $game;
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @Serialize\Expose
      */
     protected $row;
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @Serialize\Expose
      */
     protected $col;
 
     /**
      * @ORM\ManyToOne(targetEntity="Player", inversedBy="squares")
+     * @Serialize\Expose
      */
     protected $player;
 

@@ -23,6 +23,7 @@
         "sonata-project/core-bundle": "*",
         "jms/security-extra-bundle": "*",
         "jms/di-extra-bundle": "*",
+        "jms/serializer-bundle": "*",
         "friendsofsymfony/user-bundle": "*",
         "friendsofsymfony/facebook-bundle": "1.2.*",
         "monolog/monolog": "*",

@@ -41,7 +41,7 @@ class EmailWorker
         $text = $this->templating->render(sprintf('SofaChampsEmailBundle:%s.text.twig', $workload['templateName']), $workload['data']);
 
         $from = array_key_exists('from', $workload['data'])
-            ? $workload['from']
+            ? $workload['data']['from']
             : array('help@sofachamps.com' => 'SofaChamps');
 
         $message = \Swift_Message::newInstance()

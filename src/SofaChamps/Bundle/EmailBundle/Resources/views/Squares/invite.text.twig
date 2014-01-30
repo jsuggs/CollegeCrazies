@@ -1,0 +1,5 @@
+{{ fromUser.username }} has invited you to play Sofachamps Squares.
+
+To accept the invitation, just <a href="{{ url('squares_join', {gameId: game['id'], rid: fromUser['id']}) }}">click here to join.</a>
+ * Game Name: {{ game['name'] }}
+ * Cost Per Square: ${{ (game['cost_per_square']/100)|number_format(2, '.', ',') }}

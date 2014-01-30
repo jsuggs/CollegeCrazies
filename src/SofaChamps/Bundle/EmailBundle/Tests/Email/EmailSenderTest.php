@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class EmailSenderTest extends SofaChampsTest
 {
     protected $gearman;
+    protected $serializer;
     protected $logger;
     protected $sender;
 
@@ -18,9 +19,10 @@ class EmailSenderTest extends SofaChampsTest
         parent::setUp();
 
         $this->gearman = $this->buildMock('Mmoreram\GearmanBundle\Service\GearmanClient');
+        $this->serializer = $this->buildMock('JMS\Serializer\Serializer');
         $this->logger = $this->buildMock('Symfony\Component\HttpKernel\Log\LoggerInterface');
 
-        $this->sender = new EmailSender($this->gearman, $this->logger);
+        $this->sender = new EmailSender($this->gearman, $this->serializer, $this->logger);
     }
 
     public function testSendToEmail()
@@ -43,10 +45,16 @@ class EmailSenderTest extends SofaChampsTest
             'subjectLine' => $subjectLine,
             'data' => $data,
         );
+        $serializedData = uniqid();
+
+        $this->serializer->expects($this->once())
+            ->method('serialize')
+            ->with($payload, 'json')
+            ->will($this->returnValue($serializedData));
 
         $this->gearman->expects($this->once())
             ->method('doBackgroundJob')
-            ->with('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', json_encode($payload));
+            ->with('SofaChampsBundleEmailBundleEmailEmailSender~sendEmail', $serializedData);
 
         $this->sender->sendToEmail($email, $templateName, $subjectLine, $data);
     }

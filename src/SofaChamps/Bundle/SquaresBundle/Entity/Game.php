@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="squares_games"
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Game
 {
@@ -22,6 +24,7 @@ class Game
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_squares_game", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
@@ -32,22 +35,26 @@ class Game
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serialize\Expose
      */
     protected $name;
 
     /**
      * @ORM\Column
+     * @Serialize\Expose
      */
     protected $homeTeam;
 
     /**
      * @ORM\Column
+     * @Serialize\Expose
      */
     protected $awayTeam;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\Range(min=0, minMessage="Cost Per Square must be greater than 0")
+     * @Serialize\Expose
      */
     protected $costPerSquare;
 

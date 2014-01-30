@@ -72,6 +72,13 @@ jms_di_extra:
         all_bundles: true
         directories: ["%kernel.root_dir%/../src"]
 
+jms_serializer:
+    metadata:
+        directories:
+            fosuserbundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
 fos_user:
     db_driver: orm
     firewall_name: main
