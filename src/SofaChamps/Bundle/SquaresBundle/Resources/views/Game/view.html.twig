@@ -6,7 +6,7 @@
     {% if game.locked %}
         <p>The game is locked. Squares are locked. Good luck.</p>
     {% else %}
-        <p>Grab your squares!</p>
+        <p>Grab your squares! $<b class="text-success">{{ game.costPerSquare(true)|number_format(2, '.', ',') }}</b> each.</p>
         <p>Note: The numbers will be scrambled after the game is locked</p>
     {% endif %}
 
@@ -23,10 +23,10 @@
                 <tbody>
                     <tr>
                         <th></th>
-                        <th colspan=11>{{ game.homeTeam }}</th>
+                        <th colspan="11" style="text-align: center;">{{ game.homeTeam }}</th>
                     </tr>
                     <tr>
-                        <th rowspan=12>{{ game.awayTeam }}</th>
+                        <th rowspan="12" style="vertical-align: middle;">{{ game.awayTeam }}</th>
                     </tr>
                     <tr>
                         <th></th>
