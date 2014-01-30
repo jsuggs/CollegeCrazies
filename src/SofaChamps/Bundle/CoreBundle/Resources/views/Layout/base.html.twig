@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" xmlns:fb="http://www.facebook.com/2008/fbml">
+    {% block meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Sofa Champs">
+        <meta name="google-site-verification" content="Gy7Icmvvqs72mmj-zC1k5lAmlB-2XFCnuxoGvC-pGE8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+    {% block head %}
+        <title>SofaChamps{% block title '' %}</title>
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    {% endblock %}
+    {% block stylesheets %}
+        {% stylesheets
+            'css/main.less'
+            'components/jquery-ui-bootstrap/jquery.ui.theme.css'
+            filter='less,cssrewrite'
+            output='compiled/css/main.css'
+        %}
+            <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+<body>
+    {% block beforeContent '' %}
+    {% block mainContent '' %}
+    {% block afterContent '' %}
+</body>
+</html>
