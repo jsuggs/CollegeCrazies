@@ -1,0 +1,52 @@
+@import "../components/bootstrap/less/bootstrap.less";
+@icon-font-path: "/components/bootstrap/dist/fonts/";
+
+body {
+    padding-top: 30px;
+    background: url("/img/white_wall_hash.png") repeat scroll 0 0 transparent;
+}
+
+@theWidth: 500px;
+
+#logreg {
+    h2 {
+        border-bottom: 1px solid #999;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+    }
+    .footer {
+        border-top: 2px solid #888;
+        padding: 15px 5px;
+        margin-top: 15px;
+        .forgot-password {
+            margin-top: 15px;
+            display: block;
+        }
+    }
+    .carousel-inner {
+        margin: 0 auto;
+        width: @theWidth;
+    }
+    .login-errors {
+        padding: 5px 10px;
+        .border-top-radius( 5px );
+        .border-bottom-radius( 5px );
+        border: 1px solid darken(@state-danger-text, 10%);
+    }
+    .messages {
+        width: @theWidth;
+        margin: 0 auto;
+    }
+}
+
+
+.carousel {
+    margin-bottom: 60px;
+    .item {
+        background-color:#fff;
+        padding: 10px;
+        border: 1px solid #444;
+        .border-top-radius( 5px );
+        .border-bottom-radius( 5px );
+    }
+}
