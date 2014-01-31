@@ -14,6 +14,8 @@
     {% javascripts
         'components/jquery/jquery.js'
         'components/bootstrap/js/carousel.js'
+        'components/bootstrap/js/button.js'
+        'components/bootstrap/js/alert.js'
         output='compiled/js/login.js'
     %}
         <script src="{{ asset_url }}"></script>
@@ -31,6 +33,15 @@
 {% block mainContent %}
     <div class="container">
         <div id="logreg" class="carousel">
+            <div class="messages">
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
             <div class="carousel-inner">
                 <div class="item{% if showLogin %} active{% endif %}">
                     <h2>Login to SofaChamps</h2>
@@ -125,7 +136,7 @@
                         {{ form_widget(regForm._token) }}
                     </form>
                     <div class="footer">
-                        <a href="#signup" data-target="#logreg" data-slide-to="0" class="btn btn-info btn-sm">Click here to login</a>
+                        <a href="#signup" data-target="#logreg" data-slide-to="0" class="btn btn-info btn-sm">Already a member? Click here to login</a>
                     </div>
                 </div>
             </div>
