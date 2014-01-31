@@ -34,6 +34,11 @@
             <div class="carousel-inner" style="width: 500px;">
                 <div class="item{% if showLogin %} active{% endif %}">
                     <h2>Login to SofaChamps</h2>
+                    {% if error %}
+                        <p class="bg-danger">
+                            <strong>{{ error|trans }}</strong>
+                        </p>
+                    {% endif %}
                     <form action="{{ path("fos_user_security_check") }}" class="form" method="post" role="form">
                         <div class="input-group">
                             <span class="input-group-addon">
