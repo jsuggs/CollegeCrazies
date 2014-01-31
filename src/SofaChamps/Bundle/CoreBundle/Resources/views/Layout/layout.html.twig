@@ -4,6 +4,30 @@
     {% form_theme form 'SofaChampsCoreBundle::form_theme.html.twig' %}
 {% endif %}
 
+{% block meta %}
+    {{ parent() }}
+    <meta name="google-site-verification" content="Gy7Icmvvqs72mmj-zC1k5lAmlB-2XFCnuxoGvC-pGE8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+{% endblock %}
+
+{% block stylesheets %}
+    {% stylesheets
+        'css/main.less'
+        'components/jquery-ui-bootstrap/jquery.ui.theme.css'
+        filter='less,cssrewrite'
+        output='compiled/css/main.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+
 {% block beforeContent %}
     <script>
         function goLogIn(){

@@ -1,0 +1,130 @@
+{% extends "SofaChampsCoreBundle:Layout:base.html.twig" %}
+
+{% block stylesheets %}
+    {% stylesheets
+        'css/login.less'
+        filter='less,cssrewrite'
+        output='compiled/css/login.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}
+
+{% block afterContent %}
+    {% javascripts
+        'components/jquery/jquery.js'
+        'components/bootstrap/js/carousel.js'
+        output='compiled/js/login.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script type="text/javascript">
+        (function($) {
+            $('.carousel').carousel({
+                interval: false
+            });
+        })(jQuery);
+    </script>
+{% endblock %}
+
+{% block mainContent %}
+    {% set showLogin = false %}
+
+    <div class="container">
+        <div id="logreg" class="carousel">
+            <div class="carousel-inner" style="width: 500px;">
+                <div class="item{% if showLogin %} active{% endif %}">
+                    <h2 class="form-signin-heading">Login to SofaChamps</h2>
+                    <form action="{{ path("fos_user_security_check") }}" class="form" method="post" role="form">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </span>
+                            <input type="text" name="_username" class="form-control" placeholder="Email address" required autofocus>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            <input type="password" name="_password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <label class="checkbox">
+                            <input type="checkbox" name="_remember_me" value="on"> Remember me
+                        </label>
+                        <button class="btn btn-lg btn-success btn-block" type="submit" name="_submit">Sign in</button>
+                    </form>
+                    <div class="footer">
+                        <a href="#signup" data-target="#logreg" data-slide-to="1">Already a member?</a>
+                        <p class="forgot-password"><a href="">Forgot password?</a></p>
+                    </div>
+                </div>
+                <div class="item{% if not showLogin %} active{% endif %}">
+                    <h2 class="form-signin-heading">Signup on SofaChamps</h2>
+                    {{ form_errors(regForm) }}
+                    <form class="form form-horizontal" action="{{ path('fos_user_registration_register') }}" method="post" role="form">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </span>
+                            {{ form_widget(regForm.username, {attr: {class:"form-control", required:true, placeholder:"Username"}}) }}
+                            {{ form_errors(regForm.username) }}
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </span>
+                            {{ form_widget(regForm.email, {attr: {class:"form-control", required:true, placeholder:"Email"}}) }}
+                            {{ form_errors(regForm.email) }}
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            {{ form_widget(regForm.plainPassword.first, {attr: {class:"form-control", required:true, placeholder:"Password"}}) }}
+                            {{ form_errors(regForm.plainPassword.first) }}
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </span>
+                            {{ form_widget(regForm.plainPassword.second, {attr: {class:"form-control", required:true, placeholder:"Password Again"}}) }}
+                            {{ form_errors(regForm.plainPassword.second) }}
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            {{ form_label(regForm.firstName, 'First Name', {label_attr: {class: "col-sm-3 control-label"}}) }}
+                            <div class="col-sm-9">
+                                {{ form_widget(regForm.firstName, {attr: {class:"form-control", placeholder:"First Name"}}) }}
+                                {{ form_errors(regForm.firstName) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(regForm.lastName, 'Last Name', {label_attr: {class: "col-sm-3 control-label"}}) }}
+                            <div class="col-sm-9">
+                                {{ form_widget(regForm.lastName, {attr: {class:"form-control", placeholder:"Last Name"}}) }}
+                                {{ form_errors(regForm.lastName) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(regForm.timezone, 'Timezone', {label_attr: {class: "col-sm-3 control-label"}}) }}
+                            <div class="col-sm-9">
+                                {{ form_widget(regForm.timezone, {attr: {class:"form-control"}}) }}
+                                {{ form_errors(regForm.timezone) }}
+                            </div>
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                        {{ form_widget(regForm._token) }}
+                    </form>
+                    <div class="footer">
+                        <a href="#signup" data-target="#logreg" data-slide-to="0">Click here to login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

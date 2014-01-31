@@ -46,6 +46,6 @@ class SecurityController extends BaseController
 
     protected function renderLogin(array $data)
     {
-        return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Security:login.html.twig', $data);
+        return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Login:login.html.twig', $data);
     }
 }
