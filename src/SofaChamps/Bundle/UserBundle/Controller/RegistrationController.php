@@ -58,6 +58,7 @@ class RegistrationController extends BaseController
 
         return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Login:login.html.twig', array(
             'regForm' => $form->createView(),
+            'showLogin' => false,
         ));
     }
 }

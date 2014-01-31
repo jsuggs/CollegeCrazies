@@ -36,16 +36,12 @@ class SecurityController extends BaseController
         $regForm = $this->container->get('fos_user.registration.form.factory')->createForm();
         $regForm->setData(new User());
 
-        return $this->renderLogin(array(
+        return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Login:login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
-            'csrf_token'    => $csrfToken,
-            'regForm'       => $regForm->createView(),
+            'error' => $error,
+            'csrf_token' => $csrfToken,
+            'regForm' => $regForm->createView(),
+            'showLogin' => true,
         ));
-    }
-
-    protected function renderLogin(array $data)
-    {
-        return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Login:login.html.twig', $data);
     }
 }

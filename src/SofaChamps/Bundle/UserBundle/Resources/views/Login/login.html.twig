@@ -29,13 +29,11 @@
 {% endblock %}
 
 {% block mainContent %}
-    {% set showLogin = false %}
-
     <div class="container">
         <div id="logreg" class="carousel">
             <div class="carousel-inner" style="width: 500px;">
                 <div class="item{% if showLogin %} active{% endif %}">
-                    <h2 class="form-signin-heading">Login to SofaChamps</h2>
+                    <h2>Login to SofaChamps</h2>
                     <form action="{{ path("fos_user_security_check") }}" class="form" method="post" role="form">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -55,12 +53,13 @@
                         <button class="btn btn-lg btn-success btn-block" type="submit" name="_submit">Sign in</button>
                     </form>
                     <div class="footer">
-                        <a href="#signup" data-target="#logreg" data-slide-to="1">Already a member?</a>
-                        <p class="forgot-password"><a href="">Forgot password?</a></p>
+                        <a href="#signup" data-target="#logreg" data-slide-to="1" class="btn btn-sm btn-info">Not a member? Signup!</a>
+                        <br>
+                        <a href="{{ path('fos_user_resetting_request') }}" class="forgot-password">Forgot password?</a>
                     </div>
                 </div>
                 <div class="item{% if not showLogin %} active{% endif %}">
-                    <h2 class="form-signin-heading">Signup on SofaChamps</h2>
+                    <h2>Signup on SofaChamps</h2>
                     {{ form_errors(regForm) }}
                     <form class="form form-horizontal" action="{{ path('fos_user_registration_register') }}" method="post" role="form">
                         <div class="input-group">
@@ -121,7 +120,7 @@
                         {{ form_widget(regForm._token) }}
                     </form>
                     <div class="footer">
-                        <a href="#signup" data-target="#logreg" data-slide-to="0">Click here to login</a>
+                        <a href="#signup" data-target="#logreg" data-slide-to="0" class="btn btn-info btn-sm">Click here to login</a>
                     </div>
                 </div>
             </div>
