@@ -21,7 +21,18 @@ body {
             display: block;
         }
     }
+    .carousel-inner {
+        margin: 0 auto;
+        width: 500px;
+    }
+    .login-errors {
+        padding: 5px 10px;
+        .border-top-radius( 5px );
+        .border-bottom-radius( 5px );
+        border: 1px solid darken(@state-danger-text, 10%);
+    }
 }
+
 
 .carousel {
     margin-bottom: 60px;
@@ -32,8 +43,4 @@ body {
         .border-top-radius( 5px );
         .border-bottom-radius( 5px );
     }
-}
-
-.carousel-inner {
-    margin: 0 auto;
 }

@@ -38,7 +38,7 @@ class SecurityController extends BaseController
 
         return $this->container->get('templating')->renderResponse('SofaChampsUserBundle:Login:login.html.twig', array(
             'last_username' => $lastUsername,
-            'error' => $error,
+            'loginError' => $error,
             'csrf_token' => $csrfToken,
             'regForm' => $regForm->createView(),
             'showLogin' => true,

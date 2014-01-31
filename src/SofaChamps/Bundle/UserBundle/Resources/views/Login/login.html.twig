@@ -31,12 +31,12 @@
 {% block mainContent %}
     <div class="container">
         <div id="logreg" class="carousel">
-            <div class="carousel-inner" style="width: 500px;">
+            <div class="carousel-inner">
                 <div class="item{% if showLogin %} active{% endif %}">
                     <h2>Login to SofaChamps</h2>
-                    {% if error %}
-                        <p class="bg-danger">
-                            <strong>{{ error|trans }}</strong>
+                    {% if loginError|default(null) %}
+                        <p class="login-errors bg-danger">
+                            <strong>{{ loginError|trans }}</strong>
                         </p>
                     {% endif %}
                     <form action="{{ path("fos_user_security_check") }}" class="form" method="post" role="form">
