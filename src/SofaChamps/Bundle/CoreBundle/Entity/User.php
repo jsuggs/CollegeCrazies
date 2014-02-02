@@ -305,6 +305,11 @@ class User extends BaseUser
         return $this->squaresGames;
     }
 
+    public function getSquaresPlayers()
+    {
+        return $this->squaresPlayers;
+    }
+
     public function __toString()
     {
         return $this->username;

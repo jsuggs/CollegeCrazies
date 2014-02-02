@@ -24,8 +24,11 @@ class GameController extends BaseController
      */
     public function listAction()
     {
+        $games = $this->getUser()->getSquaresPlayers()->map(function (Player $player) {
+            return $player->getGame();
+        });
         return array(
-            'games' => $this->getUser()->getSquaresGames(),
+            'games' => $games,
         );
     }
 
