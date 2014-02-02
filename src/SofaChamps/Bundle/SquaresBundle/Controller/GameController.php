@@ -43,10 +43,12 @@ class GameController extends BaseController
     {
         $user = $this->getUser();
         $player = $game->getPlayerForUser($user);
+        $playerForm = $this->getPlayerForm($player);
 
         return array(
             'game' => $game,
             'player' => $player,
+            'playerForm' => $playerForm->createView(),
         );
     }
 

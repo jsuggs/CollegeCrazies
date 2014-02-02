@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\SquaresBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -61,6 +62,7 @@ class PlayerController extends BaseController
      * @Route("/update/{playerId}", name="squares_player_update")
      * @Secure(roles="ROLE_USER")
      * @ParamConverter("player", class="SofaChampsSquaresBundle:Player", options={"id" = "playerId"})
+     * @SecureParam(name="player", permissions="EDIT")
      * @Method({"POST"})
      */
     public function updateAction(Player $player)
@@ -68,24 +70,14 @@ class PlayerController extends BaseController
         $form = $this->getPlayerForm($player);
         $form->bind($this->getRequest());
         if ($form->isValid()) {
-            $success = true;
             $this->getEntityManager()->flush();
+            $this->addMessage('success', 'Player Updated');
         } else {
-            $success = false;
+            $this->addMessage('danger', 'Error updating player');
         }
 
-        return new JsonResponse(array(
-            'success' => $success,
-        ));
-    }
-
-    protected function getPlayerForms(array $players)
-    {
-        $forms = array();
-        foreach ($players as $player) {
-            $forms[$player->getId()] =  $this->getPlayerForm($player)->createView();
-        }
-
-        return $forms;
+        return $this->redirect($this->generateUrl('squares_game_view', array(
+            'gameId' => $player->getGame()->getId(),
+        )));
     }
 }

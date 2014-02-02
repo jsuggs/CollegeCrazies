@@ -28,6 +28,14 @@
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
+    <script>
+        $(document).ready(function() {
+            $(".color-input").colorpicker({
+                showOn: 'both'
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block stylesheets %}
