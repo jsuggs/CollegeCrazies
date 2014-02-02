@@ -47,6 +47,9 @@
             </table>
         </div>
         <div class="col-md-4">
+            <h2>My Info</h2>
+            {% include "SofaChampsSquaresBundle:Player:edit.html.twig" with {form: playerForm} %}
+
             <h2>Players{% if is_granted('EDIT', game) %} <small><a href="{{ path('squares_players', {gameId: game.id}) }}">Edit the players</a></small>{% endif %}</h2>
             <table class="table">
                 <thead>

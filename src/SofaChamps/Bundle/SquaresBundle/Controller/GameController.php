@@ -24,8 +24,11 @@ class GameController extends BaseController
      */
     public function listAction()
     {
+        $games = $this->getUser()->getSquaresPlayers()->map(function (Player $player) {
+            return $player->getGame();
+        });
         return array(
-            'games' => $this->getUser()->getSquaresGames(),
+            'games' => $games,
         );
     }
 
@@ -40,10 +43,12 @@ class GameController extends BaseController
     {
         $user = $this->getUser();
         $player = $game->getPlayerForUser($user);
+        $playerForm = $this->getPlayerForm($player);
 
         return array(
             'game' => $game,
             'player' => $player,
+            'playerForm' => $playerForm->createView(),
         );
     }
 
