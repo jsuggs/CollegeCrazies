@@ -20,4 +20,9 @@ class SofaChampsWebTest extends WebTestCase
     {
         return $this->faker;
     }
+
+    protected function getEntityManager()
+    {
+        return $this->getContainer()->get('doctrine.orm.default_entity_manager');
+    }
 }

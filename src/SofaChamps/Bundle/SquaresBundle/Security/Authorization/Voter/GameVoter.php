@@ -18,7 +18,7 @@ class GameVoter implements VoterInterface
 {
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, array('EDIT', 'VIEW'));
+        return in_array($attribute, array('EDIT', 'VIEW', 'CLAIM', 'PROXY_CLAIM'));
     }
 
     public function supportsClass($class)
@@ -42,7 +42,9 @@ class GameVoter implements VoterInterface
 
             if ($attribute === 'VIEW') {
                 return $this->canUserViewGame($user, $object);
-            } elseif ($attribute === 'EDIT') {
+            } elseif ($attribute === 'CLAIM') {
+                return $this->canUserClaimSquare($user, $object);
+            } elseif (in_array($attribute,  array('EDIT', 'PROXY_CLAIM'))) {
                 return $this->canUserEditGame($user, $object);
             }
 
@@ -59,9 +61,20 @@ class GameVoter implements VoterInterface
         return VoterInterface::ACCESS_GRANTED;
     }
 
+    protected function canUserClaimSquare(User $user, Game $game)
+    {
+        $player = $game->getPlayerForUser($user);
+
+        return !$game->isLocked() && $player
+            ? VoterInterface::ACCESS_GRANTED
+            : VoterInterface::ACCESS_DENIED;
+    }
+
     protected function canUserEditGame(User $user, Game $game)
     {
-        return !$game->isLocked() || $game->getUser() == $user
+        $player = $game->getPlayerForUser($user);
+
+        return !$game->isLocked() && $player && $player->isAdmin()
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
     }

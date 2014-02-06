@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\SquaresBundle\Entity\Player;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -42,8 +43,24 @@ class PlayerFormType extends AbstractType
             ->add('color', 'text', array(
                 'label' => 'Color',
                 'max_length' => 6,
+                'attr' => array('class' => 'color-input'),
+            ))
+            ->add('admin', 'checkbox', array(
+                'label' => 'Admin',
+                'required' => false,
             ))
         ;
+
+        $builder->get('color')->addViewTransformer(new CallbackTransformer(
+            function ($data) {
+                return '#' . $data;
+            },
+            function ($data) {
+                return $data{0} == '#'
+                    ? substr($data, 1)
+                    : $data;
+            }
+        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

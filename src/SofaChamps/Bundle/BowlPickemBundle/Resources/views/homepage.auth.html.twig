@@ -15,7 +15,7 @@
                 <ul class="unstyled">
                 {% for pickset in user.picksetsForSeason(season) %}
                     <li>
-                        <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
+                        <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
                         {% if pickset.leagues %}
                             <ul class="unstyled">
                             {% for league in pickset.leagues %}
@@ -29,13 +29,13 @@
                 <hr />
                 <p>
                     <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-primary">Manage Picksets</a>
-                    {% if not picks_locked %}
+                    {% if not picks_locked(season) %}
                         or
                         <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
                     {% endif %}
                 </p>
             {% else %}
-                {% if not picks_locked %}
+                {% if not picks_locked(season) %}
                     <h2>You don't have any picksets <small>what a shame</small></h2>
                     <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Pickset Now!</a>
                 {% endif %}
@@ -53,10 +53,10 @@
                     </li>
                 {% endfor %}
                 </ul>
-            {% elseif not picks_locked %}
+            {% elseif not picks_locked(season) %}
                 <h2>You aren't in any leagues, join the fun</h2>
             {% endif %}
-            {% if not picks_locked %}
+            {% if not picks_locked(season) %}
                 <hr />
                 <p>
                     <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Join or create a league</a>
@@ -64,7 +64,7 @@
             {% endif %}
         </div>
     </div>
-    {% if picks_locked %}
+    {% if picks_locked(season) %}
         <div>
             {% if user.leaguesForSeason(season)|length %}
                 <h2>Picks are locked</h2>

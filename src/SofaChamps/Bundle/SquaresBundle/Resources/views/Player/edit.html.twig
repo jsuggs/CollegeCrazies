@@ -1,5 +1,16 @@
-<form action="{{ path('squares_player_update', {playerId: player.id}) }}" method="post">
-    {{ form_widget(form) }}
+<form action="{{ path('squares_player_update', {playerId: player.id}) }}" method="post" class="form-inline squares-player-update" role="form">
+    <div class="form-group">
+        {{ form_label(form.name, 'Name', {label_attr: {class: 'sr-only'}}) }}
+        {{ form_widget(form.name) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.color) }}
+    </div>
 
-    <button>Update Player</button>
+    <div{% if not is_granted('EDIT', game) %} class="hidden"{% endif %}>
+        {{ form_widget(form.admin) }}
+    </div>
+
+    <button class="btn btn-sm">Update</button>
+    {{ form_rest(form) }}
 </form>

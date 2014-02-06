@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\FacebookBundle\FOSFacebookBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
@@ -30,10 +31,11 @@ class AppKernel extends Kernel
             new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Vlabs\MediaBundle\VlabsMediaBundle(),
+            new Liip\DoctrineCacheBundle\LiipDoctrineCacheBundle(),
+            new Mmoreram\GearmanBundle\GearmanBundle(),
             new SofaChamps\Bundle\BowlPickemBundle\SofaChampsBowlPickemBundle(),
             new SofaChamps\Bundle\EmailBundle\SofaChampsEmailBundle(),
             new SofaChamps\Bundle\UserBundle\SofaChampsUserBundle(),
-            new SofaChamps\Bundle\SecurityBundle\SofaChampsSecurityBundle(),
             new SofaChamps\Bundle\SuperBowlChallengeBundle\SofaChampsSuperBowlChallengeBundle(),
             new SofaChamps\Bundle\CoreBundle\SofaChampsCoreBundle(),
             new SofaChamps\Bundle\NFLBundle\SofaChampsNFLBundle(),
@@ -42,6 +44,7 @@ class AppKernel extends Kernel
             new SofaChamps\Bundle\BracketBundle\SofaChampsBracketBundle(),
             new SofaChamps\Bundle\MarchMadnessBundle\SofaChampsMarchMadnessBundle(),
             new SofaChamps\Bundle\NCAABundle\SofaChampsNCAABundle(),
+            new SofaChamps\Bundle\MaintenanceBundle\SofaChampsMaintenanceBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

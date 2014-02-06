@@ -3,9 +3,14 @@
 {% block content %}
     <h2>Payouts <small><a href="{{ path('squares_game_view', {gameId: game.id}) }}">view game</a></small></h2>
 
+    <p><a href="{{ path('squares_results', {gameId: game.id}) }}" class="btn btn-info">Edit the results</a></p>
+
+    <p class="text-primary">Note: You can drag and drop the results to change their order</p>
+
     <form action="{{ path('squares_payouts', {gameId: game.id}) }}" method="post">
-        {{ form_widget(form) }}
+        {% include "SofaChampsSquaresBundle:Game:_payouts_form.html.twig" %}
 
         <button type="submit" class="btn btn-primary btn-lg">Update Payouts</button>
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

@@ -2,4 +2,14 @@
 
 {% block content %}
     <h1>Squares</h1>
+    <p>The game that you've always played...only better</p>
+
+    <a href="{{ path('squares_game_new') }}" class="btn btn-success button-xl">New Squares Game</a>
+
+    <hr />
+
+    <h2>How it looks/works</h2>
+    <p>
+        <img src="{{ asset('img/squares/game-view.png') }}" width="400px">
+    </p>
 {% endblock %}

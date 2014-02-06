@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Service;
+namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Entity;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;

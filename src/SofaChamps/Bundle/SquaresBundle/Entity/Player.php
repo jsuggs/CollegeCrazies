@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\SquaresBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="squares_players"
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Player
 {
@@ -22,6 +24,7 @@ class Player
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_squares_players", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
@@ -37,30 +40,38 @@ class Player
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Serialize\Expose
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", length=6)
      * @Assert\Regex(pattern="/^[0-f]{6}$/", message="Must be a valid hex color")
+     * @Serialize\Expose
      */
     protected $color;
 
     /**
      * @ORM\OneToMany(targetEntity="Square", mappedBy="player")
      */
-    protected $squaresSquares;
+    protected $squares;
 
     /**
      * @ORM\OneToMany(targetEntity="Payout", mappedBy="winner")
      */
     protected $winners;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default"=false})
+     * @Serialize\Expose
+     */
+    protected $admin = false;
+
     public function __construct(User $user, Game $game)
     {
         $this->user = $user;
         $this->game = $game;
-        $this->squaresSquares = new ArrayCollection();
+        $this->squares = new ArrayCollection();
     }
 
     public function getId()
@@ -96,5 +107,20 @@ class Player
     public function getColor()
     {
         return $this->color;
+    }
+
+    public function setAdmin($admin)
+    {
+        $this->admin = (bool) $admin;
+    }
+
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
+
+    public function getSquares()
+    {
+        return $this->squares;
     }
 }

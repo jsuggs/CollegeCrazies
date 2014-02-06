@@ -1,0 +1,32 @@
+{% macro payout_row(payout) %}
+    <tr>
+        <td class="hidden">{{ form_widget(payout.seq, {attr: {class: "sequence"}}) }}</td>
+        <td>{{ form_widget(payout.description) }}</td>
+        <td>{{ form_widget(payout.percentage, {attr: {class: "percentage"}}) }}</td>
+    </tr>
+{% endmacro %}
+
+{% do form.payouts.setRendered %}
+
+<table class="table squares-payouts" data-prototype="{{ _self.payout_row(form.payouts.vars.prototype)|e }}">
+    <thead>
+        <tr>
+            <th class="hidden">Sequence</th>
+            <th>Description</th>
+            <th>Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payout in form.payouts %}
+            {{ _self.payout_row(payout) }}
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <th class="hidden"></th>
+        <th></th>
+        <th><span id="squares-payout-percentages">{{ game.payoutPercentages }}</span></th>
+    </tfoot>
+</table>
+
+<button type="buton" id="squares-payout-add" class="btn btn-success btn-xs">Add payout</button>
+<hr />

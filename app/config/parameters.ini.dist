@@ -18,3 +18,4 @@
     facebook.app_id   = 1234567890
     facebook.secret   = "abc123"
     fos_facebook.channel.expire = 9000
+    sofachamps.maintenance.file_path = %kernel.root_dir%"/maintenance.lock"

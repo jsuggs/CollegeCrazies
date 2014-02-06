@@ -74,9 +74,9 @@ class BaseController extends CoreController
         $em->persist($user);
     }
 
-    protected function picksLocked()
+    protected function picksLocked($season)
     {
-        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked();
+        return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked($season);
     }
 
     protected function getLeagueManager()
@@ -102,5 +102,24 @@ class BaseController extends CoreController
     protected function getCurrentSeason()
     {
         return $this->getSeasonManager()->getCurrentSeason();
+    }
+
+    protected function writeLeagueJoinCookie(League $league)
+    {
+        $response = $this->getResponse();
+        $this->setCookie($response, 'bp_league_join', $league->getId());
+        $response->sendHeaders();
+    }
+
+    protected function getLeagueJoinCookie()
+    {
+        $request = $this->getRequest()->cookies()->get('bp_league_join');
+    }
+
+    protected function deleteLeagueJoinCookie()
+    {
+        $response = $this->getResponse();
+        $response->headers->clearCookie('bp_league_join');
+        $response->sendHeaders();
     }
 }

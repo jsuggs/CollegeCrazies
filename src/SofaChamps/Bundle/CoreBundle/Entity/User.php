@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use FOS\UserBundle\Model\User as BaseUser;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
@@ -20,6 +21,7 @@ use Vlabs\MediaBundle\Annotation\Vlabs;
  *          @ORM\UniqueConstraint(name="uniq_user_profile_img_id", columns={"profile_img_id"}),
  *      }
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class User extends BaseUser
 {
@@ -28,6 +30,7 @@ class User extends BaseUser
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_user", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
@@ -300,6 +303,11 @@ class User extends BaseUser
     public function getSquaresGames()
     {
         return $this->squaresGames;
+    }
+
+    public function getSquaresPlayers()
+    {
+        return $this->squaresPlayers;
     }
 
     public function __toString()

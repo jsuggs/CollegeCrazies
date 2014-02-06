@@ -15,10 +15,11 @@ class SofaChampsTest extends \PHPUnit_Framework_TestCase
         $this->faker = Factory::create();
     }
 
-    public function buildMock($class)
+    public function buildMock($class, array $methods = array())
     {
         return $this->getMockBuilder($class)
             ->disableOriginalConstructor()
+            ->setMethods($methods)
             ->getMock();
     }
 

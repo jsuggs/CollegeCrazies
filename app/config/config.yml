@@ -83,6 +83,13 @@ jms_di_extra:
         all_bundles: true
         directories: ["%kernel.root_dir%/../src"]
 
+jms_serializer:
+    metadata:
+        directories:
+            fosuserbundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/serializer/FOSUserBundle"
+
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -111,3 +118,31 @@ fos_facebook:
     secret: %facebook.secret%
     cookie: true
     permissions: [email]
+
+liip_doctrine_cache:
+    namespaces:
+        gearman:
+            type: file_system
+
+gearman:
+    bundles:
+        email:
+            name: SofaChampsEmailBundle
+            active: true
+            ignore:
+                - Tests
+        bowl-picket:
+            name: SofaChampsBowlPickemBundle
+            active: true
+            include:
+                - Event
+            ignore:
+                - Tests
+        core:
+            name: SofaChampsCoreBundle
+            ignore:
+                - Tests
+    servers:
+        localhost:
+            host: 127.0.0.1
+            port: 4730
