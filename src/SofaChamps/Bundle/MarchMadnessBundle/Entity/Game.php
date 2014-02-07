@@ -38,7 +38,7 @@ class Game extends AbstractBracketGame
     /**
      * @ORM\OneToOne(targetEntity="Game")
      */
-    protected $children;
+    protected $child;
 
     /**
      * @ORM\OneToMany(targetEntity="BracketPick", mappedBy="game", fetch="EXTRA_LAZY")

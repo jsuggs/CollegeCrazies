@@ -12,6 +12,7 @@ CREATE TABLE mm_games (
     id INT NOT NULL
   , season INT DEFAULT NULL
   , parent_id INT DEFAULT NULL
+  , child_id INT DEFAULT NULL
   , homeTeamScore INT DEFAULT NULL
   , awayTeamScore INT DEFAULT NULL
   , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
@@ -30,7 +31,6 @@ EOF;
 CREATE TABLE mm_user_brackets (
     id INT NOT NULL
   , user_id INT DEFAULT NULL
-  , name VARCHAR(255) NOT NULL
   , PRIMARY KEY(id)
 )
 SQL;
@@ -39,7 +39,6 @@ CREATE TABLE mm_picks (
     id INT NOT NULL
   , bracket_id INT DEFAULT NULL
   , game_id INT DEFAULT NULL
-  , name VARCHAR(255) NOT NULL
   , homeTeamScore INT DEFAULT NULL
   , awayTeamScore INT DEFAULT NULL
   , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
@@ -116,8 +115,22 @@ SQL;
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_CONFERENCES_CONFERENCE FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) ON DELETE CASCADE");
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_TEAMS_TEAM FOREIGN KEY (team) REFERENCES ncaa_teams (id) ON DELETE CASCADE");
         $this->addSql('CREATE TABLE ncaa_conference_divisions (abbr VARCHAR(5) NOT NULL, conference VARCHAR(5) DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(abbr))');
-        $this->addSql('CREATE INDEX IDX_5D00B5F3911533C8 ON ncaa_conference_divisions (conference)');
-        $this->addSql('ALTER TABLE ncaa_conference_divisions ADD CONSTRAINT FK_5D00B5F3911533C8 FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE bp_expert_picks ADD CONSTRAINT FK_5CB1286B296CD8AE FOREIGN KEY (team_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE games ADD CONSTRAINT FK_FF232B31EFE66F0C FOREIGN KEY (homeTeam_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE games ADD CONSTRAINT FK_FF232B316DF247E5 FOREIGN KEY (awayTeam_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE picks ADD CONSTRAINT FK_7C4A48C8296CD8AE FOREIGN KEY (team_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE predictions ADD CONSTRAINT FK_8E87BCE65DFCD4B8 FOREIGN KEY (winner_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128F0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128727ACA70 FOREIGN KEY (parent_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128DD62C21B FOREIGN KEY (child_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_742128F0E45BA9 ON mm_games (season)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_742128727ACA70 ON mm_games (parent_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_742128DD62C21B ON mm_games (child_id)');
+        $this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D1E48FD905 FOREIGN KEY (game_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE ncaa_conference_divisions ADD CONSTRAINT FK_5D00B5F3911533C8 FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_AE8F1CC9C4E0A61F FOREIGN KEY (team) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_AE8F1CC910174714 FOREIGN KEY (division) REFERENCES ncaa_conference_divisions (abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_AE8F1CC910174714 ON ncaaf_conference_members (division)');
     }
 
     public function down(Schema $schema)
