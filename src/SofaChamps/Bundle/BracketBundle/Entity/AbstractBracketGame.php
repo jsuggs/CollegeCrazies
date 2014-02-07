@@ -15,32 +15,21 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
 {
     protected $bracket;
     protected $parent;
-    protected $children;
+    protected $child;
 
     /**
      * ORM\Column(type="integer")
      */
     protected $season;
 
-    /**
-     * ORM\Column(type="integer")
-     */
-    protected $round;
-
-    public function __construct(AbstractBracket $bracket, $round, BracketGameInterface $parent = null)
+    public function __construct(BracketInterface $bracket, BracketGameInterface $parent = null)
     {
         $this->bracket = $bracket;
         $bracket->addGame($this);
-        $this->round = $round;
         if ($parent) {
             $this->parent = $parent;
         }
         $this->children = new ArrayCollection();
-    }
-
-    public function getRound()
-    {
-        return $this->round;
     }
 
     public function getBracket()
@@ -58,15 +47,13 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
         return $this->parent;
     }
 
-    public function addChild(BracketGameInterface $child)
+    public function setChild(BracketGameInterface $child)
     {
-        if (!$this->children->contains($child)) {
-            $this->children->add($child);
-        }
+        $this->child = $child;
     }
 
-    public function getChildren()
+    public function getChild()
     {
-        return $this->children;
+        return $this->child;
     }
 }

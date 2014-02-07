@@ -56,10 +56,10 @@ abstract class AbstractBracketManager
         return $games;
     }
 
-    public function createBracketGame(AbstractBracket $bracket, $round, AbstractBracketGame $parent = null)
+    public function createBracketGame(AbstractBracket $bracket, AbstractBracketGame $parent = null)
     {
         $gameClass = $this->getGameClass();
-        $game = new $gameClass($bracket, $round, $parent);
+        $game = new $gameClass($bracket, $parent);
         $game->setGameDate(new \DateTime());
         $game->setLocation('TBD');
         $bracket->addGame($game);
