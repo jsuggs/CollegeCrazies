@@ -66,7 +66,7 @@ class ImportDataCommand extends ContainerAwareCommand
         $conferenceDivisionDataFile = $this->dataDirectory . '/conference_divisions.csv';
         $this->conn->beginTransaction();
         $this->conn->exec('LOCK TABLE ncaa_conference_divisions IN EXCLUSIVE MODE');
-        $this->conn->exec('TRUNCATE ncaa_conference_divisions');
+        $this->conn->exec('TRUNCATE ncaa_conference_divisions CASCADE');
         $this->conn->exec(sprintf("COPY ncaa_conference_divisions FROM '%s' CSV HEADER", $conferenceDivisionDataFile));
         $this->conn->commit();
     }

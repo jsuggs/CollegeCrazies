@@ -3,8 +3,10 @@
 namespace SofaChamps\Bundle\MarchMadnessBundle\Bracket;
 
 use JMS\DiExtraBundle\Annotation as DI;
-use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\BracketBundle\Bracket\AbstractBracketManager;
+use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
+use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
+use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 
 /**
  * @DI\Service("sofachamps.mm.bracket_manager")
@@ -23,5 +25,9 @@ class BracketManager extends AbstractBracketManager
         $this->om->persist($bracket);
 
         return $bracket;
+    }
+
+    public function createBracketGames(AbstractBracket $bracket)
+    {
     }
 }

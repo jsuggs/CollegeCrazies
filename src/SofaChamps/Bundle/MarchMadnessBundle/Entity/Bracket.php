@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\MarchMadnessBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,7 +19,7 @@ class Bracket extends AbstractBracket
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="smallint")
      */
     protected $season;
 
@@ -27,11 +28,24 @@ class Bracket extends AbstractBracket
      */
     protected $games;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Region", mappedBy="bracket")
+     */
+    protected $regions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="BracketTeam", mappedBy="bracket")
+     */
+    protected $teams;
+
     public function __construct($season)
     {
         parent::__construct();
 
         $this->season = $season;
+        $this->games = new ArrayCollection();
+        $this->regions = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getSeason()

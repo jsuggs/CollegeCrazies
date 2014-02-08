@@ -22,40 +22,6 @@ abstract class AbstractBracketManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createBracketGames(AbstractBracket $bracket, $rounds)
-    {
-        $bracketGames = array();
-        $currentRound = 1;
-
-        // Start with the championship game
-        $bracketGames[0][] = $this->createBracketGame($bracket, $currentRound);
-
-        // Create the games
-        while ($currentRound <= $rounds) {
-            $parentRound = $currentRound - 1;
-            $gamesNeedingParents = $bracketGames[$parentRound];
-            foreach ($gamesNeedingParents as $parent) {
-                foreach ($this->createParentGames($bracket, $parent, $currentRound) as $game) {
-                    $bracketGames[$currentRound][] = $game;
-                }
-            }
-
-            $currentRound++;
-        }
-
-        return $bracket;
-    }
-
-    public function createParentGames(AbstractBracket $bracket, AbstractBracketGame $game, $round, $numGames = 2)
-    {
-        $games = array();
-        for ($x = 0; $x < $numGames; $x++) {
-            $games[] = $this->createBracketGame($bracket, $round, $game);
-        }
-
-        return $games;
-    }
-
     public function createBracketGame(AbstractBracket $bracket, AbstractBracketGame $parent = null)
     {
         $gameClass = $this->getGameClass();

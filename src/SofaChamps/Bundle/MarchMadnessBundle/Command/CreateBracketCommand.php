@@ -29,7 +29,7 @@ class CreateBracketCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $bracket = $this->bracketManager->createBracket($input->getArgument('season'));
-        $this->bracketManager->createBracketGames($bracket, 5);
+        $this->bracketManager->createBracketGames($bracket);
         $this->em->flush();
     }
 }

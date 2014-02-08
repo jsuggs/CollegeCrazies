@@ -4,7 +4,6 @@ namespace SofaChamps\Bundle\MarchMadnessBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
-use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
 
 /**
  * A BracketGame
@@ -35,8 +34,7 @@ class BracketPick extends AbstractBracketGame
     protected $game;
 
     /**
-     * ORM\ManyToOne(targetEntity="Team")
-     * TODO: Add a NCAA mens team bundle
+     * ORM\ManyToOne(targetEntity="BracketTeam")
      */
     protected $team;
 }

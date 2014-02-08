@@ -38,6 +38,11 @@ class Team extends AbstractTeam implements ConferenceTeamInterface
     protected $predictions;
 
     /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\MarchMadnessBundle\Entity\BracketTeam", mappedBy="team", fetch="EXTRA_LAZY")
+     */
+    protected $mmTeams;
+
+    /**
      * @ORM\OneToMany(targetEntity="NCAAFConferenceMember", mappedBy="team")
      */
     protected $conferenceMemberships;

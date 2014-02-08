@@ -4,7 +4,6 @@ namespace SofaChamps\Bundle\MarchMadnessBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracketGame;
-use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
 
 /**
  * A BracketGame
@@ -19,7 +18,7 @@ class Game extends AbstractBracketGame
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\SequenceGenerator(sequenceName="seq_mm_games", initialValue=1, allocationSize=1)
      */
     protected $id;
@@ -29,6 +28,12 @@ class Game extends AbstractBracketGame
      * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $bracket;
+
+    /**
+     * The name of the bracket game
+     * @ORM\Column(type="string", length=32)
+     */
+    protected $name;
 
     /**
      * @ORM\OneToOne(targetEntity="Game")
@@ -44,4 +49,19 @@ class Game extends AbstractBracketGame
      * @ORM\OneToMany(targetEntity="BracketPick", mappedBy="game", fetch="EXTRA_LAZY")
      */
     protected $picks;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Region")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
+     *      @ORM\JoinColumn(name="abbr", referencedColumnName="abbr"),
+     * })
+     */
+    protected $region;
+
+    public function __construct(BracketInterface $bracket, Region $region)
+    {
+        parent::__construct($bracket);
+        $this->region = $region;
+    }
 }
