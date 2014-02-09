@@ -114,11 +114,11 @@ caption { text-align: left; }
 @round1Offset: 1px;
 @round2Offset: @gameWidth + 5px;
 @round3Offset: 250px;
-@round4Offset: 375px;
+@round4Offset: 350px;
 @round1GroupPadding: 30px;
 @round1GameMargin: 5px;
 @round2GameMargin: 65px;
-@round3GameMargin: 90px;
+@round3GameMargin: 170px;
 .round1GameTop(@index) {
     top: (@index * @gameHeight) + (@index * @round1GameMargin) + (ceil((@index - 1) / 2) * @round1GroupPadding);
 }
@@ -171,6 +171,8 @@ caption { text-align: left; }
     .region {
         position: relative;
         width: 520px;
+        height: 425px;
+        margin-bottom: 10px;
         border: 1px solid #ccc;
         h2 {
             position: absolute;
@@ -227,7 +229,7 @@ caption { text-align: left; }
         }
         .round4 {
             &.index1 {
-                top: 150px;
+                top: 175px;
             }
         }
     }
