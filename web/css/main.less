@@ -106,3 +106,39 @@ td.incorrect {
     width: auto !important;
 }
 caption { text-align: left; }
+
+
+
+
+
+.bracket {
+    position: absolute;
+    .region {
+        position: relative;
+    }
+    .game {
+        font-size: 10px;
+        width: 175px;
+        border: 1px solid #333;
+        border-width: 1px 1px 1px 0;
+        background: #eee;
+        padding: 3px 10px 3px 5px;
+        position: relative;
+        .winner {
+            background: green;
+        }
+        .team {
+            position: relative;
+            .score {
+                position: absolute;
+                right: 5px;
+            }
+        }
+    }
+    .round1 {
+        left: 1px;
+    }
+    .round2 {
+        left: 125px;
+    }
+}

@@ -46,6 +46,7 @@ class Region
 
     /**
      * @ORM\OneToMany(targetEntity="Game", mappedBy="region")
+     * @ORM\OrderBy({"round" = "ASC", "index" = "ASC"})
      */
     protected $games;
 
