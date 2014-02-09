@@ -10,7 +10,7 @@ class Version20140115200905 extends AbstractMigration
     const CREATE_MM_GAMES_SQL =<<<EOF
 CREATE TABLE mm_games (
     id VARCHAR(16) NOT NULL
-  , season SMALLINT DEFAULT NULL
+  , season SMALLINT NOT NULL
   , region VARCHAR(8) DEFAULT NULL
   , hometeam_id VARCHAR(8) DEFAULT NULL
   , awayteam_id VARCHAR(8) DEFAULT NULL
