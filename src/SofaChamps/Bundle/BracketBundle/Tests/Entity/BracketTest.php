@@ -12,7 +12,7 @@ class BracketTest extends BracketBundleTest
     {
         $bracket = new Bracket();
 
-        $game = new BracketGame($bracket, rand(0, 100));
+        $game = new BracketGame($bracket);
 
         $this->assertContains($game, $bracket->getGames());
     }

@@ -11,28 +11,26 @@ class BracketGameTest extends BracketBundleTest
     public function testConstructor()
     {
         $bracket = new Bracket();
-        $round = rand(0, 100);
         $parent = $this->getNewBracketGame();
 
-        $game = new BracketGame($bracket, $round, $parent);
+        $game = new BracketGame($bracket, $parent);
 
         $this->assertEquals($bracket, $game->getBracket());
-        $this->assertEquals($round, $game->getRound());
         $this->assertEquals($parent, $game->getParent());
     }
 
     public function testChild()
     {
         $game = $this->getNewBracketGame();
-        $this->assertEquals(0, $game->getChildren()->count());
+        $this->assertNull($game->getChild());
 
         $child = $this->getNewBracketGame();
-        $game->addChild($child);
-        $this->assertContains($child, $game->getChildren());
+        $game->setChild($child);
+        $this->assertEquals($child, $game->getChild());
     }
 
     protected function getNewBracketGame()
     {
-        return new BracketGame(new Bracket(), rand(0, 100));
+        return new BracketGame(new Bracket());
     }
 }
