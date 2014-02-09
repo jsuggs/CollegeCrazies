@@ -105,4 +105,9 @@ class Game extends AbstractBracketGame
     {
         return $this->round;
     }
+
+    public function getIndex()
+    {
+        return $this->index;
+    }
 }

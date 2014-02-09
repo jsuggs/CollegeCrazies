@@ -1,7 +1,7 @@
 {% extends "SofaChampsMarchMadnessBundle::layout.html.twig" %}
 
 {% macro mm_game(game) %}
-    <div class="game round{{ game.round }}">
+    <div class="game round{{ game.round }} index{{ game.index }}">
         {% set homeTeam = game.homeTeam %}
         {% set awayTeam = game.awayTeam %}
         {% set homeTeamWinner = game.winner == homeTeam %}
@@ -23,7 +23,7 @@
 
     <div class="bracket">
         {% for region in bracket.regions %}
-            <div class="region region-ltr">
+            <div class="region {{ loop.index % 2 == 0 ? 'region-rtl' : 'region-ltr' }}">
                 <h2>{{ region.name }}</h2>
                 {% for game in region.games %}
                     {{ _self.mm_game(game) }}
