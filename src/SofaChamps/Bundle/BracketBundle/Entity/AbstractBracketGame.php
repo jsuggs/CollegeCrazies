@@ -17,11 +17,6 @@ abstract class AbstractBracketGame extends AbstractGame implements BracketGameIn
     protected $parent;
     protected $child;
 
-    /**
-     * ORM\Column(type="integer")
-     */
-    protected $season;
-
     public function __construct(BracketInterface $bracket, BracketGameInterface $parent = null)
     {
         $this->bracket = $bracket;

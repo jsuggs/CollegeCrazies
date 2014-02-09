@@ -44,6 +44,11 @@ class Region
      */
     protected $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Game", mappedBy="region")
+     */
+    protected $games;
+
     public function __construct(Bracket $bracket)
     {
         $this->bracket = $bracket;
@@ -52,5 +57,20 @@ class Region
     public function getBracket()
     {
         return $this->season;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getGames()
+    {
+        return $this->games;
     }
 }

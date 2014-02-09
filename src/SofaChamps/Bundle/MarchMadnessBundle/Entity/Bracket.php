@@ -30,6 +30,7 @@ class Bracket extends AbstractBracket
 
     /**
      * @ORM\OneToMany(targetEntity="Region", mappedBy="bracket")
+     * @ORM\OrderBy({"index" = "ASC"})
      */
     protected $regions;
 
@@ -51,6 +52,11 @@ class Bracket extends AbstractBracket
     public function getSeason()
     {
         return $this->season;
+    }
+
+    public function getRegions()
+    {
+        return $this->regions;
     }
 
     public function __toString()

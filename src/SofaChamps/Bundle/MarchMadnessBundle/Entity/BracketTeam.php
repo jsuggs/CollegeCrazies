@@ -62,4 +62,19 @@ class BracketTeam
     {
         return $this->season;
     }
+
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    public function getRegionSeed()
+    {
+        return $this->regionSeed;
+    }
+
+    public function getOverallSeed()
+    {
+        return $this->overallSeed;
+    }
 }

@@ -17,9 +17,8 @@ class Game extends AbstractBracketGame
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\SequenceGenerator(sequenceName="seq_mm_games", initialValue=1, allocationSize=1)
+     * @ORM\Column(type="string", length=16)
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     protected $id;
 
@@ -28,6 +27,27 @@ class Game extends AbstractBracketGame
      * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $bracket;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Region", inversedBy="games")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
+     *      @ORM\JoinColumn(name="region", referencedColumnName="abbr"),
+     * })
+     */
+    protected $region;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BracketTeam")
+     * @ORM\JoinColumn(name="hometeam_id", referencedColumnName="team_id")
+     */
+    protected $homeTeam;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BracketTeam")
+     * @ORM\JoinColumn(name="awayteam_id", referencedColumnName="team_id")
+     */
+    protected $awayTeam;
 
     /**
      * The name of the bracket game
@@ -51,17 +71,38 @@ class Game extends AbstractBracketGame
     protected $picks;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Region")
-     * @ORM\JoinColumns({
-     *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
-     *      @ORM\JoinColumn(name="abbr", referencedColumnName="abbr"),
-     * })
+     * @ORM\Column(type="smallint")
      */
-    protected $region;
+    protected $round;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $index;
 
     public function __construct(BracketInterface $bracket, Region $region)
     {
         parent::__construct($bracket);
         $this->region = $region;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getHomeTeam()
+    {
+        return $this->homeTeam;
+    }
+
+    public function getAwayTeam()
+    {
+        return $this->awayTeam;
+    }
+
+    public function getRound()
+    {
+        return $this->round;
     }
 }

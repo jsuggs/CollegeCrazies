@@ -9,12 +9,16 @@ class Version20140115200905 extends AbstractMigration
 {
     const CREATE_MM_GAMES_SQL =<<<EOF
 CREATE TABLE mm_games (
-    id INT NOT NULL
+    id VARCHAR(16) NOT NULL
   , season SMALLINT DEFAULT NULL
-  , parent_id INT DEFAULT NULL
-  , child_id INT DEFAULT NULL
-  , abbr VARCHAR(8) DEFAULT NULL
+  , region VARCHAR(8) DEFAULT NULL
+  , hometeam_id VARCHAR(8) DEFAULT NULL
+  , awayteam_id VARCHAR(8) DEFAULT NULL
+  , parent_id VARCHAR(16) DEFAULT NULL
+  , child_id VARCHAR(16) DEFAULT NULL
   , name VARCHAR(32) NOT NULL
+  , round SMALLINT DEFAULT NULL
+  , index SMALLINT DEFAULT NULL
   , homeTeamScore INT DEFAULT NULL
   , awayTeamScore INT DEFAULT NULL
   , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
@@ -40,7 +44,7 @@ SQL;
 CREATE TABLE mm_picks (
     id INT NOT NULL
   , bracket_id INT DEFAULT NULL
-  , game_id INT DEFAULT NULL
+  , game_id VARCHAR(16) DEFAULT NULL
   , homeTeamScore INT DEFAULT NULL
   , awayTeamScore INT DEFAULT NULL
   , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
@@ -160,10 +164,14 @@ SQL;
         $this->addSql('CREATE INDEX IDX_69952841F0E45BA9F62F176 ON mm_teams (season, region)');
         $this->addSql('ALTER TABLE mm_teams ADD CONSTRAINT FK_69952841F0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_teams ADD CONSTRAINT FK_69952841296CD8AE FOREIGN KEY (team_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128205B5690 FOREIGN KEY (hometeam_id) REFERENCES mm_teams (team_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128A24F7E79 FOREIGN KEY (awayteam_id) REFERENCES mm_teams (team_id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_742128205B5690 ON mm_games (hometeam_id)');
+        $this->addSql('CREATE INDEX IDX_742128A24F7E79 ON mm_games (awayteam_id)');
         $this->addSql(self::MM_REGIONS);
         $this->addSql('CREATE INDEX IDX_D9B2C6A2F0E45BA9 ON mm_regions (season)');
         $this->addSql('ALTER TABLE mm_regions ADD CONSTRAINT FK_D9B2C6A2F0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128F0E45BA94D4901 FOREIGN KEY (season, abbr) REFERENCES mm_regions (season, abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128F0E45BA94D4901 FOREIGN KEY (season, region) REFERENCES mm_regions (season, abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_teams ADD CONSTRAINT FK_69952841F0E45BA9F62F176 FOREIGN KEY (season, region) REFERENCES mm_regions (season, abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 

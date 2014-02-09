@@ -30,7 +30,7 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->importBrackets($output);
         $this->importRegions($output);
         $this->importTeams($output);
-        //$this->importConferenceDivisions($output);
+        $this->importGames($output);
         //$this->importConferenceMembers($output);
     }
 
@@ -68,13 +68,14 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->conn->commit();
     }
 
-    protected function importConferenceDivisions(OutputInterface $output)
+    protected function importGames(OutputInterface $output)
     {
-        $conferenceDivisionDataFile = $this->dataDirectory . '/conference_divisions.csv';
+        $gameDataFiles = glob(sprintf('%s/*/games.csv', $this->dataDirectory));
         $this->conn->beginTransaction();
-        $this->conn->exec('LOCK TABLE ncaa_conference_divisions IN EXCLUSIVE MODE');
-        $this->conn->exec('TRUNCATE ncaa_conference_divisions');
-        $this->conn->exec(sprintf("COPY ncaa_conference_divisions FROM '%s' CSV HEADER", $conferenceDivisionDataFile));
+        $this->conn->exec('DELETE FROM mm_games');
+        foreach ($gameDataFiles as $dataFile) {
+            $this->conn->exec(sprintf("COPY mm_games FROM '%s' CSV HEADER", $dataFile));
+        }
         $this->conn->commit();
     }
 

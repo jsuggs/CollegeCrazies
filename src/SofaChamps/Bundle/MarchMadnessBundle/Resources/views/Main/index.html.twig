@@ -1,12 +1,33 @@
 {% extends "SofaChampsMarchMadnessBundle::layout.html.twig" %}
 
+{% macro mm_game(game) %}
+    <div class="game round{{ game.round }}">
+        {% set homeTeam = game.homeTeam %}
+        {% set awayTeam = game.awayTeam %}
+        <div class="team">
+            <span class="seed">{{ homeTeam.regionSeed }}</span>
+            <span class="teamName">{{ homeTeam.team.name }}</span>
+            <span class="score">{{ game.homeTeamScore }}</span>
+        </div>
+        <div class="team">
+            <span class="seed">{{ awayTeam.regionSeed }}</span>
+            <span class="teamName">{{ awayTeam.team.name }}</span>
+            <span class="score">{{ game.awayTeamScore }}</span>
+        </div>
+    </div>
+{% endmacro %}
+
 {% block content %}
     <h1>March Madness {{ season }}</h1>
 
     <div class="bracket">
-        <div class="region-ltr">
-        </div>
-        <div class="region-rtl">
-        </div>
+        {% for region in bracket.regions %}
+            <div class="region region-ltr">
+                <h2>{{ region.name }}</h2>
+                {% for game in region.games %}
+                    {{ _self.mm_game(game) }}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

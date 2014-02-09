@@ -14,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class AbstractGame implements GameInterface
 {
+    protected $homeTeam;
+    protected $awayTeam;
+
     /**
      * homeTeamScore
      *
