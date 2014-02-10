@@ -46,12 +46,12 @@ class Game extends AbstractGame
     protected $season;
 
     /**
-     * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
     protected $homeTeam;
 
     /**
-     * @ORM\OneToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
     protected $awayTeam;
 
