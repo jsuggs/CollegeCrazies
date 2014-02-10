@@ -173,7 +173,6 @@ caption { text-align: left; }
         width: 520px;
         height: 425px;
         margin-bottom: 10px;
-        border: 1px solid #ccc;
         h2 {
             position: absolute;
             top: 150px;
@@ -242,13 +241,42 @@ caption { text-align: left; }
         margin: 5px;
         position: absolute;
         .winner {
-            background: green;
+            background: #87A96B;
         }
         .team {
             position: relative;
             .score {
                 position: absolute;
                 right: 5px;
+            }
+        }
+    }
+    .final-four {
+        clear: both;
+        border: 1px solid #eee;
+        height: 75px;
+        position: relative;
+        h2 {
+            margin-left: 5px;
+        }
+        .game {
+            position: absolute;
+            float: left;
+            top: 10px;
+        }
+        .round5 {
+            &.index1 {
+                left: 250px;
+            }
+            &.index2 {
+                right: 250px;
+            }
+        }
+        .round6 {
+            &.index1 {
+                left: 450px;
+                height: 50px;
+                font-weight: bold;
             }
         }
     }

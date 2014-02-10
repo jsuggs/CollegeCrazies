@@ -59,6 +59,13 @@ class Bracket extends AbstractBracket
         return $this->regions;
     }
 
+    public function getGamesForRound($round)
+    {
+        return $this->games->filter(function($game) use ($round) {
+            return $game->getRound() == $round;
+        });
+    }
+
     public function __toString()
     {
         return (string) $this->season ?: 'New Bracket';

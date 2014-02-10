@@ -29,7 +29,7 @@ class Game extends AbstractBracketGame
     protected $bracket;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Region", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="Region", inversedBy="games", fetch="EAGER")
      * @ORM\JoinColumns({
      *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
      *      @ORM\JoinColumn(name="region", referencedColumnName="abbr"),
