@@ -150,6 +150,7 @@ SQL;
         $this->addSql('ALTER TABLE mm_regions ADD CONSTRAINT FK_D9B2C6A2F0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128F0E45BA94D4901 FOREIGN KEY (season, region) REFERENCES mm_regions (season, abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_teams ADD CONSTRAINT FK_69952841F0E45BA9F62F176 FOREIGN KEY (season, region) REFERENCES mm_regions (season, abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql("COMMENT ON COLUMN users.roles IS '(DC2Type:array)'");
     }
 
     public function down(Schema $schema)
