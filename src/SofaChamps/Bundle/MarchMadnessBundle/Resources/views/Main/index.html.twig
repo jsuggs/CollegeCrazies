@@ -6,13 +6,13 @@
         {% set awayTeam = game.awayTeam %}
         {% set homeTeamWinner = game.winner == homeTeam %}
         <div class="team{% if homeTeamWinner %} winner{% endif %}">
-            <span class="seed">({{ homeTeam.regionSeed }})</span>
-            <span class="teamName">{{ homeTeam.team.name }}</span>
+            <span class="seed">({{ homeTeam ? homeTeam.regionSeed : 'TBD' }})</span>
+            <span class="teamName">{{ homeTeam ? homeTeam.team.name : 'TBD' }}</span>
             <span class="score">{{ game.homeTeamScore }}</span>
         </div>
         <div class="team{% if not homeTeamWinner %} winner{% endif %}">
-            <span class="seed">({{ awayTeam.regionSeed }})</span>
-            <span class="teamName">{{ awayTeam.team.name }}</span>
+            <span class="seed">({{ awayTeam ? awayTeam.regionSeed : 'TBD' }})</span>
+            <span class="teamName">{{ awayTeam ? awayTeam.team.name : 'TBD' }}</span>
             <span class="score">{{ game.awayTeamScore }}</span>
         </div>
     </div>
