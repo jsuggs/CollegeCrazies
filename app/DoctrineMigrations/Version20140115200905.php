@@ -90,7 +90,7 @@ SQL;
 CREATE TABLE ncaaf_conference_members (
     conference VARCHAR(5) NOT NULL
   , team VARCHAR(5) NOT NULL
-  , season INT NOT NULL
+  , season SMALLINT NOT NULL
   , division VARCHAR(5) DEFAULT NULL
   , PRIMARY KEY(conference, team, season)
 )

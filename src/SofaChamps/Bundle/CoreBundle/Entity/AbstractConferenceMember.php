@@ -16,7 +16,7 @@ abstract class AbstractConferenceMember implements ConferenceMemberInterface
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="smallint")
      */
     protected $season;
 
