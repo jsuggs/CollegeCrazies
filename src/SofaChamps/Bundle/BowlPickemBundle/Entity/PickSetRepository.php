@@ -67,7 +67,7 @@ EOF;
     public function getPopulatedPickSet(PickSet $pickSet)
     {
         return $this->createQueryBuilder('p')
-            ->select('p, u, pk, pg, pt, home, away')
+            ->select('p, u, pk, pg, pt, ep, home, away')
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.picks', 'pk')
             ->leftJoin('pk.game', 'pg')
