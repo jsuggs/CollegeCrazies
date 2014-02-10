@@ -71,15 +71,6 @@ SELECT
 FROM teams
 SQL;
 
-    const MIGRATE_TEAMS_DOWN =<<<SQL
-INSERT INTO teams
-SELECT
-    id
-  , name
-  , thumbnail
-FROM ncaa_teams
-SQL;
-
     const NCAA_CONFERENCES =<<<SQL
 CREATE TABLE ncaa_conferences (
     abbr VARCHAR(5) NOT NULL
@@ -151,16 +142,16 @@ SQL;
 
     public function down(Schema $schema)
     {
-        $this->addSql(self::MIGRATE_TEAMS_DOWN);
         $this->addSql('DROP SEQUENCE seq_mm_games');
         $this->addSql('DROP SEQUENCE seq_mm_brackets');
         $this->addSql('DROP SEQUENCE seq_mm_user_brackets');
         $this->addSql('DROP TABLE mm_games');
-        $this->addSql('DROP TABLE mm_brackets');
         $this->addSql("DROP TABLE mm_teams");
-        $this->addSql('DROP TABLE ncaa_teams');
-        $this->addSql('DROP TABLE ncaa_conference_divisions');
+        $this->addSql("DROP TABLE mm_regions");
+        $this->addSql('DROP TABLE mm_brackets CASCADE');
         $this->addSql("DROP TABLE ncaaf_conference_members");
+        $this->addSql('DROP TABLE ncaa_conference_divisions');
+        $this->addSql('DROP TABLE ncaa_teams CASCADE');
         $this->addSql("DROP TABLE ncaa_conferences");
     }
 }
