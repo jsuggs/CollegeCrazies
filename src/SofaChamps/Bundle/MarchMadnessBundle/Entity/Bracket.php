@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * The results for a March Madness Bracket
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BracketRepository")
  * @ORM\Table(
  *      name="mm_brackets"
  * )

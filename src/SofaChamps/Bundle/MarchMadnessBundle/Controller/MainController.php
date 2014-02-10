@@ -19,6 +19,8 @@ class MainController extends BaseController
      */
     public function indexAction(Bracket $bracket, $season)
     {
+        $bracket = $this->getRepository('SofaChampsMarchMadnessBundle:Bracket')->getPopulatedBracked($bracket);
+
         return array(
             'bracket' => $bracket,
             'season' => $season,
