@@ -31,16 +31,17 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->importRegions($output);
         $this->importTeams($output);
         $this->importGames($output);
-        //$this->importConferenceMembers($output);
     }
 
     protected function importBrackets(OutputInterface $output)
     {
+        $output->writeln('Importing Brackets');
         $bracketYears = glob(sprintf('%s/*', $this->dataDirectory));
         $this->conn->beginTransaction();
         $this->conn->exec('TRUNCATE mm_brackets CASCADE');
         foreach ($bracketYears as $yearPath) {
             $year = basename($yearPath);
+            $output->writeln(" * $year");
             $this->conn->exec(sprintf("INSERT INTO mm_brackets (season) VALUES (%d)", $year));
         }
         $this->conn->commit();
@@ -48,10 +49,12 @@ class ImportDataCommand extends ContainerAwareCommand
 
     protected function importRegions(OutputInterface $output)
     {
+        $output->writeln('Importing Regions');
         $regionDataFiles = glob(sprintf('%s/*/regions.csv', $this->dataDirectory));
         $this->conn->beginTransaction();
         $this->conn->exec('DELETE FROM mm_regions');
         foreach ($regionDataFiles as $dataFile) {
+            $output->writeln($dataFile);
             $this->conn->exec(sprintf("COPY mm_regions FROM '%s' CSV HEADER", $dataFile));
         }
         $this->conn->commit();
@@ -59,10 +62,12 @@ class ImportDataCommand extends ContainerAwareCommand
 
     protected function importTeams(OutputInterface $output)
     {
+        $output->writeln('Importing Teams');
         $teamDataFiles = glob(sprintf('%s/*/teams.csv', $this->dataDirectory));
         $this->conn->beginTransaction();
         $this->conn->exec('DELETE FROM mm_teams');
         foreach ($teamDataFiles as $dataFile) {
+            $output->writeln($dataFile);
             $this->conn->exec(sprintf("COPY mm_teams FROM '%s' CSV HEADER", $dataFile));
         }
         $this->conn->commit();
@@ -75,17 +80,6 @@ class ImportDataCommand extends ContainerAwareCommand
         $this->conn->exec('DELETE FROM mm_games');
         foreach ($gameDataFiles as $dataFile) {
             $this->conn->exec(sprintf("COPY mm_games FROM '%s' CSV HEADER", $dataFile));
-        }
-        $this->conn->commit();
-    }
-
-    protected function importConferenceMembers(OutputInterface $output)
-    {
-        $membershipDataFiles = glob(sprintf('%s/conference_membership/*/*.csv', $this->dataDirectory));
-        $this->conn->beginTransaction();
-        $this->conn->exec('TRUNCATE ncaaf_conference_members');
-        foreach ($membershipDataFiles as $dataFile) {
-            $this->conn->exec(sprintf("COPY ncaaf_conference_members FROM '%s' CSV HEADER", $dataFile));
         }
         $this->conn->commit();
     }

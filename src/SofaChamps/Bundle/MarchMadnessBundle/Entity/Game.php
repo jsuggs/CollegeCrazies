@@ -39,13 +39,19 @@ class Game extends AbstractBracketGame
 
     /**
      * @ORM\ManyToOne(targetEntity="BracketTeam")
-     * @ORM\JoinColumn(name="hometeam_id", referencedColumnName="team_id")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
+     *      @ORM\JoinColumn(name="hometeam_id", referencedColumnName="team_id")
+     * })
      */
     protected $homeTeam;
 
     /**
      * @ORM\ManyToOne(targetEntity="BracketTeam")
-     * @ORM\JoinColumn(name="awayteam_id", referencedColumnName="team_id")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
+     *      @ORM\JoinColumn(name="awayteam_id", referencedColumnName="team_id")
+     * })
      */
     protected $awayTeam;
 

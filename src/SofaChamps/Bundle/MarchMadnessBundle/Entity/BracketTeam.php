@@ -17,14 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class BracketTeam
 {
     /**
-     * ORM\Id
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Bracket", inversedBy="teams")
      * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $bracket;
 
     /**
-     * ORM\Id
      * @ORM\ManyToOne(targetEntity="Region", inversedBy="teams")
      * @ORM\JoinColumns({
      *      @ORM\JoinColumn(name="season", referencedColumnName="season"),
