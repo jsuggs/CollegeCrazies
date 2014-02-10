@@ -31,23 +31,25 @@ CREATE TABLE mm_brackets (
   , PRIMARY KEY(season)
 );
 EOF;
-    const CREATE_MM_USER_BRACKETS_SQL =<<<SQL
-CREATE TABLE mm_user_brackets (
-    id INT NOT NULL
-  , user_id INT DEFAULT NULL
-  , PRIMARY KEY(id)
+
+    const MM_TEAMS =<<<SQL
+CREATE TABLE mm_teams (
+    team_id VARCHAR(5) NOT NULL
+  , season SMALLINT DEFAULT NULL
+  , region VARCHAR(8) DEFAULT NULL
+  , overallSeed SMALLINT NOT NULL
+  , regionSeed SMALLINT NOT NULL
+  , PRIMARY KEY(season, team_id)
 )
 SQL;
-    const CREATE_MM_PICKS_SQL =<<<SQL
-CREATE TABLE mm_picks (
-    id INT NOT NULL
-  , bracket_id INT DEFAULT NULL
-  , game_id VARCHAR(16) DEFAULT NULL
-  , homeTeamScore INT DEFAULT NULL
-  , awayTeamScore INT DEFAULT NULL
-  , gameDate TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
-  , location VARCHAR(255) NOT NULL
-  , PRIMARY KEY(id)
+
+    const MM_REGIONS =<<<SQL
+CREATE TABLE mm_regions (
+    season SMALLINT NOT NULL
+  , abbr VARCHAR(8) NOT NULL
+  , name VARCHAR(32) NOT NULL
+  , index SMALLINT NOT NULL
+  , PRIMARY KEY(season, abbr)
 )
 SQL;
 
@@ -96,25 +98,12 @@ CREATE TABLE ncaaf_conference_members (
 )
 SQL;
 
-    const MM_TEAMS =<<<SQL
-CREATE TABLE mm_teams (
-    team_id VARCHAR(5) NOT NULL
-  , season SMALLINT DEFAULT NULL
-  , region VARCHAR(8) DEFAULT NULL
-  , overallSeed SMALLINT NOT NULL
-  , regionSeed SMALLINT NOT NULL
-  , PRIMARY KEY(season, team_id)
-)
-SQL;
-
-    const MM_REGIONS =<<<SQL
-CREATE TABLE mm_regions (
-    season SMALLINT NOT NULL
-  , abbr VARCHAR(8) NOT NULL
-  , name VARCHAR(32) NOT NULL
-  , index SMALLINT NOT NULL
-  , PRIMARY KEY(season, abbr)
-)
+    const NCAA_CONFERENCE_DIVISION =<<<SQL
+CREATE TABLE ncaa_conference_divisions (
+    abbr VARCHAR(5) NOT NULL
+  , conference VARCHAR(5) DEFAULT NULL
+  , name VARCHAR(255) NOT NULL
+  , PRIMARY KEY(abbr))
 SQL;
 
     public function up(Schema $schema)
@@ -124,14 +113,9 @@ SQL;
         $this->addSql('CREATE SEQUENCE seq_mm_user_brackets INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql(self::CREATE_MM_GAMES_SQL);
         $this->addSql(self::CREATE_MM_BRACKETS_SQL);
-        $this->addSql(self::CREATE_MM_USER_BRACKETS_SQL);
-        $this->addSql(self::CREATE_MM_PICKS_SQL);
         $this->addSql(self::MM_TEAMS);
         $this->addSql('CREATE INDEX IDX_MM_USER_BRACKETS_USER_ID ON mm_user_brackets (user_id)');
-        $this->addSql('CREATE INDEX IDX_MM_PICKST_BRACKET_ID ON mm_picks (bracket_id)');
-        $this->addSql('CREATE INDEX IDX_MM_PICKS_GAME_ID ON mm_picks (game_id)');
         $this->addSql('ALTER TABLE mm_user_brackets ADD CONSTRAINT FK_4DA3E3FFA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D16E8D78 FOREIGN KEY (bracket_id) REFERENCES mm_user_brackets (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql(self::NCAA_TEAMS_SQL);
         $this->addSql(self::MIGRATE_TEAMS_UP);
         $this->addSql(self::NCAAF_CONFERENCE_MEMBERS);
@@ -141,7 +125,7 @@ SQL;
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_CONFERENCES_CONFERENCE FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) ON DELETE CASCADE");
         $this->addSql("ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_NCAA_CONFERENCE_MEMBERS_REF_NCAA_TEAMS_TEAM FOREIGN KEY (team) REFERENCES ncaa_teams (id) ON DELETE CASCADE");
         $this->addSql('ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_AE8F1CC9911533C8 FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('CREATE TABLE ncaa_conference_divisions (abbr VARCHAR(5) NOT NULL, conference VARCHAR(5) DEFAULT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(abbr))');
+        $this->addSql(self::NCAA_CONFERENCE_DIVISION);
         $this->addSql('ALTER TABLE bp_expert_picks ADD CONSTRAINT FK_5CB1286B296CD8AE FOREIGN KEY (team_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE games ADD CONSTRAINT FK_FF232B31EFE66F0C FOREIGN KEY (homeTeam_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE games ADD CONSTRAINT FK_FF232B316DF247E5 FOREIGN KEY (awayTeam_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -149,7 +133,6 @@ SQL;
         $this->addSql('ALTER TABLE predictions ADD CONSTRAINT FK_8E87BCE65DFCD4B8 FOREIGN KEY (winner_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mm_games ADD CONSTRAINT FK_742128F0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE INDEX IDX_742128F0E45BA9 ON mm_games (season)');
-        $this->addSql('ALTER TABLE mm_picks ADD CONSTRAINT FK_831D42D1E48FD905 FOREIGN KEY (game_id) REFERENCES mm_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE ncaa_conference_divisions ADD CONSTRAINT FK_5D00B5F3911533C8 FOREIGN KEY (conference) REFERENCES ncaa_conferences (abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_AE8F1CC9C4E0A61F FOREIGN KEY (team) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE ncaaf_conference_members ADD CONSTRAINT FK_AE8F1CC910174714 FOREIGN KEY (division) REFERENCES ncaa_conference_divisions (abbr) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -177,7 +160,6 @@ SQL;
         $this->addSql('DROP SEQUENCE seq_mm_user_brackets');
         $this->addSql('DROP TABLE mm_games');
         $this->addSql('DROP TABLE mm_brackets');
-        $this->addSql('DROP TABLE mm_user_brackets');
         $this->addSql("DROP TABLE mm_teams");
         $this->addSql('DROP TABLE ncaa_teams');
         $this->addSql('DROP TABLE ncaa_conference_divisions');

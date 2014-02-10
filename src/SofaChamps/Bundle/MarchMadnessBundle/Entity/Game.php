@@ -62,11 +62,6 @@ class Game extends AbstractBracketGame
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="BracketPick", mappedBy="game", fetch="EXTRA_LAZY")
-     */
-    protected $picks;
-
-    /**
      * @ORM\Column(type="smallint")
      */
     protected $round;
