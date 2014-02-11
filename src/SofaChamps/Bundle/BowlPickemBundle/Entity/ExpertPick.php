@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
