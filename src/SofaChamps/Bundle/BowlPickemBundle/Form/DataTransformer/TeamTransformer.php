@@ -58,7 +58,7 @@ class TeamTransformer implements DataTransformerInterface
         }
 
         $team = $this->om
-            ->getRepository('SofaChampsBowlPickemBundle:Team')
+            ->getRepository('SofaChampsNCAABundle:Team')
             ->findOneBy(array('id' => $id));
 
         if (!$team) {

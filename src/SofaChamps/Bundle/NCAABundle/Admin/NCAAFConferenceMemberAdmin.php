@@ -1,36 +1,38 @@
 <?php
 
-namespace SofaChamps\Bundle\BowlPickemBundle\Admin;
+namespace SofaChamps\Bundle\NCAABundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class TeamAdmin extends Admin
+class NCAAFConferenceMemberAdmin extends Admin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
-            ->add('name')
-            ->add('thumbnail')
+            ->add('team')
+            ->add('conference')
+            ->add('season')
         ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('name')
+            ->add('team')
+            ->add('conference')
+            ->add('season')
         ;
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
-            ->add('name')
+            ->addIdentifier('team')
+            ->addIdentifier('conference')
+            ->addIdentifier('season')
         ;
     }
 }

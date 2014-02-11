@@ -5,9 +5,9 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Prediction;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PredictionSet;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 /**
  * PredictionGenerator

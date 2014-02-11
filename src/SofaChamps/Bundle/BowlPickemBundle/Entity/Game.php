@@ -4,11 +4,12 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Team;
+use SofaChamps\Bundle\CoreBundle\Entity\AbstractGame;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * A Game
+ * A Bowl Game
  *
  * @ORM\Entity(repositoryClass="GameRepository")
  * @ORM\Table(
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      }
  * )
  */
-class Game
+class Game extends AbstractGame
 {
     /**
      * @ORM\Id
@@ -29,6 +30,11 @@ class Game
      * @ORM\SequenceGenerator(sequenceName="seq_game", initialValue=1, allocationSize=1)
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $name;
 
     /**
      * The bowl season for this game
@@ -40,12 +46,14 @@ class Game
     protected $season;
 
     /**
-     * The Bowl Game Name
-     *
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
-    protected $name;
+    protected $homeTeam;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     */
+    protected $awayTeam;
 
     /**
      * The short name of the bowl game
@@ -55,16 +63,6 @@ class Game
      * @var string
      */
     protected $shortName;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Team")
-     */
-    protected $homeTeam;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Team")
-     */
-    protected $awayTeam;
 
     /**
      * @ORM\OneToMany(targetEntity="Pick", mappedBy="game", fetch="EXTRA_LAZY")
@@ -88,36 +86,12 @@ class Game
     protected $overunder;
 
     /**
-     * Gametime baby
-     *
-     * @ORM\Column(type="datetime")
-     * @var DateTime
-     */
-    protected $gameDate;
-
-    /**
      * TV Network
      *
      * @ORM\Column(type="string", length=255)
      * @var string
      */
     protected $network;
-
-    /**
-     * homeTeamScore
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     * @var integer
-     */
-    protected $homeTeamScore;
-
-    /**
-     * awayTeamScore
-     *
-     * @ORM\Column(type="integer", nullable=true)
-     * @var integer
-     */
-    protected $awayTeamScore;
 
     /**
      * description
@@ -134,14 +108,6 @@ class Game
      * @var Prediction
      */
     protected $predictions;
-
-    /**
-     * Bowl location
-     *
-     * @ORM\Column(type="string", length=255)
-     * @var string
-     */
-    protected $location;
 
     /**
      * The tiebreaker priority
@@ -178,36 +144,6 @@ class Game
         $this->id = $id;
     }
 
-    public function setSeason($season)
-    {
-        $this->season = $season;
-    }
-
-    public function getSeason()
-    {
-        return $this->season;
-    }
-
-    public function setHomeTeam(Team $team)
-    {
-        $this->homeTeam = $team;
-    }
-
-    public function getHomeTeam()
-    {
-        return $this->homeTeam;
-    }
-
-    public function getAwayTeam()
-    {
-        return $this->awayTeam;
-    }
-
-    public function setAwayTeam(Team $team)
-    {
-        $this->awayTeam = $team;
-    }
-
     public function setName($name)
     {
         $this->name = $name;
@@ -216,6 +152,16 @@ class Game
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setSeason($season)
+    {
+        $this->season = $season;
+    }
+
+    public function getSeason()
+    {
+        return $this->season;
     }
 
     public function setShortName($shortName)
@@ -228,16 +174,6 @@ class Game
         return $this->shortName;
     }
 
-    public function setGameDate($date)
-    {
-        $this->gameDate = $date;
-    }
-
-    public function getGameDate()
-    {
-        return $this->gameDate;
-    }
-
     public function setNetwork($network)
     {
         $this->network = $network;
@@ -246,26 +182,6 @@ class Game
     public function getNetwork()
     {
         return $this->network;
-    }
-
-    public function setHomeTeamScore($score = null)
-    {
-        $this->homeTeamScore = $score;
-    }
-
-    public function getHomeTeamScore()
-    {
-        return $this->homeTeamScore;
-    }
-
-    public function setAwayTeamScore($score = null)
-    {
-        $this->awayTeamScore = $score;
-    }
-
-    public function getAwayTeamScore()
-    {
-        return $this->awayTeamScore;
     }
 
     public function setDescription($description)
@@ -278,19 +194,14 @@ class Game
         return $this->description;
     }
 
-    public function getSpread()
-    {
-        return $this->spread;
-    }
-
     public function setSpread($spread)
     {
         $this->spread = $spread;
     }
 
-    public function getOverunder()
+    public function getSpread()
     {
-        return $this->overunder;
+        return $this->spread;
     }
 
     public function setOverunder($overunder)
@@ -298,28 +209,9 @@ class Game
         $this->overunder = $overunder;
     }
 
-    public function isComplete()
+    public function getOverunder()
     {
-        return (isset($this->homeTeamScore) && isset($this->awayTeamScore));
-    }
-
-    public function getWinner()
-    {
-        if (!$this->isComplete()) {
-            return null;
-        }
-
-        return ($this->homeTeamScore > $this->awayTeamScore) ? $this->homeTeam : $this->awayTeam;
-    }
-
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
-
-    public function getLocation()
-    {
-        return $this->location;
+        return $this->overunder;
     }
 
     public function setTiebreakerPriority($tiebreakerPriority)

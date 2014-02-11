@@ -1,0 +1,45 @@
+{% extends "SofaChampsMarchMadnessBundle::layout.html.twig" %}
+
+{% macro mm_game(game) %}
+    <div class="game round{{ game.round }} index{{ game.index }}">
+        {% set homeTeam = game.homeTeam %}
+        {% set awayTeam = game.awayTeam %}
+        {% set homeTeamWinner = game.winner == homeTeam %}
+        <div class="team{% if homeTeamWinner %} winner{% endif %}">
+            <span class="seed">({{ homeTeam ? homeTeam.regionSeed : 'TBD' }})</span>
+            <span class="teamName">{{ homeTeam ? homeTeam.team.name : 'TBD' }}</span>
+            <span class="score">{{ game.homeTeamScore }}</span>
+        </div>
+        <div class="team{% if not homeTeamWinner %} winner{% endif %}">
+            <span class="seed">({{ awayTeam ? awayTeam.regionSeed : 'TBD' }})</span>
+            <span class="teamName">{{ awayTeam ? awayTeam.team.name : 'TBD' }}</span>
+            <span class="score">{{ game.awayTeamScore }}</span>
+        </div>
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <h1>March Madness {{ season }}</h1>
+
+    <div class="bracket">
+        {% for region in bracket.regions %}
+            <div class="region {{ loop.index % 2 == 0 ? 'region-rtl' : 'region-ltr' }}">
+                <h2>{{ region.name }}</h2>
+                {% for game in region.games %}
+                    {{ _self.mm_game(game) }}
+                {% endfor %}
+            </div>
+            {% if loop.index == 2 %}
+                {% set games = bracket.gamesForRound(5) %}
+                {% set champ = bracket.gamesForRound(6)|first %}
+                <div class="final-four">
+                    <h2>Final Four</h2>
+                    {{ _self.mm_game(games|first) }}
+                    {{ _self.mm_game(champ) }}
+                    {{ _self.mm_game(games|last) }}
+                </div>
+                <div class="clearfix"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

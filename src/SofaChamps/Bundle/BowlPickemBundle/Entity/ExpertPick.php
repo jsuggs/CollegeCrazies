@@ -34,7 +34,7 @@ class ExpertPick
     /**
      * The team picked
      *
-     * @ORM\ManyToOne(targetEntity="Team")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
      */
     protected $team;
 

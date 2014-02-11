@@ -18,6 +18,16 @@ sofa_champs_bowlpickem:
     type:     annotation
     prefix:   /bowl-pickem
 
+sofa_champs_march_madness:
+    resource: "@SofaChampsMarchMadnessBundle/Controller/"
+    type:     annotation
+    prefix:   /march-madness
+
+sofa_champs_ncaa:
+    resource: "@SofaChampsNCAABundle/Controller/"
+    type:     annotation
+    prefix:   /ncaa
+
 sofa_champs_nfl_admin:
     resource: "@SofaChampsNFLBundle/Controller/"
     type:     annotation

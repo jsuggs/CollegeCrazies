@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 /**
  * The metadata for a league
@@ -27,7 +28,7 @@ class Prediction
     protected $game;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Team", inversedBy="predictions")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team", inversedBy="predictions")
      */
     protected $winner;
 

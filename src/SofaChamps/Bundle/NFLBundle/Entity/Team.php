@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\NFLBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\CoreBundle\Entity\AbstractTeam;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      name="nfl_team"
  * )
  */
-class Team
+class Team extends AbstractTeam
 {
     /**
      * Team id/abbreviation
@@ -22,14 +23,6 @@ class Team
      * @ORM\Column(type="string", length=3)
      */
     protected $id;
-
-    /**
-     * Team name
-     *
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    protected $name;
 
     /**
      * Conference
@@ -46,26 +39,6 @@ class Team
      * @var string
      */
     protected $division;
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
 
     public function setConference($conference)
     {
