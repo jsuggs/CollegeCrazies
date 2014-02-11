@@ -23,6 +23,11 @@ sofa_champs_march_madness:
     type:     annotation
     prefix:   /march-madness
 
+sofa_champs_price_is_right_challenge:
+    resource: "@SofaChampsPriceIsRightChallengeBundle/Controller/"
+    type:     annotation
+    prefix:   /price-is-right-challenge
+
 sofa_champs_ncaa:
     resource: "@SofaChampsNCAABundle/Controller/"
     type:     annotation
