@@ -1,0 +1,7 @@
+services:
+    sofachamps.pirc.repo.config:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - SofaChampsPriceIsRightChallengeBundle:Config

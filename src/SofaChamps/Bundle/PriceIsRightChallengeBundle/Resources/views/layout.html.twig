@@ -1,0 +1,14 @@
+{% extends "SofaChampsCoreBundle::Layout/layout.html.twig" %}
+
+{% block title%} - Price Is Right Challenge{% endblock %}
+
+{% block nav_primary %}
+    <li><a href="{{ path('pirc_home', {season: season}) }}">Price Is Right Challenge Home</a></li>
+    {% if 1 == 1 %}
+        {% if is_granted('ROLE_USER') and app.user.getSuperBowlChallengePickForYear(season) %}
+            <li><a href="{{ path('pirc_edit', {season: season}) }}">Edit your picks</a></li>
+        {% else %}
+            <li><a href="{{ path('pirc_edit', {season: season}) }}">Create your picks</a></li>
+        {% endif %}
+    {% endif %}
+{% endblock %}

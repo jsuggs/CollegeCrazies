@@ -59,6 +59,16 @@ class Bracket extends AbstractBracket
         return $this->regions;
     }
 
+    public function getGames()
+    {
+        return $this->games;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
+    }
+
     public function getGamesForRound($round)
     {
         return $this->games->filter(function($game) use ($round) {
