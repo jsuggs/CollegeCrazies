@@ -113,6 +113,11 @@ class User extends BaseUser
      */
     protected $squaresPlayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio", mappedBy="user")
+     */
+    protected $pircPortfolios;
+
     public function __construct()
     {
         parent::__construct();
@@ -123,6 +128,7 @@ class User extends BaseUser
         $this->commissionerLeagues = new ArrayCollection();
         $this->squaresGames = new ArrayCollection();
         $this->squaresPlayers = new ArrayCollection();
+        $this->pircPortfolios = new ArrayCollection();
     }
 
     public function getId()
