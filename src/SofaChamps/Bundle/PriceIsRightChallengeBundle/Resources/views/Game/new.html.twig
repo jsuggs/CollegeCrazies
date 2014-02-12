@@ -1,0 +1,13 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>Create a new Game</h1>
+    <p class="help-block">We've provided some sensible defaults, but feel free to change to suite your taste.  You can change these values until the first game tips off.</p>
+
+    <form action="{{ path('pirc_game_create', {season: season}) }}" method="post">
+        {% include "SofaChampsPriceIsRightChallengeBundle:Game:form.html.twig" %}
+
+        <button type="submit" class="btn btn-success btn-lg">Create Game</button>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

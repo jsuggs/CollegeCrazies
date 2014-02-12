@@ -47,6 +47,84 @@ class Config
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed4Cost = 8;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed5Cost = 6;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed6Cost = 5;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed7Cost = 5;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed8Cost = 4;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed9Cost = 4;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed10Cost = 3;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed11Cost = 3;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed12Cost = 2;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed13Cost = 2;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed14Cost = 1;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed15Cost = 1;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed16Cost = 1;
+
+    /**
+     * @ORM\Column(type="smallint")
      */
     protected $round1Win = 10;
 
@@ -83,5 +161,15 @@ class Config
     public function getWinForRound($round)
     {
         return $this->{sprintf('round%dWin', $round)};
+    }
+
+    public function __get($name)
+    {
+        return $this->$name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->$name = $value;
     }
 }
