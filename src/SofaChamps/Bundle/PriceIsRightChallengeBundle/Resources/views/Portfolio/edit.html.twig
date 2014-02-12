@@ -2,7 +2,7 @@
 
 {% block content %}
     Hello {{ season }}!
-    <form action="{{ path('pirc_update', {season: season}) }}" method="post">
+    <form action="{{ path('pirc_portfolio_update', {season: season}) }}" method="post">
         {{ form_widget(form) }}
     </form>
 {% endblock %}

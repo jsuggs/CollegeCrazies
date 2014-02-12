@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * The team in the bracket
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BracketTeamRepository")
  * @ORM\Table(
  *      name="mm_teams"
  * )

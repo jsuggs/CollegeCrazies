@@ -67,6 +67,11 @@ class Portfolio
         $this->teams->add($team);
     }
 
+    public function setTeams($teams)
+    {
+        $this->teams = $teams;
+    }
+
     public function getTeams()
     {
         return $this->teams;
