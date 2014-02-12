@@ -55,6 +55,11 @@ class User extends BaseUser
     protected $commissionerLeagues;
 
     /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\GameManager", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    protected $pircManagers;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     protected $emailVisible = true;
@@ -129,6 +134,7 @@ class User extends BaseUser
         $this->squaresGames = new ArrayCollection();
         $this->squaresPlayers = new ArrayCollection();
         $this->pircPortfolios = new ArrayCollection();
+        $this->pircManagers = new ArrayCollection();
     }
 
     public function getId()

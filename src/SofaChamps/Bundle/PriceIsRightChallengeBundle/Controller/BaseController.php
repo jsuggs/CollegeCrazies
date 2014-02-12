@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Controller;
 use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\ConfigFormType;
 
 class BaseController extends CoreController
 {
@@ -31,11 +32,16 @@ class BaseController extends CoreController
             $builder->add(sprintf('seed%d', $seed), 'choice', array(
                 'choices' => $choices,
                 'required' => false,
-                'multiple' => false,
+                'multiple' => true,
                 'expanded' => true,
             ));
         }
 
         return $builder->getForm();
+    }
+
+    protected function getConfigForm()
+    {
+        return $this->createForm(new ConfigFormType());
     }
 }

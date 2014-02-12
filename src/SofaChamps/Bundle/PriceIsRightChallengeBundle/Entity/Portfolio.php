@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="pirc_portfolio"
+ *      name="pirc_portfolios"
  * )
  */
 class Portfolio
@@ -25,6 +25,7 @@ class Portfolio
 
     /**
      * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="pircPortfolios")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
 

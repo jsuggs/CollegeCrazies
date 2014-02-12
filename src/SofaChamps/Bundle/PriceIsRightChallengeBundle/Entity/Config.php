@@ -22,8 +22,66 @@ class Config
      */
     protected $id;
 
-    public function getPointsForRound($round)
+    /**
+     * @ORM\OneToOne(targetEntity="Game", inversedBy="config")
+     */
+    protected $game;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed1Cost = 25;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed2Cost = 15;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=100)
+     */
+    protected $seed3Cost = 10;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round1Win = 10;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round2Win = 20;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round3Win = 30;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round4Win = 40;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round5Win = 80;
+
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    protected $round6Win = 100;
+
+    public function getCostForSeed($seed)
     {
-        return 5;
+        return $this->{sprintf('seed%dCost', $seed)};
+    }
+
+    public function getWinForRound($round)
+    {
+        return $this->{sprintf('round%dWin', $round)};
     }
 }
