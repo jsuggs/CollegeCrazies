@@ -60,6 +60,11 @@ class Game
         return $this->id;
     }
 
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
     public function addPortfolio(Portfolio $portfolio)
     {
         if (!$this->portfolios->contains($portfolio)) {
@@ -72,9 +77,11 @@ class Game
         return $this->portfolios;
     }
 
-    public function getConfig()
+    public function addManager(GameManager $manager)
     {
-        return $this->config;
+        if (!$this->managers->contains($manager)) {
+            $this->managers->add($manager);
+        }
     }
 
     public function setPassword($password)

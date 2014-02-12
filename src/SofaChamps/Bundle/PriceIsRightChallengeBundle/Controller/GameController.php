@@ -47,10 +47,9 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $config = $form->getData();
-            $game = new Game($config);
+            $game = $this->getGameManager()->createGame($config, $this->getUser());
 
             $this->getEntityManager()->persist($config);
-            $this->getEntityManager()->persist($game);
             $this->getEntityManager()->flush();
 
             $this->addMessage('success', 'Game created');

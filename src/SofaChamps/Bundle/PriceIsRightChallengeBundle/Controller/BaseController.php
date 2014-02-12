@@ -10,6 +10,11 @@ use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\ConfigFormType;
 
 class BaseController extends CoreController
 {
+    protected function getGameManager()
+    {
+        return $this->container->get('sofachamps.pirc.game_manager');
+    }
+
     protected function getUserPortfolio(User $user, $season)
     {
         return null;

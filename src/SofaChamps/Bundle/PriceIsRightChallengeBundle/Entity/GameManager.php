@@ -29,10 +29,10 @@ class GameManager
      */
     protected $game;
 
-    public function __construct(User $user, Game $game)
+    public function __construct(Game $game, User $user)
     {
-        $this->user = $user;
         $this->game = $game;
+        $this->user = $user;
         $this->createdAt = new \DateTime();
     }
 
