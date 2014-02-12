@@ -6,6 +6,7 @@ use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Config;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\ConfigFormType;
 
 class BaseController extends CoreController
@@ -17,7 +18,7 @@ class BaseController extends CoreController
 
     protected function getUserPortfolio(User $user, $season)
     {
-        return null;
+        return $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getUserPortfolio($user, $season);
     }
 
     protected function getPortfolioForm(Bracket $bracket, Portfolio $portfolio = null)

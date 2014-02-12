@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
@@ -10,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A user portfolio of teams
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="PortfolioRepository")
  * @ORM\Table(
  *      name="pirc_portfolios"
  * )
