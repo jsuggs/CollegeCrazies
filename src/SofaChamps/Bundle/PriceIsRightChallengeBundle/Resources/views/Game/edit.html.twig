@@ -1,9 +1,9 @@
 {% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
 
 {% block content %}
-    <h1>Create a new Game</h1>
+    <h1>Update Game Settings</h1>
 
-    <form action="" method="post">
+    <form action="{{ path('pirc_game_update', {season: season, id: game.id}) }}" method="post">
         {% include "SofaChampsPriceIsRightChallengeBundle:Game:form.html.twig" %}
 
         <button type="submit">Update Game</button>

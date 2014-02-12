@@ -74,6 +74,7 @@ SQL;
     public function up(Schema $schema)
     {
         $this->addSql("CREATE SEQUENCE seq_pirc_games INCREMENT BY 1 MINVALUE 1 START 1");
+        $this->addSql("CREATE SEQUENCE seq_pirc_config INCREMENT BY 1 MINVALUE 1 START 1");
         $this->addSql(self::PIRC_PORTFOLIOS);
         $this->addSql("CREATE INDEX IDX_C6B7BDEEA76ED395 ON pirc_portfolios (user_id)");
         $this->addSql("CREATE INDEX IDX_C6B7BDEEF0E45BA9 ON pirc_portfolios (season)");
@@ -102,6 +103,7 @@ SQL;
         $this->addSql("ALTER TABLE pirc_game_portfolios DROP CONSTRAINT FK_5EBC7D2EE48FD905");
         $this->addSql("ALTER TABLE pirc_game_managers DROP CONSTRAINT FK_CB4317FFE48FD905");
         $this->addSql("DROP SEQUENCE seq_pirc_games CASCADE");
+        $this->addSql("DROP SEQUENCE seq_pirc_config CASCADE");
         $this->addSql("DROP TABLE pirc_portfolios");
         $this->addSql("DROP TABLE pirc_config");
         $this->addSql("DROP TABLE pirc_games");

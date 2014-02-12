@@ -19,6 +19,8 @@ class Config
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="seq_pirc_config", initialValue=1, allocationSize=1)
      */
     protected $id;
 
@@ -152,6 +154,11 @@ class Config
      * @ORM\Column(type="smallint")
      */
     protected $round6Win = 100;
+
+    public function setGame(Game $game)
+    {
+        $this->game = $game;
+    }
 
     public function getCostForSeed($seed)
     {

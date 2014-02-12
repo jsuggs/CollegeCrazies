@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
@@ -46,8 +47,10 @@ class Game
      */
     protected $password;
 
-    public function __construct()
+    public function __construct(Config $config)
     {
+        $this->config = $config;
+        $config->setGame($this);
         $this->portfolios = new ArrayCollection();
         $this->managers = new ArrayCollection();
     }
@@ -67,6 +70,11 @@ class Game
     public function getPortfolios()
     {
         return $this->portfolios;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     public function setPassword($password)

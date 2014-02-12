@@ -322,6 +322,11 @@ class User extends BaseUser
         return $this->squaresPlayers;
     }
 
+    public function getPircPortfolios()
+    {
+        return $this->pircPortfolios;
+    }
+
     public function __toString()
     {
         return $this->username;
