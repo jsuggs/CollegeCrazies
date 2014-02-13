@@ -17,6 +17,23 @@ use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
 class GameController extends BaseController
 {
     /**
+     * @Route("/list", name="pirc_game_list")
+     * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
+     * @Secure(roles="ROLE_USER")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function listAction(Bracket $bracket, $season)
+    {
+        $user = $this->getUser();
+
+        return array(
+            'season' => $season,
+            'user' => $user,
+        );
+    }
+
+    /**
      * @Route("/new", name="pirc_game_new")
      * @Secure(roles="ROLE_USER")
      * @Method({"GET"})
@@ -47,7 +64,11 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             $config = $form->getData();
-            $game = $this->getGameManager()->createGame($config, $this->getUser());
+            $user = $this->getUser();
+            $game = $this->getGameManager()->createGame($bracket, $config, $user);
+
+            // Create a portfolio for this game
+            $this->getPortfolioManager()->createPortfolio($game, $user);
 
             $this->getEntityManager()->persist($config);
             $this->getEntityManager()->flush();

@@ -21,8 +21,16 @@ class Portfolio
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="seq_pirc_portfolios", initialValue=1, allocationSize=1)
      */
     protected $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="portfolios")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id", nullable=false)
+     */
+    protected $game;
 
     /**
      * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="pircPortfolios")
@@ -31,13 +39,7 @@ class Portfolio
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket", inversedBy="games")
-     * @ORM\JoinColumn(name="season", referencedColumnName="season", nullable=false)
-     */
-    protected $bracket;
-
-    /**
-     * ORM\OneToMany(targetEntity="SofaChampsMarchMadnessBundle:BracketTeam")
+     * @ORM\OneToMany(targetEntity="PortfolioTeam", mappedBy="portfolio")
      */
     protected $teams;
 
@@ -46,8 +48,9 @@ class Portfolio
      */
     protected $score;
 
-    public function __construct(User $user)
+    public function __construct(Game $game, User $user)
     {
+        $this->game = $game;
         $this->user = $user;
         $this->teams = new ArrayCollection();
     }
@@ -62,12 +65,12 @@ class Portfolio
         return $this->user;
     }
 
-    public function addTeam(BracketTeam $team)
+    public function addTeam(PortfolioTeam $team)
     {
         $this->teams->add($team);
     }
 
-    public function setTeams($teams)
+    public function setTeams(ArrayCollection $teams)
     {
         $this->teams = $teams;
     }
@@ -75,5 +78,15 @@ class Portfolio
     public function getTeams()
     {
         return $this->teams;
+    }
+
+    /**
+     * @Assert\Range(max=100, message"The team cost cannot be greater than 100")
+     */
+    public function getTeamCost()
+    {
+        return array_sum($this->teams->map(function($team) {
+            return $team->getCost();
+        })->toArray());
     }
 }

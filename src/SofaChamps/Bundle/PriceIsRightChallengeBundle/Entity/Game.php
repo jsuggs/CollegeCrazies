@@ -27,8 +27,18 @@ class Game
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Portfolio")
-     * @ORM\JoinTable("pirc_game_portfolios")
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket", inversedBy="pircGames")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
+     */
+    protected $bracket;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Config", mappedBy="game")
+     */
+    protected $config;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Portfolio", mappedBy="game")
      */
     protected $portfolios;
 
@@ -38,17 +48,13 @@ class Game
     protected $managers;
 
     /**
-     * @ORM\OneToOne(targetEntity="Config", mappedBy="game")
-     */
-    protected $config;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $password;
 
-    public function __construct(Config $config)
+    public function __construct(Bracket $bracket, Config $config)
     {
+        $this->bracket = $bracket;
         $this->config = $config;
         $config->setGame($this);
         $this->portfolios = new ArrayCollection();

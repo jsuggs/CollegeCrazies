@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Game;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\GameManager as Manager;
@@ -32,9 +33,9 @@ class GameManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createGame(Config $config, User $user)
+    public function createGame(Bracket $bracket, Config $config, User $user)
     {
-        $game = new Game($config);
+        $game = new Game($bracket, $config);
         $this->om->persist($game);
 
         $gameManager = $this->createGameManager($game, $user);

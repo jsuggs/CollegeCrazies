@@ -8,20 +8,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
+use SofaChamps\Bundle\MarchMadnessBundle\Entity\Game;
 
 /**
- * @Route("/{season}/portfolio")
+ * @Route("/{season}/portfolio/{game_id}")
  */
 class PortfolioController extends BaseController
 {
     /**
      * @Route("/edit", name="pirc_portfolio_edit")
      * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
+     * @ParamConverter("game", class="SofaChampsMarchMadnessBundle:Game", options={"id" = "game_id"})
      * @Secure(roles="ROLE_USER")
      * @Method({"GET"})
      * @Template
      */
-    public function editAction(Bracket $bracket, $season)
+    public function editAction(Bracket $bracket, Game $game, $season)
     {
         $user = $this->getUser();
         $portfolio = $this->getUserPortfolio($user, $season);
@@ -51,12 +53,12 @@ class PortfolioController extends BaseController
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $teams = array();
-            foreach ($data as $idx => $teamIds) {
-                $teams = array_merge($teams, $teamIds);
+            $teamIds = array();
+            foreach ($data as $idx => $ids) {
+                $teamIds = array_merge($ids, $teamIds);
             }
-            $bracketTeams = $this->getRepository('SofaChampsMarchMadnessBundle:BracketTeam')->getBracketTeamsByTeamIds($season, $teams);
-            $portfolio->setTeams($bracketTeams);
+            $teams = $this->getRepository('SofaChampsNCAABundle:Team')->findById($teamIds);
+            $this->getPortfolioManager()->setPortfolioTeams($portfolio, $teams);
 
             $this->getEntityManager()->flush();
 

@@ -1,0 +1,11 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>My Games</h1>
+
+    <ul>
+        {% for portfolio in user.pircPortfolios %}
+            <li>{{ portfolio.id }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

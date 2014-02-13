@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Controller;
 
+use Doctrine\ORM\NoResultException;
 use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
@@ -16,9 +17,18 @@ class BaseController extends CoreController
         return $this->container->get('sofachamps.pirc.game_manager');
     }
 
+    protected function getPortfolioManager()
+    {
+        return $this->container->get('sofachamps.pirc.portfolio_manager');
+    }
+
     protected function getUserPortfolio(User $user, $season)
     {
-        return $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getUserPortfolio($user, $season);
+        try {
+            return $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getUserPortfolio($user, $season);
+        } catch (NoResultException $e) {
+            return $this->getPortfolioManager()->createPortfolio($user, $season);
+        }
     }
 
     protected function getPortfolioForm(Bracket $bracket, Portfolio $portfolio = null)
