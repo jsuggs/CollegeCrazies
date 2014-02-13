@@ -6,3 +6,13 @@
     <li><a href="{{ path('pirc_home', {season: season}) }}">Price Is Right Challenge Home</a></li>
     <li><a href="{{ path('pirc_game_list', {season: season}) }}">My Games</a></li>
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+        'js/pirc.js'
+        output='compiled/js/pirc.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

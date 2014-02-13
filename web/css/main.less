@@ -281,3 +281,17 @@ caption { text-align: left; }
         }
     }
 }
+
+.table-tbody-striped {
+    > tbody {
+        border-bottom: 2px #333 solid;
+    }
+    > tbody:nth-child(odd) {
+        tr {
+            > td,
+            > th {
+                background-color: @table-bg-accent !important;
+            }
+        }
+    }
+}
