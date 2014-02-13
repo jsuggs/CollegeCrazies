@@ -4,10 +4,8 @@ namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Portfolio;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\Mapping as ORM;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
@@ -47,6 +45,13 @@ class PortfolioManager
 
     public function setPortfolioTeams(Portfolio $portfolio, $teams)
     {
+        foreach ($portfolio->getTeams() as $team) {
+            $this->om->remove($team);
+        }
+
+        // Temporary hack...
+        $this->om->flush();
+
         $portfolioTeams = new ArrayCollection();
         foreach ($teams as $team) {
             $portfolioTeams->add($this->createPortfolioTeam($portfolio, $team));
@@ -58,13 +63,6 @@ class PortfolioManager
     public function createPortfolioTeam(Portfolio $portfolio, Team $team)
     {
         $portfolioTeam = new PortfolioTeam($portfolio, $team);
-
-        $bracket = $portfolio->getBracket();
-        $bracketTeam = $bracket->getBracketTeamForTeam($team);
-        $config = $portfolio->getGame()->getConfig();
-        $cost = $config->getCostForSeed($bracketTeam->getRegionSeed());
-
-        $portfolioTeam->setCost($cost);
 
         $this->om->persist($portfolioTeam);
 

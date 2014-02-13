@@ -68,8 +68,6 @@ SQL;
 CREATE TABLE pirc_portfolio_teams (
     portfolio_id INT NOT NULL
   , team_id VARCHAR(5) NOT NULL
-  , cost SMALLINT NOT NULL
-  , createdAt TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
   , PRIMARY KEY(portfolio_id, team_id)
 )
 SQL;
@@ -92,6 +90,7 @@ SQL;
         $this->addSql(self::PIRC_PORTFOLIO_TEAMS);
         $this->addSql("CREATE INDEX IDX_C3E190B1B96B5643 ON pirc_portfolio_teams (portfolio_id)");
         $this->addSql("CREATE INDEX IDX_C3E190B1296CD8AE ON pirc_portfolio_teams (team_id)");
+        $this->addSql("ALTER TABLE pirc_games ADD CONSTRAINT FK_75F17C8AF0E45BA9 FOREIGN KEY (season) REFERENCES mm_brackets (season) NOT DEFERRABLE INITIALLY IMMEDIATE");
         $this->addSql("ALTER TABLE pirc_portfolios ADD CONSTRAINT FK_C6B7BDEEA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
         $this->addSql("ALTER TABLE pirc_portfolios ADD CONSTRAINT FK_C6B7BDEEE48FD905 FOREIGN KEY (game_id) REFERENCES pirc_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
         $this->addSql("ALTER TABLE pirc_config ADD CONSTRAINT FK_88B3972FE48FD905 FOREIGN KEY (game_id) REFERENCES pirc_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE");

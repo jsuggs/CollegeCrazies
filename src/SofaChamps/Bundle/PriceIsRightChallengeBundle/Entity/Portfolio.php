@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,7 +40,7 @@ class Portfolio
     protected $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="PortfolioTeam", mappedBy="portfolio")
+     * @ORM\OneToMany(targetEntity="PortfolioTeam", mappedBy="portfolio", cascade={"all"}, orphanRemoval=true)
      */
     protected $teams;
 
@@ -58,6 +59,11 @@ class Portfolio
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getGame()
+    {
+        return $this->game;
     }
 
     public function getUser()
@@ -80,8 +86,15 @@ class Portfolio
         return $this->teams;
     }
 
+    public function hasTeam(Team $team)
+    {
+        return $this->teams->exists(function($idx, PortfolioTeam $portfolioTeam) use($team) {
+            return $portfolioTeam->getTeam()->getId() == $team->getId();
+        });
+    }
+
     /**
-     * @Assert\Range(max=100, message"The team cost cannot be greater than 100")
+     * Assert\Range(max=100, message"The team cost cannot be greater than 100")
      */
     public function getTeamCost()
     {

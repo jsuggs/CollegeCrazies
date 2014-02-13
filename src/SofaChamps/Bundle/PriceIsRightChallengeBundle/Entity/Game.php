@@ -28,7 +28,7 @@ class Game
 
     /**
      * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket", inversedBy="pircGames")
-     * @ORM\JoinColumn(name="season", referencedColumnName="season")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season", nullable=false)
      */
     protected $bracket;
 
@@ -64,6 +64,11 @@ class Game
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getBracket()
+    {
+        return $this->bracket;
     }
 
     public function getConfig()

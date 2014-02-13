@@ -9,31 +9,33 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Game;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
 
 /**
- * @Route("/{season}/portfolio/{game_id}")
+ * @Route("/{season}/portfolio/{id}")
  */
 class PortfolioController extends BaseController
 {
     /**
      * @Route("/edit", name="pirc_portfolio_edit")
-     * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
-     * @ParamConverter("game", class="SofaChampsMarchMadnessBundle:Game", options={"id" = "game_id"})
+     * @ParamConverter("portfolio", class="SofaChampsPriceIsRightChallengeBundle:Portfolio", options={"id" = "id"})
      * @Secure(roles="ROLE_USER")
      * @Method({"GET"})
      * @Template
      */
-    public function editAction(Bracket $bracket, Game $game, $season)
+    public function editAction(Portfolio $portfolio, $season)
     {
-        $user = $this->getUser();
-        $portfolio = $this->getUserPortfolio($user, $season);
-        $form = $this->getPortfolioForm($bracket, $portfolio);
+        $form = $this->getPortfolioForm($portfolio);
+        $game = $portfolio->getGame();
+        $config = $game->getConfig();
+        $bracket = $game->getBracket();
 
         return array(
             'portfolio' => $portfolio,
             'season' => $season,
             'form' => $form->createView(),
-            'user' => $user,
+            'bracket' => $bracket,
+            'config' => $game->getConfig(),
         );
     }
 
@@ -42,30 +44,31 @@ class PortfolioController extends BaseController
      * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
      * @Secure(roles="ROLE_USER")
      * @Method({"POST"})
+     * @Template("SofaChampsPriceIsRightChallengeBundle:Portfolio:edit.html.twig")
      */
-    public function updateAction(Bracket $bracket, $season)
+    public function updateAction(Portfolio $portfolio, $season)
     {
+        $form = $this->getPortfolioForm($portfolio);
         $user = $this->getUser();
-        $portfolio = $this->getUserPortfolio($user, $season);
-        $form = $this->getPortfolioForm($bracket, $portfolio);
+        $game = $portfolio->getGame();
+        $config = $game->getConfig();
+        $bracket = $game->getBracket();
 
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $teamIds = array();
-            foreach ($data as $idx => $ids) {
-                $teamIds = array_merge($ids, $teamIds);
-            }
-            $teams = $this->getRepository('SofaChampsNCAABundle:Team')->findById($teamIds);
-            $this->getPortfolioManager()->setPortfolioTeams($portfolio, $teams);
+            $teams = $this->getEntityManager()->getRepository('SofaChampsNCAABundle:Team')->findByIds($data['teams']);
 
-            $this->getEntityManager()->flush();
+            $this->getEntityManager()->transactional(function ($em) use ($portfolio, $teams) {
+                $this->getPortfolioManager()->setPortfolioTeams($portfolio, $teams);
+            });
 
             $this->addMessage('success', 'Portfolio Updated');
 
             return $this->redirect($this->generateUrl('pirc_portfolio_edit', array(
                 'season' => $season,
+                'id' => $portfolio->getId(),
             )));
         } else {
             $this->addMessage('warning', 'There was an error updating your portfolio');
@@ -75,7 +78,8 @@ class PortfolioController extends BaseController
             'portfolio' => $portfolio,
             'season' => $season,
             'form' => $form->createView(),
-            'user' => $user,
+            'bracket' => $bracket,
+            'config' => $game->getConfig(),
         );
     }
 }

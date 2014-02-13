@@ -29,12 +29,12 @@ class PortfolioTeam
     protected $team;
 
     /**
-     * @ORM\Column(type="smallint")
+     * ORM\Column(type="smallint")
      */
     protected $cost;
 
     /**
-     * @ORM\Column(type="datetime")
+     * ORM\Column(type="datetime")
      */
     protected $createdAt;
 
@@ -53,6 +53,16 @@ class PortfolioTeam
     public function getTeam()
     {
         return $this->team;
+    }
+
+    public function getTeamName()
+    {
+        return $this->team->getId();
+    }
+
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
     }
 
     public function getCost()

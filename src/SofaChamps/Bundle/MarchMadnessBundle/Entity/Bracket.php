@@ -83,6 +83,13 @@ class Bracket extends AbstractBracket
         });
     }
 
+    public function getTeamsForSeed($seed)
+    {
+        return $this->teams->filter(function($team) use ($seed) {
+            return $team->getRegionSeed() == $seed;
+        });
+    }
+
     public function getBracketTeamForTeam(Team $team)
     {
         return $this->teams->filter(function(BracketTeam $bracketTeam) use ($team) {

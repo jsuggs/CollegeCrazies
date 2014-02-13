@@ -1,8 +1,30 @@
 {% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
 
 {% block content %}
-    Hello {{ season }}!
-    <form action="{{ path('pirc_portfolio_update', {season: season}) }}" method="post">
-        {{ form_widget(form) }}
+    {% form_theme form _self %}
+
+    <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post">
+        {% do form.teams.setRendered %}
+        {{ form_errors(form) }}
+
+        {% for seed in range(1, 16) %}
+            {% set seedCost = config.costForSeed(seed) %}
+            <div style="border: 1px solid #333;">
+                <h2>#{{ seed }} Seeds (${{ seedCost }})</h2>
+                <ol>
+                    {% for bracketTeam in bracket.teamsForSeed(seed) %}
+                        <li>
+                            <label>
+                                {{ bracketTeam.team.name }}
+                                <input type="checkbox" name="form[teams][]" value="{{ bracketTeam.team.id }}"{% if portfolio.hasTeam(bracketTeam.team) %} checked="checked"{% endif %} data-cost="{{ seedCost }}"/>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">Update Portfolio</button>
+        {{ form_rest(form) }}
     </form>
 {% endblock %}

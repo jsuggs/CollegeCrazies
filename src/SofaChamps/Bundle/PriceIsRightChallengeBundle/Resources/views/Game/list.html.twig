@@ -5,7 +5,7 @@
 
     <ul>
         {% for portfolio in user.pircPortfolios %}
-            <li>{{ portfolio.id }}</li>
+            <li><a href="{{ path('pirc_portfolio_edit', {season: season, id: portfolio.id}) }}">{{ portfolio.id }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
