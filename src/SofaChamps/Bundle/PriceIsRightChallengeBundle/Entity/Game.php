@@ -27,6 +27,11 @@ class Game
     protected $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $name;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket", inversedBy="pircGames")
      * @ORM\JoinColumn(name="season", referencedColumnName="season", nullable=false)
      */
@@ -64,6 +69,16 @@ class Game
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getBracket()

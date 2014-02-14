@@ -42,7 +42,7 @@ class GameController extends BaseController
      */
     public function newAction(Bracket $bracket, $season)
     {
-        $form = $this->getConfigForm(new Config());
+        $form = $this->getGameForm(new Game($bracket, new Config()));
 
         return array(
             'season' => $season,
@@ -55,23 +55,20 @@ class GameController extends BaseController
      * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
      * @Secure(roles="ROLE_USER")
      * @Method({"POST"})
-     * @Template
+     * @Template("SofaChampsPriceIsRightChallengeBundle:Game:new.html.twig")
      */
     public function createAction(Bracket $bracket, $season)
     {
-        $form = $this->getConfigForm(new Config());
+        $user = $this->getUser();
+        $game = $this->getGameManager()->createGame($bracket, $user);
+        $form = $this->getGameForm($game);
 
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
-            $config = $form->getData();
-            $user = $this->getUser();
-            $game = $this->getGameManager()->createGame($bracket, $config, $user);
-
             // Create a portfolio for this game
             $this->getPortfolioManager()->createPortfolio($game, $user);
 
-            $this->getEntityManager()->persist($config);
             $this->getEntityManager()->flush();
 
             $this->addMessage('success', 'Game created');
@@ -99,7 +96,7 @@ class GameController extends BaseController
      */
     public function viewAction(Game $game, $season)
     {
-        $form = $this->getConfigForm($game->getConfig());
+        $form = $this->getGameForm($game);
 
         return array(
             'season' => $season,
@@ -117,7 +114,7 @@ class GameController extends BaseController
      */
     public function editAction(Game $game, $season)
     {
-        $form = $this->getConfigForm($game->getConfig());
+        $form = $this->getGameForm($game);
 
         return array(
             'season' => $season,
@@ -135,7 +132,7 @@ class GameController extends BaseController
      */
     public function updateAction(Game $game, $season)
     {
-        $form = $this->getConfigForm($game->getConfig());
+        $form = $this->getGameForm($game);
 
         $form->bind($this->getRequest());
 

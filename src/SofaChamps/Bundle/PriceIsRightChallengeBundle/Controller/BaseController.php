@@ -6,9 +6,11 @@ use Doctrine\ORM\NoResultException;
 use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Config;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\PortfolioTeam;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\ConfigFormType;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\GameFormType;
 
 class BaseController extends CoreController
 {
@@ -53,5 +55,10 @@ class BaseController extends CoreController
     protected function getConfigForm(Config $config)
     {
         return $this->createForm(new ConfigFormType(), $config);
+    }
+
+    protected function getGameForm(Game $game)
+    {
+        return $this->createForm(new GameFormType(), $game);
     }
 }

@@ -50,6 +50,7 @@ SQL;
     const PIRC_GAMES =<<<SQL
 CREATE TABLE pirc_games (
     id INT NOT NULL
+  , name VARCHAR(255) NOT NULL
   , season SMALLINT NOT NULL
   , password VARCHAR(255) DEFAULT NULL
   , PRIMARY KEY(id)

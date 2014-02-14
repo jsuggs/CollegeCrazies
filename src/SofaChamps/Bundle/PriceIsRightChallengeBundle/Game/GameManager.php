@@ -33,8 +33,11 @@ class GameManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createGame(Bracket $bracket, Config $config, User $user)
+    public function createGame(Bracket $bracket, User $user)
     {
+        $config = new Config();
+        $this->om->persist($config);
+
         $game = new Game($bracket, $config);
         $this->om->persist($game);
 
