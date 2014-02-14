@@ -103,6 +103,13 @@ class Game
         return $this->portfolios;
     }
 
+    public function getUserPortfolio(User $user)
+    {
+        return $this->portfolios->filter(function($portfolio) use ($user) {
+            return $portfolio->getUser() == $user;
+        })->first();
+    }
+
     public function addManager(GameManager $manager)
     {
         if (!$this->managers->contains($manager)) {

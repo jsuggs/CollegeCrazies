@@ -1,5 +1,17 @@
-<ul>
-    {% for game in games %}
-        <li><a href="{{ path('pirc_game_view', {season: season, id: game.id}) }}">{{ game.name }}</a></li>
-    {% endfor %}
-</ul>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Game</th>
+            <th>Portfolio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for game in games %}
+            {% set portfolio = game.userPortfolio(app.user) %}
+            <tr>
+                <td><a href="{{ path('pirc_game_view', {season: season, id: game.id}) }}">{{ game.name }}</a></td>
+                <td><a href="{{ path('pirc_portfolio_edit', {season: season, id: portfolio.id}) }}">Edit portfolio</a>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
