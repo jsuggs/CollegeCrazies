@@ -1,0 +1,5 @@
+<ul>
+    {% for game in games %}
+        <li><a href="{{ path('pirc_game_view', {season: season, id: game.id}) }}">{{ game.id }}</a></li>
+    {% endfor %}
+</ul>

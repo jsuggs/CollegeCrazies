@@ -9,9 +9,8 @@
 
     {% if is_granted('ROLE_USER') %}
         <h2>My Games</h2>
-        {% for portfolio in app.user.pircPortfolios %}
-            {{ game.id }}
-        {% endfor %}
+
+        {% include 'SofaChampsPriceIsRightChallengeBundle:Game:_list.html.twig' %}
     {% endif %}
 
     <a href="{{ path('pirc_game_new', {season: season}) }}" class="btn btn-success">Start a new game</a> or <a href="" class="btn btn-info">Join an existing game</a>

@@ -26,10 +26,11 @@ class GameController extends BaseController
     public function listAction(Bracket $bracket, $season)
     {
         $user = $this->getUser();
+        $games = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Game')->findUsersGamesForBracket($user, $bracket);
 
         return array(
+            'games' => $games,
             'season' => $season,
-            'user' => $user,
         );
     }
 
@@ -86,6 +87,24 @@ class GameController extends BaseController
         return array(
             'season' => $season,
             'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * @Route("/view/{id}", name="pirc_game_view")
+     * @ParamConverter("bracket", class="SofaChampsPriceIsRightChallengeBundle:Game", options={"id" = "id"})
+     * @Secure(roles="ROLE_USER")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function viewAction(Game $game, $season)
+    {
+        $form = $this->getConfigForm($game->getConfig());
+
+        return array(
+            'season' => $season,
+            'form' => $form->createView(),
+            'game' => $game,
         );
     }
 

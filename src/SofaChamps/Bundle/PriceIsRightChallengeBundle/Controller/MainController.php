@@ -19,9 +19,16 @@ class MainController extends BaseController
      */
     public function indexAction(Bracket $bracket, $season)
     {
+        $user = $this->getUser();
+
+        $games = $user
+            ?  $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Game')->findUsersGamesForBracket($user, $bracket)
+            : null;
+
         return array(
             'bracket' => $bracket,
             'season' => $season,
+            'games' => $games,
         );
     }
 

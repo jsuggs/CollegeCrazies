@@ -3,9 +3,5 @@
 {% block content %}
     <h1>My Games</h1>
 
-    <ul>
-        {% for portfolio in user.pircPortfolios %}
-            <li><a href="{{ path('pirc_portfolio_edit', {season: season, id: portfolio.id}) }}">{{ portfolio.id }}</a></li>
-        {% endfor %}
-    </ul>
+    {% include 'SofaChampsPriceIsRightChallengeBundle:Game:_list.html.twig' %}
 {% endblock %}

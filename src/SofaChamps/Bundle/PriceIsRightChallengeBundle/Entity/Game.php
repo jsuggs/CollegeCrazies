@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A Price is Right Challenge Game
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GameRepository")
  * @ORM\Table(
  *      name="pirc_games"
  * )
