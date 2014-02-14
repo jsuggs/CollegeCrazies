@@ -1,0 +1,24 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>{{ game.name }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Portfolio</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+            {% for portfolio in game.portfolios %}
+                <tr>
+                    <td>{{ portfolio.user.username }}</td>
+                    <td>{{ portfolio.id }}</td>
+                    <td>{{ portfolio.score ?: '--' }}</td>
+                </tr>
+            {% endfor %}
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}

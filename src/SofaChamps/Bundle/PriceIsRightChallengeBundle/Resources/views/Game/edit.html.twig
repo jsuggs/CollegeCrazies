@@ -6,7 +6,7 @@
     <form action="{{ path('pirc_game_update', {season: season, id: game.id}) }}" method="post">
         {% include "SofaChampsPriceIsRightChallengeBundle:Game:form.html.twig" %}
 
-        <button type="submit">Update Game</button>
+        <button type="submit" class="btn btn-primary">Update Game</button>
         {{ form_rest(form) }}
     </form>
 {% endblock %}

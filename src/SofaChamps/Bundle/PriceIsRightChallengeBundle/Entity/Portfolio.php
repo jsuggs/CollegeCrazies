@@ -93,6 +93,16 @@ class Portfolio
         });
     }
 
+    public function setScore($score)
+    {
+        $this->score = $score;
+    }
+
+    public function getScore()
+    {
+        return $this->score;
+    }
+
     /**
      * Assert\Range(max=100, message"The team cost cannot be greater than 100")
      */
