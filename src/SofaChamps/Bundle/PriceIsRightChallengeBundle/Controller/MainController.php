@@ -23,7 +23,7 @@ class MainController extends BaseController
 
         $games = $user
             ?  $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Game')->findUsersGamesForBracket($user, $bracket)
-            : null;
+            : array();
 
         return array(
             'bracket' => $bracket,
