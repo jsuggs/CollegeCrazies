@@ -60,8 +60,9 @@ class PortfolioController extends BaseController
             $data = $form->getData();
             $teams = $this->getEntityManager()->getRepository('SofaChampsNCAABundle:Team')->findByIds($data['teams']);
 
-            $this->getEntityManager()->transactional(function ($em) use ($portfolio, $teams) {
-                $this->getPortfolioManager()->setPortfolioTeams($portfolio, $teams);
+            $portfolioManager = $this->getPortfolioManager();
+            $this->getEntityManager()->transactional(function ($em) use ($portfolio, $teams, $portfolioManager) {
+                $portfolioManager->setPortfolioTeams($portfolio, $teams);
             });
 
             $this->addMessage('success', 'Portfolio Updated');
