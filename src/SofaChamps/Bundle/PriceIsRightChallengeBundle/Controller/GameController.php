@@ -67,14 +67,14 @@ class GameController extends BaseController
 
         if ($form->isValid()) {
             // Create a portfolio for this game
-            $this->getPortfolioManager()->createPortfolio($game, $user);
+            $portfolio = $this->getPortfolioManager()->createPortfolio($game, $user);
 
             $this->getEntityManager()->flush();
 
-            $this->addMessage('success', 'Game created');
+            $this->addMessage('success', 'Congratulations! Your game was created.  Now you can edit your portfolio.');
 
-            return $this->redirect($this->generateUrl('pirc_game_edit', array(
-                'id' => $game->getId(),
+            return $this->redirect($this->generateUrl('pirc_portfolio_edit', array(
+                'id' => $portfolio->getId(),
                 'season' => $season,
             )));
         } else {
