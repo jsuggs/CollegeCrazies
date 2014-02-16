@@ -3,7 +3,7 @@
 {% block content %}
     {% form_theme form _self %}
 
-    <h1>Edit your portfolio</h1>
+    <h1>Edit your portfolio{% if is_granted('EDIT', portfolio.game) %} <small><a href="{{ path('pirc_game_edit', {season: season, id: portfolio.game.id}) }}">Edit Game Settings</a></small>{% endif %}</h1>
     <p>Remaining Bankroll: $<span id="bankroll">--</span></p>
 
     <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post" class="pirc-portfolio">

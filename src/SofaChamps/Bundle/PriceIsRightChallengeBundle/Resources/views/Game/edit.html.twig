@@ -2,6 +2,10 @@
 
 {% block content %}
     <h1>Update Game Settings</h1>
+    {% if is_granted('EDIT', game) %}
+        {% set portfolio = game.userPortfolio(app.user) %}
+        <p><a href="{{ path('pirc_portfolio_edit', {season: season, id: portfolio.id}) }}">Edit Portfolio</a></p>
+    {% endif %}
 
     <form action="{{ path('pirc_game_update', {season: season, id: game.id}) }}" method="post">
         {% include "SofaChampsPriceIsRightChallengeBundle:Game:form.html.twig" %}

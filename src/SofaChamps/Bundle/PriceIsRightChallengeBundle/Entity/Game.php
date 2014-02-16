@@ -122,6 +122,13 @@ class Game
         $this->password = trim($password);
     }
 
+    public function isManager(User $user)
+    {
+        return $this->managers->exists(function($idx, GameManager $manager) use ($user) {
+            return $manager->getUser() == $user;
+        });
+    }
+
     public function getPassword()
     {
         return $this->password;
