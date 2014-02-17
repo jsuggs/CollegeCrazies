@@ -1,6 +1,8 @@
 $(function() {
     var $bankroll = $("#bankroll");
 
+    $("#pirc-portfolio").fixedHeaderTable({ height: 400 });
+
     var calcBankroll = function() {
         var remain = 100;
         $("form.pirc-portfolio input:checked").each(function() {

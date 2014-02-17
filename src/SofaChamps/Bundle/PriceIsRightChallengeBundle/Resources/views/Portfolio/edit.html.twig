@@ -4,12 +4,13 @@
     {% form_theme form _self %}
 
     <h1>Edit your portfolio{% if is_granted('EDIT', portfolio.game) %} <small><a href="{{ path('pirc_game_edit', {season: season, id: portfolio.game.id}) }}">Edit Game Settings</a></small>{% endif %}</h1>
-    <p>Remaining Bankroll: $<span id="bankroll">--</span></p>
+    <p class="lead">You have $100 to spend on teams, with each seed costing various amounts.  Do you go for value or quantity?</p>
+    <p class="bankroll-wrapper">Remaining Bankroll: $<span id="bankroll">--</span></p>
 
     <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post" class="pirc-portfolio">
         {% do form.teams.setRendered %}
         {{ form_errors(form) }}
-        <table class="table table-condensed table-tbody-striped">
+        <table id="pirc-portfolio" class="table table-condensed table-tbody-striped">
                 <thead>
                     <th>Seed</th>
                     <th>Team</th>
@@ -33,7 +34,7 @@
             {% endfor %}
         </table>
 
-        <button type="submit" class="btn btn-success">Update Portfolio</button>
+        <button type="submit" id="pirc-submit" class="btn btn-success">Update Portfolio</button>
         {{ form_rest(form) }}
     </form>
 {% endblock %}

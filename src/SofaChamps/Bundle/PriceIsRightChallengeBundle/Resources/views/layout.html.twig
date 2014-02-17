@@ -11,8 +11,20 @@
     {{ parent() }}
     {% javascripts
         'js/pirc.js'
+        'components/jquery.fixedheadertable/jquery.fixedheadertable.js'
         output='compiled/js/pirc.js'
     %}
         <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        'css/pirc.css'
+        'components/jquery.fixedheadertable/css/defaultTheme.css'
+        output='compiled/css/pirc.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
 {% endblock %}

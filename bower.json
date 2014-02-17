@@ -11,6 +11,7 @@
         "flot": "latest",
         "bootstrap": "3.*",
         "font-awesome": "latest",
-        "evol.colorpicker": "latest"
+        "evol.colorpicker": "latest",
+        "jquery.fixedheadertable": "latest"
     }
 }
