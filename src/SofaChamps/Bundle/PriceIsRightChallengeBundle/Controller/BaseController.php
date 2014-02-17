@@ -11,6 +11,7 @@ use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\PortfolioTeam;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\ConfigFormType;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\GameFormType;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Form\GameInviteFormType;
 
 class BaseController extends CoreController
 {
@@ -24,6 +25,11 @@ class BaseController extends CoreController
         return $this->container->get('sofachamps.pirc.portfolio_manager');
     }
 
+    protected function getInviteManager()
+    {
+        return $this->get('sofachamps.pirc.invite_manager');
+    }
+
     protected function getUserPortfolio(User $user, $season)
     {
         try {
@@ -31,6 +37,11 @@ class BaseController extends CoreController
         } catch (NoResultException $e) {
             return $this->getPortfolioManager()->createPortfolio($user, $season);
         }
+    }
+
+    protected function getInviteForm(Game $game)
+    {
+        return $this->createForm(new GameInviteFormType());
     }
 
     protected function getPortfolioForm(Portfolio $portfolio)

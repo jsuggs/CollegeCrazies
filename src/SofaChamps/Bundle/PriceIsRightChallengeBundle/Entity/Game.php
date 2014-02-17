@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="pirc_games"
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Game
 {
@@ -23,11 +25,13 @@ class Game
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_pirc_games", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serialize\Expose
      */
     protected $name;
 

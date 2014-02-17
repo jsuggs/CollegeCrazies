@@ -3,6 +3,8 @@
 {% block content %}
     <h1>{{ game.name }}</h1>
 
+    <p>It's more fun with friends! <a href="{{ path('pirc_invite', {season: season, gameId: game.id}) }}">Invite people to play</a></p>
+
     <table class="table">
         <thead>
             <tr>
