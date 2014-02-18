@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\EmailBundle\Email\EmailSenderInterface;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Invite;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Portfolio\PortfolioManager;
 
 /**
@@ -57,8 +58,8 @@ class InviteManager
             'from' => array($fromUser->getEmail() => $fromUser->getUsername()),
         ));
 
-        //$invite = new Invite($fromUser, $game, $email);
-        //$this->om->persist($invite);
+        $invite = new Invite($fromUser, $game, $email);
+        $this->om->persist($invite);
     }
 
     private function findUserByEmail($email)

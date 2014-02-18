@@ -99,6 +99,9 @@ SQL;
         $this->addSql("ALTER TABLE pirc_game_managers ADD CONSTRAINT FK_CB4317FFE48FD905 FOREIGN KEY (game_id) REFERENCES pirc_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
         $this->addSql("ALTER TABLE pirc_portfolio_teams ADD CONSTRAINT FK_C3E190B1B96B5643 FOREIGN KEY (portfolio_id) REFERENCES pirc_portfolios (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
         $this->addSql("ALTER TABLE pirc_portfolio_teams ADD CONSTRAINT FK_C3E190B1296CD8AE FOREIGN KEY (team_id) REFERENCES ncaa_teams (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
+        $this->addSql("ALTER TABLE invites ADD pirc_game_id INT DEFAULT NULL");
+        $this->addSql("ALTER TABLE invites ADD CONSTRAINT FK_INVITES_REF_PIRC_GAMES_PIRC_GAME_ID FOREIGN KEY (pirc_game_id) REFERENCES pirc_games (id) NOT DEFERRABLE INITIALLY IMMEDIATE");
+        $this->addSql("CREATE INDEX IDX_INVITES_PIRC_GAME_ID ON invites (pirc_game_id)");
     }
 
     public function down(Schema $schema)
@@ -110,6 +113,7 @@ SQL;
         $this->addSql("DROP SEQUENCE seq_pirc_games CASCADE");
         $this->addSql("DROP SEQUENCE seq_pirc_config CASCADE");
         $this->addSql("DROP SEQUENCE seq_pirc_portfolios CASCADE");
+        $this->addSql("ALTER TABLE invites DROP pirc_game_id");
         $this->addSql("DROP TABLE pirc_portfolios");
         $this->addSql("DROP TABLE pirc_config");
         $this->addSql("DROP TABLE pirc_games");
