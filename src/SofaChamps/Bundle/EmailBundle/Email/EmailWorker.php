@@ -5,18 +5,21 @@ namespace SofaChamps\Bundle\EmailBundle\Email;
 use JMS\DiExtraBundle\Annotation as DI;
 use Mmoreram\GearmanBundle\Driver\Gearman;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * This is the process that actually sends the emails
  *
  * @DI\Service("sofachamps.email.worker")
+ * @DI\Tag("monolog.logger", attributes={"channel":"email"})
  */
 class EmailWorker
 {
     protected $mailer;
     protected $templating;
     protected $router;
+    protected $logger;
 
     /**
      * @DI\InjectParams({
@@ -25,18 +28,19 @@ class EmailWorker
      *      "router" = @DI\Inject("router"),
      * })
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, UrlGeneratorInterface $router)
+    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, UrlGeneratorInterface $router, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->router = $router;
+        $this->logger = $logger;
     }
 
     public function sendToEmail(\GearmanJob $job)
     {
         $workload = json_decode($job->workload(), true);
 
-        var_dump(sprintf('Sending %s to %s with %s', $workload['templateName'], $workload['email'], var_export($workload['data'], true)));
+        $this->logger->info(sprintf('Sending %s to %s with %s', $workload['templateName'], $workload['email'], json_encode($workload['data'], true)));
 
         // Make the email being sent to available to the templates
         $workload['emailTo'] = $workload['email'];
