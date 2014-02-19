@@ -25,6 +25,7 @@ class PortfolioController extends BaseController
      */
     public function editAction(Portfolio $portfolio, $season)
     {
+        $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
         $game = $portfolio->getGame();
         $config = $game->getConfig();
@@ -48,8 +49,8 @@ class PortfolioController extends BaseController
      */
     public function updateAction(Portfolio $portfolio, $season)
     {
+        $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
-        $user = $this->getUser();
         $game = $portfolio->getGame();
         $config = $game->getConfig();
         $bracket = $game->getBracket();

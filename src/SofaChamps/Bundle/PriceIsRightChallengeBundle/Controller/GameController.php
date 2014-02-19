@@ -36,6 +36,7 @@ class GameController extends BaseController
 
     /**
      * @Route("/new", name="pirc_game_new")
+     * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
      * @Secure(roles="ROLE_USER")
      * @Method({"GET"})
      * @Template
@@ -124,7 +125,7 @@ class GameController extends BaseController
     }
 
     /**
-     * @Route("/edit/{id}", name="pirc_game_update")
+     * @Route("/update/{id}", name="pirc_game_update")
      * @ParamConverter("bracket", class="SofaChampsPriceIsRightChallengeBundle:Game", options={"id" = "id"})
      * @Secure(roles="ROLE_USER")
      * @Method({"POST"})

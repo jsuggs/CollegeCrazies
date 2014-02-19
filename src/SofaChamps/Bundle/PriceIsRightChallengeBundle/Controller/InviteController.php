@@ -76,12 +76,11 @@ class InviteController extends BaseController
             $portfolio = $game->getUserPortfolio($user);
             if (!$portfolio) {
                 $portfolio = $this->getPortfolioManager()->createPortfolio($game, $user);
+                $this->getEntityManager()->flush();
                 $this->addMessage('success', 'Congratulations, you are in the game!');
             } else {
                 $this->addMessage('info', 'You were already in the game');
             }
-
-            $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('pirc_portfolio_edit', array(
                 'season' => $season,
@@ -93,12 +92,8 @@ class InviteController extends BaseController
             $response->sendHeaders();
 
             $this->addMessage('info', 'You can join the squares game after you login or create an account');
-            throw new AccessDeniedException('Must be logged in to join squares');
-        }
 
-        return array(
-            'game' => $game,
-            'player' => $player,
-        );
+            throw new AccessDeniedException('Must be logged in to join Price Is Right Challenge');
+        }
     }
 }

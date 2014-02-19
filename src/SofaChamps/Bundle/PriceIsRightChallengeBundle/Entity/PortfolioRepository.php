@@ -16,4 +16,19 @@ class PortfolioRepository extends EntityRepository
             ->getQuery()
             ->getSingleResult();
     }
+
+    public function getPopulatedPortfolio(Portfolio $portfolio)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, g, b, bt, t, pt')
+            ->innerJoin('p.game', 'g')
+            ->innerJoin('g.bracket', 'b')
+            ->innerJoin('b.teams', 'bt')
+            ->innerJoin('bt.team', 't')
+            ->leftJoin('p.teams', 'pt')
+            ->where('p.id = :id')
+            ->setParameter('id', $portfolio->getId())
+            ->getQuery()
+            ->getSingleResult();
+    }
 }
