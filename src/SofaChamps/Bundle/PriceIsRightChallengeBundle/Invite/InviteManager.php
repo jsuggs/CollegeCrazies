@@ -1,6 +1,6 @@
 <?php
 
-namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Game;
+namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Invite;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;

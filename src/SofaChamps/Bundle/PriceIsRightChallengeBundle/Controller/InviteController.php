@@ -8,8 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
-use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Config;
 use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game;
+use SofaChamps\Bundle\PriceIsRightChallengeBundle\Invite\InviteManager;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/{season}/invite")
@@ -67,22 +68,25 @@ class InviteController extends BaseController
      * @Method({"GET"})
      * @Template
      */
-    public function joinAction(Game $game)
+    public function joinAction(Game $game, $season)
     {
         $user = $this->getUser();
 
         if ($user) {
-            if (!$player) {
-                $player = $this->getPlayerManager()->createPlayer($user, $game);
-                $this->addMessage('success', 'Added to game');
+            $portfolio = $game->getUserPortfolio($user);
+            if (!$portfolio) {
+                $portfolio = $this->getPortfolioManager()->createPortfolio($game, $user);
+                $this->addMessage('success', 'Congratulations, you are in the game!');
             } else {
                 $this->addMessage('info', 'You were already in the game');
-                return $this->redirect($this->generateUrl('squares_game_view', array(
-                    'gameId' => $game->getId(),
-                )));
             }
-            $this->getGameManager()->addPlayerToGame($game, $player);
+
             $this->getEntityManager()->flush();
+
+            return $this->redirect($this->generateUrl('pirc_portfolio_edit', array(
+                'season' => $season,
+                'id' => $portfolio->getId(),
+            )));
         } else {
             $response = $this->getResponse();
             $this->setCookie($response, InviteManager::COOKIE_NAME, $game->getId());
