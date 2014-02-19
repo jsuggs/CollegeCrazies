@@ -52,7 +52,7 @@ class InviteManager
     {
         $subjectLine = sprintf('Invitation to play SofaChamps Price Is Right Challenge - Game: %s', $game->getName());
 
-        $this->emailSender->sendToEmail($email, 'PriceIsRightChallenSquaresge:invite', $subjectLine, array(
+        $this->emailSender->sendToEmail($email, 'PriceIsRightChallenge:invite', $subjectLine, array(
             'fromUser' => $fromUser,
             'game' => $game,
             'from' => array($fromUser->getEmail() => $fromUser->getUsername()),

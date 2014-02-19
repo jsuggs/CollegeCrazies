@@ -62,7 +62,7 @@ class InviteController extends BaseController
     }
 
     /**
-     * @Route("/join/{gameId}", name="squares_join")
+     * @Route("/join/{gameId}", name="pirc_join")
      * @ParamConverter("game", class="SofaChampsPriceIsRightChallengeBundle:Game", options={"id" = "gameId"})
      * @Method({"GET"})
      * @Template
