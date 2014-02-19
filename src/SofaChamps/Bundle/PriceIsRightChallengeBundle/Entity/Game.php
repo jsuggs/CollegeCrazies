@@ -90,6 +90,15 @@ class Game
         return $this->bracket;
     }
 
+    /**
+     * @Serialize\VirtualProperty
+     * @Serialize\SerializedName("season")
+     */
+    public function getSeason()
+    {
+        return $this->bracket->getSeason();
+    }
+
     public function getConfig()
     {
         return $this->config;
