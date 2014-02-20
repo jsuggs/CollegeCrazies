@@ -117,6 +117,13 @@ class Portfolio
         });
     }
 
+    public function getTeam(Team $team)
+    {
+        return $this->teams->filter(function(PortfolioTeam $portfolioTeam) use($team) {
+            return $portfolioTeam->getTeam()->getId() == $team->getId();
+        })->first();
+    }
+
     public function setScore($score)
     {
         $this->score = $score;

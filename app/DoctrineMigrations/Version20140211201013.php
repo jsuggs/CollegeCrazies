@@ -70,6 +70,12 @@ SQL;
 CREATE TABLE pirc_portfolio_teams (
     portfolio_id INT NOT NULL
   , team_id VARCHAR(5) NOT NULL
+  , round1Score SMALLINT DEFAULT NULL
+  , round2Score SMALLINT DEFAULT NULL
+  , round3Score SMALLINT DEFAULT NULL
+  , round4Score SMALLINT DEFAULT NULL
+  , round5Score SMALLINT DEFAULT NULL
+  , round6Score SMALLINT DEFAULT NULL
   , PRIMARY KEY(portfolio_id, team_id)
 )
 SQL;

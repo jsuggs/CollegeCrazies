@@ -24,9 +24,13 @@ class PortfolioScorer
 
         $score = 0;
         foreach ($game->getBracket()->getGames() as $game) {
-            $winnerId = $game->getWinner()->getTeam()->getId();
+            $winningTeam = $game->getWinner()->getTeam();
+            $winnerId = $winningTeam->getId();
+            $round = $game->getRound();
             if (in_array($winnerId, $portfolioTeamIds)) {
-                $points = $config->getWinForRound($game->getRound());
+                $points = $config->getWinForRound($round);
+                $bracketTeam = $portfolio->getTeam($winningTeam);
+                $bracketTeam->setRoundScore($round, $points);
                 $score += $points;
             }
         }

@@ -29,20 +29,39 @@ class PortfolioTeam
     protected $team;
 
     /**
-     * ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
-    protected $cost;
+    protected $round1Score;
 
     /**
-     * ORM\Column(type="datetime")
+     * @ORM\Column(type="smallint", nullable=true)
      */
-    protected $createdAt;
+    protected $round2Score;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $round3Score;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $round4Score;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $round5Score;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $round6Score;
 
     public function __construct(Portfolio $portfolio, Team $team)
     {
         $this->portfolio = $portfolio;
         $this->team = $team;
-        $this->createdAt = new \DateTime();
     }
 
     public function getPortfolio()
@@ -60,13 +79,13 @@ class PortfolioTeam
         return $this->team->getId();
     }
 
-    public function setCost($cost)
+    public function setRoundScore($round, $score)
     {
-        $this->cost = $cost;
+        $this->{sprintf('round%dScore', $round)} = $score;
     }
 
-    public function getCost()
+    public function getRoundScore($round)
     {
-        return $this->cost;
+        return $this->{sprintf('round%dScore', $round)};
     }
 }
