@@ -37,6 +37,7 @@ class PortfolioManager
     public function createPortfolio(Game $game, User $user)
     {
         $portfolio = new Portfolio($game, $user);
+        $portfolio->setName(sprintf('%s\'s Picks', $user->getUsername()));
 
         $this->om->persist($portfolio);
 

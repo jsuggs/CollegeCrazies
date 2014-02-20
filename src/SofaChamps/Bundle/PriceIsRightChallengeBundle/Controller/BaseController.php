@@ -55,6 +55,9 @@ class BaseController extends CoreController
         }
 
         return $this->createFormBuilder()
+            ->add('name', 'text', array(
+                'label' => 'Portfolio Name',
+            ))
             ->add('teams', 'choice', array(
                 'choices' => $teamChoices,
                 'multiple' => true,

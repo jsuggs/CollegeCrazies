@@ -29,6 +29,10 @@ class PortfolioController extends BaseController
     {
         $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
+
+        // Hack since the form isn't bound to the model
+        $form->get('name')->setData($portfolio->getName());
+
         $game = $portfolio->getGame();
         $config = $game->getConfig();
         $bracket = $game->getBracket();

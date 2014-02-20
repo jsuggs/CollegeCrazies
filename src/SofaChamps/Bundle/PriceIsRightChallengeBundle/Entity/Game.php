@@ -31,6 +31,7 @@ class Game
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      * @Serialize\Expose
      */
     protected $name;

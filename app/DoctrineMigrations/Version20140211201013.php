@@ -10,6 +10,7 @@ class Version20140211201013 extends AbstractMigration
     const PIRC_PORTFOLIOS =<<<SQL
 CREATE TABLE pirc_portfolios (
     id INT NOT NULL
+  , name VARCHAR(255) NOT NULL
   , user_id INT NOT NULL
   , game_id INT NOT NULL
   , score SMALLINT DEFAULT NULL

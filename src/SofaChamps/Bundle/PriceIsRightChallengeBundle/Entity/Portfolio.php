@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\MarchMadnessBundle\Entity\Bracket;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
@@ -16,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *      name="pirc_portfolios"
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class Portfolio
 {
@@ -24,8 +26,16 @@ class Portfolio
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_pirc_portfolios", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Serialize\Expose
+     */
+    protected $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="portfolios")
@@ -36,16 +46,19 @@ class Portfolio
     /**
      * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="pircPortfolios")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+     * @Serialize\Expose
      */
     protected $user;
 
     /**
      * @ORM\OneToMany(targetEntity="PortfolioTeam", mappedBy="portfolio", cascade={"all"}, orphanRemoval=true)
+     * @Serialize\Expose
      */
     protected $teams;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Serialize\Expose
      */
     protected $score;
 
@@ -59,6 +72,16 @@ class Portfolio
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getGame()

@@ -10,6 +10,13 @@
     <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post" class="pirc-portfolio">
         {% do form.teams.setRendered %}
         {{ form_errors(form) }}
+
+        <div class="form-group">
+            {{ form_errors(form.name) }}
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {attr: {class: 'form-control'}}) }}
+        </div>
+
         <table id="pirc-portfolio" class="table table-condensed table-tbody-striped">
                 <thead>
                     <th>Seed</th>
