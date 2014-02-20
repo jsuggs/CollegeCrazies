@@ -15,12 +15,18 @@ class PortfolioScorer
 {
     public function scorePortfolio(Portfolio $portfolio)
     {
-        $config = $portfolio->getConfig();
+        $game = $portfolio->getGame();
+        $config = $game->getConfig();
+
+        $portfolioTeamIds = $portfolio->getTeams()->map(function($portfolioTeam) {
+            return $portfolioTeam->getTeam()->getId();
+        })->toArray();
 
         $score = 0;
-        foreach ($portfolio->getBracket()->getGames() as $game) {
-            if (in_array($game->getWinner(), $portfolio->getTeams())) {
-                $points = $config->getPointsForRound($game->getRound());
+        foreach ($game->getBracket()->getGames() as $game) {
+            $winnerId = $game->getWinner()->getTeam()->getId();
+            if (in_array($winnerId, $portfolioTeamIds)) {
+                $points = $config->getWinForRound($game->getRound());
                 $score += $points;
             }
         }
