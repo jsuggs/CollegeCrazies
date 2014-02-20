@@ -13,14 +13,14 @@
                 <th>Score</th>
             </tr>
         </thead>
+        <tbody>
             {% for portfolio in game.portfolios %}
                 <tr>
                     <td>{{ portfolio.user.username }}</td>
                     <td>{{ portfolio.id }}</td>
-                    <td>{{ portfolio.score ?: '--' }}</td>
+                    <td>{{ portfolio.score is not null ? portfolio.score : '--' }}</td>
                 </tr>
             {% endfor %}
-        <tbody>
         </tbody>
     </table>
 {% endblock %}
