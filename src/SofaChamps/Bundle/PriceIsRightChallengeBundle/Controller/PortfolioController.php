@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use JMS\SecurityExtraBundle\Annotation\SecureParam;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,6 +21,7 @@ class PortfolioController extends BaseController
      * @Route("/edit", name="pirc_portfolio_edit")
      * @ParamConverter("portfolio", class="SofaChampsPriceIsRightChallengeBundle:Portfolio", options={"id" = "id"})
      * @Secure(roles="ROLE_USER")
+     * @SecureParam(name="portfolio", permissions="EDIT")
      * @Method({"GET"})
      * @Template
      */
@@ -44,6 +46,7 @@ class PortfolioController extends BaseController
      * @Route("/update", name="pirc_portfolio_update")
      * @ParamConverter("bracket", class="SofaChampsMarchMadnessBundle:Bracket", options={"id" = "season"})
      * @Secure(roles="ROLE_USER")
+     * @SecureParam(name="portfolio", permissions="EDIT")
      * @Method({"POST"})
      * @Template("SofaChampsPriceIsRightChallengeBundle:Portfolio:edit.html.twig")
      */
