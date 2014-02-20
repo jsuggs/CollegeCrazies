@@ -59,19 +59,12 @@ class PortfolioController extends BaseController
         $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
         $game = $portfolio->getGame();
-        $config = $game->getConfig();
         $bracket = $game->getBracket();
 
         $form->bind($this->getRequest());
 
         if ($form->isValid()) {
-            $data = $form->getData();
-            $teams = $this->getEntityManager()->getRepository('SofaChampsNCAABundle:Team')->findByIds($data['teams']);
-
-            $portfolioManager = $this->getPortfolioManager();
-            $this->getEntityManager()->transactional(function ($em) use ($portfolio, $teams, $portfolioManager) {
-                $portfolioManager->setPortfolioTeams($portfolio, $teams);
-            });
+            $this->getEntityManager()->flush();
 
             $this->addMessage('success', 'Portfolio Updated');
 

@@ -8,7 +8,6 @@
     <p class="bankroll-wrapper">Remaining Bankroll: $<span id="bankroll">--</span></p>
 
     <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post" class="pirc-portfolio">
-        {% do form.teams.setRendered %}
         {{ form_errors(form) }}
 
         <div class="form-group">
@@ -28,12 +27,18 @@
                 {% set seedCost = config.costForSeed(seed) %}
                 <tbody>
                     {% for bracketTeam in bracket.teamsForSeed(seed) %}
+                        {% set subForm = null %}
+                        {% for child in form.teams %}
+                            {% if child.vars.label == bracketTeam.team.id %}
+                                {% set subForm = child %}
+                            {% endif %}
+                        {% endfor %}
                         <tr>
                             <td>{{ seed }}</td>
                             <td>{{ bracketTeam.team.name }}</td>
                             <td>${{ seedCost }}</td>
                             <td>
-                                <input type="checkbox" name="form[teams][]" value="{{ bracketTeam.team.id }}"{% if portfolio.hasTeam(bracketTeam.team) %} checked="checked"{% endif %} data-cost="{{ seedCost }}"/>
+                                {{ form_widget(subForm, {attr: {'data-cost': seedCost}}) }}
                             </td>
                         </tr>
                     {% endfor %}

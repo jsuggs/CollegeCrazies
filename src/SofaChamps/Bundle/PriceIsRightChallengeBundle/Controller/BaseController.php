@@ -47,21 +47,48 @@ class BaseController extends CoreController
     protected function getPortfolioForm(Portfolio $portfolio)
     {
         $bracket = $portfolio->getGame()->getBracket();
-        $bracketTeams = $bracket->getTeams();
 
-        $teamChoices = array();
-        foreach ($bracketTeams as $bracketTeam) {
-            $teamChoices[$bracketTeam->getTeam()->getId()] = $bracketTeam->getTeamName();
+        // Filter out the existing bracket teams (we need the existing/persisted PortfolioTeam)
+        $portfolioTeams = $bracket->getTeams()
+            ->filter(function($bracketTeam) use ($portfolio) {
+                return !$portfolio->hasTeam($bracketTeam->getTeam());
+            })
+            ->map(function($bracketTeam) use ($portfolio) {
+                return new PortfolioTeam($portfolio, $bracketTeam->getTeam());
+            });
+
+        foreach ($portfolio->getTeams() as $team) {
+            $portfolioTeams->add($team);
         }
 
-        return $this->createFormBuilder()
+        $portfolioTeams = $portfolioTeams->toArray();
+
+        // Sort by seed, then overall seed so the order will be static
+        usort($portfolioTeams, function($a, $b) use ($bracket) {
+            $aBracketTeam = $bracket->getBracketTeamForTeam($a->getTeam());
+            $bBracketTeam = $bracket->getBracketTeamForTeam($b->getTeam());
+
+            if ($aBracketTeam->getRegionSeed() == $bBracketTeam->getRegionSeed()) {
+                return $aBracketTeam->getOverallSeed() > $bBracketTeam->getOverallSeed()
+                    ? 1
+                    : -1;
+            }
+
+            return $aBracketTeam->getRegionSeed() > $bBracketTeam->getRegionSeed()
+                ? 1
+                : -1;
+        });
+
+        return $this->createFormBuilder($portfolio)
             ->add('name', 'text', array(
                 'label' => 'Portfolio Name',
             ))
-            ->add('teams', 'choice', array(
-                'choices' => $teamChoices,
+            ->add('teams', 'entity', array(
+                'class' => 'SofaChampsPriceIsRightChallengeBundle:PortfolioTeam',
+                'choices' => $portfolioTeams,
                 'multiple' => true,
                 'expanded' => true,
+                'property' => 'teamName'
             ))
             ->getForm();
     }

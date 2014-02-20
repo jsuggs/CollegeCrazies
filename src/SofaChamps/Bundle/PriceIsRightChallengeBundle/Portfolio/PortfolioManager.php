@@ -46,13 +46,6 @@ class PortfolioManager
 
     public function setPortfolioTeams(Portfolio $portfolio, $teams)
     {
-        foreach ($portfolio->getTeams() as $team) {
-            $this->om->remove($team);
-        }
-
-        // Temporary hack...
-        $this->om->flush();
-
         $portfolioTeams = new ArrayCollection();
         foreach ($teams as $team) {
             $portfolioTeams->add($this->createPortfolioTeam($portfolio, $team));

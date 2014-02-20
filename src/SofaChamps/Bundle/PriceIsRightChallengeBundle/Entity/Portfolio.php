@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
@@ -99,7 +100,7 @@ class Portfolio
         $this->teams->add($team);
     }
 
-    public function setTeams(ArrayCollection $teams)
+    public function setTeams(Collection $teams)
     {
         $this->teams = $teams;
     }
