@@ -143,4 +143,11 @@ class Portfolio
             return $team->getCost();
         })->toArray());
     }
+
+    public function getTotalScoreForRound($round)
+    {
+        return array_sum($this->teams->map(function($team) use ($round) {
+            return $team->getRoundScore($round);
+        })->toArray());
+    }
 }

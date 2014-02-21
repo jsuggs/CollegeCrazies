@@ -46,38 +46,7 @@ class BaseController extends CoreController
 
     protected function getPortfolioForm(Portfolio $portfolio)
     {
-        $bracket = $portfolio->getGame()->getBracket();
-
-        // Filter out the existing bracket teams (we need the existing/persisted PortfolioTeam)
-        $portfolioTeams = $bracket->getTeams()
-            ->filter(function($bracketTeam) use ($portfolio) {
-                return !$portfolio->hasTeam($bracketTeam->getTeam());
-            })
-            ->map(function($bracketTeam) use ($portfolio) {
-                return new PortfolioTeam($portfolio, $bracketTeam->getTeam());
-            });
-
-        foreach ($portfolio->getTeams() as $team) {
-            $portfolioTeams->add($team);
-        }
-
-        $portfolioTeams = $portfolioTeams->toArray();
-
-        // Sort by seed, then overall seed so the order will be static
-        usort($portfolioTeams, function($a, $b) use ($bracket) {
-            $aBracketTeam = $bracket->getBracketTeamForTeam($a->getTeam());
-            $bBracketTeam = $bracket->getBracketTeamForTeam($b->getTeam());
-
-            if ($aBracketTeam->getRegionSeed() == $bBracketTeam->getRegionSeed()) {
-                return $aBracketTeam->getOverallSeed() > $bBracketTeam->getOverallSeed()
-                    ? 1
-                    : -1;
-            }
-
-            return $aBracketTeam->getRegionSeed() > $bBracketTeam->getRegionSeed()
-                ? 1
-                : -1;
-        });
+        $portfolioTeams = $this->getOrderedPortfolioTeams($portfolio, false);
 
         return $this->createFormBuilder($portfolio)
             ->add('name', 'text', array(
@@ -101,5 +70,47 @@ class BaseController extends CoreController
     protected function getGameForm(Game $game)
     {
         return $this->createForm(new GameFormType(), $game);
+    }
+
+    protected function getOrderedPortfolioTeams(Portfolio $portfolio, $onlyOwnedTeams)
+    {
+        $bracket = $portfolio->getGame()->getBracket();
+
+        if ($onlyOwnedTeams) {
+            $portfolioTeams = $portfolio->getTeams();
+        } else {
+            // Filter out the existing bracket teams (we need the existing/persisted PortfolioTeam)
+            $portfolioTeams = $bracket->getTeams()
+                ->filter(function($bracketTeam) use ($portfolio) {
+                    return !$portfolio->hasTeam($bracketTeam->getTeam());
+                })
+                ->map(function($bracketTeam) use ($portfolio) {
+                    return new PortfolioTeam($portfolio, $bracketTeam->getTeam());
+                });
+
+            foreach ($portfolio->getTeams() as $team) {
+                $portfolioTeams->add($team);
+            }
+        }
+
+        $portfolioTeams = $portfolioTeams->toArray();
+
+        // Sort by seed, then overall seed so the order will be static
+        usort($portfolioTeams, function($a, $b) use ($bracket) {
+            $aBracketTeam = $bracket->getBracketTeamForTeam($a->getTeam());
+            $bBracketTeam = $bracket->getBracketTeamForTeam($b->getTeam());
+
+            if ($aBracketTeam->getRegionSeed() == $bBracketTeam->getRegionSeed()) {
+                return $aBracketTeam->getOverallSeed() > $bBracketTeam->getOverallSeed()
+                    ? 1
+                    : -1;
+            }
+
+            return $aBracketTeam->getRegionSeed() > $bBracketTeam->getRegionSeed()
+                ? 1
+                : -1;
+        });
+
+        return $portfolioTeams;
     }
 }

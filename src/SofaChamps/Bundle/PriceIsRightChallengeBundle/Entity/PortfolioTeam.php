@@ -88,4 +88,11 @@ class PortfolioTeam
     {
         return $this->{sprintf('round%dScore', $round)};
     }
+
+    public function getTotalScore()
+    {
+        return array_sum(array_map(function ($round) {
+            return $this->getRoundScore($round);
+        }, range(1, 6)));
+    }
 }

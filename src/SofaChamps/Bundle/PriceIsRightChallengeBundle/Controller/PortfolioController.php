@@ -18,6 +18,26 @@ use SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio;
 class PortfolioController extends BaseController
 {
     /**
+     * @Route("/view", name="pirc_portfolio_view")
+     * @ParamConverter("portfolio", class="SofaChampsPriceIsRightChallengeBundle:Portfolio", options={"id" = "id"})
+     * @Secure(roles="ROLE_USER")
+     * @SecureParam(name="portfolio", permissions="VIEW")
+     * @Method({"GET"})
+     * @Template
+     */
+    public function viewAction(Portfolio $portfolio, $season)
+    {
+        $portfolio = $this->populatePortfolio($portfolio);
+        $teams = $this->getOrderedPortfolioTeams($portfolio, true);
+
+        return array(
+            'portfolio' => $portfolio,
+            'season' => $season,
+            'teams' => $teams,
+        );
+    }
+
+    /**
      * @Route("/edit", name="pirc_portfolio_edit")
      * @ParamConverter("portfolio", class="SofaChampsPriceIsRightChallengeBundle:Portfolio", options={"id" = "id"})
      * @Secure(roles="ROLE_USER")
@@ -27,21 +47,16 @@ class PortfolioController extends BaseController
      */
     public function editAction(Portfolio $portfolio, $season)
     {
-        $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
+        $portfolio = $this->populatePortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
 
-        // Hack since the form isn't bound to the model
-        $form->get('name')->setData($portfolio->getName());
-
         $game = $portfolio->getGame();
-        $config = $game->getConfig();
-        $bracket = $game->getBracket();
 
         return array(
             'portfolio' => $portfolio,
             'season' => $season,
             'form' => $form->createView(),
-            'bracket' => $bracket,
+            'bracket' => $game->getBracket(),
             'config' => $game->getConfig(),
         );
     }
@@ -56,7 +71,7 @@ class PortfolioController extends BaseController
      */
     public function updateAction(Portfolio $portfolio, $season)
     {
-        $portfolio = $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
+        $portfolio = $this->populatePortfolio($portfolio);
         $form = $this->getPortfolioForm($portfolio);
         $game = $portfolio->getGame();
         $bracket = $game->getBracket();
@@ -74,14 +89,19 @@ class PortfolioController extends BaseController
             )));
         } else {
             $this->addMessage('warning', 'There was an error updating your portfolio');
-        }
 
-        return array(
-            'portfolio' => $portfolio,
-            'season' => $season,
-            'form' => $form->createView(),
-            'bracket' => $bracket,
-            'config' => $game->getConfig(),
-        );
+            return array(
+                'portfolio' => $portfolio,
+                'season' => $season,
+                'form' => $form->createView(),
+                'bracket' => $bracket,
+                'config' => $game->getConfig(),
+            );
+        }
+    }
+
+    protected function populatePortfolio(Portfolio $portfolio)
+    {
+        return $this->getRepository('SofaChampsPriceIsRightChallengeBundle:Portfolio')->getPopulatedPortfolio($portfolio);
     }
 }
