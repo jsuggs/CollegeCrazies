@@ -1,0 +1,1 @@
+FeedItem = Backbone.Model.extend({});
