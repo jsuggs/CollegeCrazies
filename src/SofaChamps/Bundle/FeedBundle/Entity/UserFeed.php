@@ -16,12 +16,14 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
 class UserFeed
 {
     /**
-     * @ORM\ManyToOne
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\CoreBundle\Entity\User", inversedBy="feedItemHistory")
      */
     protected $user;
 
     /**
-     * @ORM\ManyToOne
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="FeedItem")
      */
     protected $feedItem;
 
@@ -34,6 +36,7 @@ class UserFeed
     {
         $this->user = $user;
         $this->feedItem = $feedItem;
+        $this->createdAt = new \DateTime();
     }
 
     public function getUser()

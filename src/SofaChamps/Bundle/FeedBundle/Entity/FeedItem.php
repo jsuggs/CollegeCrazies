@@ -23,9 +23,13 @@ class FeedItem
      */
     protected $id;
 
+    /**
+     * @ORM\OneToMany(targetEntity="FeedItemHistory", mappedBy="feedItem")
+     */
+    protected $feedItemHistory;
+
     public function getId()
     {
         return $this->id;
     }
 }
-

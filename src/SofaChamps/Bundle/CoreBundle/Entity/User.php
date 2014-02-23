@@ -113,6 +113,11 @@ class User extends BaseUser
      */
     protected $squaresPlayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\SofaChamps\Bundle\FeedBundle\Entity\FeedItemHistory", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    protected $feedItemHistory;
+
     public function __construct()
     {
         parent::__construct();
