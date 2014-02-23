@@ -2,24 +2,23 @@
 
 namespace SofaChamps\Bundle\FeedBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 /**
- * A feed item
+ * A vote for a feed item
  *
  * @ORM\Entity
  * @ORM\Table(
- *      name="feed_items"
+ *      name="feed_item_votes"
  * )
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string", length=16)
  * @ORM\DiscriminatorMap({
- *      "ncaam" = "SofaChamps\Bundle\FeedBundle\Entity\FeedItem\NCAAM",
+ *      "up" = "SofaChamps\Bundle\FeedBundle\Entity\Vote\Up",
  * })
  */
-abstract class FeedItem
+abstract class Vote
 {
     /**
      * @ORM\Id
@@ -34,30 +33,8 @@ abstract class FeedItem
      */
     protected $feedItemHistory;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Vote", mappedBy="feedItem")
-     */
-    protected $votes;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $createdAt;
-
-    public function __construct()
-    {
-        $this->feedItemHistory = new ArrayCollection();
-        $this->votes = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-    }
-
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
     }
 }
