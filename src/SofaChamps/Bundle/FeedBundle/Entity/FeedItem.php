@@ -12,8 +12,13 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
  * @ORM\Table(
  *      name="feed_items"
  * )
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string", length=16)
+ * @ORM\DiscriminatorMap({
+ *      "ncaam" = "SofaChamps\Bundle\FeedBundle\Entity\FeedItem\NCAAM",
+ * })
  */
-class FeedItem
+abstract class FeedItem
 {
     /**
      * @ORM\Id
