@@ -1,10 +1,13 @@
 {
   "name": "bootbox.js",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "main": "./bootbox.js",
   "ignore": [
-    "**/.js",
-    "**/.txt",
+    "CHANGELOG.md",
+    "CONTRIBUTING",
+    "Gruntfile.js",
+    "header.txt",
+    "karma*.js",
     "build",
     "tests"
   ],
@@ -12,11 +15,11 @@
     "bootstrap": ">= 3.0.0"
   },
   "homepage": "https://github.com/makeusabrew/bootbox",
-  "_release": "4.1.0",
+  "_release": "4.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "v4.1.0",
-    "commit": "2bfff7bfe11da23e7838fdc2dc56c4674b219102"
+    "tag": "v4.2.0",
+    "commit": "7368919ddc037287a3b9e31503292a468635ede4"
   },
   "_source": "git://github.com/makeusabrew/bootbox.git",
   "_target": "*",

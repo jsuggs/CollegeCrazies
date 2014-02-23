@@ -6,6 +6,8 @@
         "jquery.ui": "latest",
         "jquery-ui-bootstrap": "latest",
         "backbone": "latest",
+        "backbone.marionette": "latest",
+        "underscore": "latest",
         "bootbox": "latest",
         "requirejs": "latest",
         "flot": "latest",
