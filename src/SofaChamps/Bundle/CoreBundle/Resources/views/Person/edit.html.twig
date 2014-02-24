@@ -1,7 +1,7 @@
 {% extends "SofaChampsCoreBundle::layout.html.twig" %}
 
 {% block content %}
-    <h2>{{ person.firstName }} {{ person.lastName }}</h2>
+    <h2>{{ person.firstName }} {{ person.lastName }} <small><a href="{{ path('core_person_view', {id: person.id}) }}">View</a></small></h2>
 
     <form action="{{ path('core_person_update', {id: person.id}) }}" method="post">
         {% include "SofaChampsCoreBundle:Person:form.html.twig" %}

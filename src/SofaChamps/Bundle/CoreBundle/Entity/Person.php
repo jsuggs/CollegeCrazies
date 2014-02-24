@@ -72,7 +72,7 @@ class Person
         return $this->lastName;
     }
 
-    public function setBirtDate(\DateTime $birthDate)
+    public function setBirthDate(\DateTime $birthDate = null)
     {
         $this->birthDate = $birthDate;
     }
@@ -82,7 +82,7 @@ class Person
         return $this->birthDate;
     }
 
-    public function setBirthPlace($birthPlace)
+    public function setBirthPlace($birthPlace = null)
     {
         $this->birthPlace = $birthPlace;
     }
