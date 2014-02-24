@@ -81,4 +81,14 @@ class Person
     {
         return $this->birthDate;
     }
+
+    public function setBirthPlace($birthPlace)
+    {
+        $this->birthPlace = $birthPlace;
+    }
+
+    public function getBirthPlace()
+    {
+        return $this->birthPlace;
+    }
 }
