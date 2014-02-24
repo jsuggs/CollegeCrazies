@@ -24,9 +24,11 @@ class PersonFormType extends AbstractType
             ->add('birthDate', 'date', array(
                 'label' => 'Birth Date',
                 'widget' => 'text',
+                'required' => false,
             ))
             ->add('birthPlace', 'text', array(
                 'label' => 'Birth Place',
+                'required' => false,
             ))
         ;
     }
