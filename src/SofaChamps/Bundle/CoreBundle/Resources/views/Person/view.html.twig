@@ -1,0 +1,12 @@
+{% extends "SofaChampsCoreBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>
+        {{ person.firstName }} {{ person.lastName }}
+        {% if is_granted('EDIT', person) %}
+            <small>
+                <a href="{{ path('core_person_edit', {id: person.id}) }}">Edit</a>
+            </small>
+        {% endif %}
+    </h2>
+{% endblock %}

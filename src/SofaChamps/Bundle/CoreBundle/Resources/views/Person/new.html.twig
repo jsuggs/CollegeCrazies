@@ -1,0 +1,14 @@
+{% extends "SofaChampsCoreBundle::layout.html.twig" %}
+
+{% block content %}
+    <h2>Create a New Person</h2>
+    <p class="text-info">A person is, well, a person (coaches, athletes, etc). This is the basic info.</p>
+
+    <form action="{{ path('core_person_create') }}" method="post">
+        {% include "SofaChampsCoreBundle:Person:form.html.twig" %}
+
+        <button type="submit" class="btn btn-primary btn-lg">Create Person</button>
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
