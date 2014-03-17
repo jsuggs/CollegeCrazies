@@ -3,6 +3,7 @@ AFA,Air Force,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aab.gif
 AKR,Akron,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aac.gif
 ALA,Alabama,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aad_4.gif
 ALB,Albany,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/aca.png
+AMER,American University,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/aan.png
 ARIZ,Arizona,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aal.gif
 ARK,Arkansas,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aan_3.gif
 ARMY,Army,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aaq_1.gif
@@ -20,16 +21,21 @@ BUCK,Bucknell,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/bau.png
 BUF,Buffalo,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/bbp_2.gif
 BYU,Brigham Young,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/bbi.gif
 CAL,California,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ccd_2.gif
+CALP,Cal Poly.,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/cag.png
 CEMI,Central Michigan,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ccg.gif
 CINC,Cincinnati,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ccj_50x50w_2.jpg
 CLEM,Clemson,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ccl.gif
+COAS,Coastal Carolina,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/cbi.png
 COLO,Colorado,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/cbl_1.gif
 CONN,Connecticut,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ccq.gif
 COST,Colorado State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/cco.gif
 CRE,Creighton,http://l.yimg.com/j/assets/ipt/70x70_creighton.png
+DAE,Dayton,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/dae.png
 DAV,Davidson,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/dad.png
+DELA,Delaware,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/dag.png
 DUKE,Duke,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ddf.gif
 ECU,East Carolina,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/eea.gif
+EKU,Eastern Kentucky,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/eae.png
 EMU,Eastern Mich.,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/eef.gif
 FAU,Fla. Atlantic,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/flaa-w.jpg
 FGCU,FGCU,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/flg.png
@@ -40,6 +46,7 @@ FRST,Fresno State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ffe.gif
 GONZ,Gonzaga,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/gaj.png
 GT,Georgia Tech,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ggc.gif
 GTWN,Georgetown,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/gae.png
+GW,George Washington,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/gac.png
 HARV,Harvard,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/had.png
 HAW,Hawaii,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/hhc.gif
 HOU,Houston,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/hhe2.gif
@@ -53,31 +60,38 @@ JAM,James Madison,http://l.yimg.com/j/assets/i/us/sp/v/ncaaf/teams/83/70x70/jjb.
 KAN,Kansas,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/kka.gif
 KEST,Kent State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/kkc.gif
 KSST,Kansas State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/kab_3.gif
+LALA,LA Layfayette,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/scf.png
 LAS,La Salle,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/lad.png
 LIU,LIU Brooklyn,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/lal.png
 LOUI,Louisville,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/llh2.gif
 LSU,LSU,http://l.yimg.com/a/i/us//sp/v/ncaaf/teams/1/50x50w/lli_2.gif
 LT,Louisiana Tech,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/llg_2.gif
 LU,Liberty,http://l.yimg.com/j/assets/i/us/sp/v/ncaaf/teams/83/70x70/lle.png
+MAN,Manhattan,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/mab.png
 MARQ,Marquette,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/maf.png
 MARS,Marshall,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmc.gif
 MASS,Massachusetts,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mme.gif
 MD,Maryland,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmd.gif
 MEMP,Memphis,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmg.gif
+MERC,Mercer,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/maq.png
 MIAF,Miami (FL),http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmi.gif
 MIAO,Miami (OH),http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmj.gif
 MICH,Michigan,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmk.gif
+MIL,Milwaukee,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/wbd.png
 MINN,Minnesota,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmn_1.gif
 MISS,Ole Miss,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmo_2.gif
 MIST,Michigan State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mml.gif
 MO,Missouri,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mms_2.gif
 MONT,Montana,http://l.yimg.com/j/assets/i/us/sp/v/ncaaf/teams/83/70x70/mmu.png
+MSM,Mount St. Marys,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/mbs.png
 MSST,Mississippi State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmq_2.gif
 MTSU,Middle Tenn. State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/mmm.gif
 NAVY,Navy,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nna.gif
 NCAT,North Carolina A&T,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/nas.png
+NCC,North Carolina Central,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/nac.png
 NCST,N.C. State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nnn_2.gif
 ND,Notre Dame,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nnx.gif
+NDST,North Dakota State,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/nds.png
 NEB,Nebraska,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nnd.gif
 NEV,Nevada,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nnf_2.gif
 NIU,Northern Illinois,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/nns.gif
@@ -92,6 +106,7 @@ ORE,Oregon,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ooe.gif
 ORST,Oregon State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/oof.gif
 PAC,Pacific,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/pab.png
 PITT,Pittsburgh,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ppd_1.gif
+PROV,Providence,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/pas.png
 PSU,Penn State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ppb_2.gif
 PURD,Purdue,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ppj.gif
 RICE,Rice,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/rrb2.gif
@@ -105,6 +120,8 @@ SMU,Southern Methodist,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ssh2.g
 SOAL,South Ala.,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/sal.gif
 SOU,Southern University,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/sbh.png
 STAN,Stanford,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/sss3.gif
+STFA,Stephen F. Austin,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/scc.png
+STJO,Saint Joseph's,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/sbq.png
 STL,Saint Louis,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/sbr.png
 STMA,Saint Mary's,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/sbt.png
 SYRA,Syracuse,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/syc-2.jpg
@@ -118,6 +135,7 @@ TOL,Toledo,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ttp.gif
 TROY,Troy,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ttv.gif
 TULA,Tulane,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/tts.gif
 TULS,Tulsa,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ttt.gif
+TXSO,Texas Southern,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/tar.png
 TXST,Texas State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/ssv.gif
 UAB,UAB,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/aaz.gif
 UCF,UCF,http://l.yimg.com/a/i/us/sp/v/ncaab/teams/1/50x50w/ccf2.gif
@@ -146,8 +164,11 @@ WAKE,Wake Forest,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwa.gif
 WASH,Washington,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/was-2.jpg
 WAST,Washington State,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwc.gif
 WEKY,Western Ky.,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwk.gif
+WEST,Weber State,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/wai.png
 WIS,Wisconsin,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwo.gif
 WIST,Wichita St.,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/wax.png
 WMU,Western Mich.,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwl.gif
+WOF,Wofford,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/wbi.png
 WVU,West Virginia,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwh.gif
 WYO,Wyoming,http://l.yimg.com/a/i/us/sp/v/ncaaf/teams/1/50x50w/wwq.gif
+XAV,Xavier,http://l.yimg.com/j/assets/i/us/sp/v/ncaab/teams/83/70x70/xaa.png
