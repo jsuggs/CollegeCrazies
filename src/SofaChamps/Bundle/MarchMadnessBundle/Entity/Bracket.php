@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\MarchMadnessBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
@@ -78,9 +79,13 @@ class Bracket extends AbstractBracket
 
     public function getGamesForRound($round)
     {
-        return $this->games->filter(function($game) use ($round) {
-            return $game->getRound() == $round;
-        });
+        try {
+            return $this->games->filter(function($game) use ($round) {
+                return $game->getRound() == $round;
+            });
+        } catch (OutOfBoundsException $e) {
+            return new ArrayCollection();
+        }
     }
 
     public function getTeamsForSeed($seed)
