@@ -50,12 +50,12 @@ class PriceIsRightChallengeRequestProcessor implements LoginRequestProcessor, Re
             $portfolio = $game->getUserPortfolio($user);
 
             if (!$portfolio) {
-                $this->portfolioManager->createPortfolio($game, $user);
+                $portolfio = $this->portfolioManager->createPortfolio($game, $user);
                 $this->om->flush();
 
                 return new RedirectResponse($this->router->generate('pirc_portfolio_edit', array(
                     'season' => $game->getSeason(),
-                    'id' => $game->getId(),
+                    'id' => $portolfio->getId(),
                 )));
             }
         }

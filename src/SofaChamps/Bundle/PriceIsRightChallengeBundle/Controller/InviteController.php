@@ -91,7 +91,7 @@ class InviteController extends BaseController
             $this->setCookie($response, InviteManager::COOKIE_NAME, $game->getId());
             $response->sendHeaders();
 
-            $this->addMessage('info', 'You can join the squares game after you login or create an account');
+            $this->addMessage('info', 'You can join the Price is Right Challenge after you login or create an account');
 
             throw new AccessDeniedException('Must be logged in to join Price Is Right Challenge');
         }
