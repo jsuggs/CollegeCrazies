@@ -1,0 +1,9 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>My Games</h1>
+
+    {% include 'SofaChampsPriceIsRightChallengeBundle:Game:_list.html.twig' %}
+
+    <a href="{{ path('pirc_game_new', {season: season}) }}" class="btn btn-success">Start a new game</a> or <a href="" class="btn btn-info">Join an existing game</a>
+{% endblock %}

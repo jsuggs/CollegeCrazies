@@ -55,6 +55,11 @@ class User extends BaseUser
     protected $commissionerLeagues;
 
     /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\GameManager", mappedBy="user", fetch="EXTRA_LAZY")
+     */
+    protected $pircManagers;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     protected $emailVisible = true;
@@ -113,6 +118,11 @@ class User extends BaseUser
      */
     protected $squaresPlayers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio", mappedBy="user")
+     */
+    protected $pircPortfolios;
+
     public function __construct()
     {
         parent::__construct();
@@ -123,6 +133,8 @@ class User extends BaseUser
         $this->commissionerLeagues = new ArrayCollection();
         $this->squaresGames = new ArrayCollection();
         $this->squaresPlayers = new ArrayCollection();
+        $this->pircPortfolios = new ArrayCollection();
+        $this->pircManagers = new ArrayCollection();
     }
 
     public function getId()
@@ -308,6 +320,11 @@ class User extends BaseUser
     public function getSquaresPlayers()
     {
         return $this->squaresPlayers;
+    }
+
+    public function getPircPortfolios()
+    {
+        return $this->pircPortfolios;
     }
 
     public function __toString()

@@ -1,0 +1,43 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>{{ portfolio.name }}</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>Round 1 Score</th>
+                <th>Round 2 Score</th>
+                <th>Round 3 Score</th>
+                <th>Round 4 Score</th>
+                <th>Round 5 Score</th>
+                <th>Round 6 Score</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td>{{ team.team.name }}</td>
+                    <td>{{ team.roundScore(1) }}</td>
+                    <td>{{ team.roundScore(2) }}</td>
+                    <td>{{ team.roundScore(3) }}</td>
+                    <td>{{ team.roundScore(4) }}</td>
+                    <td>{{ team.roundScore(5) }}</td>
+                    <td>{{ team.roundScore(6) }}</td>
+                    <th>{{ team.totalScore }}</th>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <th>Totals</th>
+            <th>{{ portfolio.totalScoreForRound(1) }}</th>
+            <th>{{ portfolio.totalScoreForRound(2) }}</th>
+            <th>{{ portfolio.totalScoreForRound(3) }}</th>
+            <th>{{ portfolio.totalScoreForRound(4) }}</th>
+            <th>{{ portfolio.totalScoreForRound(5) }}</th>
+            <th>{{ portfolio.totalScoreForRound(6) }}</th>
+            <th>{{ portfolio.score }}
+        </tfoot>
+    </table>
+{% endblock %}

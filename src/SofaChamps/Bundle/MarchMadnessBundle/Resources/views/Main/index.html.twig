@@ -32,12 +32,14 @@
             {% if loop.index == 2 %}
                 {% set games = bracket.gamesForRound(5) %}
                 {% set champ = bracket.gamesForRound(6)|first %}
-                <div class="final-four">
-                    <h2>Final Four</h2>
-                    {{ _self.mm_game(games|first) }}
-                    {{ _self.mm_game(champ) }}
-                    {{ _self.mm_game(games|last) }}
-                </div>
+                {% if games.count %}
+                    <div class="final-four">
+                        <h2>Final Four</h2>
+                        {{ _self.mm_game(games|first) }}
+                        {{ _self.mm_game(champ) }}
+                        {{ _self.mm_game(games|last) }}
+                    </div>
+                {% endif %}
                 <div class="clearfix"></div>
             {% endif %}
         {% endfor %}

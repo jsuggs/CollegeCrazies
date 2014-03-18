@@ -14,5 +14,10 @@ _configurator:
     resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
     prefix:   /_configurator
 
+_email:
+    resource: "@SofaChampsEmailBundle/Controller/"
+    type:     annotation
+    prefix:   /email
+
 _main:
     resource: routing.yml

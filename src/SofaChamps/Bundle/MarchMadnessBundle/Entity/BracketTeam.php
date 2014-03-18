@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * The team in the bracket
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BracketTeamRepository")
  * @ORM\Table(
  *      name="mm_teams"
  * )
@@ -67,6 +67,11 @@ class BracketTeam
         return $this->team;
     }
 
+    public function getTeamName()
+    {
+        return $this->team->getId();
+    }
+
     public function getRegionSeed()
     {
         return $this->regionSeed;
@@ -75,5 +80,10 @@ class BracketTeam
     public function getOverallSeed()
     {
         return $this->overallSeed;
+    }
+
+    public function __toString()
+    {
+        return $this->team->getId();
     }
 }

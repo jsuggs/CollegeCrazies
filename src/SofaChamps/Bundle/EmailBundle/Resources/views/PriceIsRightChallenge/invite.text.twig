@@ -1,0 +1,4 @@
+{{ fromUser.username }} has invited you to play Sofachamps Price is Right Challenge.
+
+To accept the invitation, just <a href="{{ url('pirc_join', {season: game['season'], gameId: game['id'], rid: fromUser['id']}) }}">click here to join.</a>
+ * Game Name: {{ game['name'] }}

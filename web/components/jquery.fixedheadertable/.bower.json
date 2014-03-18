@@ -1,0 +1,13 @@
+{
+  "name": "jquery.fixedheadertable",
+  "homepage": "https://github.com/markmalek/Fixed-Header-Table",
+  "_release": "2deb86477c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2deb86477c22eb52e1149a13fc37ac1a071c0351"
+  },
+  "_source": "git://github.com/markmalek/Fixed-Header-Table.git",
+  "_target": "*",
+  "_originalSource": "jquery.fixedheadertable"
+}

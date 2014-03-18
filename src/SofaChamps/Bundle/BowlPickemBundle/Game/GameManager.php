@@ -10,7 +10,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * LeagueManager
+ * GameManager
  *
  * @DI\Service("sofachamps.bp.game_manager")
  */

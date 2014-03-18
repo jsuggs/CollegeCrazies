@@ -1,0 +1,30 @@
+{% extends "SofaChampsCoreBundle::Layout/layout.html.twig" %}
+
+{% block title%} - Price Is Right Challenge{% endblock %}
+
+{% block nav_primary %}
+    <li><a href="{{ path('pirc_season', {season: season}) }}">Price Is Right Challenge Home</a></li>
+    <li><a href="{{ path('pirc_game_list', {season: season}) }}">My Games</a></li>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+        'js/pirc.js'
+        'components/jquery.fixedheadertable/jquery.fixedheadertable.js'
+        output='compiled/js/pirc.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        'css/pirc.css'
+        'components/jquery.fixedheadertable/css/defaultTheme.css'
+        output='compiled/css/pirc.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}">
+    {% endstylesheets %}
+{% endblock %}

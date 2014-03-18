@@ -1,0 +1,52 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    {% form_theme form _self %}
+
+    <h1>Edit your portfolio{% if is_granted('EDIT', portfolio.game) %} <small><a href="{{ path('pirc_game_edit', {season: season, id: portfolio.game.id}) }}">Edit Game Settings</a></small>{% endif %}</h1>
+    <p class="lead">You have $100 to spend on teams, with each seed costing various amounts.  Do you go for value or quantity?</p>
+    <p class="bankroll-wrapper">Remaining Bankroll: $<span id="bankroll">--</span></p>
+
+    <form action="{{ path('pirc_portfolio_update', {season: season, id: portfolio.id}) }}" method="post" class="pirc-portfolio">
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            {{ form_errors(form.name) }}
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {attr: {class: 'form-control'}}) }}
+        </div>
+
+        <table id="pirc-portfolio" class="table table-condensed table-tbody-striped">
+                <thead>
+                    <th>Seed</th>
+                    <th>Team</th>
+                    <th>Cost</th>
+                    <th>Buy</th>
+                </thead>
+            {% for seed in range(1, 16) %}
+                {% set seedCost = config.costForSeed(seed) %}
+                <tbody>
+                    {% for bracketTeam in bracket.teamsForSeed(seed) %}
+                        {% set subForm = null %}
+                        {% for child in form.teams %}
+                            {% if child.vars.label == bracketTeam.team.id %}
+                                {% set subForm = child %}
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td>{{ seed }}</td>
+                            <td>{{ bracketTeam.team.name }}</td>
+                            <td>${{ seedCost }}</td>
+                            <td>
+                                {{ form_widget(subForm, {attr: {'data-cost': seedCost}}) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% endfor %}
+        </table>
+
+        <button type="submit" id="pirc-submit" class="btn btn-success">Update Portfolio</button>
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

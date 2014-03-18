@@ -17,6 +17,7 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
  * @ORM\DiscriminatorMap({
  *      "bp" = "SofaChamps\Bundle\BowlPickemBundle\Entity\Invite",
  *      "squares" = "SofaChamps\Bundle\SquaresBundle\Entity\Invite",
+ *      "pirc" = "SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Invite",
  * })
  */
 abstract class Invite

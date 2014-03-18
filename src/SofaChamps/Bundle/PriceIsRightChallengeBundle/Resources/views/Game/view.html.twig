@@ -1,0 +1,26 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>{{ game.name }}</h1>
+
+    <p>It's more fun with friends! <a href="{{ path('pirc_invite', {season: season, gameId: game.id}) }}">Invite people to play</a></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Portfolio</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for portfolio in game.portfolios %}
+                <tr>
+                    <td>{{ portfolio.user.username }}</td>
+                    <td>{{ portfolio.id }}</td>
+                    <td>{{ portfolio.score is not null ? portfolio.score : '--' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

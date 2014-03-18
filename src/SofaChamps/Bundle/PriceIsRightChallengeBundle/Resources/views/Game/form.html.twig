@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.name) }}
+    </div>
+
+    <div class="col-md-6">
+        <table class="table table-condensed table-striped table-bordered">
+            <caption>The costs for each of the seeds</caption>
+            <thead>
+                <tr>
+                    <th>Seed</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for seed in range(1, 16) %}
+                    <tr>
+                        <td>{{ seed }}</td>
+                        <td>{{ form_widget(attribute(form.config, 'seed' ~ seed ~ 'Cost')) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-condensed table-striped table-bordered">
+            <caption>The payouts for each round</caption>
+            <thead>
+                <tr>
+                    <th>Round</th>
+                    <th>Payout</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for round in range(1, 6) %}
+                    <tr>
+                        <td>{{ round }}</td>
+                        <td>{{ form_widget(attribute(form.config, 'round' ~ round ~ 'Win')) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {{ form_rest(form) }}
+</div>

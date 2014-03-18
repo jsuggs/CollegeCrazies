@@ -1,0 +1,17 @@
+{% extends "SofaChampsPriceIsRightChallengeBundle::layout.html.twig" %}
+
+{% block content %}
+    <h1>Price is Right Challenge</h1>
+    <p>
+        <img src="{{ asset('img/pirc/price-is-right-logo.jpg') }}" title="The Price is Right Challenge"/>
+    </p>
+    <p>Brackets are lame.  Channel your inner <i>Bob Barker</i> and make the most out of $100.</p>
+
+    {% if is_granted('ROLE_USER') %}
+        <h2>My Games</h2>
+
+        {% include 'SofaChampsPriceIsRightChallengeBundle:Game:_list.html.twig' %}
+    {% endif %}
+
+    <a href="{{ path('pirc_game_new', {season: season}) }}" class="btn btn-success">Start a new game</a> or <a href="" class="btn btn-info">Join an existing game</a>
+{% endblock %}

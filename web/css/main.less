@@ -7,6 +7,7 @@
 body {
     padding-top: 70px;
 }
+
 .game-list {
     dd {
         margin-left: 3px;
@@ -107,176 +108,15 @@ td.incorrect {
 }
 caption { text-align: left; }
 
-
-
-@gameHeight: 35px;
-@gameWidth: 150px;
-@round1Offset: 1px;
-@round2Offset: @gameWidth + 5px;
-@round3Offset: 250px;
-@round4Offset: 350px;
-@round1GroupPadding: 30px;
-@round1GameMargin: 5px;
-@round2GameMargin: 65px;
-@round3GameMargin: 170px;
-.round1GameTop(@index) {
-    top: (@index * @gameHeight) + (@index * @round1GameMargin) + (ceil((@index - 1) / 2) * @round1GroupPadding);
-}
-.round2GameTop(@index) {
-    top: 25 + (@index * @gameHeight) + (@index * @round2GameMargin);
-}
-.round3GameTop(@index) {
-    top: 75 + (@index * @gameHeight) + (@index * @round3GameMargin);
-}
-.bracket {
-    .region-ltr {
-        float: left;
-        .game {
-            border-width: 1px 1px 1px 0;
-            position: absolute;
-            height: @gameHeight;
-        }
-        .round1 {
-            left: @round1Offset;
-        }
-        .round2 {
-            left: @round2Offset;
-        }
-        .round3 {
-            left: @round3Offset;
-        }
-        .round4 {
-            left: @round4Offset;
-        }
+.table-tbody-striped {
+    > tbody {
+        border-bottom: 2px #333 solid;
     }
-    .region-rtl {
-        float: right;
-        .game {
-            border-width: 1px 0 1px 1px;
-        }
-        .round1 {
-            right: @round1Offset;
-        }
-        .round2 {
-            right: @round2Offset;
-        }
-        .round3 {
-            right: @round3Offset;
-        }
-        .round4 {
-            right: @round4Offset;
-        }
-    }
-    position: absolute;
-    .region {
-        position: relative;
-        width: 520px;
-        height: 425px;
-        margin-bottom: 10px;
-        h2 {
-            position: absolute;
-            top: 150px;
-            left: 200px;
-        }
-        .round1 {
-            &.index1 {
-                .round1GameTop(0);
-            }
-            &.index2 {
-                .round1GameTop(1);
-            }
-            &.index3 {
-                .round1GameTop(2);
-            }
-            &.index4 {
-                .round1GameTop(3);
-            }
-            &.index5 {
-                .round1GameTop(4);
-            }
-            &.index6 {
-                .round1GameTop(5);
-            }
-            &.index7 {
-                .round1GameTop(6);
-            }
-            &.index8 {
-                .round1GameTop(7);
-            }
-        }
-        .round2 {
-            &.index1 {
-                .round2GameTop(0);
-            }
-            &.index2 {
-                .round2GameTop(1);
-            }
-            &.index3 {
-                .round2GameTop(2);
-            }
-            &.index4 {
-                .round2GameTop(3);
-            }
-        }
-        .round3 {
-            &.index1 {
-                .round3GameTop(0);
-            }
-            &.index2 {
-                .round3GameTop(1);
-            }
-        }
-        .round4 {
-            &.index1 {
-                top: 175px;
-            }
-        }
-    }
-    .game {
-        font-size: 10px;
-        width: @gameWidth;
-        border: 1px solid #333;
-        background: #eee;
-        padding: 3px 10px 3px 5px;
-        margin: 5px;
-        position: absolute;
-        .winner {
-            background: #87A96B;
-        }
-        .team {
-            position: relative;
-            .score {
-                position: absolute;
-                right: 5px;
-            }
-        }
-    }
-    .final-four {
-        clear: both;
-        border: 1px solid #eee;
-        height: 75px;
-        position: relative;
-        h2 {
-            margin-left: 5px;
-        }
-        .game {
-            position: absolute;
-            float: left;
-            top: 10px;
-        }
-        .round5 {
-            &.index1 {
-                left: 250px;
-            }
-            &.index2 {
-                right: 250px;
-            }
-        }
-        .round6 {
-            &.index1 {
-                left: 450px;
-                height: 50px;
-                font-weight: bold;
+    > tbody:nth-child(odd) {
+        tr {
+            > td,
+            > th {
+                background-color: @table-bg-accent !important;
             }
         }
     }

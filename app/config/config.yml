@@ -20,6 +20,14 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
 
+monolog:
+    handlers:
+        email:
+            type:  stream
+            path:  %kernel.logs_dir%/email/%kernel.environment%.log
+            level: debug
+            channels: [email]
+
 # Sonata Admin
 sonata_block:
     default_contexts: [cms]

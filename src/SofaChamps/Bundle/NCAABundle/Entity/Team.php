@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A ncaa team
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="TeamRepository")
  * @ORM\Table(
  *      name="ncaa_teams"
  * )
@@ -46,6 +46,11 @@ class Team extends AbstractTeam implements ConferenceTeamInterface
      * @ORM\OneToMany(targetEntity="NCAAFConferenceMember", mappedBy="team")
      */
     protected $conferenceMemberships;
+
+    /**
+     * ORM\ManyToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio", inversedBy="teams")
+     */
+    protected $pircPortfolios;
 
     public function setThumbnail($thumbnail)
     {

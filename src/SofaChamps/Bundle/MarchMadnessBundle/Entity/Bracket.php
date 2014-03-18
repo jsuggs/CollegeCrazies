@@ -3,8 +3,10 @@
 namespace SofaChamps\Bundle\MarchMadnessBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
 use Doctrine\ORM\Mapping as ORM;
 use SofaChamps\Bundle\BracketBundle\Entity\AbstractBracket;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,6 +41,11 @@ class Bracket extends AbstractBracket
      */
     protected $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity="SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Game", mappedBy="bracket")
+     */
+    protected $pircGames;
+
     public function __construct($season)
     {
         parent::__construct();
@@ -47,6 +54,7 @@ class Bracket extends AbstractBracket
         $this->games = new ArrayCollection();
         $this->regions = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->pircGames = new ArrayCollection();
     }
 
     public function getSeason()
@@ -59,11 +67,39 @@ class Bracket extends AbstractBracket
         return $this->regions;
     }
 
+    public function getGames()
+    {
+        return $this->games;
+    }
+
+    public function getTeams()
+    {
+        return $this->teams;
+    }
+
     public function getGamesForRound($round)
     {
-        return $this->games->filter(function($game) use ($round) {
-            return $game->getRound() == $round;
+        try {
+            return $this->games->filter(function($game) use ($round) {
+                return $game->getRound() == $round;
+            });
+        } catch (OutOfBoundsException $e) {
+            return new ArrayCollection();
+        }
+    }
+
+    public function getTeamsForSeed($seed)
+    {
+        return $this->teams->filter(function($team) use ($seed) {
+            return $team->getRegionSeed() == $seed;
         });
+    }
+
+    public function getBracketTeamForTeam(Team $team)
+    {
+        return $this->teams->filter(function(BracketTeam $bracketTeam) use ($team) {
+            return $team == $bracketTeam->getTeam();
+        })->first();
     }
 
     public function __toString()
