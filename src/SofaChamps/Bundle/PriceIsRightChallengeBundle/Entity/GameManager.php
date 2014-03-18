@@ -46,16 +46,6 @@ class GameManager
         return $this->user;
     }
 
-    public function addTeam(BracketTeam $team)
-    {
-        $this->teams->add($team);
-    }
-
-    public function getTeams()
-    {
-        return $this->teams;
-    }
-
     public function setPassword($password)
     {
         $this->password = trim($password);
