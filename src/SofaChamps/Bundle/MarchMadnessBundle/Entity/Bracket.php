@@ -72,6 +72,17 @@ class Bracket extends AbstractBracket
         return $this->games;
     }
 
+    public function getGamesPessimistic()
+    {
+        $games = new ArrayCollection();
+        foreach (range(1, 6) as $round) {
+            foreach ($this->getGamesForRound($round) as $game) {
+                $games->add($game);
+            }
+        }
+        return $games;
+    }
+
     public function getTeams()
     {
         return $this->teams;

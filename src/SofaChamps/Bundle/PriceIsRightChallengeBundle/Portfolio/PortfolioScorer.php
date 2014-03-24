@@ -23,8 +23,13 @@ class PortfolioScorer
         })->toArray();
 
         $score = 0;
-        foreach ($game->getBracket()->getGames() as $game) {
-            $winningTeam = $game->getWinner()->getTeam();
+        $games = $game->getBracket()->getGamesPessimistic();
+        foreach ($game->getBracket()->getGamesPessimistic() as $game) {
+            $winner = $game->getWinner();
+            if (!$winner) {
+                continue;
+            }
+            $winningTeam = $winner->getTeam();
             $winnerId = $winningTeam->getId();
             $round = $game->getRound();
             if (in_array($winnerId, $portfolioTeamIds)) {

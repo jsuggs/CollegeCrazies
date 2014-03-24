@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ScorePortfoliosCommand extends ContainerAwareCommand
 {
     const PORTFOLIO_DQL =<<<DQL
-SELECT p, g, c
+SELECT p, g, c, b
 FROM SofaChamps\Bundle\PriceIsRightChallengeBundle\Entity\Portfolio p
 JOIN p.game g
 JOIN g.bracket b
