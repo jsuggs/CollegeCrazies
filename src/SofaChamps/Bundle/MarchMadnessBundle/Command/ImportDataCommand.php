@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\MarchMadnessBundle\Command;
 
+use Doctrine\DBAL\DBALException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,11 +39,14 @@ class ImportDataCommand extends ContainerAwareCommand
         $output->writeln('Importing Brackets');
         $bracketYears = glob(sprintf('%s/*', $this->dataDirectory));
         $this->conn->beginTransaction();
-        $this->conn->exec('TRUNCATE mm_brackets CASCADE');
         foreach ($bracketYears as $yearPath) {
             $year = basename($yearPath);
             $output->writeln(" * $year");
-            $this->conn->exec(sprintf("INSERT INTO mm_brackets (season) VALUES (%d)", $year));
+            try {
+                $this->conn->exec(sprintf("INSERT INTO mm_brackets (season) VALUES (%d)", $year));
+            } catch (DBALException $e) {
+                //var_dump($e);
+            }
         }
         $this->conn->commit();
     }
@@ -52,7 +56,8 @@ class ImportDataCommand extends ContainerAwareCommand
         $output->writeln('Importing Regions');
         $regionDataFiles = glob(sprintf('%s/*/regions.csv', $this->dataDirectory));
         $this->conn->beginTransaction();
-        $this->conn->exec('DELETE FROM mm_regions');
+        $this->conn->exec('LOCK TABLE mm_regions IN EXCLUSIVE MODE');
+        $this->conn->exec('TRUNCATE mm_regions CASCADE');
         foreach ($regionDataFiles as $dataFile) {
             $output->writeln($dataFile);
             $this->conn->exec(sprintf("COPY mm_regions FROM '%s' CSV HEADER", $dataFile));
