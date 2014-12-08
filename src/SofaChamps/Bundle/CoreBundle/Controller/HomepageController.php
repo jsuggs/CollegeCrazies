@@ -12,8 +12,8 @@ class HomepageController extends CoreController
     public function homepageAction()
     {
         // This is temporary
-        return $this->redirect($this->generateUrl('sbc_home', array(
-            'year' => 2014,
+        return $this->redirect($this->generateUrl('bp_home', array(
+            'season' => 2014,
         )));
         $user = $this->getUser();
 

@@ -14,6 +14,6 @@ class SeasonManager
     public function getCurrentSeason()
     {
         // TODO
-        return 2013;
+        return 2014;
     }
 }
