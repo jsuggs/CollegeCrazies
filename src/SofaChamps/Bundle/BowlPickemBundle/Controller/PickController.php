@@ -54,7 +54,7 @@ class PickController extends BaseController
         $request = $this->getRequest();
 
         if ($request->getMethod() === 'POST') {
-            if ($this->picksLocked()) {
+            if ($this->picksLocked($season)) {
                 $this->addMessage('warning', 'You can\' update your leagues after picks lock');
             } else {
                 $em = $this->getEntityManager();
@@ -219,7 +219,7 @@ class PickController extends BaseController
     public function createPickAction($season)
     {
         // No more picksets after picks lock
-        if ($this->picksLocked()) {
+        if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,

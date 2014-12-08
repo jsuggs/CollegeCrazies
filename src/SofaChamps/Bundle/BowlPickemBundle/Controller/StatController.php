@@ -18,7 +18,7 @@ class StatController extends BaseController
      */
     public function importantGamesAction($season)
     {
-        if (!$this->picksLocked()) {
+        if (!$this->picksLocked($season)) {
             $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
@@ -41,7 +41,7 @@ class StatController extends BaseController
      */
     public function leaderboardAction($season)
     {
-        if (!$this->picksLocked()) {
+        if (!$this->picksLocked($season)) {
             $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
                 'season' => $season,
