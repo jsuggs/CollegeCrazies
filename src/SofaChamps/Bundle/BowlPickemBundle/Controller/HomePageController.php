@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
 
 class HomePageController extends BaseController
@@ -11,7 +12,7 @@ class HomePageController extends BaseController
     /**
      * @Route("/{season}", requirements={"season" = "\d+"},  name="bp_home")
      */
-    public function homepageAction($season)
+    public function homepageAction(Season $season)
     {
         $user = $this->getUser();
 
@@ -64,7 +65,7 @@ class HomePageController extends BaseController
      * @Route("/{season}/bowl-schedule", requirements={"season" = "\d+"}, name="schedule")
      * @Template("SofaChampsBowlPickemBundle::schedule.html.twig")
      */
-    public function scheduleAction($season)
+    public function scheduleAction(Season $season)
     {
         return array(
             'games' => $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season, 'ASC'),

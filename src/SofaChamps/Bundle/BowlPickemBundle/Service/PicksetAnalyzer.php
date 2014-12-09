@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 
 /**
  * PicksetAnalyzer
@@ -53,18 +54,18 @@ EOF;
         $this->conn = $conn;
     }
 
-    public function deleteAnalysis($season)
+    public function deleteAnalysis(Season $season)
     {
         $this->conn->executeUpdate(self::DELETE_USER_SCORE_SQL, array(
-            'season' => $season,
+            'season' => $season->getSeason(),
         ));
     }
 
-    public function analyizeLeaguePickSets(League $league, $season)
+    public function analyizeLeaguePickSets(League $league, Season $season)
     {
         $this->conn->executeUpdate(self::INSERT_USER_SCORE_SQL, array(
             'leagueId' => $league->getId(),
-            'season' => $season,
+            'season' => $season->getSeason(),
         ));
     }
 }

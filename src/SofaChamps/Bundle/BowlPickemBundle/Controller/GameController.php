@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 
 /**
  * @Route("{season}/game")
@@ -16,7 +17,7 @@ class GameController extends BaseController
      * @Template("SofaChampsBowlPickemBundle:Game:list.html.twig")
      * @Cache(expires="+5 minutes")
      */
-    public function listAction($season)
+    public function listAction(Season $season)
     {
         $em = $this->getEntityManager();
 

@@ -4,7 +4,7 @@
     <h2>League Email</h2>
     <p class="text-warning">This is a great responsibility.  Please don't spam your league members.<p>
 
-    <form action="{{ path('league_blast', {leagueId: league.id, season: season}) }}" method="POST" class="form" role="form">
+    <form action="{{ path('league_blast', {leagueId: league.id, season: season.season}) }}" method="POST" class="form" role="form">
         <div class="form-group">
             {{ form_label(form.message) }}
             {{ form_errors(form.message) }}

@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ member.username }}</td>
                 <td>
-                    <form action="{{ path('league_member_remove', {leagueId: league.id, userId: member.id, season: season}) }}" method="POST" style="margin: 0;">
+                    <form action="{{ path('league_member_remove', {leagueId: league.id, userId: member.id, season: season.season}) }}" method="POST" style="margin: 0;">
                         <button type="submit" class="btn btn-small btn-danger">Remove</button>
                     </form>
                 </td>

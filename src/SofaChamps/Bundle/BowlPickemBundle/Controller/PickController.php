@@ -28,7 +28,7 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function listAction($season)
+    public function listAction(Season $season)
     {
         return array(
             'season' => $season,
@@ -41,14 +41,14 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template
      */
-    public function manageAction($season)
+    public function manageAction(Season $season)
     {
         $user = $this->getUser();
         $pickSets = $user->getPickSetsForSeason($season);
 
         if (count($pickSets) === 0) {
             return $this->redirect($this->generateUrl('pickset_new', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             )));
         }
 
@@ -62,7 +62,7 @@ class PickController extends BaseController
                 $conn = $em->getConnection();
                 // Delete all of the users picksets
                 // TODO - Move to repo
-                $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ? AND season = ?)', array($user->getId(), $season));
+                $conn->executeUpdate('DELETE FROM pickset_leagues WHERE pickset_id IN (SELECT id FROM picksets WHERE user_id = ? AND season = ?)', array($user->getId(), $season->getSeason()));
 
                 // This is a semi-hack, not using the form framework
                 foreach ($request->request->get('league_pickset') as $leagueId => $pickSetId) {
@@ -88,13 +88,13 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:new.html.twig")
      */
-    public function newPickAction($season)
+    public function newPickAction(Season $season)
     {
         // No more picksets after picks lock
         if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect($this->generateUrl('bp_home', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             )));
         }
 
@@ -112,19 +112,17 @@ class PickController extends BaseController
             $this->getEntityManager()->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
                 'picksetId' => $pickSet->getId(),
             )));
         }
 
-        $seasonObj = $this->findSeasonObj($season);
-        $form = $this->getPickSetForm($pickSet, $seasonObj);
+        $form = $this->getPickSetForm($pickSet, $season);
 
         return array(
             'season' => $season,
             'form' => $form->createView(),
             'league' => isset($league) ? $league : null,
-            'seasonObj' => $seasonObj,
         );
     }
 
@@ -135,7 +133,7 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function editPickAction(PickSet $pickSet, $season)
+    public function editPickAction(PickSet $pickSet, Season $season)
     {
         if ($this->get('session')->get('auto_league_create')) {
             $this->get('session')->remove('auto_league_create');
@@ -147,13 +145,11 @@ class PickController extends BaseController
 
         $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
 
-        $seasonObj = $this->findSeasonObj($season);
-        $form = $this->getPickSetForm($pickSet, $seasonObj);
+        $form = $this->getPickSetForm($pickSet, $season);
         return array(
             'form' => $form->createView(),
             'pickSet' => $pickSet,
             'season' => $season,
-            'seasonObj' => $seasonObj,
         );
     }
 
@@ -165,7 +161,7 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="VIEW")
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickAction(League $league, PickSet $pickSet, $season)
+    public function viewPickAction(League $league, PickSet $pickSet, Season $season)
     {
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);
         $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
@@ -184,7 +180,7 @@ class PickController extends BaseController
      * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "picksetId"})
      * @Template("SofaChampsBowlPickemBundle:Pick:view.html.twig")
      */
-    public function viewPickNoLeagueAction(PickSet $pickSet, $season)
+    public function viewPickNoLeagueAction(PickSet $pickSet, Season $season)
     {
         $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
 
@@ -203,7 +199,7 @@ class PickController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Pick:compare.html.twig")
      */
-    public function comparePickSetAction(PickSet $pickSet1, PickSet $pickSet2, $season)
+    public function comparePickSetAction(PickSet $pickSet1, PickSet $pickSet2, Season $season)
     {
         $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($season);
 
@@ -221,13 +217,13 @@ class PickController extends BaseController
      * @Method({"POST"})
      * @Template("SofaChampsBowlPickemBundle:Pick:new.html.twig")
      */
-    public function createPickAction($season)
+    public function createPickAction(Season $season)
     {
         // No more picksets after picks lock
         if ($this->picksLocked($season)) {
             $this->addMessage('warning', 'Sorry, the fun is over...no more picksets');
             return $this->redirect($this->generateUrl('bp_home', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             )));
         }
 
@@ -239,8 +235,7 @@ class PickController extends BaseController
 
         $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
 
-        $seasonObj = $this->findSeasonObj($season);
-        $form = $this->getPickSetForm($pickSet, $seasonObj);
+        $form = $this->getPickSetForm($pickSet, $season);
         $request = $this->getRequest();
         $form->bind($request);
 
@@ -260,7 +255,6 @@ class PickController extends BaseController
         return array(
             'form' => $form->createView(),
             'season' => $season,
-            'seasonObj' => $seasonObj,
         );
     }
 
@@ -272,10 +266,9 @@ class PickController extends BaseController
      * @SecureParam(name="pickSet", permissions="EDIT")
      * @Template("SofaChampsBowlPickemBundle:Pick:edit.html.twig")
      */
-    public function updatePickAction(PickSet $pickSet, $season)
+    public function updatePickAction(PickSet $pickSet, Season $season)
     {
-        $seasonObj = $this->findSeasonObj($season);
-        $form = $this->getPickSetForm($pickSet, $seasonObj);
+        $form = $this->getPickSetForm($pickSet, $season);
         $form->bind($this->getRequest());
         if ($form->isValid()) {
             $em = $this->getEntityManager();
@@ -286,7 +279,7 @@ class PickController extends BaseController
             $this->addMessage('success', 'Pickset successfully updated');
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
                 'picksetId' => $pickSet->getId(),
             )));
         }
@@ -295,7 +288,6 @@ class PickController extends BaseController
             'form' => $form->createView(),
             'pickSet' => $pickSet,
             'season' => $season,
-            'seasonObj' => $seasonObj,
         );
     }
 
@@ -305,7 +297,7 @@ class PickController extends BaseController
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
      * @ParamConverter("pickSet", class="SofaChampsBowlPickemBundle:PickSet", options={"id" = "pickSetId"})
      */
-    public function dataAction(League $league, Pickset $pickSet, $season)
+    public function dataAction(League $league, Pickset $pickSet, Season $season)
     {
         $data = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')
             ->getPickDistribution($pickSet, $league, $season);

@@ -6,7 +6,7 @@
     {% if pickSets|length %}
         <p>Choose a pickset for league "{{ league.name }}"</p>
 
-        <form action="{{ path('league_assoc', {leagueId: league.id, season: season}) }}" method="POST" class="form-horizontal">
+        <form action="{{ path('league_assoc', {leagueId: league.id, season: season.season}) }}" method="POST" class="form-horizontal">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -27,6 +27,6 @@
         </form>
     {% else %}
         <h4>You don't have any picksets.</h4>
-        <p><a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create One Now</a></p>
+        <p><a href="{{ path('pickset_new', {season: season.season}) }}" class="btn btn-success">Create One Now</a></p>
     {% endif %}
 {% endblock %}

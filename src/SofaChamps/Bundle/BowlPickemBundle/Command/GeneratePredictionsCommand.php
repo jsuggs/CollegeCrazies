@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class GeneratePredictionsCommand extends ContainerAwareCommand
 {
     protected $generator;
+    protected $season;
 
     protected function configure()
     {
@@ -25,14 +26,16 @@ class GeneratePredictionsCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->generator = $this->getContainer()->get('sofachamps.bp.prediction_generator');
+        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+        $this->season = $em->getRepository('SofaChampsBowlPickemBundle:Season')->find($input->getArgument('season'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('truncate')) {
-            $this->generator->truncatePredictionTables($input->getArgument('season'));
+            $this->generator->truncatePredictionTables($this->season);
         } else {
-            $this->generator->createPredictions($input->getArgument('predictions'), $input->getArgument('season'));
+            $this->generator->createPredictions($input->getArgument('predictions'), $this->season);
         }
     }
 }

@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Prediction;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PredictionSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
 
 /**
@@ -28,7 +29,7 @@ class PredictionGenerator
         $this->om = $om;
     }
 
-    public function createPredictions($numPredictions, $season)
+    public function createPredictions($numPredictions, Season $season)
     {
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAll();
         $completedGames = array_filter($games, function ($game) {
@@ -92,15 +93,15 @@ class PredictionGenerator
         }
     }
 
-    public function truncatePredictionTables($season)
+    public function truncatePredictionTables(Season $season)
     {
         $conn = $this->om->getConnection();
         $conn->beginTransaction();
         $conn->executeUpdate('DELETE FROM user_prediction_set_score WHERE season = :season', array(
-            'season' => $season,
+            'season' => $season->getSeason(),
         ));
         $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
-            'season' => $season,
+            'season' => $season->getSeason(),
         ));
         $conn->commit();
     }

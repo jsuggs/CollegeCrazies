@@ -3,7 +3,7 @@
 {% block content %}
     <h3>Create a new League</h3>
 
-    <form action="{{ path('league_create', {season: season}) }}" method="post" class="form form-horizontal" {{ form_enctype(form) }} role="form">
+    <form action="{{ path('league_create', {season: season.season}) }}" method="post" class="form form-horizontal" {{ form_enctype(form) }} role="form">
         {% include 'SofaChampsBowlPickemBundle:League:form.html.twig' %}
 
         <button type="submit" class="btn btn-primary">Create League</button>

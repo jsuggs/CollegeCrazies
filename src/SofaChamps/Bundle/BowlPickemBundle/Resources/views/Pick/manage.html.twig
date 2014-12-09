@@ -4,7 +4,7 @@
 {% block content %}
     <h2>Manage Picksets</h2>
     <p>Choose the pickset you want to use for the league</p>
-    <form action="{{ path('pickset_manage', {season: season}) }}" method="POST" id="pickset-update" role="form">
+    <form action="{{ path('pickset_manage', {season: season.season}) }}" method="POST" id="pickset-update" role="form">
         <table class="table table-bordered table-hover">
             <thead>
                 {% if isCommish %}
@@ -12,7 +12,7 @@
                 {% endif %}
                 <th>League</th>
                 {% for pickSet in pickSets %}
-                    <th><a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season}) }}"><span class="glyphicon glyphicon-list-alt"></span> {{ pickSet.name }}</a></th>
+                    <th><a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickSet.id, season: season.season}) }}"><span class="glyphicon glyphicon-list-alt"></span> {{ pickSet.name }}</a></th>
                 {% endfor %}
             </thead>
             <tbody>
@@ -22,7 +22,7 @@
                     {% if isCommish %}
                         <td>{{ league.userIsCommissioner(app.user) ? '<span class="glyphicon glyphicon-certificate" title="You are the commissioner for this league"></span>' : '' }}</td>
                     {% endif %}
-                    <td><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></td>
+                    <td><a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></td>
                     {% for pickSet in pickSets %}
                         <td><input type="radio"{% if picks_locked(season) %} disabled{% endif %} name="league_pickset[{{ league.id }}]" value="{{ pickSet.id }}"{% if pickSet == leaguePickSet %} checked="checked"{% endif %} /></td>
                     {% endfor %}
@@ -50,12 +50,12 @@
     {% if not picks_locked(season) %}
         <div class="row-fluid">
             <h4>Looking for some more action?</h4>
-            <a href="{{ path('league_find', {season: season}) }}" class="btn btn-info">Find another League to Join</a>
+            <a href="{{ path('league_find', {season: season.season}) }}" class="btn btn-info">Find another League to Join</a>
         </div>
 
         <div class="row-fluid">
             <h4>Need to leave a League?</h4>
-            <a href="{{ path('league_leave', {season: season}) }}" class="btn btn-warning">Leave a League</a>
+            <a href="{{ path('league_leave', {season: season.season}) }}" class="btn btn-warning">Leave a League</a>
         </div>
     {% endif %}
 {% endblock %}

@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\CoreBundle\Controller\CoreController;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -65,11 +66,6 @@ class BaseController extends CoreController
         return $predictionSet;
     }
 
-    protected function findSeasonObj($season)
-    {
-        return $this->getRepository('SofaChampsBowlPickemBundle:Season')->find($season);
-    }
-
     protected function addUserToLeague(League $league, User $user)
     {
         $em = $this->getEntityManager();
@@ -79,7 +75,7 @@ class BaseController extends CoreController
         $em->persist($user);
     }
 
-    protected function picksLocked($season)
+    protected function picksLocked(Season $season)
     {
         return $this->get('sofachamps.bp.picks_locked_manager')->arePickLocked($season);
     }

@@ -49,7 +49,7 @@ class GameWorker
 
         $season = $game->getSeason();
 
-        echo " season: $season leagues: ";
+        echo sprintf(" season: %d leagues: ", $season->getSeason());
         $this->analyzer->deleteAnalysis($season);
         $leagues = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->findBySeason($season);
         foreach ($leagues as $league) {

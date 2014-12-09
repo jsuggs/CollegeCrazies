@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 
 /**
  * @Route("/{season}/stats")
@@ -16,12 +17,12 @@ class StatController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Stat:importance.html.twig")
      */
-    public function importantGamesAction($season)
+    public function importantGamesAction(Season $season)
     {
         if (!$this->picksLocked($season)) {
             $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             )));
         }
 
@@ -39,12 +40,12 @@ class StatController extends BaseController
      * @Secure(roles="ROLE_USER")
      * @Template("SofaChampsBowlPickemBundle:Stat:leaderboard.html.twig")
      */
-    public function leaderboardAction($season)
+    public function leaderboardAction(Season $season)
     {
         if (!$this->picksLocked($season)) {
             $this->addMessage('warning', 'Feature not available until picks lock');
             return $this->redirect($this->generateUrl('bp_home', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             )));
         }
 

@@ -29,8 +29,10 @@ class UserPredictionSetScore
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", length=4)
-     * @Assert\Range(min=2012, max=2020)
+     * ORM\Column(type="integer", length=4)
+     * Assert\Range(min=2012, max=2020)
+     * @ORM\ManyToOne(targetEntity="Season")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $season;
 
@@ -56,7 +58,7 @@ class UserPredictionSetScore
      */
     protected $finish;
 
-    public function __construct(User $user, League $league, $season, PredictionSet $predictionSet, PickSet $pickSet)
+    public function __construct(User $user, League $league, Season $season, PredictionSet $predictionSet, PickSet $pickSet)
     {
         $this->user = $user;
         $this->league = $league;

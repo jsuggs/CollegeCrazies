@@ -17,13 +17,13 @@
         <p><small>This pickset is assigned to all of these leagues</small></p>
         <ul class="unstyled">
         {% for league in pickSet.leagues %}
-            <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
+            <li><a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
         {% endfor %}
         </ul>
     {% else %}
         <p><small>This pickset is not assigned to any leagues</small></p>
-        <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Find or Create a League</a>
-        <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-info">Manage your picksets</a>
+        <a href="{{ path('league_find', {season: season.season}) }}" class="btn btn-success">Find or Create a League</a>
+        <a href="{{ path('pickset_manage', {season: season.season}) }}" class="btn btn-info">Manage your picksets</a>
     {% endif %}
 {% endif %}
 

@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Twig\Extension;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -40,7 +41,7 @@ class AppExtension extends \Twig_Extension
         );
     }
 
-    public function picksLocked($season)
+    public function picksLocked(Season $season)
     {
         return $this->container->get('sofachamps.bp.picks_locked_manager')->arePickLocked($season);
     }
@@ -50,7 +51,7 @@ class AppExtension extends \Twig_Extension
         return $this->container->get('sofachamps.bp.season_manager')->getCurrentSeason();;
     }
 
-    public function getLockTime($season)
+    public function getLockTime(Season $season)
     {
         return $this->container->get('sofachamps.bp.picks_locked_manager')->getLockTime($season);
     }

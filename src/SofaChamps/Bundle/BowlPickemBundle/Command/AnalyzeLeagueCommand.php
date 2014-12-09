@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AnalyzeLeagueCommand extends ContainerAwareCommand
 {
     protected $analyzer;
+    protected $season;
     protected $leagues;
 
     protected function configure()
@@ -23,18 +24,20 @@ class AnalyzeLeagueCommand extends ContainerAwareCommand
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->analyzer = $this->getContainer()->get('sofachamps.bp.pickset_analyzer');
-        $this->leagues = $this->getContainer()->get('doctrine.orm.default_entity_manager')->getRepository('SofaChampsBowlPickemBundle:League')->findBy(array(
+        $em = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+        $this->season = $em->getRepository('SofaChampsBowlPickemBundle:Season')->find($input->getArgument('season'));
+        $this->leagues = $em->getRepository('SofaChampsBowlPickemBundle:League')->findBy(array(
             'season' => $input->getArgument('season'),
         ));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->analyzer->deleteAnalysis($input->getArgument('season'));
+        $this->analyzer->deleteAnalysis($this->season);
         $progress = $this->getHelperSet()->get('progress');
         $progress->start($output, count($this->leagues));
         foreach ($this->leagues as $league) {
-            $this->analyzer->analyizeLeaguePickSets($league, $input->getArgument('season'));
+            $this->analyzer->analyizeLeaguePickSets($league, $this->season);
             $progress->advance();
         }
         $progress->finish();

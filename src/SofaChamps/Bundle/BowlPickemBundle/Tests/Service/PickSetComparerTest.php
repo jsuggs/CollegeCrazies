@@ -7,6 +7,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetComparer;
 use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
@@ -49,7 +50,8 @@ class PickSetComparerTest extends SofaChampsTest
 
     public function getPickSets()
     {
-        $season = rand(2000, 2020);
+        $year = rand(2000, 2020);
+        $season = new Season($year);
         $users = array();
         $users[] = $user1 = new User();
         $users[] = $user2 = new User();

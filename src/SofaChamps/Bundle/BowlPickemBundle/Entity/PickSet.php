@@ -30,7 +30,6 @@ class PickSet
     /**
      * @ORM\ManyToOne(targetEntity="Season")
      * @ORM\JoinColumn(name="season", referencedColumnName="season")
-     * @var integer
      */
     protected $season;
 

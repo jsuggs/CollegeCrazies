@@ -4,7 +4,7 @@
     <h3>Commissioners</h3>
     <p>Select which members are Commissioners for your League.  Commissioners have the ability to remove members, lock the league, and change the commish note.</p>
 
-    <form action="{{ path('league_commissioners', {leagueId: league.id, season: season}) }}" method="POST" id="commish-form">
+    <form action="{{ path('league_commissioners', {leagueId: league.id, season: season.season}) }}" method="POST" id="commish-form">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>

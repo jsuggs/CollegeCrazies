@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvents;
 use SofaChamps\Bundle\BowlPickemBundle\League\LeagueManager;
@@ -38,15 +39,13 @@ class PicksetManager
         $this->leagueManager = $leagueManager;
     }
 
-    public function createUserPickset(User $user, $season, League $league = null)
+    public function createUserPickset(User $user, Season $season, League $league = null)
     {
         $pickSet = new PickSet();
         $pickSet->setUser($user);
         $pickSetName = $this->createPicksetName($user);
         $pickSet->setName($pickSetName);
-
-        $seasonObj = $this->om->getRepository('SofaChampsBowlPickemBundle:Season')->find($season);
-        $pickSet->setSeason($seasonObj);
+        $pickSet->setSeason($season);
 
         if ($league) {
             $pickSet->addLeague($league);

@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Tests\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Event\LeagueEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\LeagueEvents;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\League\LeagueManager;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
 
@@ -24,7 +25,8 @@ class LeagueManagerTest extends SofaChampsTest
 
     public function testCreateLeague()
     {
-        $season = rand(2000, 3000);
+        $year = rand(2000, 3000);
+        $season = new Season($year);
 
         $league = new League();
         $league->setSeason($season);

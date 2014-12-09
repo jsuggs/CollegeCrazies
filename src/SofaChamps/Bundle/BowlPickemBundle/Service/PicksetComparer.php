@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 
 /**
@@ -15,7 +16,7 @@ use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 class PicksetComparer
 {
     private $om;
-    private $tiebreakerGames = array();
+    private $cache = array();
 
     /**
      * @DI\InjectParams({
@@ -35,7 +36,7 @@ class PicksetComparer
      *
      * @return int
      */
-    public function comparePicksets(PickSet $a, PickSet $b, $season)
+    public function comparePicksets(PickSet $a, PickSet $b, Season $season)
     {
         $aPoints = $a->getPoints();
         $bPoints = $b->getPoints();
@@ -74,16 +75,17 @@ class PicksetComparer
         return $aPoints > $bPoints ? -1 : 1;
     }
 
-    protected function getTiebreakerGamesForSeason($season)
+    protected function getTiebreakerGamesForSeason(Season $season)
     {
-        if (!array_key_exists($season, $this->tiebreakerGames)) {
-            $this->tiebreakerGames[$season] = $this->fetchTiebreakerGamesForSeason($season);
+        $cacheKey = $season->getSeason();
+        if (!array_key_exists($cacheKey, $this->cache)) {
+            $this->cache[$cacheKey] = $this->fetchTiebreakerGamesForSeason($season);
         }
 
-        return $this->tiebreakerGames[$season];
+        return $this->cache[$cacheKey];
     }
 
-    private function fetchTiebreakerGamesForSeason($season)
+    private function fetchTiebreakerGamesForSeason(Season $season)
     {
         return $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findTiebreakerGamesForSeason($season);
     }

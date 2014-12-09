@@ -39,9 +39,8 @@ class Game extends AbstractGame
     /**
      * The bowl season for this game
      *
-     * @ORM\Column(type="integer", length=4)
-     * @Assert\Range(min=2012, max=2020)
-     * @var integer
+     * @ORM\ManyToOne(targetEntity="Season")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $season;
 
@@ -154,7 +153,7 @@ class Game extends AbstractGame
         return $this->name;
     }
 
-    public function setSeason($season)
+    public function setSeason(Season $season)
     {
         $this->season = $season;
     }
@@ -255,6 +254,6 @@ class Game extends AbstractGame
 
     public function __toString()
     {
-        return sprintf('%d - %s', $this->season, $this->name);
+        return sprintf('%d - %s', $this->season->getSeason(), $this->name);
     }
 }

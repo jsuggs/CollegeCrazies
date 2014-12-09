@@ -25,9 +25,8 @@ class PredictionSet
     protected $id;
 
     /**
-     * @ORM\Column(type="integer", length=4)
-     * @Assert\Range(min=2012, max=2020)
-     * @var integer
+     * @ORM\ManyToOne(targetEntity="Season")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
      */
     protected $season;
 
@@ -41,7 +40,7 @@ class PredictionSet
         return $this->id;
     }
 
-    public function setSeason($season)
+    public function setSeason(Season $season)
     {
         $this->season = $season;
     }

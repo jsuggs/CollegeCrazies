@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 
 /**
  * PickSetSorter
@@ -24,7 +25,7 @@ class PickSetSorter
         $this->pickSetComparer = $pickSetComparer;
     }
 
-    public function sortPickSets($pickSets, $season, $reverseSort = true)
+    public function sortPickSets($pickSets, Season $season, $reverseSort = true)
     {
         $pickSets = array_filter($pickSets, function($pickSet) {
             return isset($pickSet);

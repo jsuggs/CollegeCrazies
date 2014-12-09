@@ -15,11 +15,11 @@
                 <ul class="unstyled">
                 {% for pickset in user.picksetsForSeason(season) %}
                     <li>
-                        <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season}) }}">{{ pickset.name }}</a>
+                        <span class="glyphicon glyphicon-list"></span> <a href="{{ path(picks_locked(season) ? 'pickset_view_noleague' : 'pickset_edit', {picksetId: pickset.id, season: season.season}) }}">{{ pickset.name }}</a>
                         {% if pickset.leagues %}
                             <ul class="unstyled">
                             {% for league in pickset.leagues %}
-                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
+                                <li><a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}"><span class="glyphicon glyphicon-home"></span> {{ league.name }}</a></li>
                             {% endfor %}
                             </ul>
                         {% endif %}
@@ -28,16 +28,16 @@
                 </ul>
                 <hr />
                 <p>
-                    <a href="{{ path('pickset_manage', {season: season}) }}" class="btn btn-primary">Manage Picksets</a>
+                    <a href="{{ path('pickset_manage', {season: season.season}) }}" class="btn btn-primary">Manage Picksets</a>
                     {% if not picks_locked(season) %}
                         or
-                        <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Picksets</a>
+                        <a href="{{ path('pickset_new', {season: season.season}) }}" class="btn btn-success">Create new Picksets</a>
                     {% endif %}
                 </p>
             {% else %}
                 {% if not picks_locked(season) %}
                     <h2>You don't have any picksets <small>what a shame</small></h2>
-                    <a href="{{ path('pickset_new', {season: season}) }}" class="btn btn-success">Create new Pickset Now!</a>
+                    <a href="{{ path('pickset_new', {season: season.season}) }}" class="btn btn-success">Create new Pickset Now!</a>
                 {% endif %}
             {% endif %}
         </div>
@@ -47,7 +47,7 @@
                 <ul class="unstyled">
                 {% for league in user.leaguesForSeason(season) %}
                     <li>
-                        <a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">
+                        <a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}">
                             <span class="glyphicon glyphicon-home"></span> {{ league.name }}
                         </a>
                     </li>
@@ -59,7 +59,7 @@
             {% if not picks_locked(season) %}
                 <hr />
                 <p>
-                    <a href="{{ path('league_find', {season: season}) }}" class="btn btn-success">Join or create a league</a>
+                    <a href="{{ path('league_find', {season: season.season}) }}" class="btn btn-success">Join or create a league</a>
                 </p>
             {% endif %}
         </div>
@@ -68,10 +68,10 @@
         <div>
             {% if user.leaguesForSeason(season)|length %}
                 <h2>Picks are locked</h2>
-                <p>Checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch more of the action</p>
+                <p>Checkout the <a href="{{ path('league_public', {season: season.season}) }}">public leagues</a> and watch more of the action</p>
             {% else %}
                 <h2>Picks are locked, sorry you missed out.</h2>
-                <p>But if you want, checkout the <a href="{{ path('league_public', {season: season}) }}">public leagues</a> and watch the action</p>
+                <p>But if you want, checkout the <a href="{{ path('league_public', {season: season.season}) }}">public leagues</a> and watch the action</p>
             {% endif %}
         </div>
     {% endif %}

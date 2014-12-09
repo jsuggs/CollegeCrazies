@@ -56,7 +56,7 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                     switch (count($pickSets)) {
                         case 0:
                             $response = new RedirectResponse($this->router->generate('pickset_new', array(
-                                'season' => $season,
+                                'season' => $season->getSeason(),
                             )));
                             break;
                         case 1:
@@ -65,13 +65,13 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                             $request->getSession()->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
                             $response = new RedirectResponse($this->router->generate('league_home', array(
-                                'season' => $season,
+                                'season' => $season->getSeason(),
                                 'leagueId' => $league->getId(),
                             )));
                             break;
                         default:
                             $response = new RedirectResponse($this->router->generate('league_assoc', array(
-                                'season' => $season,
+                                'season' => $season->getSeason(),
                                 'leagueId' => $league->getId(),
                             )));
                             break;
@@ -95,7 +95,7 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
         $season = $this->seasonManager->getCurrentSeason();
         if (!$this->picksLockedManager->arePickLocked($season)) {
             $url = $this->router->generate('pickset_new', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
             ));
 
             return new RedirectResponse($url);

@@ -21,7 +21,7 @@
             <tr>
                 {% if pickSet is not null %}
                     {% if picks_locked(season) %}
-                        <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id, season: season}) }}">{{ pickSet.name }}</a></td>
+                        <td><a href="{{ path('pickset_view', {picksetId: pickSet.id, leagueId: league.id, season: season.season}) }}">{{ pickSet.name }}</a></td>
                     {% else %}
                         <td>{{ pickSet.name }}</td>
                     {% endif %}

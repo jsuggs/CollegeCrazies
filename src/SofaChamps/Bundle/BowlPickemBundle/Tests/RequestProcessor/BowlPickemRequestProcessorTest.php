@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Tests\RequestProcessor;
 
 use FOS\UserBundle\Event\FormEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\RequestProcessor\BowlPickemRequestProcessor;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
 use Symfony\Component\Form\FormInterface;
@@ -33,7 +34,8 @@ class BowlPickemRequestProcessorTest extends SofaChampsTest
         $this->markTestIncomplete('Not now');
         $form = $this->buildMock('Symfony\Component\Form\Form');
         $request = $this->buildMock('Symfony\Component\HttpFoundation\Request');
-        $season = rand(2000, 2020);
+        $year = rand(2000, 2020);
+        $season = new Season($year);
 
         $this->router->expects($this->any())
             ->method('generate')
@@ -55,7 +57,8 @@ class BowlPickemRequestProcessorTest extends SofaChampsTest
     public function testOnRegistrationSuccessAfterPicksLockedDoesNotRedirect()
     {
         $this->markTestIncomplete('Not now');
-        $season = rand(2000, 2020);
+        $year = rand(2000, 2020);
+        $season = new Season($year);
 
         $this->seasonManager->expects($this->any())
             ->method('getCurrentSeason')

@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Season;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 
 /**
@@ -27,7 +28,7 @@ class SeasonCopier
         $this->om = $om;
     }
 
-    public function copyGames($fromSeason, $toSeason)
+    public function copyGames(Season $fromSeason, Season $toSeason)
     {
         $games = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->findAllOrderedByDate($fromSeason);
         foreach ($games as $game) {

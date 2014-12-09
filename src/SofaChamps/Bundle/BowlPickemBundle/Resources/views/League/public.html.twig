@@ -19,12 +19,12 @@
                 <td>{{ league.users|length }}</td>
                 <td>
                     {% if picks_locked(season) %}
-                        <a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">View League</a>
+                        <a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}">View League</a>
                     {% else %}
                         {% if is_granted('ROLE_USER') and league.isUserInLeague(app.user) %}
                             (Already in this league)
                         {% else %}
-                            <form action="{{ path('league_join', { season: season}) }}" method="post">
+                            <form action="{{ path('league_join', { season: season.season}) }}" method="post">
                                 <input type="hidden" name="form[id]" value="{{ league.id }}" />
                                 <button type="submit" class="btn btn-success">Join this league</button>
                             </form>

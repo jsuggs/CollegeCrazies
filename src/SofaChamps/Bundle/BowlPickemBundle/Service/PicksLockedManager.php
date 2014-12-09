@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Listener\PicksLockedListener;
 use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -33,12 +34,12 @@ class PicksLockedManager
         $this->session = $session;
     }
 
-    public function arePickLocked($season)
+    public function arePickLocked(Season $season)
     {
         return $this->getLockTime($season) < new \DateTime();
     }
 
-    public function getLockTime($season)
+    public function getLockTime(Season $season)
     {
         $firstLockedString = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->getFirstGameDateForSeason($season);
         $firstLocked = new \DateTime($firstLockedString);

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PredictionSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 
 /**
  * @Route("/{season}/prediction")
@@ -21,7 +22,7 @@ class PredictionController extends BaseController
      * @ParamConverter("predictionSet", class="SofaChampsBowlPickemBundle:PredictionSet", options={"id" = "predictionSetId"})
      * @Template
      */
-    public function outcomeAction(PickSet $pickSet, PredictionSet $predictionSet, $season)
+    public function outcomeAction(PickSet $pickSet, PredictionSet $predictionSet, Season $season)
     {
         $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
 

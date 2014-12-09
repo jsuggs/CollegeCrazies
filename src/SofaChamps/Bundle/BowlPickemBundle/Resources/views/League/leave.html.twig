@@ -13,9 +13,9 @@
         <tbody>
             {% for league in leagues %}
                 <tr>
-                    <td><span class="glyphicon glyphicon-home"></span> <a href="{{ path('league_home', {leagueId: league.id, season: season}) }}">{{ league.name }}</a></td>
+                    <td><span class="glyphicon glyphicon-home"></span> <a href="{{ path('league_home', {leagueId: league.id, season: season.season}) }}">{{ league.name }}</a></td>
                     <td>
-                        <form action="{{ path('league_leave', {leagueId: league.id, season: season}) }}" method="POST" style="margin: 0" class="leave-form">
+                        <form action="{{ path('league_leave', {leagueId: league.id, season: season.season}) }}" method="POST" style="margin: 0" class="leave-form">
                             <input type="hidden" name="leagueId" value="{{ league.id }}" />
                             <input type="submit" class="btn btn-danger" value="Leave League" />
                         </form>

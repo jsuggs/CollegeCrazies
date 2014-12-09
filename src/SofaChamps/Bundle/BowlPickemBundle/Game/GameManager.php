@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Game;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\GameEvents;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -31,7 +32,7 @@ class GameManager
         $this->dispatcher = $dispatcher;
     }
 
-    public function createGame($season)
+    public function createGame(Season $season)
     {
         $game = new League();
         $game->setSeason($season);

@@ -3,7 +3,7 @@
 {% block content %}
     <h3>League Logo</h3>
 
-    <form action="{{ path('league_logo', {season: season, leagueId: league.id}) }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('league_logo', {season: season.season, leagueId: league.id}) }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <button type="submit" class="btn btn-primary">Upload Logo</button>
     </form>

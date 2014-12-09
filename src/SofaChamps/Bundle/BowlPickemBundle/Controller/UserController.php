@@ -5,6 +5,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Form\UserFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,7 +21,7 @@ class UserController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @Template("SofaChampsBowlPickemBundle:Admin:users-incomplete-picksets.html.twig")
      */
-    public function incompletePicksetsAction($season)
+    public function incompletePicksetsAction(Season $season)
     {
         $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithIncompletePicksets($season);
         $emailList = array_map(function($user) { return $user['email']; }, $users);
@@ -37,7 +38,7 @@ class UserController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @Template("SofaChampsBowlPickemBundle:Admin:users-noleague.html.twig")
      */
-    public function noleagueAction($season)
+    public function noleagueAction(Season $season)
     {
         $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithNoLeague($season);
         $emailList = array_map(function($user) { return $user['email']; }, $users);
@@ -54,7 +55,7 @@ class UserController extends BaseController
      * @Secure(roles="ROLE_ADMIN")
      * @Template("SofaChampsBowlPickemBundle:Admin:users-league.html.twig")
      */
-    public function userLeagueAction($season)
+    public function userLeagueAction(Season $season)
     {
         $users = $this->getRepository('SofaChampsCoreBundle:User')->getUsersWithAPickSetAndALeagueButNoPickSetAssociated($season);
         $emailList = array_map(function($user) { return $user['email']; }, $users);

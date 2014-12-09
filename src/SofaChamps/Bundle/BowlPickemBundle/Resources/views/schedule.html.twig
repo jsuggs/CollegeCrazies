@@ -3,7 +3,7 @@
 {% block sidebar '' %}
 
 {% block content %}
-    <h1>{{ season }} - {{ season + 1 }} Bowl Schedule <small>Times shown in {{ "now"|user_date('T') }}</small></h1>
+    <h1>{{ season.season }} - {{ season.season + 1 }} Bowl Schedule <small>Times shown in {{ "now"|user_date('T') }}</small></h1>
 
     <table class="table table-bordered table-striped table-hover">
         <thead>

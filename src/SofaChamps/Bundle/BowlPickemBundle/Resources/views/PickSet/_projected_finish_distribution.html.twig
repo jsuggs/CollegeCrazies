@@ -1,7 +1,7 @@
 <script>
     $(function () {
         $.ajax({
-            url: '{{ path('pickset_data', {leagueId: league.id, pickSetId: pickSet.id, season: season}) }}',
+            url: '{{ path('pickset_data', {leagueId: league.id, pickSetId: pickSet.id, season: season.season}) }}',
             success: function(data) {
                 var graphData = [];
                 var graphTicks = [];

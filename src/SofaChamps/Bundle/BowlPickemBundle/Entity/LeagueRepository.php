@@ -8,7 +8,7 @@ use SofaChamps\Bundle\CoreBundle\Entity\User;
 
 class LeagueRepository extends EntityRepository
 {
-    public function findAllPublic($season)
+    public function findAllPublic(Season $season)
     {
         return $this->createQueryBuilder('l')
             ->where('l.password IS null OR length(trim(l.password)) = 0')

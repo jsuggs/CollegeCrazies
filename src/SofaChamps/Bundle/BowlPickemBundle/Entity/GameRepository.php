@@ -86,7 +86,7 @@ WHERE p.pickset_id = ?
 ORDER BY CASE WHEN lp.weightedstddev = 0 THEN 0 ELSE abs((CASE WHEN p.team_id = g.hometeam_id THEN p.confidence WHEN p.team_id = g.awayteam_id THEN p.confidence * -1 END - lp.weightedmean))/lp.weightedstddev END DESC
 EOF;
 
-    public function findAllOrderedByDate($season, $sort = 'DESC')
+    public function findAllOrderedByDate(Season $season, $sort = 'DESC')
     {
         return $this->createQueryBuilder('g')
             ->select('g, home, away')
@@ -96,11 +96,11 @@ EOF;
             ->orderBy('g.gameDate', $sort)
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, sprintf('game.all-by-date-%', $season))
+            ->useResultCache(true, 3600, sprintf('game.all-by-date-%', $season->getSeason()))
             ->getResult();
     }
 
-    public function findTiebreakerGamesForSeason($season)
+    public function findTiebreakerGamesForSeason(Season $season)
     {
         return $this->createQueryBuilder('g')
             ->where('g.season = :season')
@@ -108,14 +108,14 @@ EOF;
             ->orderBy('g.tiebreakerPriority', 'ASC')
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, sprintf('game.tiebreakers-%s', $season))
+            ->useResultCache(true, 3600, sprintf('game.tiebreakers-%s', $season->getSeason()))
             ->getResult();
     }
 
-    public function gamesByImportance($season)
+    public function gamesByImportance(Season $season)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::SITE_IMPORTANCE_SQL, array(
-            'season' => $season,
+            'season' => $season->getSeason(),
         ));
     }
 
@@ -135,14 +135,14 @@ EOF;
         ));
     }
 
-    public function getFirstGameDateForSeason($season)
+    public function getFirstGameDateForSeason(Season $season)
     {
         return $this->createQueryBuilder('g')
             ->select('min(g.gameDate)')
             ->where('g.season = :season')
             ->setParameter('season', $season)
             ->getQuery()
-            ->useResultCache(true, 3600, sprintf('game.first-game-date-%s', $season))
+            ->useResultCache(true, 3600, sprintf('game.first-game-date-%s', $season->getSeason()))
             ->getSingleScalarResult();
     }
 }

@@ -15,14 +15,14 @@
     {% endif %}
 
     <div class="row">
-        <h3>League Top 10 Standings <small><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season}) }}">View Full Leaderboard</a></small></h3>
+        <h3>League Top 10 Standings <small><a href="{{ path('league_leaderboard', {leagueId: league.id, season: season.season}) }}">View Full Leaderboard</a></small></h3>
 
         {% include 'SofaChampsBowlPickemBundle:League:_leaderboard.html.twig' %}
     </div>
 
     {% if picks_locked(season) %}
         <div class="row">
-            <h3>League Top 5 Games{% if is_granted('STATS', league) %} <small><a href="{{ path('league_stats', {leagueId: league.id, season: season}) }}">My League Stats and most important games</a></small>{% endif %}</h3>
+            <h3>League Top 5 Games{% if is_granted('STATS', league) %} <small><a href="{{ path('league_stats', {leagueId: league.id, season: season.season}) }}">My League Stats and most important games</a></small>{% endif %}</h3>
 
             {% include 'SofaChampsBowlPickemBundle:Game:_important_games.html.twig' with {games: importantGames} %}
         </div>

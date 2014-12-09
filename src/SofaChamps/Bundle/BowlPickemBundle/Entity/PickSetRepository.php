@@ -55,10 +55,10 @@ WHERE ps.id = :id
 ORDER BY %s
 EOF;
 
-    public function getPickDistribution(PickSet $pickSet, League $league, $season)
+    public function getPickDistribution(PickSet $pickSet, League $league, Season $season)
     {
         return $this->getEntityManager()->getConnection()->fetchAll(self::DISTRIBUTION_SQL, array(
-            'season' => $season,
+            'season' => $season->getSeason(),
             'leagueId' => $league->getId(),
             'userId' => $pickSet->getUser()->getId(),
         ));
@@ -103,7 +103,7 @@ EOF;
         ));
     }
 
-    public function findAllOrderedByPoints($season, $limit = 10)
+    public function findAllOrderedByPoints(Season $season, $limit = 10)
     {
         return $this->createQueryBuilder('p')
             ->select('p, u, pk, pg, pt, home, away')
