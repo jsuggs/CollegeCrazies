@@ -48,24 +48,28 @@ class PicksetComparer
 
             // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {
-                $tieBreakerGames = $this->getTiebreakerGamesForSeason($season);
-                // TODO, we are currently only using one game for a tiebreaker
-                $tieBreakerGame = $tieBreakerGames[0];
+                if ($season->hasChampionship()) {
+                    $tieBreakerGames = $this->getTiebreakerGamesForSeason($season);
+                    // TODO, we are currently only using one game for a tiebreaker
+                    $tieBreakerGame = $tieBreakerGames[0];
 
-                $aTiebreakerPoints =
-                    SigmaUtils::summation($a->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
-                    +
-                    SigmaUtils::summation($a->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
+                    $aTiebreakerPoints =
+                        SigmaUtils::summation($a->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
+                        +
+                        SigmaUtils::summation($a->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
 
-                $bTiebreakerPoints =
-                    SigmaUtils::summation($b->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
-                    +
-                    SigmaUtils::summation($b->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
+                    $bTiebreakerPoints =
+                        SigmaUtils::summation($b->getTiebreakerHomeTeamScore() - $tieBreakerGame->getHomeTeamScore())
+                        +
+                        SigmaUtils::summation($b->getTiebreakerAwayTeamScore() - $tieBreakerGame->getAwayTeamScore());
 
-                if ($aTiebreakerPoints === $bTiebreakerPoints) {
-                    return 0;
+                    if ($aTiebreakerPoints === $bTiebreakerPoints) {
+                        return 0;
+                    } else {
+                        return $aTiebreakerPoints > $bTiebreakerPoints ? 1 : -1;
+                    }
                 } else {
-                    return $aTiebreakerPoints > $bTiebreakerPoints ? 1 : -1;
+                    // TODO - Need to determine if their champ is still available to win
                 }
             }
 

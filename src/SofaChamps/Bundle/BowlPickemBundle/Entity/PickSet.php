@@ -249,7 +249,7 @@ class PickSet
 
     public function getPointsPossible()
     {
-        $pointsPossible = 630;
+        $pointsPossible = $this->season->getPossiblePoints();
         foreach ($this->getLoses() as $loss) {
             $pointsPossible -= $loss->getConfidence();
         }

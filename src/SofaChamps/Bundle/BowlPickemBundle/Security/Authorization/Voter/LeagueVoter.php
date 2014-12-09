@@ -5,6 +5,8 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Security\Authorization\Voter;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
+use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -25,12 +27,14 @@ class LeagueVoter implements VoterInterface
     /**
      * @DI\InjectParams({
      *      "picksLockedManager" = @DI\Inject("sofachamps.bp.picks_locked_manager"),
+     *      "seasonManager" = @DI\Inject("sofachamps.bp.season_manager"),
      *      "session" = @DI\Inject("session"),
      * })
      */
-    public function __construct(PicksLockedManager $picksLockedManager, Session $session)
+    public function __construct(PicksLockedManager $picksLockedManager, SeasonManager $seasonManager, Session $session)
     {
         $this->picksLockedManager = $picksLockedManager;
+        $this->seasonManager = $seasonManager;
         $this->session = $session;
     }
 
@@ -61,6 +65,8 @@ class LeagueVoter implements VoterInterface
                 $user = null;
             }
 
+            $season = $object->getSeason() ?: $this->seasonManager->getCurrentSeason();
+
             if ($attribute === 'VIEW') {
                 return $this->canUserViewLeague($user, $object);
             } elseif ($attribute === 'MEMBER') {
@@ -68,13 +74,13 @@ class LeagueVoter implements VoterInterface
             } elseif ($attribute === 'VIEW_PICKS') {
                 return $this->canUserViewLeaguePicks($user, $object);
             } elseif ($attribute === 'CREATE') {
-                return $this->canUserCreatePickSet();
+                return $this->canUserCreatePickSet($season);
             } elseif ($attribute === 'MANAGE') {
                 return $this->canUserManageLeague($user, $object);
             } elseif ($attribute === 'JOIN') {
-                return $this->canUserJoinLeague($user, $object);
+                return $this->canUserJoinLeague($user, $season, $object);
             } elseif ($attribute === 'LEAVE') {
-                return $this->canUserLeaveLeague($user, $object);
+                return $this->canUserLeaveLeague($user, $season, $object);
             } elseif ($attribute === 'STATS') {
                 return $this->canUserViewStats($user, $object);
             }
@@ -87,16 +93,16 @@ class LeagueVoter implements VoterInterface
         return VoterInterface::ACCESS_ABSTAIN;
     }
 
-    protected function canUserCreatePickSet()
+    protected function canUserCreatePickSet(Season $season)
     {
-        return $this->picksLockedManager->arePickLocked()
+        return $this->picksLockedManager->arePickLocked($season)
             ? VoterInterface::ACCESS_DENIED
             : VoterInterface::ACCESS_GRANTED;
     }
 
-    protected function canUserJoinLeague(User $user, League $league = null)
+    protected function canUserJoinLeague(User $user, Season $season, League $league = null)
     {
-        return $this->canUserCreatePickSet();
+        return $this->canUserCreatePickSet($season);
     }
 
     protected function canUserViewStats(User $user = null, League $league)
@@ -110,9 +116,9 @@ class LeagueVoter implements VoterInterface
             : VoterInterface::ACCESS_DENIED;
     }
 
-    protected function canUserLeaveLeague(User $user, League $league = null)
+    protected function canUserLeaveLeague(User $user, Season $season, League $league = null)
     {
-        return $this->canUserCreatePickSet();
+        return $this->canUserCreatePickSet($season);
     }
 
     protected function canUserViewLeague(User $user = null, League $league)
@@ -153,7 +159,7 @@ class LeagueVoter implements VoterInterface
             return VoterInterface::ACCESS_GRANTED;
         }
 
-        return $this->picksLockedManager->arePickLocked()
+        return $this->picksLockedManager->arePickLocked($league->getSeason())
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
     }

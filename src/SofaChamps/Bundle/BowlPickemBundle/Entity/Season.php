@@ -52,4 +52,9 @@ class Season
     {
         return $this->hasChampionship;
     }
+
+    public function getPossiblePoints()
+    {
+        return 741;
+    }
 }

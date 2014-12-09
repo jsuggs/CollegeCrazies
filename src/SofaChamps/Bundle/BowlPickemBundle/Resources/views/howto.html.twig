@@ -7,7 +7,11 @@
         <ol id="steps">
             <li>Pick a winner for each game: <br /><img src="{{ asset('img/howtoplay/step1-pick-winner.png') }}" alt="Step 1" /></li>
             <li>Drag game rows to assign confidence points: <br /><img src="{{ asset('img/howtoplay/step2-assign-confidence.png') }}" alt="Step 2" /></li>
-            <li>Enter a tiebreaker score: <br /><img src="{{ asset('img/howtoplay/step3-tiebreaker.png') }}" alt="Step 3" /></li>
+            {% if season.hasChampionship %}
+                <li>Select the winner of the championship game - Correct pick is worth 24 points: <br /><img src="{{ asset('img/howtoplay/step3-championship.jpg') }}" alt="Step 3" /></li>
+            {% else %}
+                <li>Enter a tiebreaker score: <br /><img src="{{ asset('img/howtoplay/step3-tiebreaker.png') }}" alt="Step 3" /></li>
+            {% endif %}
             <li>Save your picks: <br /><img src="{{ asset('img/howtoplay/step4-save.png') }}" alt="Step 4" /></li>
         </ol>
     </div>

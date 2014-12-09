@@ -245,7 +245,7 @@ class PickController extends BaseController
             $em->flush();
 
             return $this->redirect($this->generateUrl('pickset_edit', array(
-                'season' => $season,
+                'season' => $season->getSeason(),
                 'picksetId' => $pickSet->getId(),
             )));
         }
