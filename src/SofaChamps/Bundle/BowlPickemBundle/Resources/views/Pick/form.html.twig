@@ -74,21 +74,32 @@
 
 <div class="tiebreaker">
     <h3>Tiebreaker:</h3>
-    <p class="help-block">Enter your predicted final score</p>
+    {% if seasonObj.hasChampionship %}
+        <p class="help-block">Select the winner of the chammpionship</p>
 
-    <div class="form-group">
-        {{ form_label(form.tiebreakerHomeTeamScore, 'FSU Score', {label_attr: {class: "col-sm-2 control-label"}}) }}
-        <div class="col-sm-4">
-            {{ form_widget(form.tiebreakerHomeTeamScore) }}
+        <div class="form-group">
+            {{ form_label(form.championshipWinner, 'Championship Winner', {label_attr: {class: "col-sm-2 control-label"}}) }}
+            <div class="col-sm-4">
+                {{ form_widget(form.championshipWinner) }}
+            </div>
         </div>
-    </div>
+    {% else %}
+        <p class="help-block">Enter your predicted final score</p>
 
-    <div class="form-group">
-        {{ form_label(form.tiebreakerAwayTeamScore, 'Auburn Score', {label_attr: {class: "col-sm-2 control-label"}}) }}
-        <div class="col-sm-4">
-            {{ form_widget(form.tiebreakerAwayTeamScore) }}
+        <div class="form-group">
+            {{ form_label(form.tiebreakerHomeTeamScore, 'FSU Score', {label_attr: {class: "col-sm-2 control-label"}}) }}
+            <div class="col-sm-4">
+                {{ form_widget(form.tiebreakerHomeTeamScore) }}
+            </div>
         </div>
-    </div>
+
+        <div class="form-group">
+            {{ form_label(form.tiebreakerAwayTeamScore, 'Auburn Score', {label_attr: {class: "col-sm-2 control-label"}}) }}
+            <div class="col-sm-4">
+                {{ form_widget(form.tiebreakerAwayTeamScore) }}
+            </div>
+        </div>
+    {% endif %}
 </div>
 
 <hr />

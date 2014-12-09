@@ -28,8 +28,8 @@ class PickSet
     protected $id;
 
     /**
-     * @ORM\Column(type="integer", length=4)
-     * @Assert\Range(min=2012, max=2020)
+     * @ORM\ManyToOne(targetEntity="Season")
+     * @ORM\JoinColumn(name="season", referencedColumnName="season")
      * @var integer
      */
     protected $season;
@@ -68,6 +68,12 @@ class PickSet
     protected $tiebreakerAwayTeamScore;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     * @ORM\JoinColumn(name="champ_team_id", referencedColumnName="id")
+     */
+    protected $championshipWinner;
+
+    /**
      * @ORM\OneToMany(targetEntity="UserPredictionSetScore", mappedBy="pickSet", fetch="EXTRA_LAZY")
      */
     protected $predictionScores;
@@ -83,7 +89,7 @@ class PickSet
         return $this->id;
     }
 
-    public function setSeason($season)
+    public function setSeason(Season $season)
     {
         $this->season = $season;
     }
@@ -179,6 +185,16 @@ class PickSet
     public function setTiebreakerAwayTeamScore($score)
     {
         $this->tiebreakerAwayTeamScore = $score;
+    }
+
+    public function setChampionshipWinner($team)
+    {
+        $this->championshipWinner = $team;
+    }
+
+    public function getChampionshipWinner()
+    {
+        return $this->championshipWinner;
     }
 
     public function getGames()

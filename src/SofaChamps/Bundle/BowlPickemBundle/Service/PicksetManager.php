@@ -44,7 +44,9 @@ class PicksetManager
         $pickSet->setUser($user);
         $pickSetName = $this->createPicksetName($user);
         $pickSet->setName($pickSetName);
-        $pickSet->setSeason($season);
+
+        $seasonObj = $this->om->getRepository('SofaChampsBowlPickemBundle:Season')->find($season);
+        $pickSet->setSeason($seasonObj);
 
         if ($league) {
             $pickSet->addLeague($league);

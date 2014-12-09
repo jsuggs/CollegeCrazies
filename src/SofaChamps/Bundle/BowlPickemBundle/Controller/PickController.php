@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Form\PickFormType;
 use SofaChamps\Bundle\BowlPickemBundle\Form\PickSetFormType;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
@@ -116,12 +117,14 @@ class PickController extends BaseController
             )));
         }
 
-        $form = $this->getPickSetForm($pickSet);
+        $seasonObj = $this->findSeasonObj($season);
+        $form = $this->getPickSetForm($pickSet, $seasonObj);
 
         return array(
             'season' => $season,
             'form' => $form->createView(),
             'league' => isset($league) ? $league : null,
+            'seasonObj' => $seasonObj,
         );
     }
 
@@ -144,11 +147,13 @@ class PickController extends BaseController
 
         $pickSet = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getPopulatedPickSet($pickSet);
 
-        $form = $this->getPickSetForm($pickSet);
+        $seasonObj = $this->findSeasonObj($season);
+        $form = $this->getPickSetForm($pickSet, $seasonObj);
         return array(
             'form' => $form->createView(),
             'pickSet' => $pickSet,
             'season' => $season,
+            'seasonObj' => $seasonObj,
         );
     }
 
@@ -233,7 +238,9 @@ class PickController extends BaseController
             : null;
 
         $pickSet = $this->getPicksetManager()->createUserPickset($user, $season, $league);
-        $form = $this->getPickSetForm($pickSet);
+
+        $seasonObj = $this->findSeasonObj($season);
+        $form = $this->getPickSetForm($pickSet, $seasonObj);
         $request = $this->getRequest();
         $form->bind($request);
 
@@ -253,6 +260,7 @@ class PickController extends BaseController
         return array(
             'form' => $form->createView(),
             'season' => $season,
+            'seasonObj' => $seasonObj,
         );
     }
 
@@ -266,7 +274,8 @@ class PickController extends BaseController
      */
     public function updatePickAction(PickSet $pickSet, $season)
     {
-        $form = $this->getPickSetForm($pickSet);
+        $seasonObj = $this->findSeasonObj($season);
+        $form = $this->getPickSetForm($pickSet, $seasonObj);
         $form->bind($this->getRequest());
         if ($form->isValid()) {
             $em = $this->getEntityManager();
@@ -286,6 +295,7 @@ class PickController extends BaseController
             'form' => $form->createView(),
             'pickSet' => $pickSet,
             'season' => $season,
+            'seasonObj' => $seasonObj,
         );
     }
 
@@ -303,8 +313,10 @@ class PickController extends BaseController
         return new JsonResponse($data);
     }
 
-    private function getPickSetForm(PickSet $pickSet)
+    private function getPickSetForm(PickSet $pickSet, Season $season)
     {
-        return $this->createForm(new PickSetFormType(), $pickSet);
+        return $this->createForm(new PickSetFormType(), $pickSet, array(
+            'hasChampionship' => $season->getHasChampionship(),
+        ));
     }
 }

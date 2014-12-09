@@ -16,23 +16,40 @@ class PickSetFormType extends AbstractType
             ->add('name', 'text', array(
                 'max_length' => 50,
             ))
-            ->add('tiebreakerHomeTeamScore', 'integer', array(
-                'required' => false,
-            ))
-            ->add('tiebreakerAwayTeamScore', 'integer', array(
-                'required' => false,
-            ))
             ->add('picks', 'collection', array(
                 'type' => new PickFormType(),
                 'allow_add' => true,
             ))
         ;
+
+        if ($options['hasChampionship']) {
+            $builder
+                ->add('championshipWinner', 'entity', array(
+                    'class' => 'SofaChampsNCAABundle:Team',
+                    'query_builder' => function ($repo) {
+                        $teams = array('ALA', 'FLST', 'ORE', 'OHST');
+                        return $repo->createQueryBuilder('t')
+                            ->where('t.id IN (:teams)')
+                            ->setParameter('teams', $teams);
+                    },
+                    'required' => false,
+                ));
+        } else {
+            $builder
+                ->add('tiebreakerHomeTeamScore', 'integer', array(
+                    'required' => false,
+                ))
+                ->add('tiebreakerAwayTeamScore', 'integer', array(
+                    'required' => false,
+                ));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet',
+            'hasChampionship' => false,
         ));
     }
 

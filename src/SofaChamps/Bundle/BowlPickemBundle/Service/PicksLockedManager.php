@@ -35,7 +35,7 @@ class PicksLockedManager
 
     public function arePickLocked($season)
     {
-        return $this->getLockTime($season) > new \DateTime();
+        return $this->getLockTime($season) < new \DateTime();
     }
 
     public function getLockTime($season)

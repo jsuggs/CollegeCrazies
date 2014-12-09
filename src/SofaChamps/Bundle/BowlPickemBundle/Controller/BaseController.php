@@ -65,6 +65,11 @@ class BaseController extends CoreController
         return $predictionSet;
     }
 
+    protected function findSeasonObj($season)
+    {
+        return $this->getRepository('SofaChampsBowlPickemBundle:Season')->find($season);
+    }
+
     protected function addUserToLeague(League $league, User $user)
     {
         $em = $this->getEntityManager();
