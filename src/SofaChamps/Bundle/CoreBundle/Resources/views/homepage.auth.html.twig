@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-md-4">
                     <h4>Upcoming Games</h4>
-                    <p><a href="{{ path('bp_home', {season: current_season}) }}" class="muted">College Bowl Mania</a></p>
+                    <p><a href="{{ path('bp_home', {season: current_season.season}) }}" class="muted">College Bowl Mania</a></p>
                     {% if not sbc_game_available %}
                         <p><a href="{{ path('sbc_home', {year: year}) }}" class="muted">SuperBowl Challenge</a></p>
                     {% endif %}

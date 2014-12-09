@@ -73,9 +73,9 @@
 <hr />
 
 <div class="tiebreaker">
-    <h3>Tiebreaker:</h3>
-    {% if seasonObj.hasChampionship %}
-        <p class="help-block">Select the winner of the chammpionship</p>
+    {% if season.hasChampionship %}
+        <h3>Championship Game:</h3>
+        <p class="help-block">Select the winner of the championship game - Correct pick is worth 24 points</p>
 
         <div class="form-group">
             {{ form_label(form.championshipWinner, 'Championship Winner', {label_attr: {class: "col-sm-2 control-label"}}) }}
@@ -84,6 +84,7 @@
             </div>
         </div>
     {% else %}
+        <h3>Tiebreaker:</h3>
         <p class="help-block">Enter your predicted final score</p>
 
         <div class="form-group">

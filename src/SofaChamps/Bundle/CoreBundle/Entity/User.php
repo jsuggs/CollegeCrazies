@@ -6,8 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serialize;
 use FOS\UserBundle\Model\User as BaseUser;
-use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vlabs\MediaBundle\Annotation\Vlabs;
 
@@ -175,7 +176,7 @@ class User extends BaseUser
         $this->pickSets = $pickSets;
     }
 
-    public function getPickSetsForSeason($season)
+    public function getPickSetsForSeason(Season $season)
     {
         return $this->pickSets->filter(function($pickSet) use ($season) {
             return $pickSet->getSeason() == $season;
@@ -206,7 +207,7 @@ class User extends BaseUser
         }
     }
 
-    public function getLeaguesForSeason($season)
+    public function getLeaguesForSeason(Season $season)
     {
         return $this->leagues->filter(function($league) use ($season) {
             return $league->getSeason() == $season;
@@ -270,7 +271,7 @@ class User extends BaseUser
         })->first();
     }
 
-    public function isBowlPickemCommissionerForSeason($season)
+    public function isBowlPickemCommissionerForSeason(Season $season)
     {
         return $this->getCommissionerLeaguesForSeason($season)->count() > 0;
     }
@@ -280,7 +281,7 @@ class User extends BaseUser
         return $this->commissionerLeagues;
     }
 
-    public function getCommissionerLeaguesForSeason($season)
+    public function getCommissionerLeaguesForSeason(Season $season)
     {
         return $this->getCommissionerLeagues()->filter(function(League $league) use ($season) {
             return $season = $league->getSeason();

@@ -2,6 +2,7 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Season;
 
+use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -11,9 +12,21 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class SeasonManager
 {
+    private $em;
+
+    /**
+     * @DI\InjectParams({
+     *     "em" = @DI\Inject("doctrine.orm.default_entity_manager")
+     * })
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
     public function getCurrentSeason()
     {
         // TODO
-        return 2014;
+        return $this->em->getRepository('SofaChampsBowlPickemBundle:Season')->find(2014);
     }
 }
