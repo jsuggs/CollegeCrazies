@@ -76,7 +76,7 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                             break;
                     }
 
-                    $request->headers->clearCookie('bp_league_join');
+                    $response->headers->clearCookie('bp_league_join');
                     $this->om->flush();
                 }
             }
