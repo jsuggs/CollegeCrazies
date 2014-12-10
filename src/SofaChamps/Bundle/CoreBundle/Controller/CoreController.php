@@ -16,7 +16,9 @@ class CoreController extends Controller
 {
     protected function getResponse()
     {
-        return new Response();
+        return $this->has('response')
+            ? $this->get('response')
+            : new Response();
     }
 
     protected function setCookie(Response $response, $name, $value)
