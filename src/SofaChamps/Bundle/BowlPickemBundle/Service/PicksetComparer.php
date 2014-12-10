@@ -48,7 +48,7 @@ class PicksetComparer
 
             // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {
-                if ($season->hasChampionship()) {
+                if ($season->getHasChampionship()) {
                     $tieBreakerGames = $this->getTiebreakerGamesForSeason($season);
                     // TODO, we are currently only using one game for a tiebreaker
                     $tieBreakerGame = $tieBreakerGames[0];

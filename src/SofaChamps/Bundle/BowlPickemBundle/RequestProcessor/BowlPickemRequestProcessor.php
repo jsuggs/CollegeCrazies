@@ -47,7 +47,6 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                 if ($league->isUserInLeague($user)) {
                     $request->getSession()->setFlash('error', 'You are already in the league');
                 } else {
-                    $user = $token->getUser();
                     $user->addLeague($league);
                     $season = $this->seasonManager->getCurrentSeason();
 
@@ -82,9 +81,9 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                 }
             }
 
-            if ($response) {
-                return $response;
-            }
+            return isset($response)
+                ? $response
+                : null;
         }
     }
 
