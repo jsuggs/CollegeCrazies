@@ -107,8 +107,10 @@ class BaseController extends CoreController
 
     protected function writeLeagueJoinCookie(League $league)
     {
+        $time = time() + 7200;
         $response = $this->getResponse();
         $this->setCookie($response, 'bp_league_join', $league->getId());
+        setcookie('bp_league_join', $league->getId(), $time);
         $response->sendHeaders();
     }
 

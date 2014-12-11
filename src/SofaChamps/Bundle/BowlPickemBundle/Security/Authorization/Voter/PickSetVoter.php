@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Security\Authorization\Voter;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -52,13 +53,14 @@ class PickSetVoter implements VoterInterface
             }
 
             $user = $token->getUser();
+            $season = $object->getSeason();
 
             if ($attribute === 'VIEW') {
                 return $this->canUserViewPickSet($user, $object);
             } elseif ($attribute === 'EDIT') {
                 return $this->canUserEditPickSet($user, $object);
             } elseif ($attribute === 'CREATE') {
-                return $this->canUserCreatePickSet();
+                return $this->canUserCreatePickSet($season);
             }
 
             if ($object->getUser() == $user) {
@@ -69,9 +71,9 @@ class PickSetVoter implements VoterInterface
         return VoterInterface::ACCESS_ABSTAIN;
     }
 
-    protected function canUserCreatePickSet()
+    protected function canUserCreatePickSet(Season $season)
     {
-        return $this->picksLockedManager->arePickLocked()
+        return $this->picksLockedManager->arePickLocked($season)
             ? VoterInterface::ACCESS_DENIED
             : VoterInterface::ACCESS_GRANTED;
     }
@@ -82,7 +84,7 @@ class PickSetVoter implements VoterInterface
             return VoterInterface::ACCESS_GRANTED;
         }
 
-        return $this->picksLockedManager->arePickLocked()
+        return $this->picksLockedManager->arePickLocked($pickSet->getSeason())
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;
     }

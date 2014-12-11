@@ -155,10 +155,6 @@ class LeagueVoter implements VoterInterface
 
     protected function canUserViewLeaguePicks(User $user = null, League $league)
     {
-        if ($league->isPublic()) {
-            return VoterInterface::ACCESS_GRANTED;
-        }
-
         return $this->picksLockedManager->arePickLocked($league->getSeason())
             ? VoterInterface::ACCESS_GRANTED
             : VoterInterface::ACCESS_DENIED;

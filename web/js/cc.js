@@ -43,8 +43,9 @@ $(document).ready(function(){
     var checkPickStatus = function() {
         var setPicks = 0;
         var numPicks = 0;
-        var homeTeamScore = $("#pickset_tiebreakerHomeTeamScore").val();
-        var awayTeamScore = $("#pickset_tiebreakerAwayTeamScore").val();
+        //var homeTeamScore = $("#pickset_tiebreakerHomeTeamScore").val();
+        //var awayTeamScore = $("#pickset_tiebreakerAwayTeamScore").val();
+        var champ = $("#pickset_championshipWinner").val();
 
         $(".pick").each(function() {
             numPicks++;
@@ -54,7 +55,7 @@ $(document).ready(function(){
         });
 
         if (setPicks == numPicks) {
-            if (homeTeamScore.length && awayTeamScore.length) {
+            if (champ.length) {
                 $("#pick-status span").html('Complete').addClass('label-success').removeClass('label-danger').removeClass('label-warning');
                 $("#incomplete-help").remove();
             } else {
@@ -110,7 +111,7 @@ $(document).ready(function(){
             .val($(this).val());
         checkPickStatus();
     });
-    $("#pickset_tiebreakerHomeTeamScore, #pickset_tiebreakerAwayTeamScore").change(function() {
+    $("#pickset_tiebreakerHomeTeamScore, #pickset_tiebreakerAwayTeamScore, #pickset_championshipWinner").change(function() {
         checkPickStatus();
     });
 

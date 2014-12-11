@@ -23,7 +23,9 @@ class CoreController extends Controller
 
     protected function setCookie(Response $response, $name, $value)
     {
-        $response->headers->setCookie(new Cookie($name, $value));
+        $time = time() + 7200;
+        $response = new Response();
+        $response->headers->setCookie(new Cookie($name, $value, $time));
     }
 
     /**
