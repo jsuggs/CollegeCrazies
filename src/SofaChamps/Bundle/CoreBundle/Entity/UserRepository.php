@@ -76,7 +76,8 @@ EOF;
     {
         $numGames = $this
             ->getEntityManager()
-            ->createQuery('SELECT COUNT(g.id) FROM SofaChampsBowlPickemBundle:Game g')
+            ->createQuery('SELECT COUNT(g.id) FROM SofaChampsBowlPickemBundle:Game g WHERE g.season = :season')
+            ->setParameter('season', $league->getSeason())
             ->getSingleScalarResult();
 
         $users = $this->createQueryBuilder('u')
