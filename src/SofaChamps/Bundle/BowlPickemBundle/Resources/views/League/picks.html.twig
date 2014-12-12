@@ -44,7 +44,7 @@
                     <tr>
                         <td class="first-col pickname">
                             <a href="{{ path('pickset_view', {'picksetId': userPickSet.id, leagueId: league.id, season: season.season}) }}">
-                                {% if user == curUser %}
+                                {% if user == app.user %}
                                     <b>{{ userPickSet.name }}</b>
                                 {% else %}
                                     {{ userPickSet.name }}
@@ -63,10 +63,10 @@
                                 {% set pickClass="no" %}
                             {% endif %}
 
-                            {% if user == curUser %}
+                            {% if user == app.user %}
                                 <td class="pick-col {{ pickClass }} my-pick">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                             {% else %}
-                                {% set samePick = (league.getPicksetForUser(curUser).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
+                                {% set samePick = (league.getPicksetForUser(app.user).findPickByGame(game).team == pick.team) ? '' : ' not-my-pick' %}
                                 <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                             {% endif %}
                         {% endfor %}

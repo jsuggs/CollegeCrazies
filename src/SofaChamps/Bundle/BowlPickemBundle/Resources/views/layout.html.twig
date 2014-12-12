@@ -48,7 +48,7 @@
             </ul>
         </li>
     {% endif %}
-    {% if currentLeague is not null %}
+    {% if currentLeague is not null and is_granted('VIEW', currentLeague) %}
         <li class="dropdown">
             <a data-toggle="dropdown" href="#">League Info <b class="caret"></b></a>
             <ul class="dropdown-menu" role="menu">

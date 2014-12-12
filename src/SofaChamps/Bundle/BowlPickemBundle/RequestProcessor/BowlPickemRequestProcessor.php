@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\RequestProcessor;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Season\SeasonManager;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksLockedManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
@@ -97,6 +98,18 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
             ));
 
             return new RedirectResponse($url);
+        }
+    }
+
+    public function handleRegistrationCompleted(FilterUserResponseEvent $event)
+    {
+        if ($event->getRequest()->cookies->has('bp_league_join')) {
+            $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($request->cookies->get('bp_league_join'));
+
+            if ($league) {
+                $user->addLeague($league);
+                $this->om->flush();
+            }
         }
     }
 }

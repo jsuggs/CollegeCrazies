@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\PriceIsRightChallengeBundle\RequestProcessor;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\RequestProcessor\LoginRequestProcessor;
@@ -74,6 +75,8 @@ class PriceIsRightChallengeRequestProcessor implements LoginRequestProcessor, Re
             }
         }
     }
+
+    public function handleRegistrationCompleted(FilterUserResponseEvent $event)
+    {
+    }
 }
-
-

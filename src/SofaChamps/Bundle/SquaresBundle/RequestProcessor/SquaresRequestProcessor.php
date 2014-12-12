@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\SquaresBundle\RequestProcessor;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 use JMS\DiExtraBundle\Annotation as DI;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\RequestProcessor\LoginRequestProcessor;
@@ -73,6 +74,8 @@ class SquaresRequestProcessor implements LoginRequestProcessor, RegistrationRequ
             }
         }
     }
+
+    public function handleRegistrationCompleted(FilterUserResponseEvent $event)
+    {
+    }
 }
-
-

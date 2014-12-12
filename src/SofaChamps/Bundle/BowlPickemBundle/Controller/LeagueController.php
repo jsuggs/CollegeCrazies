@@ -173,15 +173,12 @@ class LeagueController extends BaseController
 
         $sortedUsers = $this->getUserSorter()->sortUsersByPoints($users, $league);
 
-        $curUser = $this->getUser();
-
         return array(
             'games' => $games,
             'league' => $league,
             'season' => $season,
             'users' => $sortedUsers,
             'pickSet' => $pickSet,
-            'curUser' => $curUser,
         );
     }
 
@@ -489,7 +486,7 @@ class LeagueController extends BaseController
     /**
      * @Route("/{leagueId}/leaderboard", name="league_leaderboard")
      * @ParamConverter("league", class="SofaChampsBowlPickemBundle:League", options={"id" = "leagueId"})
-     * @SecureParam(name="league", permissions="VIEW_PICKS")
+     * @SecureParam(name="league", permissions="VIEW")
      * @Template
      */
     public function leaderboardAction(League $league, Season $season)

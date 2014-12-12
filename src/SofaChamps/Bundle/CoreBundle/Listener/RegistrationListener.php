@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\CoreBundle\Listener;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
 use SofaChamps\Bundle\CoreBundle\RequestProcessor\RegistrationRequestProcessor;
@@ -28,6 +29,7 @@ class RegistrationListener implements EventSubscriberInterface
     {
         return array(
             FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
+            FOSUserEvents::REGISTRATION_COMPLETED => 'onRegistrationCompleted',
         );
     }
 
@@ -38,6 +40,13 @@ class RegistrationListener implements EventSubscriberInterface
                 $event->setResponse($response);
                 break;
             }
+        }
+    }
+
+    public function onRegistrationCompleted(FilterUserResponseEvent $event)
+    {
+        foreach ($this->processors as $processor) {
+            $processor->handleRegistrationCompleted($event);
         }
     }
 }
