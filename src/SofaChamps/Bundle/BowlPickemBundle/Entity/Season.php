@@ -57,4 +57,9 @@ class Season
     {
         return 741;
     }
+
+    public function __toString()
+    {
+        return $this->season;
+    }
 }

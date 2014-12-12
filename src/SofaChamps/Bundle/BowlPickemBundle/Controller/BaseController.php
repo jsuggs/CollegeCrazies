@@ -111,7 +111,6 @@ class BaseController extends CoreController
         $response = $this->getResponse();
         //$this->setCookie($response, 'bp_league_join', $league->getId());
         setcookie('bp_league_join', $league->getId(), $time, '/');
-        //die('writeLeagueJoinCookie');
         //$response->sendHeaders();
     }
 
