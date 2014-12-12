@@ -93,11 +93,12 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
 
     public function handleRegistrationCompleted(FilterUserResponseEvent $event)
     {
-        if ($event->getRequest()->cookies->has('bp_league_join')) {
+        $request = $event->getRequest();
+        if ($request->cookies->has('bp_league_join')) {
             $league = $this->om->getRepository('SofaChampsBowlPickemBundle:League')->find($request->cookies->get('bp_league_join'));
 
             if ($league) {
-                $user->addLeague($league);
+                $event->getUser()->addLeague($league);
                 $this->om->flush();
             }
         }
