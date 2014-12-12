@@ -536,6 +536,15 @@ class LeagueController extends BaseController
             )));
         }
 
+        $user = $this->getUser();
+        $pickSets = $user->getPickSetsForSeason($season);
+        if (count($pickSets) === 0) {
+            $this->addMessage('warning', 'You cannot create a league until you create a pickset');
+            return $this->redirect($this->generateUrl('pickset_new', array(
+                'season' => $season->getSeason(),
+            )));
+        }
+
         $league = new League();
         $league->setSeason($season);
         $league->addUser($this->getUser());
