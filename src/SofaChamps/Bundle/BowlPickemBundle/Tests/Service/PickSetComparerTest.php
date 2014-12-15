@@ -50,8 +50,12 @@ class PickSetComparerTest extends SofaChampsTest
 
     public function getPickSets()
     {
-        $year = rand(2000, 2020);
-        $season = new Season($year);
+        $noChampSeason = new Season(2000);
+        $noChampSeason->setHasChampionship(false);
+
+        $champSeason = new Season(2001);
+        $champSeason->setHasChampionship(true);
+
         $users = array();
         $users[] = $user1 = new User();
         $users[] = $user2 = new User();
@@ -82,7 +86,7 @@ class PickSetComparerTest extends SofaChampsTest
         $league->addUser($user2);
         $league->addUser($user3);
         $league->addUser($user4);
-        $league->setSeason($season);
+        $league->setSeason($noChampSeason);
 
         $pickWinner3Conf = new Pick();
         $pickWinner3Conf->setGame($game1);
@@ -101,6 +105,7 @@ class PickSetComparerTest extends SofaChampsTest
         $user1PickSet->setUser($user1);
         $user1PickSet->addPick($pickWinner3Conf);
         $user1PickSet->addLeague($league);
+        $user1PickSet->setSeason($noChampSeason);
         $user1PickSet->setTiebreakerHomeTeamScore(38);
         $user1PickSet->setTiebreakerAwayTeamScore(28);
 
@@ -108,16 +113,19 @@ class PickSetComparerTest extends SofaChampsTest
         $user2PickSet->setUser($user2);
         $user2PickSet->addPick($pickWinner2Conf);
         $user2PickSet->addLeague($league);
+        $user2PickSet->setSeason($noChampSeason);
 
         $user3PickSet = new PickSet();
         $user3PickSet->setUser($user3);
         $user3PickSet->addPick($pickLoser3Conf);
         $user3PickSet->addLeague($league);
+        $user3PickSet->setSeason($noChampSeason);
 
         $user4PickSet = new PickSet();
         $user4PickSet->setUser($user4);
         $user4PickSet->addPick($pickWinner3Conf);
         $user4PickSet->addLeague($league);
+        $user4PickSet->setSeason($noChampSeason);
 
         $user5PickSet = new PickSet();
         $user5PickSet->setUser($user5);
@@ -125,20 +133,22 @@ class PickSetComparerTest extends SofaChampsTest
         $user5PickSet->addLeague($league);
         $user5PickSet->setTiebreakerHomeTeamScore(38);
         $user5PickSet->setTiebreakerAwayTeamScore(28);
+        $user5PickSet->setSeason($noChampSeason);
 
         $user6PickSet = new PickSet();
         $user6PickSet->setUser($user6);
         $user6PickSet->addPick($pickWinner3Conf);
         $user6PickSet->addLeague($league);
-        $user5PickSet->setTiebreakerHomeTeamScore(18);
-        $user5PickSet->setTiebreakerAwayTeamScore(28);
+        $user6PickSet->setTiebreakerHomeTeamScore(18);
+        $user6PickSet->setTiebreakerAwayTeamScore(28);
+        $user6PickSet->setSeason($noChampSeason);
 
         return array(
-            array($user1PickSet, $user2PickSet, -1,  $season),
-            array($user2PickSet, $user1PickSet, 1, $season),
-            array($user1PickSet, $user4PickSet, -1,  $season),
-            array($user5PickSet, $user6PickSet, -1,  $season),
-            array($user6PickSet, $user5PickSet, 1, $season),
+            array($user1PickSet, $user2PickSet, -1,  $noChampSeason),
+            array($user2PickSet, $user1PickSet, 1, $noChampSeason),
+            array($user1PickSet, $user4PickSet, -1,  $noChampSeason),
+            array($user5PickSet, $user6PickSet, -1,  $noChampSeason),
+            array($user6PickSet, $user5PickSet, 1, $noChampSeason),
         );
     }
 }

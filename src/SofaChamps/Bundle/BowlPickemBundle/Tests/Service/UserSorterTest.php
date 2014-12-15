@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Service;
 
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
@@ -24,7 +25,9 @@ class UserSorterTest extends SofaChampsTest
         $users = array();
         $pickSets = array();
 
+        $season = new Season(2000);
         $league = new League();
+        $league->setSeason($season);
         $users[] = $user3 = $this->newUser(3, $league);
         $users[] = $user1 = $this->newUser(1, $league);
         $users[] = $user2 = $this->newUser(2, $league);
