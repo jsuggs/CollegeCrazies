@@ -60,6 +60,6 @@ class Season
 
     public function __toString()
     {
-        return $this->season;
+        return (string)$this->season ?: 'Unknown';
     }
 }
