@@ -216,15 +216,6 @@ class PickSet
         return $completedGames;
     }
 
-    public function getPoints()
-    {
-        $points = 0;
-        foreach ($this->getWins() as $win) {
-            $points += $win->getConfidence();
-        }
-        return $points;
-    }
-
     public function getWins()
     {
         $wins = array();
@@ -245,15 +236,6 @@ class PickSet
             }
         }
         return $loses;
-    }
-
-    public function getPointsPossible()
-    {
-        $pointsPossible = $this->season->getPossiblePoints();
-        foreach ($this->getLoses() as $loss) {
-            $pointsPossible -= $loss->getConfidence();
-        }
-        return $pointsPossible;
     }
 
     /**

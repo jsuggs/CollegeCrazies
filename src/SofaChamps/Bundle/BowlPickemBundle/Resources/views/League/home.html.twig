@@ -31,9 +31,9 @@
                 <tbody>
                     <tr>
                         <td>{{ picks_locked(season) ? rank : '--' }}</td>
-                        <td>{{ pickSet.points }}</td>
+                        <td>{{ pickset_points(pickSet) }}</td>
                         <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
-                        <td>{{ pickSet.getPointsPossible() }}</td>
+                        <td>{{ pickset_points_possible(pickSet) }}</td>
                     </tr>
                 </tbody>
             </table>

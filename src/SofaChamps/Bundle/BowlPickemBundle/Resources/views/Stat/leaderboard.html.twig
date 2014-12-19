@@ -18,15 +18,15 @@
             {% set rank = 1 %}
             {% set lastPoints = 0 %}
             {% for pickSet in pickSets %}
-                {% set rank = (lastPoints == pickSet.points) ? '-' : loop.index %}
-                {% set lastPoints = pickSet.points %}
+                {% set rank = (lastPoints == pickset_points(pickSet)) ? '-' : loop.index %}
+                {% set lastPoints = pickset_points(pickSet) %}
                 <tr>
                     <td>{{ rank }}</td>
                     <td><a href="{{ path('pickset_view_noleague', {'picksetId': pickSet.id, season: season.season}) }}">{{ pickSet.name|default('Not Named') }}</a></td>
                     <td>{{ profile_link(pickSet.user, true)|raw }}</td>
-                    <td>{{ pickSet.points }}</td>
+                    <td>{{ pickset_points(pickSet) }}</td>
                     <td>{{ pickSet.wins|length }} - {{ pickSet.loses|length }}</td>
-                    <td>{{ pickSet.pointsPossible }}</td>
+                    <td>{{ pickset_points_possible(pickSet) }}</td>
                 </tr>
             {% endfor %}
         </tbody>

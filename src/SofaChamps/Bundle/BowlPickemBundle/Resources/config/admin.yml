@@ -19,6 +19,15 @@ services:
             - SofaChamps\Bundle\BowlPickemBundle\Entity\League
             - 'SonataAdminBundle:CRUD'
 
+    sofachamps.admin.bp.season:
+        class: SofaChamps\Bundle\BowlPickemBundle\Admin\SeasonAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Bowl Pickem", label: "Seasons" }
+        arguments:
+            - ~
+            - SofaChamps\Bundle\BowlPickemBundle\Entity\Season
+            - 'SonataAdminBundle:CRUD'
+
     sofachamps.admin.bp.picksets:
         class: SofaChamps\Bundle\BowlPickemBundle\Admin\PickSetAdmin
         tags:

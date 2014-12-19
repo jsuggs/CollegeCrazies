@@ -12,6 +12,7 @@ use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvent;
 use SofaChamps\Bundle\BowlPickemBundle\Event\PickSetEvents;
 use SofaChamps\Bundle\BowlPickemBundle\League\LeagueManager;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -80,6 +81,54 @@ class PicksetManager
         $this->leagueManager->addUserToLeague($league, $user);
     }
 
+    public function getPickSetPoints(PickSet $pickSet)
+    {
+        $points = 0;
+        foreach ($pickSet->getWins() as $win) {
+            $points += $win->getConfidence();
+        }
+
+        return $points;
+    }
+
+    public function getPickSetPointsPossible(PickSet $pickSet)
+    {
+        $season = $pickSet->getSeason();
+        $pointsPossible = $season->getPossiblePoints();
+
+        foreach ($pickSet->getLoses() as $loss) {
+            $pointsPossible -= $loss->getConfidence();
+        }
+
+        if ($season->getHasChampionship()) {
+            $championshipWinner = $pickSet->getChampionshipWinner();
+
+            if (!$championshipWinner || !$this->isChampionshipWinnerPickAlive($season, $championshipWinner)) {
+                $pointsPossible -= $season->getChampionshipPoints();
+            }
+        }
+
+        return $pointsPossible;
+    }
+
+    public function isChampionshipWinnerPickAlive(Season $season, Team $team)
+    {
+        foreach ($this->getSeasonChampionshipGames($season) as $game) {
+            if ($game->getHomeTeam() == $team || $game->getAwayTeam() == $team) {
+                if ($game->isComplete() && $game->getWinner() != $team) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function getSeasonChampionshipGames(Season $season)
+    {
+        return $this->getGameRepository()->getChampionshipGames($season);
+    }
+
     protected function dispatchPickSetCreated(PickSet $pickSet)
     {
         $this->dispatcher->dispatch(PickSetEvents::PICKSET_CREATED, new PickSetEvent($pickSet));
@@ -96,5 +145,10 @@ class PicksetManager
         );
 
         return substr($pickSetName, 0, 40);
+    }
+
+    protected function getGameRepository()
+    {
+        return $this->om->getRepository('SofaChampsBowlPickemBundle:Game');
     }
 }

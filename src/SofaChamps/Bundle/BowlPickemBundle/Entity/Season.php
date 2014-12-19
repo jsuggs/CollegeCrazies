@@ -75,12 +75,32 @@ class Season
 
     public function getPossiblePoints()
     {
-        return $this->gamePoints + $this->championshipPoints ?: 0;
+        return $this->gamePoints + $this->getChampionshipPoints();
+    }
+
+    public function getChampionshipPoints()
+    {
+        return $this->championshipPoints ?: 0;
+    }
+
+    public function setGamePoints($gamePoints)
+    {
+        $this->gamePoints = $gamePoints;
+    }
+
+    public function getGamePoints()
+    {
+        return $this->gamePoints;
     }
 
     public function isLocked()
     {
         return (bool) $this->locked;
+    }
+
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
     }
 
     public function getPicksLockAt()

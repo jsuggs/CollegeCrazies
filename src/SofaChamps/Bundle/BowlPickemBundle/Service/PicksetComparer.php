@@ -16,16 +16,19 @@ use SofaChamps\Bundle\CoreBundle\Util\Math\SigmaUtils;
 class PicksetComparer
 {
     private $om;
+    private $pickSetManager;
     private $cache = array();
 
     /**
      * @DI\InjectParams({
      *      "om" = @DI\Inject("doctrine.orm.default_entity_manager"),
+     *      "pickSetManager" = @DI\Inject("sofachamps.bp.pickset_manager"),
      * })
      */
-    public function __construct(ObjectManager $om)
+    public function __construct(ObjectManager $om, PicksetManager $pickSetManager)
     {
         $this->om = $om;
+        $this->pickSetManager = $pickSetManager;
     }
 
     /**
@@ -38,13 +41,13 @@ class PicksetComparer
      */
     public function comparePicksets(PickSet $a, PickSet $b, Season $season)
     {
-        $aPoints = $a->getPoints();
-        $bPoints = $b->getPoints();
+        $aPoints = $this->pickSetManager->getPickSetPoints($a);
+        $bPoints = $this->pickSetManager->getPickSetPoints($b);
 
         // If same points, fall back first to points possible
         if ($aPoints === $bPoints) {
-            $aPointsPossible = $a->getPointsPossible();
-            $bPointsPossible = $b->getPointsPossible();
+            $aPointsPossible = $this->pickSetManager->getPickSetPointsPossible($a);
+            $bPointsPossible = $this->pickSetManager->getPickSetPointsPossible($b);
 
             // If possible points are the same, check the tiebreakers
             if ($aPointsPossible === $bPointsPossible) {

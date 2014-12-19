@@ -29,7 +29,11 @@
             <tr class="{% if not pickMade %}warning{% elseif pickCorrect %}success{% elseif gameComplete %}danger{% endif %}">
                 <td>{{ pick.game.name }}</td>
                 {% if predictionSet is defined %}
-                    <td>{{ pick.team.name }}</td>
+                    {% if pickMade %}
+                        <td>{{ pick.team.name }}</td>
+                    {% else %}
+                        <td>---</td>
+                    {% endif %}
                 {% endif %}
                 <td>
                     {% if gameComplete and gameWinner == pick.game.favorite  %}

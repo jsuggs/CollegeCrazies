@@ -71,8 +71,8 @@
                                     <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                                 {% endif %}
                             {% endfor %}
-                            <td>{{ userPickSet.points }}</td>
-                            <td>{{ userPickSet.pointsPossible }}</td>
+                            <td>{{ pickset_points(userPickSet) }}</td>
+                            <td>{{ pickset_points_possible(userPickSet) }}</td>
                         </tr>
                     {% endif %}
                 {% endfor %}

@@ -117,6 +117,13 @@ class Game extends AbstractGame
     protected $tiebreakerPriority;
 
     /**
+     * The tiebreaker priority
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $championshipGame;
+
+    /**
      * Expert Picks for the game
      *
      * @ORM\OneToMany(targetEntity="ExpertPick", mappedBy="game", fetch="EXTRA_LAZY")
@@ -221,6 +228,16 @@ class Game extends AbstractGame
     public function getTiebreakerPriority()
     {
         return $this->tiebreakerPriority;
+    }
+
+    public function setChampionshipGame($championshipGame)
+    {
+        $this->championshipGame = $championshipGame;
+    }
+
+    public function isChampionshipGame()
+    {
+        return $this->championshipGame;
     }
 
     public function addExpertPick(ExpertPick $expertPick)

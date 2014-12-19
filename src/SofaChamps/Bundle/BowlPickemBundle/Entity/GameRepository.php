@@ -145,4 +145,14 @@ EOF;
             ->useResultCache(true, 3600, sprintf('game.first-game-date-%s', $season->getSeason()))
             ->getSingleScalarResult();
     }
+
+    public function getChampionshipGames(Season $season)
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.season = :season')
+            ->andWhere('g.championshipGame = true')
+            ->setParameter('season', $season)
+            ->getQuery()
+            ->execute();
+    }
 }
