@@ -28,6 +28,26 @@ class Season
      */
     protected $hasChampionship;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $picksLockAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $locked;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $gamePoints;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $championshipPoints;
+
     public function __construct($season)
     {
         $this->season = $season;
@@ -55,7 +75,17 @@ class Season
 
     public function getPossiblePoints()
     {
-        return 741;
+        return $this->gamePoints + $this->championshipPoints ?: 0;
+    }
+
+    public function isLocked()
+    {
+        return (bool) $this->locked;
+    }
+
+    public function getPicksLockAt()
+    {
+        return $this->picksLockAt;
     }
 
     public function __toString()

@@ -36,11 +36,16 @@ class PicksLockedManager
 
     public function arePickLocked(Season $season)
     {
+        if ($season->isLocked()) {
+            return true;
+        }
+
         return $this->getLockTime($season) < new \DateTime();
     }
 
     public function getLockTime(Season $season)
     {
+        return $season->getPicksLockAt();
         $firstLockedString = $this->om->getRepository('SofaChampsBowlPickemBundle:Game')->getFirstGameDateForSeason($season);
         $firstLocked = new \DateTime($firstLockedString);
         $firstLocked->modify('-5 minutes');
