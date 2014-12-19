@@ -48,6 +48,12 @@ class Season
      */
     protected $championshipPoints;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     * @ORM\JoinColumn(name="champ_team_id", referencedColumnName="id")
+     */
+    protected $championshipWinner;
+
     public function __construct($season)
     {
         $this->season = $season;
@@ -111,5 +117,15 @@ class Season
     public function __toString()
     {
         return (string)$this->season ?: 'Unknown';
+    }
+
+    public function setChampionshipWinner($team)
+    {
+        $this->championshipWinner = $team;
+    }
+
+    public function getChampionshipWinner()
+    {
+        return $this->championshipWinner;
     }
 }

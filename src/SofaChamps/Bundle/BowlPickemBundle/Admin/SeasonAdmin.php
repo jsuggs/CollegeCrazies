@@ -14,12 +14,15 @@ class SeasonAdmin extends Admin
         $formMapper
             ->with('General')
                 ->add('season')
-                ->add('hasChampionship', null, array('required' => false))
                 ->add('locked', null, array('required' => false))
             ->end()
             ->with('Points')
                 ->add('gamePoints')
                 ->add('championshipPoints')
+            ->end()
+            ->with('Championship/Playoffs')
+                ->add('hasChampionship', null, array('required' => false))
+                ->add('championshipWinner')
             ->end()
         ;
     }

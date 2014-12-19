@@ -86,6 +86,9 @@ class PredictionGenerator
                 $predictions[] = $this->savePrediction($set, $game, $homeTeamScore, $awayTeamScore);
             }
 
+            // Store a championship winner
+            $set->setChampionshipWinner($this->getSeasonChampionshipWinner($season));
+
             $set->setPredictions($predictions);
             $this->om->flush();
 
@@ -134,5 +137,23 @@ class PredictionGenerator
         $this->om->persist($prediction);
 
         return $prediction;
+    }
+
+    protected function getSeasonChampionshipWinner(Season $season)
+    {
+        $games = $this->getGameRepository()->getPlayoffGames($season);
+        $teams = array();
+        foreach ($games as $game) {
+            $teams[] = $game->getHomeTeam();
+            $teams[] = $game->getAwayTeam();
+        }
+        $rand = array_rand($teams);
+
+        return $teams[$rand];
+    }
+
+    protected function getGameRepository()
+    {
+        return $this->om->getRepository('SofaChampsBowlPickemBundle:Game');
     }
 }

@@ -113,7 +113,7 @@ class PicksetManager
 
     public function isChampionshipWinnerPickAlive(Season $season, Team $team)
     {
-        foreach ($this->getSeasonChampionshipGames($season) as $game) {
+        foreach ($this->getSeasonPlayoffGames($season) as $game) {
             if ($game->getHomeTeam() == $team || $game->getAwayTeam() == $team) {
                 if ($game->isComplete() && $game->getWinner() != $team) {
                     return false;
@@ -124,9 +124,9 @@ class PicksetManager
         return true;
     }
 
-    public function getSeasonChampionshipGames(Season $season)
+    public function getSeasonPlayoffGames(Season $season)
     {
-        return $this->getGameRepository()->getChampionshipGames($season);
+        return $this->getGameRepository()->getPlayoffGames($season);
     }
 
     protected function dispatchPickSetCreated(PickSet $pickSet)

@@ -117,11 +117,11 @@ class Game extends AbstractGame
     protected $tiebreakerPriority;
 
     /**
-     * The tiebreaker priority
+     * Is this a playoff game
      *
      * @ORM\Column(type="boolean")
      */
-    protected $championshipGame;
+    protected $playoffGame;
 
     /**
      * Expert Picks for the game
@@ -230,14 +230,14 @@ class Game extends AbstractGame
         return $this->tiebreakerPriority;
     }
 
-    public function setChampionshipGame($championshipGame)
+    public function setPlayoffGame($playoffGame)
     {
-        $this->championshipGame = $championshipGame;
+        $this->playoffGame = $playoffGame;
     }
 
-    public function isChampionshipGame()
+    public function isPlayoffGame()
     {
-        return $this->championshipGame;
+        return $this->playoffGame;
     }
 
     public function addExpertPick(ExpertPick $expertPick)

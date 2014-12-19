@@ -27,7 +27,7 @@ class GameAdmin extends Admin
             ->add('gameDate')
             ->add('homeTeamScore')
             ->add('awayTeamScore')
-            ->add('championshipGame', null, array('required' => false))
+            ->add('playoffGame', null, array('required' => false))
             ->add('tiebreakerPriority', null, array('required' => false))
         ;
     }

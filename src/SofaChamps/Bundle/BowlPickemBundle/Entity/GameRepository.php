@@ -146,11 +146,11 @@ EOF;
             ->getSingleScalarResult();
     }
 
-    public function getChampionshipGames(Season $season)
+    public function getPlayoffGames(Season $season)
     {
         return $this->createQueryBuilder('g')
             ->where('g.season = :season')
-            ->andWhere('g.championshipGame = true')
+            ->andWhere('g.playoffGame = true')
             ->setParameter('season', $season)
             ->getQuery()
             ->execute();

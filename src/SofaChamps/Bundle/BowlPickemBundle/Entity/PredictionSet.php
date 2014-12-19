@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,6 +35,11 @@ class PredictionSet
      * @ORM\OneToMany(targetEntity="Prediction", mappedBy="predictionSet")
      */
     protected $predictions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="SofaChamps\Bundle\NCAABundle\Entity\Team")
+     */
+    protected $championshipWinner;
 
     public function getId()
     {
@@ -67,5 +73,15 @@ class PredictionSet
                 return $prediction;
             }
         }
+    }
+
+    public function setChampionshipWinner(Team $team)
+    {
+        $this->championshipWinner = $team;
+    }
+
+    public function getChampionshipWinner()
+    {
+        return $this->championshipWinner;
     }
 }
