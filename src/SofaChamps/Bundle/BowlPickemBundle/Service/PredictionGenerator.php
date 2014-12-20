@@ -103,6 +103,9 @@ class PredictionGenerator
         $conn->executeUpdate('DELETE FROM user_prediction_set_score WHERE season = :season', array(
             'season' => $season->getSeason(),
         ));
+        $conn->executeUpdate('DELETE FROM predictions p WHERE p.predictionset_id IN (SELECT ps.id FROM prediction_sets ps WHERE ps.season = :season)', array(
+            'season' => $season->getSeason(),
+        ));
         $conn->executeUpdate('DELETE FROM prediction_sets WHERE season = :season', array(
             'season' => $season->getSeason(),
         ));
