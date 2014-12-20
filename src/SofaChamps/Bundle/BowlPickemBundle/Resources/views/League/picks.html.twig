@@ -81,7 +81,7 @@
                                 {% endif %}
                             {% endfor %}
                             {% if season.hasChampionship %}
-                                <td>{{ pickSet.championshipWinner.id|default('NONE') }}</td>
+                                <td>{{ userPickSet.championshipWinner.id|default('NONE') }}</td>
                             {% endif %}
                             <td>{{ pickset_points(userPickSet) }}</td>
                             <td>{{ pickset_points_possible(userPickSet) }}</td>
