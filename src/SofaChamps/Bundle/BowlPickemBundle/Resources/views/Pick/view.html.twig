@@ -21,11 +21,16 @@
 
     {% include 'SofaChampsBowlPickemBundle:PickSet:_view.html.twig' %}
 
-    <div class="tiebreaker">
-        <h4>Tiebreaker</h4>
-        <p>FSU Score: {{ pickSet.tiebreakerHomeTeamScore }}</p>
-        <p>Auburn Score: {{ pickSet.tiebreakerAwayTeamScore }}</p>
-    </div>
+    {% if season.hasChampionship %}
+        <h3>Championship Winner<h3>
+        <h4>{{ pickSet.championshipWinner.name }}</h4>
+    {% else %}
+        <div class="tiebreaker">
+            <h4>Tiebreaker</h4>
+            <p>FSU Score: {{ pickSet.tiebreakerHomeTeamScore }}</p>
+            <p>Auburn Score: {{ pickSet.tiebreakerAwayTeamScore }}</p>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
