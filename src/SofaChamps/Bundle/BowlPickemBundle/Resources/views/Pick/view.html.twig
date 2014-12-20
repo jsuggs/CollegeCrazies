@@ -23,7 +23,7 @@
 
     {% if season.hasChampionship %}
         <h3>Championship Winner<h3>
-        <h4>{{ pickSet.championshipWinner.name }}</h4>
+        <h4>{{ pickSet.championshipWinner ? pickSet.championshipWinner.name : 'DERP!' }}</h4>
     {% else %}
         <div class="tiebreaker">
             <h4>Tiebreaker</h4>
