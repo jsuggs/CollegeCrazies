@@ -10,6 +10,9 @@
                     {% for game in games %}
                         <th class="vertical-text"><abbr title="{{ game.name }}">{{ game.shortName }}</abbr></th>
                     {% endfor %}
+                    {% if season.hasChampionship %}
+                        <th>Champ</th>
+                    {% endif %}
                     <th>Points Won</th>
                     <th>Points Possible</th>
                 </tr>
@@ -24,6 +27,9 @@
                             <th>{{ game.favorite.id }}</th>
                         {% endif %}
                     {% endfor %}
+                    {% if season.hasChampionship %}
+                        <td>-</td>
+                    {% endif %}
                     <td>-</td>
                     <td>-</td>
                 </tr>
@@ -36,6 +42,9 @@
                             <th>{{ game.underdog.id }}</th>
                         {% endif %}
                     {% endfor %}
+                    {% if season.hasChampionship %}
+                        <td>-</td>
+                    {% endif %}
                     <td>-</td>
                     <td>-</td>
                 </tr>
@@ -71,6 +80,9 @@
                                     <td class="pick-col {{ pickClass }}{{ samePick }}">{{ pick.team.id|default('NONE') }} ({{ pick.confidence }})</td>
                                 {% endif %}
                             {% endfor %}
+                            {% if season.hasChampionship %}
+                                <td>{{ pickSet.championshipWinner.id|default('NONE') }}</td>
+                            {% endif %}
                             <td>{{ pickset_points(userPickSet) }}</td>
                             <td>{{ pickset_points_possible(userPickSet) }}</td>
                         </tr>
