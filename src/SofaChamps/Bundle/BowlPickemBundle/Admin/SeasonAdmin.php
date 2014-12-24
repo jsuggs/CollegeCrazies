@@ -14,6 +14,7 @@ class SeasonAdmin extends Admin
         $formMapper
             ->with('General')
                 ->add('season')
+                ->add('picksLockAt', null, array('required' => false))
                 ->add('locked', null, array('required' => false))
             ->end()
             ->with('Points')
