@@ -109,6 +109,11 @@ class Season
         $this->locked = $locked;
     }
 
+    public function setPicksLockAt($picksLockAt)
+    {
+        $this->picksLockAt = $picksLockAt;
+    }
+
     public function getPicksLockAt()
     {
         return $this->picksLockAt;
