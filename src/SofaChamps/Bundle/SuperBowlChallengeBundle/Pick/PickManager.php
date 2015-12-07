@@ -98,7 +98,7 @@ class PickManager
     public function getCurrentYear()
     {
         // TODO
-        return 2014;
+        return 2015;
     }
 
     protected function getConfig($year)

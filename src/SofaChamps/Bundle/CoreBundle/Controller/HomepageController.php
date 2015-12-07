@@ -13,7 +13,7 @@ class HomepageController extends CoreController
     {
         // This is temporary
         return $this->redirect($this->generateUrl('bp_home', array(
-            'season' => 2014,
+            'season' => 2015,
         )));
         $user = $this->getUser();
 
