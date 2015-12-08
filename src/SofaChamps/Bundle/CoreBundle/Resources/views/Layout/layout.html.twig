@@ -28,27 +28,6 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block beforeContent %}
-    <script>
-        function goLogIn(){
-            window.location.href = "{{ path('_security_check_facebook') }}";
-        }
-
-        function onFbInit() {
-            if (typeof(FB) != 'undefined' && FB != null ) {
-                FB.Event.subscribe('auth.statusChange', function(response) {
-                    if (response.session || response.authResponse) {
-                        setTimeout(goLogIn, 500);
-                    } else {
-                        window.location.href = "{{ path('_security_logout_facebook') }}";
-                    }
-                });
-            }
-        }
-    </script>
-    {{ facebook_initialize({'xfbml': true, 'fbAsyncInit': 'onFbInit();'}) }}
-{% endblock %}
-
 {% block mainContent %}
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
