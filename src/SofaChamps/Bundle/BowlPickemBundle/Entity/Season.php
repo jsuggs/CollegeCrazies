@@ -3,6 +3,7 @@
 namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity
  * @ORM\Table(name="bp_seasons")
+ * @Serialize\ExclusionPolicy("all")
  */
 class Season
 {
@@ -20,31 +22,37 @@ class Season
      * @ORM\Column(name="season", type="integer", length=4)
      * @ORM\GeneratedValue(strategy="NONE")
      * @Assert\Range(min=2012, max=2020)
+     * @Serialize\Expose
      */
     protected $season;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serialize\Expose
      */
     protected $hasChampionship;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serialize\Expose
      */
     protected $picksLockAt;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serialize\Expose
      */
     protected $locked;
 
     /**
      * @ORM\Column(type="integer")
+     * @Serialize\Expose
      */
     protected $gamePoints;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serialize\Expose
      */
     protected $championshipPoints;
 

@@ -4,6 +4,7 @@ namespace SofaChamps\Bundle\BowlPickemBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serialize;
 use SofaChamps\Bundle\CoreBundle\Entity\Image;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,6 +18,7 @@ use Vlabs\MediaBundle\Annotation\Vlabs;
  *      name="leagues",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="uniq_league_logo_id", columns={"logo_id"})}
  * )
+ * @Serialize\ExclusionPolicy("all")
  */
 class League
 {
@@ -25,6 +27,7 @@ class League
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="seq_league", initialValue=1, allocationSize=1)
+     * @Serialize\Expose
      */
     protected $id;
 
@@ -33,16 +36,19 @@ class League
      *
      * @ORM\ManyToOne(targetEntity="Season")
      * @ORM\JoinColumn(name="season", referencedColumnName="season")
+     * @Serialize\Expose
      */
     protected $season;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serialize\Expose
      */
     protected $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serialize\Expose
      */
     protected $motto;
 
@@ -83,11 +89,13 @@ class League
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serialize\Expose
      */
     protected $locked = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serialize\Expose
      */
     protected $note;
 
