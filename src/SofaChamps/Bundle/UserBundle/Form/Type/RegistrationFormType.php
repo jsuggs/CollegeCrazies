@@ -35,14 +35,6 @@ class RegistrationFormType extends BaseType
                 'required' => false,
                 'label' => 'Last Name',
             ))
-            ->add('emailFromCommish', 'checkbox', array(
-                'required' => false,
-                'label' => 'Receive Email From League Commissioner',
-            ))
-            ->add('emailVisible', 'checkbox', array(
-                'required' => false,
-                'label' => 'Email Visible in Leagues',
-            ))
             ->add('timezone', 'timezone', array(
                 'label' => 'Timezone',
                 'preferred_choices' => array(
