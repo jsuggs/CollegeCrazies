@@ -911,7 +911,7 @@ class LeagueController extends BaseController
      * @Route("/leave", name="league_leave")
      * @Template
      */
-    public function leaveAction($season)
+    public function leaveAction(Season $season)
     {
         $user = $this->getUser();
 
