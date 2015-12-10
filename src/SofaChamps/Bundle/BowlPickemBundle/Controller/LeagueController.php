@@ -682,7 +682,7 @@ class LeagueController extends BaseController
             $this->getEmailSender()->sendToEmails($emails, 'League:invite', $subjectLine, array(
                 'user' => $user,
                 'league' => $league,
-                'season' => $season,
+                'season' => $season->getSeason(),
                 'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
             ));
 
@@ -836,6 +836,7 @@ class LeagueController extends BaseController
                 $eligibleUsers = $league->getUsers()->filter(function (User $user) {
                     return $user->getEmailFromCommish();
                 });
+                $data = $form->getData();
 
                 $emails = array_map(function (User $user) {
                     return $user->getEmail();
@@ -849,7 +850,7 @@ class LeagueController extends BaseController
                 $this->getEmailSender()->sendToEmails($emails, 'League:league-blast', $subjectLine, array(
                     'user' => $user,
                     'league' => $league,
-                    'message' => $request->get('message'),
+                    'message' => $data['message'],
                     'from' => array($user->getEmail() => $fromName ?: $user->getUsername()),
                 ));
 
