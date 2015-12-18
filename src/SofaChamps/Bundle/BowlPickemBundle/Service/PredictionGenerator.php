@@ -147,10 +147,17 @@ class PredictionGenerator
         $games = $this->getGameRepository()->getPlayoffGames($season);
         $teams = array();
         foreach ($games as $game) {
-            $teams[] = $game->getHomeTeam();
-            $teams[] = $game->getAwayTeam();
+            $teams[$game->getHomeTeam()->getId()] = $game->getHomeTeam();
+            $teams[$game->getAwayTeam()->getId()] = $game->getAwayTeam();
         }
-        $rand = array_rand($teams);
+        // TODO - Build this out into season config rather than hard coding
+        $weightedValues = [
+            'ALA' => 61,
+            'OKLA' => 22,
+            'CLEM' => 10,
+            'MIST' => 8,
+        ];
+        $rand = $this->getRandomWeightedElement($weightedValues);
 
         return $teams[$rand];
     }
@@ -158,5 +165,16 @@ class PredictionGenerator
     protected function getGameRepository()
     {
         return $this->om->getRepository('SofaChampsBowlPickemBundle:Game');
+    }
+
+    private function getRandomWeightedElement(array $weightedValues) {
+        $rand = mt_rand(1, (int) array_sum($weightedValues));
+
+        foreach ($weightedValues as $key => $value) {
+            $rand -= $value;
+            if ($rand <= 0) {
+                return $key;
+            }
+        }
     }
 }
