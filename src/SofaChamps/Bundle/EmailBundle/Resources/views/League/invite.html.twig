@@ -1,9 +1,8 @@
 {% extends 'SofaChampsEmailBundle:Layout:base.html.twig' %}
 
 {% block content %}
-    <p>Hello {{ emailTo }},</p>
     <h1>Evidentially you are awesome</h1>
-    <h2>Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you to join them in a <a href="http://sofachamps.com">SofaChamps</a> league to play College Bowl Pick'em.</h2>
+    <h2>Why? Because {{ user.firstName|length ? user.firstName : user.username }} wants you to join them in a <a href="http://www.sofachamps.com">SofaChamps</a> league to play College Bowl Pick'em.</h2>
 
     <p>To accept the invitation, just <a href="{{ url('league_prejoin', {leagueId: league.id, season: season, rid: user.id}) }}">click here to join the league.</a> and enter this League's information:</p>
 
