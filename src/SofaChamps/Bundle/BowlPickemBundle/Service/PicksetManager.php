@@ -87,6 +87,17 @@ class PicksetManager
         foreach ($pickSet->getWins() as $win) {
             $points += $win->getConfidence();
         }
+        $season = $pickSet->getSeason();
+
+        if ($season->getHasChampionship()) {
+            $seasonChampWinner = $season->getChampionshipWinner();
+            if ($seasonChampWinner) {
+                $picksetChampWinner = $pickSet->getChampionshipWinner();
+                if ($picksetChampWinner && $picksetChampWinner == $seasonChampWinner) {
+                    $points += $season->getChampionshipPoints();
+                }
+            }
+        }
 
         return $points;
     }
