@@ -112,10 +112,17 @@ class PicksetManager
         }
 
         if ($season->getHasChampionship()) {
+            $seasonChampWinner = $season->getChampionshipWinner();
             $championshipWinner = $pickSet->getChampionshipWinner();
 
-            if (!$championshipWinner || !$this->isChampionshipWinnerPickAlive($season, $championshipWinner)) {
-                $pointsPossible -= $season->getChampionshipPoints();
+            if ($seasonChampWinner && $championshipWinner) {
+                if ($seasonChampWinner != $championshipWinner) {
+                    $pointsPossible -= $season->getChampionshipPoints();
+                }
+            } else {
+                if (!$championshipWinner || !$this->isChampionshipWinnerPickAlive($season, $championshipWinner)) {
+                    $pointsPossible -= $season->getChampionshipPoints();
+                }
             }
         }
 
