@@ -39,8 +39,8 @@ class TestUsers extends AbstractFixture implements FixtureInterface, ContainerAw
         $user->setEnabled(true);
 
         $jsuggs = new User();
-        $jsuggs->setUsername('jsuggs');
-        $jsuggs->setEmail('jsuggs@sofachamps.com');
+        $jsuggs->setUsername('jsuggs2');
+        $jsuggs->setEmail('jsuggs2@sofachamps.com');
         $jsuggs->setPlainPassword('jsuggspass');
         $jsuggs->setEnabled(true);
 

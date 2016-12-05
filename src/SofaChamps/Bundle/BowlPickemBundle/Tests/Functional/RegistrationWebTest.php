@@ -2,9 +2,8 @@
 
 namespace SofaChamps\Bundle\BowlPickemBundle\Tests\Functional;
 
-use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsWebTest;
-use SofaChamps\Bundle\NCAABundle\Entity\Team;
+use SofaChamps\Bundle\BowlPickemBundle\DataFixtures\ORM\Test\LoadTestingData;
 
 /**
  * @group functional
@@ -14,9 +13,12 @@ class RegistrationWebTest extends SofaChampsWebTest
     public function testRedirect()
     {
         $client = static::createClient();
-        $this->loadFixtures(array());
+        $this->loadFixtures([
+            LoadTestingData::class,
+        ]);
 
         $crawler = $client->request('GET', '/bowl-pickem/2013');
+        var_dump($crawler->getContent());
 
         $link = $crawler->selectLink("Signup")->link();
         $crawler = $client->click($link);

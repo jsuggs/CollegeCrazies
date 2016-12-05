@@ -5,7 +5,7 @@ namespace SofaChamps\Bundle\CoreBundle\Tests;
 use Faker\Factory;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class SofaChampsWebTest extends WebTestCase
+abstract class SofaChampsWebTest extends WebTestCase
 {
     private $faker;
 

@@ -3,10 +3,13 @@
 namespace SofaChamps\Bundle\EmailBundle\Email;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use GearmanJob;
 use Mmoreram\GearmanBundle\Driver\Gearman;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Swift_Mailer;
+use Swift_Message;
 
 /**
  * This is the process that actually sends the emails
@@ -28,7 +31,7 @@ class EmailWorker
      *      "router" = @DI\Inject("router"),
      * })
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $templating, UrlGeneratorInterface $router, LoggerInterface $logger)
+    public function __construct(Swift_Mailer $mailer, EngineInterface $templating, UrlGeneratorInterface $router, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
@@ -36,7 +39,7 @@ class EmailWorker
         $this->logger = $logger;
     }
 
-    public function sendToEmail(\GearmanJob $job)
+    public function sendToEmail(GearmanJob $job)
     {
         $workload = json_decode($job->workload(), true);
 
@@ -57,7 +60,7 @@ class EmailWorker
             ? $workload['data']['from']
             : array('help@sofachamps.com' => 'SofaChamps');
 
-        $message = \Swift_Message::newInstance()
+        $message = Swift_Message::newInstance()
             ->setSubject($workload['subjectLine'])
             ->setFrom($from)
             ->setTo($workload['email'])

@@ -30,7 +30,7 @@ class Conference extends AbstractConference
 
     public function __construct()
     {
-        parent::construct();
+        parent::__construct();
 
         $this->conferenceMemberships = new ArrayCollection();
     }

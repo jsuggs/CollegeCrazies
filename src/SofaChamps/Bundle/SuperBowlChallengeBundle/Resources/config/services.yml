@@ -13,7 +13,7 @@ services:
         arguments:
             - SofaChampsSuperBowlChallengeBundle:QuestionChoice
 
-    sofachamps.superbowlchallenge.config.currentyear:
+    sofachamps.superbowlchallenge.config:
         public: false
         class: SofaChamps\Bundle\SuperBowlChallengeBundle\Entity\Config
         factory_service: sofachamps.superbowlchallenge.repo.config

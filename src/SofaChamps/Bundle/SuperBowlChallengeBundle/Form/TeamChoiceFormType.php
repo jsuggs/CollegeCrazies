@@ -17,7 +17,7 @@ class TeamChoiceFormType extends AbstractType
 
     /**
      * @DI\InjectParams({
-     *      "config" = @DI\Inject("sofachamps.superbowlchallenge.config.currentyear")
+     *      "config" = @DI\Inject("sofachamps.superbowlchallenge.config")
      * })
      */
     public function __construct(Config $config)

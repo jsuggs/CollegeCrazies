@@ -6,8 +6,9 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Game;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\League;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
-use SofaChamps\Bundle\NCAABundle\Entity\Team
+use SofaChamps\Bundle\NCAABundle\Entity\Team;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -43,6 +44,10 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
 
         $manager->flush();
 
+        // Seasons
+        $this->createSeason($manager, '2013');
+        $manager->flush();
+
         // Teams
         $bama  = $this->createTeam($manager, 'BAMA', 'Alabama');
         $ore   = $this->createTeam($manager, 'ORE',  'Oregon');
@@ -64,6 +69,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $uga   = $this->createTeam($manager, 'UGA',  'Georgia');
 
         $manager->flush();
+        return;
 
         // Games
         $games = array();
@@ -140,6 +146,18 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         return $team;
     }
 
+    private function createSeason(ObjectManager $manager, $year)
+    {
+        $season = new Season($year);
+        $season->setHasChampionship(false);
+        $season->setPicksLockAt(new \DateTime());
+        $season->setLocked(false);
+        $season->setGamePoints(100);
+        $manager->persist($season);
+
+        return $season;
+    }
+
     private function createGame(ObjectManager $manager, Team $homeTeam, Team $awayTeam, $name, $network, \DateTime $gameDate, $spread, $overUnder)
     {
         $game = new Game();
@@ -152,6 +170,7 @@ class LoadTestingData implements FixtureInterface, ContainerAwareInterface
         $game->setGameDate($gameDate);
         $game->setSpread($spread);
         $game->setOverunder($overUnder);
+        $game->setPlayoffGame(false);
 
         $manager->persist($game);
 

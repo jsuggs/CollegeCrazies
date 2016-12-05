@@ -9,10 +9,13 @@ use SofaChamps\Bundle\BowlPickemBundle\Entity\Pick;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\PickSet;
 use SofaChamps\Bundle\BowlPickemBundle\Entity\Season;
 use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetComparer;
+use SofaChamps\Bundle\BowlPickemBundle\Service\PicksetManager;
 use SofaChamps\Bundle\BowlPickemBundle\Service\UserSorter;
 use SofaChamps\Bundle\CoreBundle\Entity\User;
 use SofaChamps\Bundle\CoreBundle\Tests\SofaChampsTest;
 use SofaChamps\Bundle\NCAABundle\Entity\Team;
+use Doctrine\Common\Persistence\ObjectManager;
+use SofaChamps\Bundle\BowlPickemBundle\Entity\GameRepository;
 
 class PickSetComparerTest extends SofaChampsTest
 {
@@ -23,8 +26,10 @@ class PickSetComparerTest extends SofaChampsTest
 
     protected function setUp()
     {
-        $this->om = $this->buildMock('Doctrine\Common\Persistence\ObjectManager');
-        $this->gameRepo = $this->buildMock('SofaChamps\Bundle\BowlPickemBundle\Entity\GameRepository');
+        $this->om = $this->buildMock(ObjectManager::class);
+        $this->gameRepo = $this->buildMock(GameRepository::class);
+        $this->picksetManager = $this->buildMock(PicksetManager::class);
+
         $this->om->expects($this->any())
             ->method('getRepository')
             ->with('SofaChampsBowlPickemBundle:Game')
@@ -37,7 +42,7 @@ class PickSetComparerTest extends SofaChampsTest
             ->method('findTiebreakerGamesForSeason')
             ->will($this->returnValue(new ArrayCollection(array($this->tiebreakerGame))));
 
-        $this->pickSetComparer = new PickSetComparer($this->om);
+        $this->pickSetComparer = new PickSetComparer($this->om, $this->picksetManager);
     }
 
     /**

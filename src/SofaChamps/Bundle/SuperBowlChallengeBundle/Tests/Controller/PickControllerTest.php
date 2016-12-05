@@ -11,6 +11,7 @@ class PickControllerTest extends WebTestCase
 {
     public function testPickActionRequiresAuthentication()
     {
+        $this->markTestIncomplete('TODO');
         $client = static::createClient();
         $this->loadFixtures(array());
 
@@ -22,6 +23,7 @@ class PickControllerTest extends WebTestCase
 
     public function testPickAction()
     {
+        $this->markTestIncomplete('TODO');
         $this->loadFixtures(array(
             'SofaChamps\Bundle\CoreBundle\DataFixtures\ORM\TestUsers',
         ));

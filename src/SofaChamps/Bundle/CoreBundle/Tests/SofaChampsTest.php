@@ -4,7 +4,7 @@ namespace SofaChamps\Bundle\CoreBundle\Tests;
 
 use Faker\Factory;
 
-class SofaChampsTest extends \PHPUnit_Framework_TestCase
+abstract class SofaChampsTest extends \PHPUnit_Framework_TestCase
 {
     private $faker;
 
