@@ -27,6 +27,6 @@ class SeasonManager
     public function getCurrentSeason()
     {
         // TODO
-        return $this->em->getRepository('SofaChampsBowlPickemBundle:Season')->find(2015);
+        return $this->em->getRepository('SofaChampsBowlPickemBundle:Season')->find(2016);
     }
 }
