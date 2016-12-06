@@ -27,7 +27,7 @@ class PickSetFormType extends AbstractType
                 ->add('championshipWinner', 'entity', array(
                     'class' => 'SofaChampsNCAABundle:Team',
                     'query_builder' => function ($repo) {
-                        $teams = array('ALA', 'CLEM', 'MIST', 'OKLA');
+                        $teams = array('ALA', 'OHST', 'CLEM', 'WASH');
                         return $repo->createQueryBuilder('t')
                             ->where('t.id IN (:teams)')
                             ->setParameter('teams', $teams);
