@@ -398,6 +398,14 @@ class LeagueController extends BaseController
     {
         $user = $this->getUser();
 
+        if (!$user) {
+            $this->addMessage('danger', 'You must login to view these stats.');
+
+            return $this->redirect($this->generateUrl('bp_home', array(
+                'season' => $season->getSeason(),
+            )));
+        }
+
         $pickSet = $league->getPicksetForUser($user);
         $games = $this->getRepository('SofaChampsBowlPickemBundle:Game')->userGamesByImportance($league, $pickSet);
         $projectedFinishStats = $this->getRepository('SofaChampsBowlPickemBundle:PickSet')->getProjectedFinishStats($pickSet, $league);

@@ -116,7 +116,7 @@ class BaseController extends CoreController
 
     protected function getLeagueJoinCookie()
     {
-        $request = $this->getRequest()->cookies->get('bp_league_join');
+        return $this->getRequest()->cookies->get('bp_league_join');
     }
 
     protected function deleteLeagueJoinCookie()

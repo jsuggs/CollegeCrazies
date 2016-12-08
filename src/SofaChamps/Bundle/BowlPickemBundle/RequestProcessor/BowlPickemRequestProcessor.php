@@ -60,7 +60,7 @@ class BowlPickemRequestProcessor implements LoginRequestProcessor, RegistrationR
                             )));
                             break;
                         case 1:
-                            $pickSet = $pickSets[0];
+                            $pickSet = $pickSets->first();
                             $league->addPickSet($pickSet);
                             $request->getSession()->setFlash('success', sprintf('Pickset assigned to league "%s"', $league->getName()));
 
