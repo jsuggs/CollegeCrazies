@@ -152,10 +152,10 @@ class PredictionGenerator
         }
         // TODO - Build this out into season config rather than hard coding
         $weightedValues = [
-            'ALA' => 64,
-            'OHST' => 19,
-            'CLEM' => 12,
-            'WASH' => 5,
+            'ALA' => 31,
+            'OKLA' => 22,
+            'CLEM' => 28,
+            'UGA' => 19,
         ];
         $rand = $this->getRandomWeightedElement($weightedValues);
 
