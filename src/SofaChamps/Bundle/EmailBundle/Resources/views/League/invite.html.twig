@@ -15,7 +15,8 @@
 
         {% if not league.public %}
             <dt>League Password</dt>
-            <dd>{{ league.password }}</dd>
+            <dd><code>{{ league.password|raw }}</code></dd>
         {% endif %}
     </dl>
+    <!-- {{ league.password }} -->
 {% endblock %}
