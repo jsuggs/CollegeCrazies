@@ -19,4 +19,4 @@ services:
         factory_service: sofachamps.superbowlchallenge.repo.config
         factory_method: findOneByYear
         arguments:
-            - 2017
+            - 2018
