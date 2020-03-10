@@ -40,6 +40,17 @@ class HomePageController extends BaseController
     }
 
     /**
+     * @Route("/faq", name="bp_faq")
+     * @Template("SofaChampsBowlPickemBundle::faq.html.twig")
+     */
+    public function faqAction()
+    {
+        return array(
+            'season' => $this->getCurrentSeason(),
+        );
+    }
+
+    /**
      * @Route("/about", name="about")
      * @Template("SofaChampsBowlPickemBundle::about.html.twig")
      */
